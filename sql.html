@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SQL — מדריך פתרון</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body class="pg-sql">
+<div class="layout">
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html" aria-current="page" class="active">3. SQL</a></li><li><a href="practice.html">4. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#sql-data">נתוני הבנק</a></li><li><a href="#sql-order">סדר הביצוע</a></li><li><a href="#sql-basic">שאילתות בסיסיות</a></li><li><a href="#sql-sets">פעולות קבוצה</a></li><li><a href="#sql-sub">תתי־שאילתות</a></li><li><a href="#sql-join">צירופים</a></li><li><a href="#sql-agg">הקבצה</a></li><li><a href="#sql-sort">מיון</a></li><li><a href="#sql-dml">עדכונים</a></li><li><a href="#sql-views">תצפיות</a></li><li><a href="#sql-ddl">טבלאות ואילוצים</a></li><li><a href="#ra2sql">מילון אלגברה ← SQL</a></li><li><a href="#sql-traps">מלכודות ב־SQL</a></li><li><a href="#ex3">תרגיל 3: בדיקת הפתרון</a></li><li><a href="#sql-practice">תרגול עם בדיקה</a></li><li><a href="#sql-play">ארגז חול</a></li></ol></nav>
+<main>
+<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html" aria-current="page">3. SQL</a><a href="practice.html">4. מטלות תרגול</a></nav>
+<div class="wrap">
+
+<section class="hero" id="top">
+  <h1><bdi dir="ltr">SQL</bdi>: מאלגברה לשאילתות</h1>
+  <p class="lede">כל שאילתת <bdi dir="ltr">SQL</bdi> היא ביטוי באלגברת יחסים בכתיב אחר. אם אתה יודע לכתוב σ, π ו־×, אתה כבר יודע לכתוב <bdi dir="ltr">select, from</bdi> ו־<bdi dir="ltr">where</bdi>. העמוד הזה עובר על כל מה שבמצגת ובמדריך של <bdi dir="ltr">SQL</bdi>, וכל דוגמה בו רצה באמת: לחץ על ״ערוך והרץ״, שנה את השאילתה וראה מה קורה.</p>
+  <div class="anat" aria-label="מבנה שאילתה">
+    <div class="anrow"><code class="kwc c-sel">select A<sub>1</sub>, …, A<sub>n</sub></code><span>←</span><span class="anra"><b>π</b> הטלה — אילו עמודות</span></div>
+    <div class="anrow"><code class="kwc c-from">from r<sub>1</sub>, …, r<sub>m</sub></code><span>←</span><span class="anra"><b>×</b> מכפלה — אילו יחסים</span></div>
+    <div class="anrow"><code class="kwc c-where">where P</code><span>←</span><span class="anra"><b>σ</b> בחירה — אילו שורות</span></div>
+  </div>
+  <p class="mathline"><code class="xp">π<sub>A1,…,An</sub>(σ<sub>P</sub>(r<sub>1</sub> × … × r<sub>m</sub>))</code></p>
+  <div class="box warn"><h4>ההבדל החשוב: <bdi dir="ltr">SQL</bdi> לא עובדת עם קבוצות</h4><p>באלגברה יחס הוא קבוצה — שורה כפולה נעלמת. ב־<bdi dir="ltr">SQL</bdi> תוצאה יכולה להכיל אותה שורה כמה פעמים (<bdi dir="ltr">multiset</bdi>, ״שק״). רוצים קבוצה? כותבים <code class="xp">select distinct</code>. פעולות הקבוצה <code class="xp">union</code>, <code class="xp">intersect</code>, <code class="xp">except</code> מסלקות כפילויות לבד.</p></div>
+  <div class="box tip"><h4>על השמות</h4><p>במצגת השמות כתובים עם מקף (<code class="xp">customer-name</code>). בשום מערכת <bdi dir="ltr">SQL</bdi> אמיתית מקף אינו חוקי בשם עמודה, ולכן בדוגמאות שרצות כתוב <code class="xp">customer_name</code>. בבחינה כתוב כמו במצגת. הדוגמאות רצות ב־<bdi dir="ltr">SQLite</bdi>; כשהתחביר של הקורס שונה (<code class="xp">minus</code>, <code class="xp">&gt; all</code>, <code class="xp">contains</code>), שתי הגרסאות מופיעות זו לצד זו.</p></div>
+</section>
+
+<section id="sql-data">
+<h2>נתוני הבנק — גרסה מורחבת</h2>
+<p>אלה הטבלאות משקף 5, עם כמה שורות נוספות (מסומנות <span class="xtra">נוסף</span>), כדי שלשאילתות עם <code class="xp">group by</code> ו־<code class="xp">having</code> תהיה תוצאה מעניינת: לחלק מהלקוחות יש כמה חשבונות, ול־<bdi dir="ltr">Pinkas</bdi> אין אף חשבון חיסכון.</p>
+<div class="bankgrid" id="sqlBank"></div>
+</section>
+
+<section id="sql-order">
+<h2>סדר הביצוע של שאילתה</h2>
+<p>כותבים <code class="xp">select</code> ראשון, אבל הוא מתבצע כמעט אחרון. זה הסדר הלוגי שבו מערכת מבינה שאילתה, וממנו נובעים רוב הכללים: למה תנאי על <code class="xp">count</code> לא יכול להיות ב־<code class="xp">where</code>, ולמה עמודה ב־<code class="xp">select</code> חייבת להופיע ב־<code class="xp">group by</code>.</p>
+<div class="ex sqlstep" data-q="order">
+<div class="q"><b>השאילתה</b>לכל סניף שיש בו לפחות 2 חשבונות של לקוחות שלא גרים ב־<bdi dir="ltr">Haifa</bdi>: מספר החשבונות והיתרה הממוצעת, מהגבוהה לנמוכה.</div>
+<div class="exgrid">
+<div class="exfig"><figure class="fig livefig algfig"><div class="algpanel"></div><figcaption class="livecap"></figcaption></figure>
+<div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">השלב הבא</button><button class="btn ghost allBtn" type="button">לסוף</button></div></div>
+<div class="steps">
+<div class="step"><div class="sh"><bdi dir="ltr">1. from</bdi> — מאיפה</div><p>קודם כול נבנית הטבלה שעליה עובדים: הצירוף של <code class="xp">deposit</code> ו־<code class="xp">customer</code>. כל חשבון מקבל את פרטי הלקוח שלו — 8 שורות.</p></div>
+<div class="step"><div class="sh"><bdi dir="ltr">2. where</bdi> — סינון שורות</div><p>התנאי נבדק על כל שורה בנפרד. השורות של לקוחות מ־<bdi dir="ltr">Haifa</bdi> (<bdi dir="ltr">Tamir</bdi> ו־<bdi dir="ltr">Even</bdi>) מחוקות.</p><p>בשלב הזה עוד אין קבוצות, ולכן אין משמעות ל־<code class="xp">count</code> או ל־<code class="xp">avg</code>.</p></div>
+<div class="step"><div class="sh"><bdi dir="ltr">3. group by</bdi> — חלוקה לקבוצות</div><p>השורות שנשארו מתחלקות לפי <code class="xp">branch_name</code>. כל צבע הוא קבוצה. מכאן והלאה כל קבוצה תהפוך לשורה אחת.</p></div>
+<div class="step"><div class="sh"><bdi dir="ltr">4. having</bdi> — סינון קבוצות</div><p>התנאי נבדק על כל <strong>קבוצה</strong>. ל־<bdi dir="ltr">Hamerkaz</bdi> יש רק שורה אחת, ולכן היא נופלת. עכשיו כבר מותר <code class="xp">count(*)</code>.</p></div>
+<div class="step"><div class="sh"><bdi dir="ltr">5. select</bdi> — מה מחזירים</div><p>כל קבוצה שנשארה מתכווצת לשורה אחת. מותר להציג רק את עמודות ההקבצה ופונקציות הקבצה — כי לכל עמודה אחרת יש כמה ערכים בקבוצה. כאן גם נוצרים הכינויים <code class="xp">n</code> ו־<code class="xp">avg_balance</code>.</p></div>
+<div class="step"><div class="sh"><bdi dir="ltr">6. order by</bdi> — מיון</div><p>המיון הוא האחרון, ולכן הוא היחיד שיכול להשתמש בכינוי <code class="xp">avg_balance</code> שנוצר ב־<bdi dir="ltr">select</bdi>.</p></div>
+</div></div></div>
+</section>
+
+<section id="sql-basic">
+<h2>שאילתות בסיסיות</h2>
+<div class="sqlex" data-ex="b1"></div>
+<div class="sqlex" data-ex="b2"></div>
+<div class="sqlex" data-ex="b3"></div>
+<div class="sqlex" data-ex="b4"></div>
+<div class="sqlex" data-ex="b5"></div>
+<div class="sqlex" data-ex="b6"></div>
+<div class="sqlex" data-ex="b7"></div>
+</section>
+
+<section id="sql-sets">
+<h2>פעולות קבוצה</h2>
+<p><code class="xp">union</code>, <code class="xp">intersect</code> ו־<code class="xp">except</code> (במצגת: <code class="xp">minus</code>) הן בדיוק ∪, ∩ ו־− של האלגברה. כמו שם, שני הצדדים חייבים להחזיר את אותו מספר עמודות עם אותם תחומים.</p>
+<div class="sqlex" data-ex="s1"></div>
+<div class="sqlex" data-ex="s2"></div>
+<div class="sqlex" data-ex="s3"></div>
+<div class="sqlex" data-ex="s4"></div>
+</section>
+
+<section id="sql-sub">
+<h2>תתי־שאילתות</h2>
+<p>תת־שאילתה היא <code class="xp">select</code> שלם בתוך <code class="xp">where</code> (או <code class="xp">having</code>, או <code class="xp">from</code>). מה עושים עם התוצאה שלה תלוי באופרטור:</p>
+<div class="tbl"><table>
+<tr><th>אופרטור</th><th>משווה</th><th>אמת כאשר</th><th>שקול ל־</th></tr>
+<tr><td><code class="xp">v in (Q)</code></td><td>ערך לקבוצה</td><td><bdi dir="ltr">v</bdi> שווה לאחד הערכים</td><td><code class="xp">= some</code></td></tr>
+<tr><td><code class="xp">v not in (Q)</code></td><td>ערך לקבוצה</td><td><bdi dir="ltr">v</bdi> שונה מכל הערכים</td><td><code class="xp">&lt;&gt; all</code></td></tr>
+<tr><td><code class="xp">v &gt; some (Q)</code></td><td>ערך לקבוצה</td><td><bdi dir="ltr">v</bdi> גדול מלפחות ערך אחד</td><td><code class="xp">v &gt; min(Q)</code></td></tr>
+<tr><td><code class="xp">v &gt; all (Q)</code></td><td>ערך לקבוצה</td><td><bdi dir="ltr">v</bdi> גדול מכל הערכים</td><td><code class="xp">v &gt; max(Q)</code></td></tr>
+<tr><td><code class="xp">exists (Q)</code></td><td>קבוצה לריק</td><td><bdi dir="ltr">Q</bdi> מחזירה שורה אחת לפחות</td><td>—</td></tr>
+<tr><td><code class="xp">(Q1) contains (Q2)</code></td><td>קבוצה לקבוצה</td><td>כל ערך של <bdi dir="ltr">Q2</bdi> נמצא ב־<bdi dir="ltr">Q1</bdi></td><td><code class="xp">not exists (Q2 except Q1)</code> — חילוק</td></tr>
+</table></div>
+<div class="box tip"><h4>תת־שאילתה מתואמת</h4><p>כשתת־השאילתה מתייחסת לכינוי של השאילתה החיצונית (כמו <code class="xp">C.customer_name</code>), היא מחושבת מחדש <strong>לכל שורה</strong> של השאילתה החיצונית. כלל ההיקף: שם עמודה בלי קידומת מתייחס ליחס הקרוב ביותר — זה של תת־השאילתה.</p></div>
+<div class="sqlex" data-ex="q1"></div>
+<div class="sqlex" data-ex="q2"></div>
+<div class="sqlex" data-ex="q3"></div>
+<div class="sqlex" data-ex="q4"></div>
+<div class="sqlex" data-ex="q5"></div>
+<div class="sqlex" data-ex="q6"></div>
+<div class="sqlex" data-ex="q7"></div>
+</section>
+
+<section id="sql-join">
+<h2>צירופים (<bdi dir="ltr">join</bdi>)</h2>
+<p>את ה־<code class="xp">join</code> כותבים ב־<code class="xp">from</code>. יש שני דברים לבחור: <strong>סוג</strong> (מה קורה לשורה שלא מצאה התאמה) ו<strong>תנאי</strong> (לפי מה מתאימים).</p>
+<div class="tbl"><table>
+<tr><th>סוג</th><th>שורה בלי התאמה</th><th></th><th>תנאי</th><th>מתאים לפי</th></tr>
+<tr><td><code class="xp">inner join</code></td><td>נעלמת</td><td></td><td><code class="xp">natural</code></td><td>כל העמודות בעלות אותו שם</td></tr>
+<tr><td><code class="xp">left outer join</code></td><td>שורות השמאלי נשארות, עם <bdi dir="ltr">null</bdi> מימין</td><td></td><td><code class="xp">on &lt;תנאי&gt;</code></td><td>תנאי שכותבים בעצמך</td></tr>
+<tr><td><code class="xp">right outer join</code></td><td>שורות הימני נשארות, עם <bdi dir="ltr">null</bdi> משמאל</td><td></td><td><code class="xp">using (A1, …)</code></td><td>רשימת עמודות משותפות</td></tr>
+<tr><td><code class="xp">full outer join</code></td><td>שורות משני הצדדים נשארות</td><td></td><td></td><td></td></tr>
+</table></div>
+<h3>נסה בעצמך: הנתונים של שקף 18</h3>
+<div class="joinx" id="joinX">
+  <div class="jbtns" role="group" aria-label="סוג צירוף"><button type="button" data-j="inner" aria-pressed="true">natural inner join</button><button type="button" data-j="left" aria-pressed="false">left outer</button><button type="button" data-j="right" aria-pressed="false">right outer</button><button type="button" data-j="full" aria-pressed="false">full outer</button></div>
+  <pre class="sqlcode jsql"></pre>
+  <div class="jflow"><div class="jin"></div><div class="oparrow" aria-hidden="true">←</div><div class="jout"></div></div>
+  <p class="jlegend"><span class="lgl"></span>שורה שנשארה רק מהצד השמאלי (<bdi dir="ltr">customer</bdi>) <span class="lgr"></span>שורה שנשארה רק מהצד הימני (<bdi dir="ltr">deposit</bdi>) <span class="lgn">null</span> ערך שה־<bdi dir="ltr">outer join</bdi> מילא</p>
+</div>
+<div class="sqlex" data-ex="j1"></div>
+<div class="sqlex" data-ex="j2"></div>
+<div class="sqlex" data-ex="j3"></div>
+</section>
+
+<section id="sql-agg">
+<h2>הקבצה ופונקציות קבוצה</h2>
+<p>חמש פונקציות: <code class="xp">count</code>, <code class="xp">sum</code>, <code class="xp">avg</code>, <code class="xp">min</code>, <code class="xp">max</code>. כל אחת לוקחת אוסף ערכים ומחזירה ערך אחד — לכל קבוצה של <code class="xp">group by</code>, או לכל הטבלה אם אין <code class="xp">group by</code>.</p>
+<h3><bdi dir="ltr">count</bdi> ו־<bdi dir="ltr">null</bdi></h3>
+<p>כל הפונקציות <strong>מתעלמות מ־<bdi dir="ltr">null</bdi></strong>, חוץ מ־<code class="xp">count(*)</code> שסופר שורות. על הטבלה <bdi dir="ltr">t</bdi> שלמטה:</p>
+<div class="nulldemo" id="nullDemo"></div>
+<div class="sqlex" data-ex="a1"></div>
+<div class="sqlex" data-ex="a2"></div>
+<div class="sqlex" data-ex="a3"></div>
+<div class="sqlex" data-ex="a4"></div>
+<div class="sqlex" data-ex="a5"></div>
+<div class="sqlex" data-ex="a6"></div>
+<div class="sqlex" data-ex="a7"></div>
+<div class="box rule"><h4><bdi dir="ltr">where</bdi> מול <bdi dir="ltr">having</bdi> — הדוגמה מהמדריך (שאילתות 29–30)</h4>
+<p>״בסניפים שיש בהם לפחות 5 חשבונות: כמה לקוחות עם יתרה מעל 4000?״ אם כותבים את שני התנאים באותה שאילתה (<code class="xp">where balance&gt;4000 … having count(…)&gt;=5</code>), ה־<bdi dir="ltr">having</bdi> סופר רק חשבונות <strong>מעל 4000</strong> — כי <bdi dir="ltr">where</bdi> כבר זרק את השאר. הפתרון: את התנאי על הסניף מחשבים בתת־שאילתה נפרדת, על כל החשבונות.</p></div>
+</section>
+
+<section id="sql-sort">
+<h2>מיון</h2>
+<p><code class="xp">order by</code> בסוף השאילתה. ברירת המחדל עולה (<code class="xp">asc</code>); יורד — <code class="xp">desc</code>. אפשר כמה עמודות: המיון השני קובע רק בין שורות שוות במיון הראשון.</p>
+<div class="sqlex" data-ex="o1"></div>
+<div class="sqlex" data-ex="o2"></div>
+</section>
+
+<section id="sql-dml">
+<h2>עדכונים: <bdi dir="ltr">insert, delete, update</bdi></h2>
+<p>כל אחת מהפקודות פועלת על <strong>יחס אחד</strong>. בכל דוגמה הטבלה מוצגת אחרי הפקודה: שורות שנוספו מסומנות, שורות שנמחקו מחוקות, ושורה שעודכנה מופיעה פעמיים — הישנה מחוקה והחדשה מסומנת. כל הרצה מתחילה מהנתונים המקוריים.</p>
+<div class="sqlex" data-ex="u1"></div>
+<div class="sqlex" data-ex="u2"></div>
+<div class="sqlex" data-ex="u3"></div>
+<div class="sqlex" data-ex="u4"></div>
+<div class="sqlex" data-ex="u5"></div>
+<div class="sqlex" data-ex="u6"></div>
+</section>
+
+<section id="sql-views">
+<h2>תצפיות (<bdi dir="ltr">views</bdi>)</h2>
+<p><code class="xp">create view v as &lt;שאילתה&gt;</code> נותן שם לשאילתה. אחר כך משתמשים ב־<bdi dir="ltr">v</bdi> כמו בטבלה. התצפית לא שומרת נתונים: בכל שימוש השאילתה מחושבת מחדש.</p>
+<div class="sqlex" data-ex="v1"></div>
+<div class="sqlex" data-ex="v2"></div>
+<div class="sqlex" data-ex="v3"></div>
+<div class="tbl"><table>
+<tr><th>מתי אפשר לעדכן תצפית? (שקף 29)</th><th>למה</th></tr>
+<tr><td>מבוססת על טבלה אחת, כוללת מפתח (ראשי או קביל) וכל עמודה שהיא <code class="xp">not null</code></td><td>כל שורה בתצפית מתאימה לשורה אחת בטבלה — ברור מה לשנות</td></tr>
+<tr><td>מבוססת על צירוף של כמה טבלאות — בדרך כלל לא</td><td>שינוי בשורה אחת של התצפית יכול להתאים לכמה דרכים לשנות את הטבלאות</td></tr>
+<tr><td>כוללת הקבצה או פונקציית הקבצה — לא</td><td>אין דרך לדעת אילו שורות מקוריות לשנות (ראה <bdi dir="ltr">v3</bdi>)</td></tr>
+</table></div>
+</section>
+
+<section id="sql-ddl">
+<h2>הגדרת טבלאות ואילוצים</h2>
+<p>הבנק מהמצגת (שקף 31), עם כל סוגי האילוצים:</p>
+<pre class="sqlcode" data-hl>create table deposit (
+  branch_name    char(15),
+  account_number char(10) not null,
+  customer_name  char(20) not null,
+  balance        integer,
+  primary key (account_number, customer_name),
+  foreign key (branch_name)   references branch,
+  foreign key (customer_name) references customer )</pre>
+<div class="tbl"><table>
+<tr><th>אילוץ</th><th>מה הוא מבטיח</th></tr>
+<tr><td><code class="xp">primary key</code></td><td>הערכים ייחודיים ואינם <bdi dir="ltr">null</bdi>. אחד לכל טבלה</td></tr>
+<tr><td><code class="xp">unique</code></td><td>הערכים ייחודיים — מפתח קביל נוסף</td></tr>
+<tr><td><code class="xp">not null</code></td><td>חובה להזין ערך</td></tr>
+<tr><td><code class="xp">foreign key … references</code></td><td>כל ערך חייב להופיע כמפתח בטבלה אחרת (שלמות קישור)</td></tr>
+</table></div>
+<p>עכשיו ראה אותם עובדים: כל ניסיון כאן נדחה, והודעת השגיאה היא ההודעה האמיתית של <bdi dir="ltr">SQLite</bdi>.</p>
+<div class="sqlex" data-ex="d1"></div>
+<div class="sqlex" data-ex="d2"></div>
+<div class="sqlex" data-ex="d3"></div>
+<div class="tbl"><table>
+<tr><th>תחום</th><th>משמעות</th></tr>
+<tr><td><code class="xp">char(n)</code> / <code class="xp">varchar(n)</code></td><td>מחרוזת באורך קבוע / עד <bdi dir="ltr">n</bdi></td></tr>
+<tr><td><code class="xp">numeric(n,m)</code> / <code class="xp">decimal(n,m)</code></td><td>מספר עשרוני: <bdi dir="ltr">n</bdi> ספרות, מהן <bdi dir="ltr">m</bdi> אחרי הנקודה</td></tr>
+<tr><td><code class="xp">integer</code> / <code class="xp">smallint</code></td><td>מספר שלם</td></tr>
+<tr><td><code class="xp">float</code> / <code class="xp">real</code> / <code class="xp">double precision</code></td><td>ממשי</td></tr>
+<tr><td><code class="xp">date</code> / <code class="xp">time</code> / <code class="xp">datetime</code></td><td>תאריך / שעה / שניהם</td></tr>
+</table></div>
+</section>
+
+<section id="ra2sql">
+<h2>מילון: אלגברת יחסים ← <bdi dir="ltr">SQL</bdi></h2>
+<div class="tbl"><table>
+<tr><th>אלגברה</th><th>SQL</th><th>הערה</th></tr>
+<tr><td><code class="xp">σ<sub>P</sub>(r)</code></td><td><code class="xp">select * from r where P</code></td><td></td></tr>
+<tr><td><code class="xp">π<sub>A,B</sub>(r)</code></td><td><code class="xp">select distinct A, B from r</code></td><td>בלי <bdi dir="ltr">distinct</bdi> — כפילויות</td></tr>
+<tr><td><code class="xp">r × s</code></td><td><code class="xp">from r, s</code></td><td></td></tr>
+<tr><td><code class="xp">r ⋈ s</code></td><td><code class="xp">from r natural join s</code></td><td>או <code class="xp">from r, s where r.A = s.A</code></td></tr>
+<tr><td><code class="xp">ρ<sub>x</sub>(r)</code></td><td><code class="xp">from r x</code></td><td>כינוי</td></tr>
+<tr><td><code class="xp">r ∪ s</code></td><td><code class="xp">… union …</code></td><td></td></tr>
+<tr><td><code class="xp">r ∩ s</code></td><td><code class="xp">… intersect …</code></td><td>או <code class="xp">in</code> / <code class="xp">exists</code></td></tr>
+<tr><td><code class="xp">r − s</code></td><td><code class="xp">… except …</code></td><td>במצגת <bdi dir="ltr">minus</bdi>; או <code class="xp">not in</code> / <code class="xp">not exists</code></td></tr>
+<tr><td><code class="xp">r ÷ s</code></td><td><code class="xp">not exists (s except …)</code></td><td>או <code class="xp">contains</code> בתחביר הקורס</td></tr>
+<tr><td>המרבי (ρ + × + −)</td><td><code class="xp">&gt;= all (…)</code> או <code class="xp">= (select max(…))</code></td><td>ב־<bdi dir="ltr">SQL</bdi> זה קצר בהרבה</td></tr>
+<tr><td>— (אין באלגברה הבסיסית)</td><td><code class="xp">group by</code>, <code class="xp">count</code>, <code class="xp">avg</code>, <code class="xp">order by</code>, outer join</td><td>יכולות ש־<bdi dir="ltr">SQL</bdi> מוסיפה</td></tr>
+</table></div>
+</section>
+
+<section id="sql-traps">
+<h2>מלכודות ב־<bdi dir="ltr">SQL</bdi></h2>
+<div class="tbl"><table>
+<tr><th>טעות</th><th>מה קורה</th><th>התיקון</th></tr>
+<tr><td>שכחת <code class="xp">distinct</code></td><td>שורות כפולות בתוצאה (<bdi dir="ltr">b1</bdi>)</td><td><code class="xp">select distinct</code> כשהשאלה מבקשת רשימת ערכים</td></tr>
+<tr><td>כמה טבלאות ב־<code class="xp">from</code> בלי תנאי צירוף</td><td>מכפלה קרטזית — כל שורה עם כל שורה</td><td>תנאי שוויון ב־<bdi dir="ltr">where</bdi> לכל זוג טבלאות, או <bdi dir="ltr">join</bdi></td></tr>
+<tr><td>תנאי על <code class="xp">count</code>/<code class="xp">avg</code> ב־<code class="xp">where</code></td><td>שגיאה: ההקבצה עוד לא קרתה (<bdi dir="ltr">a7</bdi>)</td><td><code class="xp">having</code></td></tr>
+<tr><td>עמודה ב־<bdi dir="ltr">select</bdi> שאינה ב־<bdi dir="ltr">group by</bdi></td><td>ברוב המערכות שגיאה; ב־<bdi dir="ltr">SQLite</bdi> — ערך שרירותי מהקבוצה</td><td>הוסף אותה ל־<bdi dir="ltr">group by</bdi>, או הפעל עליה פונקציה</td></tr>
+<tr><td><code class="xp">max(avg(…))</code></td><td>אסור להרכיב פונקציות הקבצה</td><td><code class="xp">having avg(…) &gt;= all (…)</code> (a4)</td></tr>
+<tr><td><code class="xp">x = null</code></td><td>תמיד לא נכון — <bdi dir="ltr">null</bdi> לא שווה לכלום, גם לא ל־<bdi dir="ltr">null</bdi></td><td><code class="xp">x is null</code></td></tr>
+<tr><td>״שאינו עובד ב־<bdi dir="ltr">X</bdi>״ עם <code class="xp">&lt;&gt;</code></td><td>מחזיר גם את מי שעובד ב־<bdi dir="ltr">X</bdi> ובעוד מקום</td><td><code class="xp">not in</code> / <code class="xp">except</code> (תרגיל 3, 2ו)</td></tr>
+<tr><td><code class="xp">count(*)</code> אחרי <bdi dir="ltr">outer join</bdi></td><td>שורת ה־<bdi dir="ltr">null</bdi> נספרת כ־1</td><td><code class="xp">count(</code>עמודה מהצד שעלול להיות <bdi dir="ltr">null</bdi><code class="xp">)</code> (תרגול 6)</td></tr>
+<tr><td>שני <code class="xp">update</code>־ים חופפים</td><td>שורה מתעדכנת פעמיים (<bdi dir="ltr">u6</bdi>)</td><td>הפעל קודם את התנאי שתוצאתו לא תיכנס לתנאי השני</td></tr>
+<tr><td>חילוק שלם</td><td><code class="xp">500/1700000 = 0</code> ב־<bdi dir="ltr">SQLite</bdi></td><td><code class="xp">500 * 1.0 / 1700000</code> (b7)</td></tr>
+</table></div>
+</section>
+
+<section id="ex3">
+<h2>תרגיל 3 — בדיקת הפתרון</h2>
+<p>הפתרון הרשמי של תרגיל 3, שאילתה אחרי שאילתה. לכל אחת: הנוסח בפתרון, הערות, וגרסה שרצה על נתוני דוגמה. רוב השאילתות נכונות; כמה מכילות שגיאות כתיב שבבחינה היו עולות בנקודות, וכמה נכונות רק בהנחה שכדאי לכתוב במפורש.</p>
+<p>שאלה 2 היא אותן שאילתות של תרגיל 2 שאלה 3 — עכשיו ב־<bdi dir="ltr">SQL</bdi>. כדאי להשוות לרמזים של האלגברה ב<a href="relational.html#ex2q3">עמוד מודל היחסים</a>. הנתונים כאן הם נתוני הדוגמה של תרגיל 2, ועוד העובד <bdi dir="ltr">Lahav</bdi> (מ־3א) והחברה <bdi dir="ltr">Elit</bdi> (מ־5ה).</p>
+<div class="legend-row"><span><span class="vd ok">תקין</span> הפתרון נכון</span><span><span class="vd note">הערה</span> נכון בהנחה, או כדאי לשפר</span><span><span class="vd fix">תיקון</span> יש שגיאה בנוסח</span></div>
+<div class="tblnav" id="ex3Tabs"></div>
+<div id="ex3List"></div>
+</section>
+
+<section id="sql-practice">
+<h2>תרגול עם בדיקה אוטומטית</h2>
+<p>כתוב שאילתה ולחץ ״בדוק״. הבדיקה מריצה את השאילתה שלך על נתוני הבנק ומשווה את התוצאה לתוצאה הצפויה — בלי להתחשב בסדר השורות ובשמות העמודות. אם יש הבדל, תראה את מספר השורות שלך מול המספר הנכון.</p>
+<div id="practiceList"></div>
+</section>
+
+<section id="sql-play">
+<h2>ארגז חול</h2>
+<p>כתוב כל שאילתה שתרצה על אחד ממאגרי הנתונים. כל הרצה מתחילה מנתונים מקוריים, כך שאפשר גם למחוק ולעדכן בלי חשש.</p>
+<div class="play" id="playBox">
+  <div class="playtop"><label>מאגר: <select id="playDb"><option value="bank">הבנק (מורחב)</option><option value="work">עובדים וחברות (תרגיל 2–3)</option><option value="cars">אנשים, מכוניות ותאונות</option></select></label></div>
+  <div class="schema" id="playSchema"></div>
+  <textarea id="playSql" dir="ltr" spellcheck="false" rows="6">select branch_name, count(*), sum(balance)
+from deposit
+group by branch_name</textarea>
+  <div class="ldbtns"><button class="btn" id="playRun" type="button">הרץ</button><span class="kbd">Ctrl+Enter</span></div>
+  <div id="playOut" class="sqlout"></div>
+</div>
+</section>
+
+<p class="foot">מבוסס על המצגת ״<bdi dir="ltr">SQL</bdi>״ (פרק 3), על המדריך ״שאילתות <bdi dir="ltr">SQL</bdi>״ של פרופ׳ גדעון דרור, ועל פתרון תרגיל 3. כל התוצאות בעמוד חושבו ב־<bdi dir="ltr">SQLite</bdi> ונבדקו מול השקפים.</p>
+
+<div class="pager"><a class="prev" href="relational.html"><span>הנושא הקודם</span>2. מודל היחסים</a><a class="next" href="practice.html"><span>הנושא הבא</span>4. מטלות תרגול</a></div>
+</div>
+</main>
+</div>
+<script src="guide.js"></script>
+<script src="sqldata.js"></script><script src="sqlpage.js"></script><script src="palette.js"></script>
+</body>
+</html>

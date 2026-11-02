@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>מודל ER — מדריך פתרון</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body class="pg-er">
+<div class="layout">
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html" aria-current="page" class="active">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="practice.html">4. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#notation">סימונים ומושגים</a></li><li><a href="#method">שיטת 7 הצעדים</a></li><li class="sub"><a href="#cardtool">כלי: מידת ריבוי</a></li><li class="sub"><a href="#phrases">מילון ניסוחים</a></li><li><a href="#toys">פתרון: חנות צעצועים</a></li><li><a href="#family">פתרון: הורות ומגדר</a></li><li><a href="#weak">פתרון: ישות חלשה</a></li><li><a href="#clinic">פתרון: מרפאה</a></li><li><a href="#traps">מלכודות נפוצות</a></li><li><a href="#practice">תרגול עצמי</a></li></ol></nav>
+<main>
+<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html" aria-current="page">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="practice.html">4. מטלות תרגול</a></nav>
+<div class="wrap">
+<section class="hero" id="top">
+  <h1>איך פותרים תרגיל <bdi dir="ltr">ER</bdi></h1>
+  <p class="lede">כל תרגיל <bdi dir="ltr">ER</bdi> הוא בעצם תרגיל קריאה: מוצאים בטקסט מה הוא ישות, מה הוא קשר ומה היא תכונה, ואז שואלים שתי שאלות על כל קשר. המדריך בנוי על התרגילים של תרגיל 1, עם אותם סימונים כמו במצגת.</p>
+
+  <div class="req" id="demoReq">
+    <div class="lbl">דרישה מתוך התרגיל (חנות צעצועים)</div>
+    לכל <mark class="me" style="--i:0">עובד</mark> יש לשמור את <mark class="mk${fc}" style="--i:1">מס׳ העובד</mark>, <mark class="ma" style="--i:2">שמו</mark>, <mark class="ma" style="--i:3">כתובתו</mark> ו<mark class="mr" style="--i:4">המחלקה אליה משתייך</mark>.
+    לכל <mark class="me" style="--i:5">מחלקה</mark> יש לשמור את <mark class="mk${fc}" style="--i:6">שם המחלקה (ייחודי)</mark>, עובדים, <mark class="mr" style="--i:7">מנהל המחלקה</mark> ו<mark class="mr" style="--i:8">הפריטים הנמכרים במחלקה</mark>.
+  </div>
+  <div class="legend-row">
+    <span><span class="e">כחול</span> טיפוס ישויות</span>
+    <span><span class="r">כתום</span> טיפוס קשרים</span>
+    <span><span class="a">ירוק</span> תכונה</span>
+    <span><span class="k">ירוק עם קו</span> מפתח</span>
+  </div>
+  <button class="btn" id="markBtn" aria-pressed="false">סמן את הטקסט</button>
+  <p style="color:var(--muted);font-size:.95rem">שים לב: <strong>״המחלקה אליה משתייך״</strong> מופיע ברשימת הנתונים של עובד, אבל הוא לא תכונה. מחלקה היא ישות בפני עצמה, ולכן הקשר ביניהם הוא <span class="r">קשר</span>. זו ההבחנה החשובה ביותר בכל התרגילים.</p>
+</section>
+
+<!-- ===================== NOTATION ===================== -->
+<section id="notation">
+<h2>סימונים ומושגים</h2>
+<p>אלה רכיבי הדיאגרמה כפי שהוגדרו בהרצאה. אותם צבעים משמשים בכל הדיאגרמות במדריך.</p>
+<figure class="fig"><div id="legendSvg"></div><figcaption>רכיבי דיאגרמת <bdi dir="ltr">ER</bdi></figcaption></figure>
+
+<div class="tbl"><table>
+<tr><th>מושג</th><th>הגדרה</th><th>איך מזהים בטקסט</th></tr>
+<tr><td><strong>ישות</strong></td><td>אובייקט ממשי או מופשט שניתן להבחנה משאר האובייקטים</td><td>עובד מסוים, הרופא כהן</td></tr>
+<tr><td><strong>טיפוס ישויות</strong></td><td>קבוצת ישויות מאותו סוג. מלבן</td><td>״לכל <bdi dir="ltr">X</bdi> יש לשמור…״ — <bdi dir="ltr">X</bdi> הוא טיפוס ישויות</td></tr>
+<tr><td><strong>טיפוס קשרים</strong></td><td>אוסף כל הקשרים מסוג מסוים. מעוין</td><td>פועל או צירוף יחס: ״שייך ל״, ״מנהל״, ״מספק״, ״מתקבל אצל״</td></tr>
+<tr><td><strong>מעלת קשר</strong></td><td>מספר הישויות שמשתתפות בקשר</td><td>בינארי (2), משולש (3)</td></tr>
+<tr><td><strong>תכונה</strong></td><td>מאפיין של טיפוס ישויות או של טיפוס קשרים. אליפסה</td><td>ערך פשוט: שם, מחיר, תאריך, כמות</td></tr>
+<tr><td><strong>מפתח על</strong></td><td>קבוצת תכונות שערכיהן מייחדים כל ישות</td><td>כל קבוצה שמכילה מזהה ייחודי</td></tr>
+<tr><td><strong>מפתח קביל</strong></td><td>מפתח על מינימלי — אף תת־קבוצה שלו אינה מפתח על</td><td>״ייחודי לכל…״ (למשל מספר רישיון רופא)</td></tr>
+<tr><td><strong>מפתח ראשי</strong></td><td>המפתח הקביל שנבחר לזיהוי. קו תחתון</td><td>בוחרים אחד מבין המפתחות הקבילים</td></tr>
+<tr><td><strong>תלות קיום</strong></td><td>כל ישות מ־<bdi dir="ltr">x</bdi> חייבת להיות קשורה לישות מ־<bdi dir="ltr">y. x</bdi> נשלט, <bdi dir="ltr">y</bdi> שולט</td><td>״רישיון נהיגה״ לא קיים בלי ״נהג״</td></tr>
+<tr><td><strong>ישות חזקה</strong></td><td>טיפוס ישויות שניתן להגדיר לו מפתח ראשי</td><td>יש לו מזהה ייחודי משלו</td></tr>
+<tr><td><strong>ישות חלשה</strong></td><td>טיפוס ישויות שלא ניתן להגדיר לו מפתח ראשי. תמיד נשלט. מלבן כפול</td><td>״ממוספר בתוך…״, ״כפי שנקבע ע״י…״</td></tr>
+</table></div>
+
+<h3>שלוש דרכים לסמן מידת ריבוי — באותה דוגמה</h3>
+<p>כל שורה היא אותו קשר בדיוק, מצויר בשלושת הסימונים. העמודה הראשונה מראה מה הקשר אומר: כל נקודה היא ישות אחת, וכל קו הוא קשר אחד בין שתי ישויות.</p>
+<div class="vgrid"><table id="notGrid">
+</table></div>
+<div class="box tip"><h4>איך לקרוא כל סימון</h4>
+<p><strong>Chen:</strong> המספר ליד טיפוס ישויות אומר בכמה ישויות ממנו יכולה ישות מהצד השני להשתתף. ״<bdi dir="ltr">N</bdi> ליד עובד״ = למחלקה עובדים רבים.</p>
+<p><strong>חצים:</strong> חץ מהמעוין אל טיפוס ישויות = ״לכל היותר אחד״ מהטיפוס הזה. אין חץ = ״רבים״.</p>
+<p><strong>Crow’s foot:</strong> המזלג (רגל העורב) נוגע בצד ה״רבים״. קו ניצב = ״אחד״. במצגת הצד ה״אחד״ מצויר כקו פשוט בלי קו ניצב — שני הסגנונות מקובלים.</p></div>
+<div class="box rule"><h4>כלל זהב לחצים</h4><p>החץ מצביע אל הצד שממנו ישות מתחברת <strong>לכל היותר לאחד</strong>. אם עובד שייך למחלקה אחת, החץ מהמעוין מצביע אל <span class="e">מחלקה</span>. במדריך נשתמש במספרים (<bdi dir="ltr">1, N, M</bdi>) כי הם הכי קלים לקריאה; בבחינה השתמש בסימון שהמרצה דורש.</p></div>
+</section>
+
+<!-- ===================== METHOD ===================== -->
+<section id="method">
+<h2>שיטת 7 הצעדים</h2>
+<p>אותה שיטה עובדת על כל תרגיל: חנות, מרפאה, ספרייה, אוניברסיטה. עבור עליה לפי הסדר.</p>
+<ol class="method">
+<li><h3>קרא וסמן</h3>
+<p>עבור על הטקסט עם שלושה צבעים: שמות עצם ״גדולים״ שעליהם שומרים נתונים ← <span class="e">ישויות</span>. פעלים וצירופי יחס בין שני שמות עצם ← <span class="r">קשרים</span>. ערכים פשוטים ← <span class="a">תכונות</span>. מילה ״ייחודי״ ← <span class="k">מפתח</span>.</p></li>
+
+<li><h3>ישות או תכונה?</h3>
+<p>שאל על כל שם עצם: האם יש לו נתונים משלו, או שהוא מתקשר לעוד דברים? אם כן ← ישות. אם הוא רק ערך (מחרוזת, מספר, תאריך) ← תכונה.</p>
+<div class="box tip"><p><strong>דוגמה:</strong> ״יצרן״ מופיע כנתון של פריט, אבל ליצרן יש שם וכתובת ורשימת פריטים. לכן יצרן הוא <span class="e">ישות</span>, והחיבור לפריט הוא <span class="r">קשר</span> ולא תכונה של פריט.</p></div></li>
+
+<li><h3>מצא את הקשרים</h3>
+<p>כל משפט שמחבר שתי ישויות הוא מועמד לקשר. תן לקשר שם של פועל (שייך, מנהל, מספק, טיפל). שים לב: <strong>בין אותן שתי ישויות יכולים להיות כמה קשרים שונים</strong> — עובד ״שייך״ למחלקה וגם עובד ״מנהל״ מחלקה.</p></li>
+
+<li><h3>קבע מידת ריבוי — שתי שאלות</h3>
+<p>לכל קשר בין <bdi dir="ltr">A</bdi> ל־<bdi dir="ltr">B</bdi> שאל:</p>
+<p>(1) ישות אחת מ־<bdi dir="ltr">A</bdi> — לכמה ישויות מ־<bdi dir="ltr">B</bdi> היא יכולה להיות קשורה?</p>
+<p>(2) ישות אחת מ־<bdi dir="ltr">B</bdi> — לכמה ישויות מ־<bdi dir="ltr">A</bdi> היא יכולה להיות קשורה?</p>
+<p>״אחת לכל היותר״ בשתיהן ← 1:1. ״רבות״ באחת בלבד ← <bdi dir="ltr">1:N</bdi>. ״רבות״ בשתיהן ← <bdi dir="ltr">M:N</bdi>. הכלי למטה עושה את זה בשבילך.</p></li>
+
+<li><h3>שייך כל תכונה למקום הנכון</h3>
+<p>שאל: הערך הזה נקבע על ידי ישות אחת, או רק על ידי <strong>השילוב</strong> של שתי ישויות? אם רק השילוב ← <span class="a">תכונה של הקשר</span>.</p>
+<div class="box tip"><p><strong>דוגמה:</strong> ״כמות יומית״ של תרופה אינה תכונה של התרופה (לכל חולה כמות אחרת) ואינה תכונה של הביקור (בביקור יש כמה תרופות). היא שייכת לקשר <span class="r">מרשם</span> בין ביקור לתרופה.</p></div></li>
+
+<li><h3>מפתחות וישויות חלשות</h3>
+<p>לכל טיפוס ישויות קבע מפתח ראשי (קו תחתון). אם אין תכונה ייחודית, ושהזיהוי תלוי בישות אחרת (״מספר בתוך…״) ← <span class="e">ישות חלשה</span>: מלבן כפול, מעוין מזהה כפול, ומפתח חלקי עם קו מקווקו.</p></li>
+
+<li><h3>בדיקה סופית</h3>
+<ul class="check">
+<li>כל נתון שהטקסט דרש מופיע בדיוק פעם אחת.</li>
+<li>אין תכונה ששמה הוא שם של ישות אחרת (״מחלקה״, ״יצרן״) — זה צריך להיות קשר.</li>
+<li>לכל טיפוס ישויות חזק יש מפתח ראשי, ולכל חלשה מפתח חלקי וקשר מזהה.</li>
+<li>לכל קשר יש מידת ריבוי בשני הצדדים.</li>
+<li>כל הנחה שהטקסט לא קבע (למשל ״עובד מנהל לכל היותר מחלקה אחת״) כתובה במפורש.</li>
+</ul></li>
+</ol>
+
+<div class="tool" id="cardtool">
+<h3 style="margin-top:0">כלי: מידת ריבוי בשתי שאלות</h3>
+<div class="row">
+  <label>טיפוס ישויות <bdi dir="ltr">A</bdi> <input id="tA" value="עובד"></label>
+  <label>קשר <input id="tR" value="שייך"></label>
+  <label>טיפוס ישויות <bdi dir="ltr">B</bdi> <input id="tB" value="מחלקה"></label>
+</div>
+<div class="row">
+  <label for="preset">או בחר דוגמה מהתרגיל:</label>
+  <select id="preset">
+    <option value="">—</option>
+    <option value="עובד|שייך|מחלקה|1|n">עובד – שייך – מחלקה</option>
+    <option value="עובד|מנהל|מחלקה|1|1">עובד – מנהל – מחלקה</option>
+    <option value="יצרן|מספק|פריט|n|1">יצרן – מספק – פריט</option>
+    <option value="רופא|מתמחה|התמחות|n|n">רופא – מתמחה – התמחות</option>
+    <option value="ביקור|מרשם|תרופה|n|n">ביקור – מרשם – תרופה</option>
+    <option value="גבר|נישואין|אישה|1|1">גבר – נישואין – אישה</option>
+  </select>
+</div>
+<div class="row"><span id="q1"></span>
+  <span class="seg" data-q="1"><button type="button" data-v="1">אחת לכל היותר</button><button type="button" data-v="n">רבות</button></span></div>
+<div class="row"><span id="q2"></span>
+  <span class="seg" data-q="2"><button type="button" data-v="1">אחת לכל היותר</button><button type="button" data-v="n">רבות</button></span></div>
+<div class="out" id="cardOut"></div>
+<div class="fig twofig" style="margin-bottom:0"><div id="cardSvg"></div></div>
+</div>
+
+<h3 id="phrases">מילון ניסוחים: מה הטקסט אומר ← מה מציירים</h3>
+<div class="tbl"><table>
+<tr><th>ניסוח בתרגיל</th><th>מה זה בדיאגרמה</th><th>דוגמה מתרגיל 1</th></tr>
+<tr><td>״לכל <bdi dir="ltr">X</bdi> יש לשמור את…״</td><td><bdi dir="ltr">X</bdi> טיפוס ישויות, הרשימה תכונות</td><td>לכל רופא: מס׳ זיהוי, שם, כתובת</td></tr>
+<tr><td>״(ייחודי)״, ״ייחודי לכל…״</td><td>מפתח קביל ← מועמד למפתח ראשי</td><td>שם המחלקה, מספר רישיון</td></tr>
+<tr><td>״<bdi dir="ltr">X</bdi> אליה משתייך״, ״הפריטים ש…״</td><td>קשר, לא תכונה</td><td>המחלקה של עובד, הפריטים של יצרן</td></tr>
+<tr><td>״מנהל ה…״</td><td>קשר נוסף בין אותן ישויות</td><td>מנהל המחלקה</td></tr>
+<tr><td>״אחד או יותר״ (ערכים)</td><td>ישות נפרדת + קשר <bdi dir="ltr">M:N</bdi></td><td>תחומי התמחות של רופא</td></tr>
+<tr><td>״לאו דווקא אותו…״</td><td>הצד הזה ״רבים״</td><td>חולה מתקבל אצל רופאים שונים</td></tr>
+<tr><td>״כפי שנקבע ע״י…״, ״מספר בתוך…״</td><td>מזהה שאינו ייחודי לבד ← מפתח חלקי / ישות חלשה</td><td>מספר דגם של יצרן</td></tr>
+<tr><td>״בימים ובשעות מסוימות״</td><td>ישות חלשה של זמנים, או תכונות של קשר</td><td>שיבוץ רופאים</td></tr>
+<tr><td>אירוע שקורה לשני דברים ויש לו פרטים משלו</td><td>ישות (״אירוע״) עם קשרים לשניהם</td><td>ביקור</td></tr>
+<tr><td>ערך שתלוי בשילוב של שתי ישויות</td><td>תכונה של הקשר</td><td>כמות יומית, מועד אחרון לבדיקה</td></tr>
+</table></div>
+</section>
+
+<!-- ===================== TOYS ===================== -->
+<section id="toys">
+<h2>פתרון מודרך: חנות צעצועים</h2>
+<div class="ex stepped">
+<div class="q"><b>השאלה (שאלות 1 ו־2 בתרגיל)</b>עובדים (מס׳, שם, כתובת, מחלקה), מחלקות (שם ייחודי, עובדים, מנהל, פריטים), פריטים (שם, יצרן, מחיר, מספר דגם של היצרן, מספר פריט פנימי ייחודי), יצרנים (שם, כתובת, פריטים). בנה דיאגרמה, ציין מפתחות וסוג כל קשר.</div>
+<div class="exgrid">
+<div class="exfig"><div class="ntbar">הצג בסימון:<span class="seg"><button type="button" data-nt="chen" aria-pressed="true">Chen</button><button type="button" data-nt="arrow" aria-pressed="false">חצים</button><button type="button" data-nt="crow" aria-pressed="false">Crow’s foot</button></span></div>
+<figure class="fig livefig"><div class="mainfig" id="fig-toys"></div><figcaption class="livecap"></figcaption></figure>
+<div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button></div></div>
+<div class="steps">
+
+<div class="step" data-spec="toys" data-show="a" data-cap="רק ישויות ותכונות. עדיין בלי קשרים ובלי מפתחות"><div class="sh">צעד 1–2: ישויות ותכונות</div>
+<div class="tbl"><table>
+<tr><th>טיפוס ישויות</th><th>תכונות</th><th>מה הוצא מהרשימה ולמה</th></tr>
+<tr><td><span class="e">עובד</span></td><td>מס׳ עובד, שם, כתובת</td><td>״מחלקה״ ← קשר שייך</td></tr>
+<tr><td><span class="e">מחלקה</span></td><td>שם מחלקה</td><td>״עובדים״, ״מנהל״, ״פריטים״ ← קשרים</td></tr>
+<tr><td><span class="e">פריט</span></td><td>מס׳ פריט, שם, מחיר, מס׳ דגם</td><td>״יצרן״ ← קשר מספק</td></tr>
+<tr><td><span class="e">יצרן</span></td><td>שם יצרן, כתובת</td><td>״פריטים שמספק״ ← אותו קשר מספק</td></tr>
+</table></div>
+<p>שים לב ש״עובדים״ ברשימת המחלקה ו״מחלקה״ ברשימת העובד הם <strong>אותו קשר</strong> מנקודות מבט שונות. מציירים אותו פעם אחת.</p></div>
+
+<div class="step" data-spec="toys" data-show="arc" data-cap="נוספו מעויני הקשרים — שני קשרים שונים בין עובד למחלקה"><div class="sh">צעד 3–4: קשרים ומידת ריבוי</div>
+<div class="tbl"><table>
+<tr><th>קשר</th><th>שאלה 1</th><th>שאלה 2</th><th>סוג</th></tr>
+<tr><td><span class="r">שייך</span> (עובד–מחלקה)</td><td>עובד ← מחלקה אחת</td><td>מחלקה ← עובדים רבים</td><td class="c">N:1</td></tr>
+<tr><td><span class="r">מנהל</span> (עובד–מחלקה)</td><td>עובד מנהל לכל היותר מחלקה אחת (הנחה)</td><td>למחלקה מנהל אחד</td><td class="c">1:1</td></tr>
+<tr><td><span class="r">נמכר_ב</span> (פריט–מחלקה)</td><td>פריט נמכר במחלקה אחת (הנחה)</td><td>במחלקה פריטים רבים</td><td class="c">N:1</td></tr>
+<tr><td><span class="r">מספק</span> (יצרן–פריט)</td><td>יצרן ← פריטים רבים</td><td>לפריט יצרן אחד</td><td class="c">1:N</td></tr>
+</table></div>
+<div class="box warn"><h4>הנחות שצריך לכתוב</h4><p>הטקסט לא אומר אם עובד יכול לנהל שתי מחלקות או אם פריט נמכר בכמה מחלקות. בחר, וכתוב את ההנחה. אם תניח שפריט נמכר בכמה מחלקות, <span class="r">נמכר_ב</span> הופך ל־<bdi dir="ltr">M:N</bdi> — גם זו תשובה נכונה עם הנחה.</p></div></div>
+
+<div class="step" data-spec="toys" data-show="arck" data-cap="קו תחתון מתחת למפתח הראשי של כל טיפוס ישויות"><div class="sh">צעד 5–6: מפתחות</div>
+<div class="tbl"><table>
+<tr><th>טיפוס ישויות</th><th>מפתח ראשי</th><th>הערה</th></tr>
+<tr><td>עובד</td><td>מס׳ עובד</td><td></td></tr>
+<tr><td>מחלקה</td><td>שם מחלקה</td><td>הטקסט אומר ״ייחודי״</td></tr>
+<tr><td>פריט</td><td>מס׳ פריט פנימי</td><td>מס׳ דגם לבדו אינו מפתח — שני יצרנים יכולים לתת אותו מספר. השילוב (יצרן, מס׳ דגם) הוא מפתח קביל נוסף</td></tr>
+<tr><td>יצרן</td><td>שם יצרן</td><td>הנחה ששם יצרן ייחודי; אפשר גם להוסיף מס׳ יצרן</td></tr>
+</table></div></div>
+
+<div class="step" data-spec="toys" data-show="arck" data-cap="התשובה המלאה — נסה להחליף סימון"><div class="sh">צעד 7: הדיאגרמה המלאה</div><p>זו התשובה המלאה. החלף סימון כדי לראות אותה כמו במצגת (חצים) או ב־<bdi dir="ltr">Crow’s foot</bdi>.</p></div>
+
+
+</div>
+</div>
+</div>
+</section>
+
+<!-- ===================== FAMILY ===================== -->
+<section id="family">
+<h2>פתרון מודרך: הורות, נישואין ומגדר</h2>
+<div class="ex stepped">
+<div class="q"><b>השאלה</b>בנה דיאגרמת <bdi dir="ltr">ER</bdi> לבסיס נתונים המראה אבהות, אימהות וקשרי נישואין בין גברים ונשים.</div>
+<div class="exgrid">
+<div class="exfig"><div class="ntbar">הצג בסימון:<span class="seg"><button type="button" data-nt="chen" aria-pressed="true">Chen</button><button type="button" data-nt="arrow" aria-pressed="false">חצים</button><button type="button" data-nt="crow" aria-pressed="false">Crow’s foot</button></span></div>
+<figure class="fig livefig"><div class="mainfig" id="fig-family"></div><figcaption class="livecap"></figcaption></figure>
+<div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button></div></div>
+<div class="steps">
+
+<div class="step" data-spec="famMini" data-show="arc" data-cap="קשר רקורסיבי: אותו מלבן מחובר פעמיים לאותו מעוין, וליד כל קו כתוב התפקיד"><div class="sh">צעד 1: מה מיוחד כאן?</div>
+<p>כל הקשרים הם בין <strong>אנשים לאנשים</strong>, והילד הוא גם אדם. זה סימן לקשר <strong>רקורסיבי</strong> — אותו טיפוס ישויות משתתף פעמיים בקשר, בשני <strong>תפקידים</strong> שונים (הורה וילד). בדיאגרמה כותבים את התפקיד ליד כל אחד משני הקווים.</p></div>
+
+<div class="step" data-spec="fam" data-show="arctk" data-cap="המודל לפי נוסח השאלה: אבהות, אימהות ונישואין בין בעל לאישה"><div class="sh">צעד 2: המודל לפי נוסח השאלה</div>
+<p>הפתרון הישיר לשאלה כפי שנוסחה: טיפוס ישויות אחד <span class="e">אדם</span>, ושלושה קשרים רקורסיביים.</p>
+<div class="tbl"><table>
+<tr><th>קשר</th><th>תפקידים</th><th>ניתוח</th><th>סוג</th></tr>
+<tr><td><span class="r">אבהות</span></td><td>אב, ילד</td><td>לכל אדם אב אחד; לאב ילדים רבים</td><td class="c">1:N</td></tr>
+<tr><td><span class="r">אימהות</span></td><td>אם, ילד</td><td>לכל אדם אם אחת; לאם ילדים רבים</td><td class="c">1:N</td></tr>
+<tr><td><span class="r">נישואין</span></td><td>בעל, אישה</td><td>נישואין נוכחיים, בן/בת זוג אחד/ת</td><td class="c">1:1</td></tr>
+</table></div>
+<p>עדיף ישות אחת <span class="e">אדם</span> על פני שתי ישויות <span class="e">גבר</span> ו<span class="e">אישה</span>: פיצול לפי מגדר מכפיל את התכונות ומחייב ארבעה קשרי הורות נפרדים (אב־בן, אב־בת, אם־בן, אם־בת).</p></div>
+
+<div class="step" data-spec="famBreak" data-show="arctk" data-cap="המקומות המסומנים באדום הם הנחות שהמודל ״אופה״ לתוך המבנה"><div class="sh">צעד 3: איפה המודל הזה נשבר?</div>
+<p>מודל טוב צריך לייצג את המציאות. הנה מצבים אמיתיים, ומה המודל מצעד 2 עושה איתם:</p>
+<div class="tbl"><table>
+<tr><th>מצב</th><th>מה קורה במודל</th></tr>
+<tr><td>שני אבות (זוג גברים עם ילד)</td><td>״אבהות <bdi dir="ltr">1:N</bdi>״ מתיר לכל ילד אב אחד בלבד — אי אפשר לרשום את האב השני</td></tr>
+<tr><td>שתי אמהות</td><td>אותה בעיה ב״אימהות״</td></tr>
+<tr><td>זוג נשוי מאותו מין</td><td>התפקידים ״בעל״ ו״אישה״ לא מתאימים, והמודל מניח שכל זוג מורכב מאחד מכל סוג</td></tr>
+<tr><td>אדם שאינו גבר או אישה</td><td>אין לו תפקיד הורי מתאים, ו״מין״ מוגבל לשני ערכים</td></tr>
+<tr><td>הורה יחיד, אימוץ, הורה נוסף</td><td>אין דרך להבחין בין סוגי הורות</td></tr>
+</table></div>
+<div class="box rule"><h4>העיקרון</h4><p>מגדר הוא <strong>נתון על האדם</strong>, לא <strong>חלק מהמבנה</strong>. כשהמגדר קובע באיזה קשר משתמשים (אבהות או אימהות, בעל או אישה), כל מצב שלא חשבנו עליו מראש לא ייכנס למודל.</p></div></div>
+
+<div class="step" data-spec="famInc" data-show="ar" data-cap="מודל כוללני: מגדר כתכונה, קשר הורות אחד וקשר נישואין סימטרי"><div class="sh">צעד 4: המודל הכוללני — המבנה</div>
+<div class="tbl"><table>
+<tr><th>רכיב</th><th>במקום</th><th>למה</th></tr>
+<tr><td><span class="a">מגדר</span> (ערך חופשי)</td><td>מין עם שני ערכים</td><td>כל אדם מתאר את עצמו; אין השפעה על הקשרים</td></tr>
+<tr><td><span class="r">הורות</span> (הורה, ילד)</td><td>אבהות + אימהות</td><td>קשר אחד לכל ההורים, ללא תלות במגדר</td></tr>
+<tr><td><span class="r">נישואין</span> (בן/בת זוג, בן/בת זוג)</td><td>בעל, אישה</td><td>שני התפקידים זהים — הקשר סימטרי</td></tr>
+</table></div></div>
+
+<div class="step" data-spec="famInc" data-show="arctk" data-cap="נוספו מידות הריבוי, תכונות הקשר והמפתח"><div class="sh">צעד 5: ריבוי ותכונות הקשר</div>
+<div class="tbl"><table>
+<tr><th>קשר</th><th>ניתוח</th><th>סוג</th><th>תכונות הקשר</th></tr>
+<tr><td><span class="r">הורות</span></td><td>לילד הורה אחד, שניים או יותר; להורה ילדים רבים</td><td class="c">M:N</td><td>תפקיד (אבא / אמא / הורה), סוג (ביולוגי / מאמץ)</td></tr>
+<tr><td><span class="r">נישואין</span></td><td>נישואין נוכחיים: לכל אדם לכל היותר בן/בת זוג אחד/ת</td><td class="c">1:1</td><td>תאריך נישואין</td></tr>
+</table></div>
+<p><strong>שני אבות:</strong> שני מופעים של הורות לאותו ילד, בשניהם תפקיד = אבא. <strong>שתי אמהות:</strong> אותו דבר עם תפקיד = אמא. <strong>זוג מאותו מין:</strong> מופע רגיל של נישואין. שום דבר במבנה לא משתנה.</p>
+<div class="box warn"><p><strong>מה אי אפשר לאכוף בדיאגרמה:</strong> ״לכל ילד לכל היותר שני הורים״ (אם רוצים) — מידת ריבוי מבחינה רק בין 1 ל״רבים״. אילוץ כזה כותבים כהערה מתחת לדיאגרמה. גם ״אדם לא נשוי לעצמו״ הוא הערה כזו.</p></div></div>
+
+<div class="step" data-spec="famInc" data-show="arctk" data-cap="המודל הכוללני המלא — נסה להחליף סימון"><div class="sh">צעד 6: האם זה עדיין עונה על השאלה?</div>
+<p>כן. המודל הכוללני הוא <strong>הכללה</strong> של המודל המקורי: ״אבהות״ היא הורות עם תפקיד = אבא, ו״אימהות״ היא הורות עם תפקיד = אמא. כל מה שהמודל מצעד 2 יכול לייצג, גם זה יכול — ועוד.</p>
+<div class="box tip"><p><strong>בבחינה:</strong> אם השאלה מנוסחת כמו כאן, אפשר להגיש כל אחד מהשניים. אם תגיש את הכוללני, כתוב שורה שמסבירה איך מקבלים ממנו אבהות ואימהות — זה מראה שהבנת את השאלה ולא עקפת אותה.</p></div></div>
+</div>
+</div>
+</div>
+</section>
+
+
+<!-- ===================== WEAK ===================== -->
+<section id="weak">
+<h2>פתרון מודרך: ישות חלשה ← ישות חזקה</h2>
+<div class="ex stepped">
+<div class="q"><b>השאלה</b>כל טיפוס ישויות חלש ניתן להפיכה לטיפוס ישויות חזק על ידי הוספת תכונות מתאימות. (א) הדגם. (ב) מדוע אם כן יש בבסיס נתונים טיפוסי ישויות חלשים?</div>
+<div class="exgrid">
+<div class="exfig"><div class="ntbar">הצג בסימון:<span class="seg"><button type="button" data-nt="chen" aria-pressed="true">Chen</button><button type="button" data-nt="arrow" aria-pressed="false">חצים</button><button type="button" data-nt="crow" aria-pressed="false">Crow’s foot</button></span></div>
+<figure class="fig livefig"><div class="mainfig" id="fig-weak"></div><figcaption class="livecap"></figcaption></figure>
+<div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button></div></div>
+<div class="steps">
+
+<div class="step" data-spec="weak1" data-show="arctk" data-cap="לפני: תשלום כישות חלשה עם קשר מזהה"><div class="sh">(א) דוגמה: הלוואה ותשלומים</div>
+<p>לכל <span class="e">הלוואה</span> יש מספר ייחודי. התשלומים של כל הלוואה ממוספרים 1, 2, 3… — לכן ״תשלום מספר 3״ קיים בהרבה הלוואות. ל<span class="e">תשלום</span> אין מפתח משלו: הוא ישות חלשה, ומספר התשלום הוא <strong>מפתח חלקי</strong> (קו מקווקו).</p></div>
+
+<div class="step" data-spec="weak2" data-show="arctk" data-cap="אחרי: תשלום כישות חזקה עם מפתח מורכב"><div class="sh">(א) ההפיכה לחזקה</div>
+<p>מוסיפים לתשלום את התכונה <span class="a">מס׳ הלוואה</span>. עכשיו הזוג (מס׳ הלוואה, מס׳ תשלום) ייחודי, ולתשלום יש מפתח ראשי משלו.</p></div>
+
+<div class="step" data-spec="weak1" data-show="arctk" data-cap="המלבן הכפול והמעוין הכפול מבטאים את תלות הקיום של תשלום בהלוואה"><div class="sh">(ב) למה בכל זאת משתמשים בישויות חלשות?</div>
+<div class="tbl"><table>
+<tr><th>סיבה</th><th>הסבר</th></tr>
+<tr><td>מניעת כפילות</td><td>״מס׳ הלוואה״ כבר מיוצג דרך הקשר. הוספתו כתכונה של תשלום שומרת את אותו מידע פעמיים, ואז הקשר מיותר או שהשניים עלולים לסתור זה את זה.</td></tr>
+<tr><td>ביטוי תלות הקיום</td><td>תשלום לא יכול להתקיים בלי הלוואה. המלבן הכפול אומר זאת בדיאגרמה; אחרי ההפיכה הדיאגרמה כבר לא מראה את זה.</td></tr>
+<tr><td>משמעות טבעית</td><td>מספר תשלום באמת נקבע ״בתוך״ ההלוואה — המודל משקף את העולם האמיתי.</td></tr>
+</table></div></div>
+
+
+</div>
+</div>
+</div>
+</section>
+
+<!-- ===================== CLINIC ===================== -->
+<section id="clinic">
+<h2>פתרון מודרך: מרפאה</h2>
+<div class="ex stepped">
+<div class="q"><b>השאלה</b>רופאים (מס׳ זיהוי, שם, כתובת, טלפון, מס׳ רישיון ייחודי, תחום התמחות אחד או יותר, שיבוץ שבועי בימים ושעות). חולים (ת״ז, שם, כתובת, טלפון) מתקבלים אצל רופא, לא בהכרח אותו רופא; שומרים תאריך ביקור ואבחנה. בביקור: תרופות (שם ייחודי, כמות יומית, מס׳ ימים), והפניות לבדיקות (מועד אחרון). לבדיקה: קוד, שם, מקום אחד.</div>
+<div class="exgrid">
+<div class="exfig"><div class="ntbar">הצג בסימון:<span class="seg"><button type="button" data-nt="chen" aria-pressed="true">Chen</button><button type="button" data-nt="arrow" aria-pressed="false">חצים</button><button type="button" data-nt="crow" aria-pressed="false">Crow’s foot</button></span></div>
+<figure class="fig livefig"><div class="mainfig" id="fig-clinic"></div><figcaption class="livecap"></figcaption></figure>
+<div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button></div></div>
+<div class="steps">
+
+<div class="step" data-spec="clinic" data-show="a" data-cap="שבעה טיפוסי ישויות ותכונותיהם. שיבוץ מצויר כמלבן כפול"><div class="sh">צעד 1–2: ישויות</div>
+<div class="tbl"><table>
+<tr><th>טיפוס ישויות</th><th>תכונות</th><th>למה ישות</th></tr>
+<tr><td><span class="e">רופא</span></td><td>מס׳ זיהוי, שם, כתובת, טלפון, מס׳ רישיון</td><td>מובן מאליו</td></tr>
+<tr><td><span class="e">התמחות</span></td><td>שם תחום</td><td>״אחד או יותר״ ← לא יכול להיות תכונה רגילה (ערך אחד)</td></tr>
+<tr><td><span class="e">שיבוץ</span> (חלשה)</td><td>יום, שעת התחלה, שעת סיום</td><td>לרופא כמה משבצות בשבוע; ״יום ראשון 8:00״ ייחודי רק בתוך הרופא</td></tr>
+<tr><td><span class="e">חולה</span></td><td>ת״ז, שם, כתובת, טלפון</td><td>מובן מאליו</td></tr>
+<tr><td><span class="e">ביקור</span></td><td>מס׳ ביקור, תאריך, אבחנה</td><td>ראה צעד 3 — זו נקודת המפתח</td></tr>
+<tr><td><span class="e">תרופה</span></td><td>שם תרופה</td><td>תרופה נרשמת בביקורים רבים</td></tr>
+<tr><td><span class="e">בדיקה</span></td><td>קוד, שם בדיקה, מקום</td><td>מקום ← תכונה, כי כל בדיקה במקום אחד בלבד</td></tr>
+</table></div></div>
+
+<div class="step" data-spec="visWrong" data-show="arctk" data-cap="שגוי: ביקור מצויר כמעוין, ואי אפשר לחבר אליו את התרופה (מעוין למעוין). בשלב הבא — ביקור כמלבן"><div class="sh">צעד 3: למה ביקור הוא ישות ולא קשר?</div>
+<p>הניסיון הראשון הוא קשר <span class="r">ביקר</span> בין רופא לחולה, עם תכונות תאריך ואבחנה. אבל אז צריך לחבר תרופות ובדיקות <strong>לביקור</strong> — וקשר לא יכול להשתתף בקשר אחר. לכן מקדמים את הביקור לישות.</p>
+<div class="box rule"><h4>כלל אצבע</h4><p>אם ״האירוע״ צריך להתחבר לדברים נוספים — הוא ישות. אם יש לו רק תכונות — הוא יכול להישאר קשר.</p></div></div>
+
+<div class="step" data-spec="clinic" data-show="arct" data-cap="נוספו הקשרים, מידות הריבוי ותכונות הקשר (כמות יומית, מס׳ ימים, מועד אחרון)"><div class="sh">צעד 4–5: קשרים, ריבוי ותכונות קשר</div>
+<div class="tbl"><table>
+<tr><th>קשר</th><th>ניתוח</th><th>סוג</th><th>תכונות הקשר</th></tr>
+<tr><td><span class="r">מתמחה</span> רופא–התמחות</td><td>לרופא כמה תחומים, לתחום רופאים רבים</td><td class="c">M:N</td><td>—</td></tr>
+<tr><td><span class="r">משובץ</span> רופא–שיבוץ (מזהה)</td><td>לרופא משבצות רבות, לכל משבצת רופא אחד</td><td class="c">1:N</td><td>—</td></tr>
+<tr><td><span class="r">טיפל</span> רופא–ביקור</td><td>ביקור אצל רופא אחד, לרופא ביקורים רבים</td><td class="c">1:N</td><td>—</td></tr>
+<tr><td><span class="r">של</span> חולה–ביקור</td><td>ביקור של חולה אחד, לחולה ביקורים רבים</td><td class="c">1:N</td><td>—</td></tr>
+<tr><td><span class="r">מרשם</span> ביקור–תרופה</td><td>בביקור כמה תרופות, תרופה בביקורים רבים</td><td class="c">M:N</td><td>כמות יומית, מס׳ ימים</td></tr>
+<tr><td><span class="r">הפניה</span> ביקור–בדיקה</td><td>בביקור כמה הפניות, בדיקה בביקורים רבים</td><td class="c">M:N</td><td>מועד אחרון</td></tr>
+</table></div>
+<p>״לאו דווקא אותו רופא בכל ביקור״ אומר שחולה יכול להגיע לרופאים רבים — וזה מתקיים דרך ביקורים שונים.</p>
+<div class="box tip"><h4>מרשם שייך לחולה אחד?</h4><p>כן — אבל <strong>דרך הביקור</strong>. כל מופע של <span class="r">מרשם</span> הוא זוג אחד (ביקור, תרופה), ולכל ביקור יש חולה אחד בדיוק. לכן לכל מרשם יש חולה אחד, בלי שום קו נוסף.</p><p>ה־<bdi dir="ltr">M</bdi> ליד ביקור לא אומר ״מרשם של כמה ביקורים״. הוא אומר ש<strong>אותה תרופה</strong> (למשל אקמול) נרשמת בביקורים רבים, ולכן גם לחולים רבים.</p><p>אל תוסיף קשר ישיר בין מרשם או תרופה לחולה: המידע הזה כבר נגזר מהביקור, וקשר נוסף יוצר כפילות שעלולה לסתור (מרשם שרשום לחולה אחר מזה של הביקור).</p></div></div>
+
+<div class="step" data-spec="clinic" data-show="arctk" data-cap="מפתחות: קו רציף, ובשיבוץ קו מקווקו (מפתח חלקי)"><div class="sh">צעד 6: מפתחות</div>
+<div class="tbl"><table>
+<tr><th>טיפוס ישויות</th><th>מפתח</th></tr>
+<tr><td>רופא</td><td>מס׳ זיהוי (מס׳ רישיון הוא מפתח קביל נוסף)</td></tr>
+<tr><td>התמחות</td><td>שם תחום</td></tr>
+<tr><td>שיבוץ</td><td>מפתח חלקי (יום, שעת התחלה) + מפתח הרופא</td></tr>
+<tr><td>חולה</td><td>ת״ז</td></tr>
+<tr><td>ביקור</td><td>מס׳ ביקור (מזהה שהוספנו; חלופה: ישות חלשה של חולה עם מפתח חלקי תאריך — בעייתי אם חולה מגיע פעמיים באותו יום)</td></tr>
+<tr><td>תרופה</td><td>שם תרופה</td></tr>
+<tr><td>בדיקה</td><td>קוד</td></tr>
+</table></div></div>
+
+<div class="step" data-spec="clinic" data-show="arctk" data-cap="התשובה המלאה — נסה להחליף סימון"><div class="sh">צעד 7: הדיאגרמה המלאה</div><p>זו התשובה המלאה. החלף סימון כדי לראות אותה כמו במצגת (חצים) או ב־<bdi dir="ltr">Crow’s foot</bdi>.</p></div>
+
+
+</div>
+</div>
+</div>
+</section>
+
+<!-- ===================== TRAPS ===================== -->
+<section id="traps">
+<h2>מלכודות נפוצות</h2>
+<div class="tbl"><table>
+<tr><th>טעות</th><th>למה זה שגוי</th><th>התיקון</th></tr>
+<tr><td>״מחלקה״ כתכונה של עובד</td><td>מחלקה היא ישות; מקבלים מידע כפול שעלול לסתור</td><td>קשר שייך</td></tr>
+<tr><td>תכונה רב־ערכית כתכונה רגילה</td><td>לתכונה רגילה ערך אחד</td><td>ישות נפרדת + קשר <bdi dir="ltr">M:N</bdi></td></tr>
+<tr><td>כמות או תאריך של ״השילוב״ על אחת הישויות</td><td>הערך משתנה לפי הישות השנייה</td><td>תכונה של הקשר</td></tr>
+<tr><td>קשר שמתחבר לקשר</td><td>לא חוקי בדיאגרמת <bdi dir="ltr">ER</bdi> בסיסית</td><td>להפוך את הקשר הראשון לישות</td></tr>
+<tr><td>מספר דגם כמפתח של פריט</td><td>ייחודי רק בתוך היצרן</td><td>מספר פנימי, או (יצרן, דגם)</td></tr>
+<tr><td>שכחת תפקידים בקשר רקורסיבי</td><td>לא ברור מי האב ומי הילד</td><td>לכתוב תפקיד ליד כל קו</td></tr>
+<tr><td>ריבוי רק בצד אחד</td><td>הקשר לא מוגדר עד הסוף</td><td>שתי השאלות, תמיד</td></tr>
+<tr><td>מפתח לישות חלשה בקו רגיל</td><td>אין לה מפתח ראשי משלה</td><td>קו מקווקו (מפתח חלקי) + מעוין כפול</td></tr>
+</table></div>
+</section>
+
+<!-- ===================== PRACTICE ===================== -->
+<section id="practice">
+<h2>תרגול עצמי: ספרייה עירונית</h2>
+<p>תרגיל חדש באותו סגנון. נסה לפתור על דף לפי 7 הצעדים, ורק אז פתח את השלבים.</p>
+<div class="ex stepped">
+<div class="q"><b>השאלה</b>ספרייה עירונית מנהלת ספרים, עותקים, מחברים ומנויים. לכל ספר שומרים <bdi dir="ltr">ISBN</bdi> (ייחודי), כותרת ושנת הוצאה. לספר יכולים להיות כמה מחברים, ומחבר יכול לכתוב כמה ספרים; למחבר שומרים מספר מזהה ושם. מכל ספר יש כמה עותקים, כל עותק ממוספר 1, 2, 3… בתוך הספר שלו, ונשמר מצבו. לכל מנוי שומרים מספר מנוי, שם וטלפון. מנוי יכול לשאול כמה עותקים בו זמנית, ועותק מושאל לכל היותר למנוי אחד. יש לשמור את תאריך ההשאלה.</div>
+<div class="exgrid">
+<div class="exfig"><div class="ntbar">הצג בסימון:<span class="seg"><button type="button" data-nt="chen" aria-pressed="true">Chen</button><button type="button" data-nt="arrow" aria-pressed="false">חצים</button><button type="button" data-nt="crow" aria-pressed="false">Crow’s foot</button></span></div>
+<figure class="fig livefig"><div class="mainfig" id="fig-practice"></div><figcaption class="livecap"></figcaption></figure>
+<div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button></div></div>
+<div class="steps">
+
+<div class="step" data-spec="" data-show="" data-cap="התרשים ייבנה כאן שלב אחרי שלב"><div class="sh">רמז ראשון</div>
+<p>חפש את המשפט ״ממוספר… בתוך הספר שלו״. מה הוא אומר על סוג הישות של עותק? ולמי מושאל — לספר או לעותק?</p></div>
+
+<div class="step" data-spec="lib" data-show="ak" data-cap="ארבעה טיפוסי ישויות; עותק חלש עם מפתח חלקי"><div class="sh">ישויות ומפתחות</div>
+<div class="tbl"><table>
+<tr><th>טיפוס ישויות</th><th>תכונות</th><th>מפתח</th></tr>
+<tr><td>ספר</td><td><bdi dir="ltr">ISBN</bdi>, כותרת, שנה</td><td>ISBN</td></tr>
+<tr><td>מחבר</td><td>מס׳ מחבר, שם</td><td>מס׳ מחבר</td></tr>
+<tr><td>עותק (חלשה)</td><td>מס׳ עותק, מצב</td><td>מפתח חלקי מס׳ עותק + <bdi dir="ltr">ISBN</bdi> של הספר</td></tr>
+<tr><td>מנוי</td><td>מס׳ מנוי, שם, טלפון</td><td>מס׳ מנוי</td></tr>
+</table></div></div>
+
+<div class="step" data-spec="lib" data-show="arctk" data-cap="נוספו הקשרים, הריבוי ותכונת הקשר"><div class="sh">קשרים</div>
+<div class="tbl"><table>
+<tr><th>קשר</th><th>סוג</th><th>תכונות</th></tr>
+<tr><td>כתב (מחבר–ספר)</td><td class="c">M:N</td><td>—</td></tr>
+<tr><td>יש_עותק (ספר–עותק), מזהה</td><td class="c">1:N</td><td>—</td></tr>
+<tr><td>מושאל (מנוי–עותק)</td><td class="c">1:N</td><td>תאריך השאלה</td></tr>
+</table></div>
+<p>ההשאלה היא של <strong>עותק</strong> ולא של ספר: מאותו ספר יכולים להיות שני עותקים אצל שני מנויים שונים.</p></div>
+
+<div class="step" data-spec="lib" data-show="arctk" data-cap="התשובה המלאה — נסה להחליף סימון"><div class="sh">הדיאגרמה המלאה</div><p>השווה לפתרון שלך: האם עותק חלש? האם ההשאלה מחוברת לעותק ולא לספר?</p>
+<div class="box tip"><p><strong>הרחבה למחשבה:</strong> אם רוצים לשמור היסטוריה של כל ההשאלות, ״מושאל״ הופך ל־<bdi dir="ltr">M:N</bdi> — ואז אותו מנוי יכול לשאול אותו עותק פעמיים. איך תזהה כל השאלה? (רמז: ראה את הביקור במרפאה.)</p></div></div>
+
+
+</div>
+</div>
+</div>
+
+<p class="foot">מבוסס על מצגות ״מבוא״ ו״מודל ישויות קשרים״ ועל תרגיל 1 בקורס מערכות בסיסי נתונים. הפתרונות כוללים הנחות שמסומנות במפורש; בבחינה, כתוב תמיד את ההנחות שלך.</p>
+</section>
+<div class="pager"><a class="next" href="relational.html"><span>הנושא הבא</span>2. מודל היחסים</a></div>
+</div>
+</main>
+</div>
+<script src="guide.js"></script>
+<script src="sqldata.js"></script><script src="sqlpage.js"></script><script src="peekdata.js"></script><script src="peek.js"></script>
+</body>
+</html>
