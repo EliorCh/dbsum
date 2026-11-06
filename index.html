@@ -11,14 +11,14 @@
 </head>
 <body class="pg-index">
 <div class="layout">
-<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html" aria-current="page" class="active">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="practice.html">4. מטלות תרגול</a></li></ol></nav>
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html" aria-current="page" class="active">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol></nav>
 <main>
-<nav class="topics" aria-label="נושאים"><a href="index.html" aria-current="page">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="practice.html">4. מטלות תרגול</a></nav>
+<nav class="topics" aria-label="נושאים"><a href="index.html" aria-current="page">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="fd.html">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav>
 <div class="wrap">
 
 <section class="hero" id="top">
   <h1>מערכות בסיסי נתונים — מדריך פתרון</h1>
-  <p class="lede">שלושה נושאים, כל אחד בעמוד משלו, ועמוד של מטלות תרגול. בכל עמוד: המושגים מהמצגת, שיטת פתרון קבועה, פתרונות מודרכים שנבנים שלב אחרי שלב, מלכודות נפוצות, ותרגול עם רמזים. הנושאים בנויים זה על זה — כדאי לעבור לפי הסדר.</p>
+  <p class="lede">שבעה נושאים, כל אחד בעמוד משלו, ועמוד של מטלות תרגול. בכל עמוד: המושגים מהמצגת, שיטת פתרון קבועה, פתרונות מודרכים שנבנים שלב אחרי שלב, מלכודות נפוצות, ותרגול עם רמזים. הנושאים בנויים זה על זה — כדאי לעבור לפי הסדר.</p>
 </section>
 
 <div class="ixgrid">
@@ -30,8 +30,20 @@
     <span class="ixex">תרגיל 2: רמזים ובדיקה עצמית לכל סעיף</span><span class="go">למודל היחסים ←</span></a>
   <a class="ixcard t3" href="sql.html"><span class="ixnum">3</span><h2>SQL</h2>
     <ul><li>select, from, where ← π, ×, σ</li><li>תתי־שאילתות, צירופים, הקבצה</li><li>עדכונים, תצפיות ואילוצים</li><li>כל דוגמה רצה ואפשר לערוך אותה</li></ul>
-    <span class="ixex">תרגיל 3: בדיקת הפתרון הרשמי, שאילתה אחרי שאילתה</span><span class="go">ל־<bdi dir="ltr">SQL</bdi> ←</span></a>
-  <a class="ixcard t4" href="practice.html"><span class="ixnum">4</span><h2>מטלות תרגול</h2>
+    <span class="ixex">תרגיל 3: בדיקת הפתרון הרשמי · תרגיל 4: שאילתות על בסיס הנתונים של הקורס</span><span class="go">ל־<bdi dir="ltr">SQL</bdi> ←</span></a>
+  <a class="ixcard t1" href="fd.html"><span class="ixnum">4</span><h2>תלויות פונקציונליות</h2>
+    <ul><li>כללי ארמסטרונג וסגור <bdi dir="ltr">F</bdi>⁺</li><li>סגור של קבוצת תכונות α⁺</li><li>מפתחות קבילים</li><li>כיסוי קנוני, ומחשבון תלויות</li></ul>
+    <span class="ixex">תרגיל <bdi dir="ltr">5</bdi>: <bdi dir="ltr">DDL</bdi> ואילוצים, הסקה, סגור, כיסוי קנוני</span><span class="go">לתלויות ←</span></a>
+  <a class="ixcard t2" href="norm.html"><span class="ixnum">5</span><h2>תיכון ונרמול</h2>
+    <ul><li>פירוק משמר מידע ושימור תלויות</li><li><bdi dir="ltr">BCNF</bdi> ו־<bdi dir="ltr">3NF</bdi> — אלגוריתמים שלב אחרי שלב</li><li>שיטת הטבלה (<bdi dir="ltr">chase</bdi>)</li><li>תלויות רב־ערכיות ו־<bdi dir="ltr">4NF</bdi></li></ul>
+    <span class="ixex">תרגיל 6: פירוקים, <bdi dir="ltr">BCNF, 3NF, 4NF</bdi></span><span class="go">לנרמול ←</span></a>
+  <a class="ixcard t3" href="indexing.html"><span class="ixnum">6</span><h2>אינדקסים ו־<bdi dir="ltr">hashing</bdi></h2>
+    <ul><li>אחסון, בלוקים, אינדקס צפוף ודליל</li><li>עץ <bdi dir="ltr">B</bdi>+ שגדל ומתכווץ בכל פעולה</li><li>extendable hashing</li><li>אינדקס מפת סיביות</li></ul>
+    <span class="ixex">תרגיל 7: עצי <bdi dir="ltr">B</bdi>+ עם <bdi dir="ltr">n=4</bdi> ו־<bdi dir="ltr">n=6</bdi>, חישוב <bdi dir="ltr">n, hashing</bdi></span><span class="go">לאינדקסים ←</span></a>
+  <a class="ixcard t1" href="cc.html"><span class="ixnum">7</span><h2>בקרת בו־זמניות</h2>
+    <ul><li>תזמונים, <bdi dir="ltr">conflict</bdi> ו־<bdi dir="ltr">view serializability</bdi></li><li>גרף קדימויות שנבנה קשת אחרי קשת</li><li><bdi dir="ltr">2PL, deadlock</bdi>, פרוטוקול עץ</li><li>חותמות זמן וחוק תומאס</li></ul>
+    <span class="ixex">תרגיל 8: הוכחות, תזמונים, נעילות, חותמות זמן</span><span class="go">לבו־זמניות ←</span></a>
+  <a class="ixcard t4" href="practice.html"><span class="ixnum">8</span><h2>מטלות תרגול</h2>
     <ul><li>מטלה 1: תכנון <bdi dir="ltr">ER</bdi> — בתי קולנוע, רשת חברתית</li><li>מטלה 2: טבלאות, אלגברה ותחשיב — סטודנטים וקורסים</li><li>מטלה <bdi dir="ltr">3</bdi>: <bdi dir="ltr">SQL</bdi> עם בדיקה אוטומטית</li><li>רמזים מדורגים ופתרון מלא לכל סעיף</li></ul>
     <span class="ixex">במבנה ובניסוח של תרגילי הבית 1–3</span><span class="go">למטלות ←</span></a>
 </div>

@@ -754,12 +754,12 @@ const CHECK={
   put('w3data',W);put('s4data',S);
   document.querySelectorAll('.ladder').forEach(l=>{
     const hints=[...l.querySelectorAll('.hints>li')],hb=l.querySelector('.hintBtn'),cb=l.querySelector('.checkBtn'),box=l.querySelector('.check');let n=0;
-    const ck=l.dataset.check,DS=ck.startsWith('q3')?W:ck.startsWith('q4')?S:null;
+    const ck=l.dataset.check||'',DS=ck.startsWith('q3')?W:ck.startsWith('q4')?S:null;
     if(DS){l._ladder={data:DS,title:(ck.startsWith('q3')?'שאלה 3':'שאלה 4')+' · נתוני הדוגמה',showRes:false,res:null};
       const sb=document.createElement('button');sb.type='button';sb.className='btn ghost srcDataBtn';sb.setAttribute('aria-pressed','false');sb.textContent='טבלאות הדוגמה';
       sb.addEventListener('click',()=>SRC.open(l,sb));l.querySelector('.ldbtns').append(sb);}
     hints.forEach(h=>h.hidden=true);
-    const upd=()=>{hb.textContent=n<hints.length?`רמז ${n+1} מתוך ${hints.length}`:'כל הרמזים פתוחים';hb.disabled=n>=hints.length;};
+    if(!hb)return;const upd=()=>{hb.textContent=n<hints.length?`רמז ${n+1} מתוך ${hints.length}`:'כל הרמזים פתוחים';hb.disabled=n>=hints.length;};
     hb.addEventListener('click',()=>{if(n<hints.length){hints[n].hidden=false;hints[n].classList.add('new');n++;upd();}});upd();
     if(cb)cb.addEventListener('click',()=>{const open=box.hidden;box.hidden=!open;cb.textContent=open?'הסתר בדיקה':'בדוק את עצמך';if(l._ladder){l._ladder.showRes=open;if(open&&!l._ladder.res&&CHECK[ck])l._ladder.res=CHECK[ck]();SRC.refresh(l);}
       if(open&&!box.dataset.done){const f=CHECK[l.dataset.check];box.innerHTML=(f?`<div class="ckhead">התוצאה שהשאילתה שלך צריכה להחזיר על נתוני הדוגמה:</div>${(r=>relTable(RA.R('',r.attrs.map(a=>a.split('.').pop()),r.rows,r.prov),null,{label:'תוצאה צפויה'}))(f())}`:'')+(box.innerHTML||'');box.dataset.done=1;}});

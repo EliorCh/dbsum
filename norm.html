@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>תיכון ונרמול — מדריך פתרון</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body class="pg-norm">
+<div class="layout">
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html">4. תלויות פונקציונליות</a></li><li><a href="norm.html" aria-current="page" class="active">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#why">כפילות ואנומליות</a></li><li><a href="#lossless">פירוק משמר מידע</a></li><li><a href="#preserve">שימור תלויות</a></li><li><a href="#bcnf">BCNF</a></li><li><a href="#nf3">3NF ו־2NF</a></li><li><a href="#mvd">רב־ערכיות ו־4NF</a></li><li><a href="#nmethod">שיטת פתרון</a></li><li><a href="#ex6">תרגיל 6</a></li><li class="sub"><a href="#ex6q1">שאלה 1</a></li><li class="sub"><a href="#ex6q2">שאלה 2</a></li><li class="sub"><a href="#ex6q3">שאלה 3</a></li><li class="sub"><a href="#ex6q4">שאלה 4</a></li><li class="sub"><a href="#ex6q5">שאלה 5</a></li><li class="sub"><a href="#ex6q6">שאלה 6</a></li><li class="sub"><a href="#ex6q7">שאלה 7</a></li><li class="sub"><a href="#ex6q8">שאלה 8</a></li><li class="sub"><a href="#ex6q9">שאלה 9</a></li><li><a href="#ntraps">מלכודות</a></li><li><a href="#ntool">מחשבון פירוק</a></li><li><a href="#npractice">תרגול עצמי</a></li></ol></nav>
+<main>
+<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="fd.html">4. תלויות פונקציונליות</a><a href="norm.html" aria-current="page">5. תיכון ונרמול</a><a href="indexing.html">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav>
+<div class="wrap">
+<section class="hero" id="top">
+  <h1>תיכון ונרמול</h1>
+  <p class="lede">איך בוחרים תבניות טובות? טבלה אחת גדולה חוסכת צירופים, אבל שומרת כל עובדה הרבה פעמים. פירוק לתבניות קטנות פותר את זה — בתנאי שהוא לא מאבד מידע ולא מאבד תלויות. בעמוד הזה: הקריטריונים, הצורות הנורמליות <bdi dir="ltr">BCNF, 3NF</bdi> ו־<bdi dir="ltr">4NF</bdi>, והאלגוריתמים לפירוק — כל אחד שלב אחרי שלב.</p>
+  <div class="box tip"><h4>מה צריך לדעת לעשות (תרגיל 6)</h4><p>להראות שפירוק משמר או לא משמר מידע, לבדוק שימור תלויות, לפרק ל־<bdi dir="ltr">BCNF</bdi> ול־<bdi dir="ltr">3NF</bdi>, לבדוק פירוק לכמה תבניות בשיטת הטבלה, ולעבוד עם תלויות רב־ערכיות ו־<bdi dir="ltr">4NF</bdi>. העמוד משתמש בסגור ובכיסוי קנוני מ<a href="fd.html">תלויות פונקציונליות</a>.</p></div>
+</section>
+
+<section id="why">
+<h2>למה לפרק: כפילות ואנומליות</h2>
+<p>במקום שתי התבניות <code class="xp">Branch=(branch-name, assets, branch-city)</code> ו־<code class="xp">Borrow=(branch-name, loan-number, customer-name, amount)</code>, אפשר לשמור תבנית אחת:</p>
+<p class="mathline"><code class="xp">Lending=(branch-name, assets, branch-city, loan-number, customer-name, amount)</code></p>
+<div class="rtrow"><div class="rtwrap"><div class="rtname"><bdi dir="ltr">lending</bdi> (שקף 2)</div><table class="rt" dir="ltr"><thead><tr><th>branch-name</th><th>assets</th><th>branch-city</th><th>loan-number</th><th>customer-name</th><th>amount</th></tr></thead><tbody>
+<tr class="dup"><td>Hamerkaz</td><td>9000000</td><td>Tiberias</td><td>17</td><td>Morag</td><td>1000</td></tr>
+<tr><td>Pinkas</td><td>2100000</td><td>Eilat</td><td>23</td><td>Tamir</td><td>2000</td></tr>
+<tr><td>Aviv</td><td>1700000</td><td>Jaffa</td><td>15</td><td>Avivi</td><td>1500</td></tr>
+<tr class="dup"><td>Hamerkaz</td><td>9000000</td><td>Tiberias</td><td>14</td><td>Lerner</td><td>1500</td></tr>
+<tr><td>Tsafon</td><td>400000</td><td>Jaffa</td><td>93</td><td>Even</td><td>500</td></tr>
+<tr class="dup"><td>Hamerkaz</td><td>9000000</td><td>Tiberias</td><td>17</td><td>Avivi</td><td>1000</td></tr>
+</tbody></table><div class="rtcount">הנכסים והעיר של <bdi dir="ltr">Hamerkaz</bdi> שמורים 3 פעמים</div></div></div>
+<div class="tbl"><table>
+<tr><th>בעיה</th><th>מה קורה ב־<bdi dir="ltr">lending</bdi></th></tr>
+<tr><td><strong>כפילות מידע</strong></td><td>הנכסים והעיר של כל סניף נשמרים פעם לכל הלוואה. נפח מיותר.</td></tr>
+<tr><td><strong>אנומליית הזנה</strong></td><td>אי אפשר לשמור סניף חדש שעדיין אין בו הלוואות — אין ערך ל־<bdi dir="ltr">loan-number</bdi> (או שמכניסים <bdi dir="ltr">null</bdi>).</td></tr>
+<tr><td><strong>אנומליית מחיקה</strong></td><td>מחיקת ההלוואה היחידה של <bdi dir="ltr">Tsafon</bdi> מוחקת גם את הנכסים והעיר של הסניף.</td></tr>
+<tr><td><strong>אנומליית עדכון</strong></td><td>שינוי הנכסים של <bdi dir="ltr">Hamerkaz</bdi> דורש לעדכן 3 שורות. עדכון חלקי — נתונים סותרים.</td></tr>
+</table></div>
+<p>הפתרון: לפרק. אבל לא כל פירוק טוב. שלוש תכונות רצויות של פירוק:</p>
+<ol><li><strong>משמר מידע</strong> (<bdi dir="ltr">lossless join</bdi>) — הצירוף מחזיר בדיוק את היחס המקורי.</li><li><strong>משמר תלויות</strong> (<bdi dir="ltr">dependency preservation</bdi>) — אפשר לבדוק כל תלות בלי לחשב צירוף.</li><li><strong>בלי כפילות מידע</strong> — זה מה שהצורות הנורמליות מודדות.</li></ol>
+</section>
+
+<section id="lossless">
+<h2>פירוק משמר מידע</h2>
+<div class="box rule"><h4>הגדרה</h4><p><code class="xp">R1, R2, …, Rn</code> הוא <strong>פירוק</strong> של <bdi dir="ltr">R</bdi> אם כל תכונה של <bdi dir="ltr">R</bdi> מופיעה לפחות באחת התבניות:</p>
+<p class="mathline"><code class="xp">R = R1 ∪ R2 ∪ … ∪ Rn</code></p>
+<p>נסמן <code class="xp">ri = π<sub>Ri</sub>(r)</code>. הפירוק <strong>משמר מידע</strong> אם לכל יחס חוקי <bdi dir="ltr">r</bdi>:</p>
+<p class="mathline"><code class="xp">r = r1 ⋈ r2 ⋈ … ⋈ rn</code></p></div>
+<p>הצירוף תמיד מחזיר <strong>לפחות</strong> את <bdi dir="ltr">r</bdi>. הבעיה היא שורות מזויפות. הדוגמה משקפים 5–7: מפרקים את <bdi dir="ltr">borrow</bdi> ל־<code class="xp">Amt-scheme=(customer-name, amount)</code> ול־<code class="xp">Loan-scheme=(branch-name, loan-number, amount)</code>. התכונה המשותפת היחידה היא <bdi dir="ltr">amount</bdi>, ושני לווים עם אותו סכום מתערבבים:</p>
+<div id="lossyJoin" class="joinfig"></div>
+<p>השורות המסומנות לא היו ב־<bdi dir="ltr">borrow</bdi>. מהצירוף אי אפשר לדעת ש־<bdi dir="ltr">Avivi</bdi> לוותה ב־<bdi dir="ltr">Aviv</bdi> ולא ב־<bdi dir="ltr">Hamerkaz</bdi> — <strong>המידע אבד</strong>, למרות שיש יותר שורות.</p>
+
+<div class="box rule"><h4>משפט הפירוק (לשתי תבניות)</h4><p>הפירוק של <bdi dir="ltr">R</bdi> ל־<bdi dir="ltr">R1, R2</bdi> משמר מידע אם לפחות אחת מהתלויות הבאות ב־<code class="xp">F⁺</code>:</p>
+<p class="mathline"><code class="xp">R1 ∩ R2 → R1</code></p>
+<p class="mathline"><code class="xp">R1 ∩ R2 → R2</code></p>
+<p>כלומר: החיתוך הוא מפתח־על של אחד החלקים. בודקים בעזרת הסגור של החיתוך.</p></div>
+<p>דוגמה (שקף 10): <code class="xp">Lending</code> ל־<code class="xp">R1=(branch-name, assets, branch-city)</code> ו־<code class="xp">R2=(branch-name, loan-number, customer-name, amount)</code>. החיתוך הוא <bdi dir="ltr">branch-name</bdi>, ו־<code class="xp">branch-name → assets, branch-city</code>, כלומר החיתוך קובע את כל <bdi dir="ltr">R1</bdi>. משמר מידע.</p>
+<div class="box warn"><h4>פירוק ליותר משתי תבניות</h4><p>המשפט מדבר על שתי תבניות. לפירוק ל־3 תבניות ומעלה משתמשים ב<strong>שיטת הטבלה</strong> (<bdi dir="ltr">chase</bdi>) — ראה שאלה 7 בתרגיל 6.</p></div>
+</section>
+
+<section id="preserve">
+<h2>שימור תלויות</h2>
+<p>אם תלות מתפצלת בין שתי תבניות, כל עדכון מחייב לחשב צירוף כדי לבדוק אותה. <strong>הצמצום</strong> <code class="xp">Fi</code> של <bdi dir="ltr">F</bdi> ל־<bdi dir="ltr">Ri</bdi> הוא קבוצת התלויות ב־<code class="xp">F⁺</code> שכל התכונות שלהן ב־<bdi dir="ltr">Ri</bdi>. הפירוק משמר תלויות אם:</p>
+<p class="mathline"><code class="xp">(F1 ∪ F2 ∪ … ∪ Fn)⁺ = F⁺</code></p>
+<p>תמיד מתקיים ⊆. בפועל בודקים: לכל תלות <code class="xp">α→β</code> ב־<bdi dir="ltr">F</bdi>, מחשבים את <code class="xp">α⁺</code> לפי <code class="xp">F1 ∪ … ∪ Fn</code> ובודקים ש־<code class="xp">β ⊆ α⁺</code>.</p>
+<div class="box tip"><h4>קיצור דרך</h4><p>אם כל תלות ב־<bdi dir="ltr">F</bdi> נמצאת בשלמותה בתבנית אחת — הפירוק משמר תלויות. ההפך לא נכון: תלות שמתפצלת עדיין יכולה לנבוע מהצמצומים. במקרה כזה חייבים לחשב.</p></div>
+</section>
+
+<section id="bcnf">
+<h2>BCNF</h2>
+<div class="box rule"><h4>הגדרה</h4><p><bdi dir="ltr">R</bdi> ב־<bdi dir="ltr">BCNF</bdi> ביחס ל־<bdi dir="ltr">F</bdi> אם לכל תלות <code class="xp">α→β</code> ב־<code class="xp">F⁺</code> (כש־<code class="xp">α, β ⊆ R</code>) מתקיים לפחות אחד:</p>
+<ul><li><code class="xp">α→β</code> טריוויאלית (<code class="xp">β ⊆ α</code>)</li><li>α מפתח־על של <bdi dir="ltr">R</bdi></li></ul>
+<p>בסיס נתונים ב־<bdi dir="ltr">BCNF</bdi> אם כל התבניות בו ב־<bdi dir="ltr">BCNF</bdi>.</p></div>
+<p>במילים: כל דבר שקובע משהו הוא מפתח. ב־<bdi dir="ltr">lending</bdi>, <code class="xp">branch-name → assets</code> מפר <bdi dir="ltr">BCNF</bdi> — <bdi dir="ltr">branch-name</bdi> אינו מפתח של <bdi dir="ltr">lending</bdi> — וזו בדיוק הסיבה לכפילות.</p>
+<pre class="algo" dir="ltr">result = {R}
+while (result contains a scheme Ri not in BCNF)
+  let α→β ∈ F⁺ be nontrivial on Ri,
+      α not a superkey of Ri, and α ∩ β = ∅
+  result = (result − {Ri}) ∪ {(Ri − β), (α, β)}</pre>
+<p>כל צעד הוא פירוק לשניים שמשמר מידע: החיתוך הוא α, ו־<code class="xp">α→β</code> אומר ש־α מפתח של <code class="xp">(α, β)</code>.</p>
+<div class="box warn"><h4>שני דברים שכדאי לדעת</h4><p>1. פירוק ל־<bdi dir="ltr">BCNF</bdi> <strong>תמיד משמר מידע</strong>, אבל <strong>לא תמיד משמר תלויות</strong>.</p><p>2. כשבודקים תת־תבנית, צריך לבדוק תלויות ב־<code class="xp">F⁺</code> — לא רק ב־<bdi dir="ltr">F</bdi>. תלות שלא כתובה ב־<bdi dir="ltr">F</bdi> עדיין יכולה להפר <bdi dir="ltr">BCNF</bdi> בחלק.</p></div>
+</section>
+
+<section id="nf3">
+<h2>3NF</h2>
+<div class="box rule"><h4>הגדרה</h4><p><bdi dir="ltr">R</bdi> ב־<bdi dir="ltr">3NF</bdi> ביחס ל־<bdi dir="ltr">F</bdi> אם לכל תלות <code class="xp">α→β</code> ב־<code class="xp">F⁺</code> מתקיים לפחות אחד:</p>
+<ul><li><code class="xp">α→β</code> טריוויאלית</li><li>α מפתח־על של <bdi dir="ltr">R</bdi></li><li>כל תכונה ב־<code class="xp">β − α</code> שייכת למפתח קביל כלשהו של <bdi dir="ltr">R</bdi> (תכונה ״ראשונית״)</li></ul>
+<p>התנאי השלישי הוא ההקלה. לכן: כל תבנית ב־<bdi dir="ltr">BCNF</bdi> היא גם ב־<bdi dir="ltr">3NF</bdi>.</p></div>
+<p>היתרון: תמיד יש פירוק ל־<bdi dir="ltr">3NF</bdi> שמשמר <strong>גם</strong> מידע <strong>וגם</strong> תלויות. האלגוריתם בונה תבנית לכל תלות בכיסוי הקנוני:</p>
+<pre class="algo" dir="ltr">compute Fc
+result = ∅
+for each α→β in Fc   (largest first)
+  if no scheme in result contains αβ
+    result = result ∪ {(α, β)}
+if no scheme in result contains a candidate key of R
+  result = result ∪ {any candidate key of R}</pre>
+<div class="tbl"><table>
+<tr><th>צורה</th><th>תנאי</th><th>פירוק משמר מידע</th><th>משמר תלויות</th></tr>
+<tr><td><strong>1NF</strong></td><td>כל הערכים אטומיים — אין רשימות, קבוצות או תכונות מורכבות</td><td>—</td><td>—</td></tr>
+<tr><td><strong>2NF</strong></td><td><bdi dir="ltr">1NF</bdi>, וכל תכונה לא־ראשונית תלויה תלות <strong>שלמה</strong> במפתח קביל — לא בחלק ממנו</td><td>—</td><td>—</td></tr>
+<tr><td><strong>3NF</strong></td><td>ההגדרה למעלה</td><td>תמיד</td><td>תמיד (באלגוריתם הסינתזה)</td></tr>
+<tr><td><strong>BCNF</strong></td><td>כל אגף שמאל לא־טריוויאלי הוא מפתח־על</td><td>תמיד</td><td>לא תמיד</td></tr>
+<tr><td><strong>4NF</strong></td><td>כמו <bdi dir="ltr">BCNF</bdi>, גם עבור תלויות רב־ערכיות</td><td>תמיד</td><td>לא תמיד</td></tr>
+</table></div>
+<p class="sxnote">תלות שלמה: <code class="xp">α→β</code> שלמה אם הורדת כל תכונה מ־α שוברת אותה. תבנית שכל המפתחות הקבילים שלה בני תכונה אחת היא תמיד ב־<bdi dir="ltr">2NF</bdi>.</p>
+</section>
+
+<section id="mvd">
+<h2>תלויות רב־ערכיות ו־<bdi dir="ltr">4NF</bdi></h2>
+<p>לפעמים אין שום תלות פונקציונלית, ובכל זאת יש כפילות. בדוגמה משקף 19, ללקוח יכולות להיות כמה הלוואות וכמה כתובות, והן בלתי תלויות זו בזו:</p>
+<p class="mathline"><code class="xp">BC = (loan-number, customer-name, street, customer-city)</code></p>
+<p class="mathline"><code class="xp">customer-name →→ street, customer-city</code></p>
+<div class="rtrow"><div class="rtwrap"><div class="rtname">יחס חוקי</div><table class="rt" dir="ltr"><thead><tr><th>loan-number</th><th>customer-name</th><th>street</th><th>customer-city</th></tr></thead><tbody>
+<tr><td>13</td><td>Morag</td><td>Pinkas</td><td>Rishon</td></tr><tr><td>13</td><td>Morag</td><td>Bialick</td><td>Eilat</td></tr><tr><td>15</td><td>Tamir</td><td>Allenby</td><td>Haifa</td></tr><tr><td>28</td><td>Tamir</td><td>Allenby</td><td>Haifa</td></tr><tr><td>17</td><td>Even</td><td>Allenby</td><td>Haifa</td></tr></tbody></table></div>
+<div class="rtwrap"><div class="rtname">יחס לא חוקי</div><table class="rt" dir="ltr"><thead><tr><th>loan-number</th><th>customer-name</th><th>street</th><th>customer-city</th></tr></thead><tbody>
+<tr class="spur"><td>13</td><td>Morag</td><td>Pinkas</td><td>Rishon</td></tr><tr class="spur"><td>97</td><td>Morag</td><td>Bialick</td><td>Eilat</td></tr><tr><td>17</td><td>Even</td><td>Allenby</td><td>Haifa</td></tr></tbody></table><div class="rtcount">חסרות (<bdi dir="ltr">97, Morag, Pinkas, Rishon</bdi>) ו־(<bdi dir="ltr">13, Morag, Bialick, Eilat</bdi>)</div></div></div>
+<div class="box rule"><h4>הגדרה (הגרסה החלופית, שקף 21)</h4><p><code class="xp">α →→ β</code> מתקיימת על <bdi dir="ltr">R</bdi> אם לכל יחס חוקי <bdi dir="ltr">r</bdi> ולכל זוג שורות <bdi dir="ltr">t1, t2</bdi> עם <code class="xp">t1[α] = t2[α]</code>, קיימת שורה <bdi dir="ltr">t3</bdi> ב־<bdi dir="ltr">r</bdi> כך ש:</p>
+<p class="mathline"><code class="xp">t3[α] = t1[α],   t3[β] = t1[β],   t3[R − β] = t2[R − β]</code></p>
+<p>במילים: ערכי β וערכי ״כל השאר״ מתחלפים חופשי. כל צירוף של β עם שאר התכונות — של אותו α — חייב להופיע. <code class="xp">α →→ β</code> טריוויאלית אם <code class="xp">β ⊆ α</code> או <code class="xp">α ∪ β = R</code>.</p></div>
+<h3>כללי הסק לתלויות רב־ערכיות</h3>
+<div class="tbl"><table>
+<tr><th>כלל</th><th>אם</th><th>אז</th></tr>
+<tr><td>השלמה לקבוצה (<bdi dir="ltr">complementation</bdi>)</td><td><code class="xp">α →→ β</code></td><td><code class="xp">α →→ R − α − β</code></td></tr>
+<tr><td>השלמה (<bdi dir="ltr">augmentation</bdi>)</td><td><code class="xp">α →→ β</code>, <code class="xp">δ ⊆ γ ⊆ R</code></td><td><code class="xp">γα →→ δβ</code></td></tr>
+<tr><td>טרנזיטיביות</td><td><code class="xp">α →→ β</code>, <code class="xp">β →→ γ</code></td><td><code class="xp">α →→ γ − β</code></td></tr>
+<tr><td>שכפול (<bdi dir="ltr">replication</bdi>)</td><td><code class="xp">α → β</code></td><td><code class="xp">α →→ β</code></td></tr>
+<tr><td>התלכדות (<bdi dir="ltr">coalescence</bdi>)</td><td><code class="xp">α →→ β</code>, <code class="xp">γ ⊆ β</code>, ויש δ עם <code class="xp">δ ∩ β = ∅</code> ו־<code class="xp">δ → γ</code></td><td><code class="xp">α → γ</code></td></tr>
+<tr><td>איחוד</td><td><code class="xp">α →→ β</code>, <code class="xp">α →→ γ</code></td><td><code class="xp">α →→ βγ</code></td></tr>
+<tr><td>חיתוך</td><td><code class="xp">α →→ β</code>, <code class="xp">α →→ γ</code></td><td><code class="xp">α →→ β ∩ γ</code></td></tr>
+<tr><td>הפרש</td><td><code class="xp">α →→ β</code>, <code class="xp">α →→ γ</code></td><td><code class="xp">α →→ β − γ</code>, <code class="xp">α →→ γ − β</code></td></tr>
+</table></div>
+<div class="box rule"><h4><bdi dir="ltr">4NF</bdi> ומשפט הפירוק של <bdi dir="ltr">Fagin</bdi></h4><p><bdi dir="ltr">R</bdi> ב־<bdi dir="ltr">4NF</bdi> ביחס ל־<bdi dir="ltr">D</bdi> (תלויות פונקציונליות ורב־ערכיות) אם לכל <code class="xp">α →→ β</code> ב־<code class="xp">D⁺</code>: היא טריוויאלית, או ש־α מפתח־על של <bdi dir="ltr">R</bdi>. כל תבנית ב־<bdi dir="ltr">4NF</bdi> היא גם ב־<bdi dir="ltr">BCNF</bdi>.</p>
+<p>פירוק <bdi dir="ltr">R</bdi> ל־<bdi dir="ltr">R1, R2</bdi> משמר מידע <strong>אם ורק אם</strong> אחת מהתלויות האלה ב־<code class="xp">D⁺</code>:</p>
+<p class="mathline"><code class="xp">R1 ∩ R2 →→ R1</code></p><p class="mathline"><code class="xp">R1 ∩ R2 →→ R2</code></p></div>
+<pre class="algo" dir="ltr">result = {R}
+while (result contains a scheme Ri not in 4NF)
+  let α→→β be nontrivial on Ri, α→Ri ∉ F⁺, α ∩ β = ∅
+  result = (result − {Ri}) ∪ {(Ri − β), (α, β)}</pre>
+<p>ב־<bdi dir="ltr">BC</bdi>: <code class="xp">customer-name →→ street, customer-city</code> ו־<bdi dir="ltr">customer-name</bdi> אינו מפתח־על ← מפרקים ל־<code class="xp">(loan-number, customer-name)</code> ו־<code class="xp">(customer-name, street, customer-city)</code>.</p>
+</section>
+
+<section id="nmethod">
+<h2>שיטת פתרון</h2>
+<ol class="method">
+<li><h3>״הראה שהפירוק משמר מידע״</h3><p>שתי תבניות: חשב את הסגור של החיתוך, והראה שהוא מכיל את אחת התבניות. יותר משתיים: שיטת הטבלה.</p></li>
+<li><h3>״הראה שאינו משמר מידע״</h3><p>בנה יחס עם שתי שורות שמסכימות רק על החיתוך — ובדוק שהן מקיימות את <bdi dir="ltr">F</bdi>. הצירוף של ההטלות יחזיר שורות חדשות. אפשר גם להראות שבשיטת הטבלה אין שורה של <bdi dir="ltr">a</bdi>.</p></li>
+<li><h3>״האם משמר תלויות?״</h3><p>לכל תלות ב־<bdi dir="ltr">F</bdi> שלא נמצאת בשלמותה בתבנית אחת: חשב את הסגור של אגף השמאל לפי הצמצומים. תלות אחת שאובדת מספיקה כדי לענות ״לא״.</p></li>
+<li><h3>״פרק ל־<bdi dir="ltr">BCNF</bdi>״</h3><p>מצא מפתחות. מצא תלות מפרה. פרק ל־<code class="xp">(Ri − β)</code> ו־<code class="xp">(α, β)</code>. בדוק כל חלק — גם לפי תלויות שנובעות מ־<bdi dir="ltr">F</bdi>.</p></li>
+<li><h3>״פרק ל־<bdi dir="ltr">3NF</bdi> משמר מידע ותלויות״</h3><p>כיסוי קנוני ← תבנית לכל תלות ← תבנית מפתח אם חסרה.</p></li>
+</ol>
+</section>
+
+<section id="ex6">
+<h2>תרגיל 6: תיכון בסיסי נתונים</h2>
+<p>שאלות 1–6 עוסקות באותה תבנית:</p>
+<div class="taskq"><p class="mathline"><code class="xp">R = (A,B,C,D,E)</code></p><p class="mathline"><code class="xp">F = {A→BC,  CD→E,  B→D,  E→A}</code></p>
+<p>המפתחות הקבילים (סגור של כל תת־קבוצה): <code class="xp">A, E, BC, CD</code>.</p></div>
+
+<h3 id="ex6q1">שאלה 1</h3>
+<div class="taskq"><p><strong>הראה שהפירוק של <bdi dir="ltr">R</bdi> לתבניות <code class="xp">R1=(A,B,C)</code> ו־<code class="xp">R2=(A,D,E)</code> הוא פירוק משמר מידע</strong>, אם מתקיימת קבוצת התלויות <code class="xp">F={A→BC, CD→E, B→D, E→A}</code>.</p></div>
+<details class="sol"><summary>פתרון</summary>
+<p>לפי משפט הפירוק, מספיק שהחיתוך יקבע את אחת התבניות.</p>
+<p class="mathline"><code class="xp">R1 ∩ R2 = A</code></p>
+<p class="mathline"><code class="xp">A⁺ = ABCDE</code></p>
+<p>החישוב: <code class="xp">A→BC</code> מוסיפה <bdi dir="ltr">BC</bdi>, <code class="xp">B→D</code> מוסיפה <bdi dir="ltr">D</bdi>, <code class="xp">CD→E</code> מוסיפה <bdi dir="ltr">E</bdi>. לכן <code class="xp">A → R1</code> (וגם <code class="xp">A → R2</code>) שייכת ל־<code class="xp">F⁺</code>, והפירוק משמר מידע.</p>
+</details>
+
+<h3 id="ex6q2">שאלה 2</h3>
+<div class="taskq"><p><strong>הראה כי הפירוק של <bdi dir="ltr">R</bdi> (עם אותה <bdi dir="ltr">F</bdi>) לתבניות <code class="xp">R1=(A,B,C)</code> ו־<code class="xp">R2=(C,D,E)</code> אינו משמר מידע.</strong> מספיק לתת דוגמה של יחס <code class="xp">r(R)</code> כך ש:</p>
+<p class="mathline"><code class="xp">π<sub>A,B,C</sub>(r) ⋈ π<sub>C,D,E</sub>(r) ≠ r</code></p></div>
+<div class="ladder"><ol class="hints"><li>החיתוך הוא <bdi dir="ltr">C</bdi>. מה <code class="xp">C⁺</code>?</li><li>קח שתי שורות עם אותו <bdi dir="ltr">C</bdi> ושונות בכל שאר התכונות. בדוק שהן מקיימות כל תלות ב־<bdi dir="ltr">F</bdi>.</li></ol><div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button></div></div>
+<details class="sol"><summary>פתרון</summary>
+<p><code class="xp">C⁺ = C</code> — החיתוך לא קובע אף תבנית, אז משפט הפירוק לא עוזר. נבנה דוגמה נגדית: שתי שורות עם אותו <bdi dir="ltr">C</bdi>.</p>
+<div id="q2Join" class="joinfig"></div>
+<p><bdi dir="ltr">r</bdi> מקיים את <bdi dir="ltr">F</bdi>: ב־<bdi dir="ltr">A</bdi>, ב־<bdi dir="ltr">B</bdi>, ב־<bdi dir="ltr">E</bdi> ובזוג <bdi dir="ltr">CD</bdi> אין שתי שורות עם אותו ערך, אז אף תלות לא נבדקת בכלל. הצירוף מחזיר 4 שורות, שתיים מהן לא היו ב־<bdi dir="ltr">r</bdi> — הפירוק לא משמר מידע.</p>
+</details>
+
+<h3 id="ex6q3">שאלה 3</h3>
+<div class="taskq"><p><strong>הראה כי הפירוק של שאלה 1 — <code class="xp">R1=(A,B,C)</code>, <code class="xp">R2=(A,D,E)</code> — אינו משמר תלויות.</strong></p></div>
+<details class="sol"><summary>פתרון</summary>
+<p>הצמצומים (כל התלויות ב־<code class="xp">F⁺</code> שכל תכונותיהן בתבנית):</p>
+<p class="mathline"><code class="xp">F1 = {A→BC,  BC→A,  …}</code></p>
+<p class="mathline"><code class="xp">F2 = {A→DE,  E→AD,  AD→E,  …}</code></p>
+<p>(״…״ — תלויות נוספות שנובעות מאלה ונשארות בתוך התבנית.)</p>
+<p>עכשיו בודקים כל תלות ב־<bdi dir="ltr">F</bdi> מול <code class="xp">F1 ∪ F2</code>:</p>
+<div id="presQ3"></div>
+<p><code class="xp">B→D</code>: <bdi dir="ltr">B</bdi> נמצאת רק ב־<bdi dir="ltr">R1</bdi> ו־<bdi dir="ltr">D</bdi> רק ב־<bdi dir="ltr">R2</bdi>. לפי <code class="xp">F1 ∪ F2</code>, הסגור של <bdi dir="ltr">B</bdi> הוא <bdi dir="ltr">B</bdi> בלבד — התלות אבדה. מספיקה תלות אחת כדי להראות שהפירוק אינו משמר תלויות (גם <code class="xp">CD→E</code> אבדה).</p>
+</details>
+
+<h3 id="ex6q4">שאלה 4</h3>
+<div class="taskq"><p><strong>פרק את התבנית <bdi dir="ltr">R</bdi> של שאלה 1 (<code class="xp">R=(A,B,C,D,E)</code>, <code class="xp">F={A→BC, CD→E, B→D, E→A}</code>) פירוק משמר מידע ב־<bdi dir="ltr">BCNF</bdi>.</strong></p></div>
+<div class="ladder"><ol class="hints"><li>המפתחות: <bdi dir="ltr">A, E, BC, CD</bdi>. איזו תלות ב־<bdi dir="ltr">F</bdi> שאגף השמאל שלה אינו מפתח־על?</li><li>אחרי הפירוק, בדוק את שני החלקים — גם לפי תלויות ב־<code class="xp">F⁺</code>, למשל <code class="xp">BC→A</code> ב־(<bdi dir="ltr">A,B,C,E</bdi>).</li></ol><div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button></div></div>
+<details class="sol"><summary>פתרון</summary>
+<div class="ex gstep" data-gen="n-bcnf6"><div class="q"><b>האלגוריתם</b>פירוק עד שכל התבניות ב־<bdi dir="ltr">BCNF</bdi>.</div></div>
+</details>
+
+<h3 id="ex6q5">שאלה 5</h3>
+<div class="taskq"><p><strong>תן דוגמה לתבנית יחסים <code class="xp">R′</code> ולקבוצה <code class="xp">F′</code> של תלויות פונקציונליות, כך שקיימים לפחות שני פירוקים משמרי מידע ב־<bdi dir="ltr">BCNF</bdi>.</strong></p></div>
+<details class="sol"><summary>פתרון</summary>
+<p class="mathline"><code class="xp">R′ = (A,B,C)</code></p><p class="mathline"><code class="xp">F′ = {A→B,  C→B}</code></p>
+<p>המפתח היחיד הוא <code class="xp">AC</code>. שתי התלויות מפרות <bdi dir="ltr">BCNF</bdi>, והאלגוריתם יכול לבחור כל אחת מהן:</p>
+<div class="tbl"><table><tr><th>בוחרים</th><th>הפירוק</th><th>משמר מידע כי</th></tr>
+<tr><td><code class="xp">A→B</code></td><td><code class="xp">(A,C), (A,B)</code></td><td>החיתוך <bdi dir="ltr">A</bdi>, ו־<code class="xp">A→AB</code></td></tr>
+<tr><td><code class="xp">C→B</code></td><td><code class="xp">(A,C), (C,B)</code></td><td>החיתוך <bdi dir="ltr">C</bdi>, ו־<code class="xp">C→CB</code></td></tr></table></div>
+<p>כל תבנית בת שתי תכונות היא ב־<bdi dir="ltr">BCNF</bdi>. שני פירוקים שונים, ושניהם משמרי מידע ב־<bdi dir="ltr">BCNF</bdi>. (הראשון מאבד את <code class="xp">C→B</code> והשני את <code class="xp">A→B</code>.)</p>
+</details>
+
+<h3 id="ex6q6">שאלה 6</h3>
+<div class="taskq"><p><strong>פרק את התבנית <bdi dir="ltr">R</bdi> של שאלה 1 (<code class="xp">R=(A,B,C,D,E)</code>, <code class="xp">F={A→BC, CD→E, B→D, E→A}</code>) פירוק משמר מידע ומשמר תלויות ב־<bdi dir="ltr">3NF</bdi>.</strong></p></div>
+<details class="sol"><summary>פתרון</summary>
+<div class="ex gstep" data-gen="n-3nf6"><div class="q"><b>אלגוריתם הסינתזה</b>תבנית לכל תלות בכיסוי הקנוני.</div></div>
+<p class="sxnote">בהשוואה לשאלה 4: שם היו 2 תבניות ותלות שאבדה, כאן 4 תבניות וכל התלויות נשמרות. זה המחיר של <bdi dir="ltr">BCNF</bdi>.</p>
+</details>
+
+<h3 id="ex6q7">שאלה 7 (רשות)</h3>
+<div class="taskq"><p>נתונה התבנית <code class="xp">R=(A,B,C,D,E)</code> עם קבוצת התלויות:</p>
+<p class="mathline"><code class="xp">F = {A→C,  B→C,  C→D,  DE→C,  CE→A}</code></p>
+<p><strong>האם הפירוק של <bdi dir="ltr">R</bdi> לתבניות הבאות הוא פירוק משמר מידע?</strong></p>
+<p class="mathline"><code class="xp">R1=(A,D)  R2=(A,B)  R3=(B,E)  R4=(C,D,E)  R5=(A,E)</code></p></div>
+<details class="sol"><summary>פתרון</summary>
+<p>חמש תבניות — משפט הפירוק לא מספיק. משתמשים בשיטת הטבלה (<bdi dir="ltr">chase</bdi>): מפעילים את התלויות על הטבלה עד שאין שינוי.</p>
+<div class="ex gstep" data-gen="n-chase7"><div class="q"><b>שיטת הטבלה</b>הפעלת התלויות אחת אחרי השנייה.</div></div>
+</details>
+
+<h3 id="ex6q8">שאלה 8</h3>
+<div class="taskq"><p><strong>הוכח את כלל ההתלכדות (<bdi dir="ltr">coalescence rule</bdi>) מההגדרה:</strong> אם <code class="xp">α →→ β</code>, <code class="xp">γ ⊆ β</code>, וקיימת δ כך ש־<code class="xp">δ ∩ β = ∅</code> ו־<code class="xp">δ → γ</code>, אז <code class="xp">α → γ</code>.</p>
+<p>הנחיה: היעזר בהגדרה של →→ לזוג שורות <bdi dir="ltr">t1, t2</bdi> כך ש־<code class="xp">t1[α] = t2[α]</code>. הראה כי מכיוון ש־<code class="xp">δ ⊆ R − β</code>, אם לשתי שורות יש ערך זהה של <code class="xp">R − β</code>, אז יש להן אותו ערך של δ.</p></div>
+<details class="sol"><summary>פתרון</summary>
+<p>יהיו <bdi dir="ltr">t1, t2</bdi> שורות ביחס חוקי <bdi dir="ltr">r</bdi> עם <code class="xp">t1[α] = t2[α]</code>. צריך להראות ש־<code class="xp">t1[γ] = t2[γ]</code>.</p>
+<ol>
+<li>לפי ההגדרה החלופית של <code class="xp">α →→ β</code>, קיימת <bdi dir="ltr">t3</bdi> ב־<bdi dir="ltr">r</bdi> עם:<p class="mathline"><code class="xp">t3[β] = t1[β],   t3[R − β] = t2[R − β]</code></p></li>
+<li><code class="xp">δ ∩ β = ∅</code>, ולכן <code class="xp">δ ⊆ R − β</code>. מכאן <code class="xp">t3[δ] = t2[δ]</code>.</li>
+<li><bdi dir="ltr">t3</bdi> ו־<bdi dir="ltr">t2</bdi> שורות ב־<bdi dir="ltr">r</bdi> שמסכימות על δ, ו־<code class="xp">δ → γ</code>. לפי הגדרת התלות הפונקציונלית: <code class="xp">t3[γ] = t2[γ]</code>.</li>
+<li><code class="xp">γ ⊆ β</code>, ו־<code class="xp">t3[β] = t1[β]</code>. לכן <code class="xp">t3[γ] = t1[γ]</code>.</li>
+<li>מ־3 ו־4: <code class="xp">t1[γ] = t3[γ] = t2[γ]</code>.</li>
+</ol>
+<p><bdi dir="ltr">t1, t2</bdi> היו כלשהן עם אותו α, ולכן <code class="xp">α → γ</code>. ∎</p>
+</details>
+
+<h3 id="ex6q9">שאלה 9</h3>
+<div class="taskq"><p>יהי <code class="xp">R=(A,B,C,D,E)</code>, ו־<bdi dir="ltr">M</bdi> מערכת התלויות הרב־ערכיות החלות על <bdi dir="ltr">R</bdi>:</p>
+<p class="mathline"><code class="xp">M = {A →→ BC,  B →→ CD,  E →→ AD}</code></p>
+<p>א. מצא תלויות רב־ערכיות לא־טריוויאליות ב־<code class="xp">M⁺</code> על ידי שימוש בכללי ההסק (נסה להדגים כל אחד מהכללים).</p>
+<p>ב. פרק את <bdi dir="ltr">R</bdi> פירוק משמר מידע ב־<bdi dir="ltr">4NF</bdi>.</p>
+<p>ג. האם היחס הבא מקיים את התלויות ב־<bdi dir="ltr">M</bdi>? אם לא, הוסף את השורות הנחוצות כדי שכל התלויות תתקיימנה.</p>
+<div class="rtrow"><div class="rtwrap"><table class="rt" dir="ltr"><thead><tr><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead><tbody><tr><td>a1</td><td>b1</td><td>c1</td><td>d1</td><td>e1</td></tr><tr><td>a1</td><td>b1</td><td>c1</td><td>d2</td><td>e2</td></tr><tr><td>a1</td><td>b1</td><td>c1</td><td>d1</td><td>e2</td></tr></tbody></table></div></div></div>
+<details class="sol"><summary>פתרון</summary>
+<h4>א. הסקה</h4>
+<div class="tbl"><table><tr><th>כלל</th><th>מ־</th><th>מתקבל</th></tr>
+<tr><td>השלמה לקבוצה</td><td><code class="xp">A →→ BC</code></td><td><code class="xp">A →→ DE</code></td></tr>
+<tr><td>השלמה לקבוצה</td><td><code class="xp">B →→ CD</code></td><td><code class="xp">B →→ AE</code></td></tr>
+<tr><td>השלמה לקבוצה</td><td><code class="xp">E →→ AD</code></td><td><code class="xp">E →→ BC</code></td></tr>
+<tr><td>השלמה (γ=δ=<bdi dir="ltr">C</bdi>)</td><td><code class="xp">B →→ CD</code></td><td><code class="xp">BC →→ CD</code></td></tr>
+<tr><td>טרנזיטיביות</td><td><code class="xp">A →→ BC</code>, <code class="xp">BC →→ CD</code></td><td><code class="xp">A →→ CD − BC = D</code></td></tr>
+<tr><td>איחוד</td><td><code class="xp">A →→ BC</code>, <code class="xp">A →→ D</code></td><td><code class="xp">A →→ BCD</code></td></tr>
+<tr><td>הפרש</td><td><code class="xp">A →→ DE</code>, <code class="xp">A →→ D</code></td><td><code class="xp">A →→ E</code></td></tr>
+<tr><td>חיתוך</td><td><code class="xp">A →→ BCD</code>, <code class="xp">A →→ DE</code></td><td><code class="xp">A →→ D</code></td></tr>
+<tr><td>שכפול, התלכדות</td><td colspan="2">דורשים תלות פונקציונלית לא־טריוויאלית — ב־<bdi dir="ltr">M</bdi> אין כזו, אז אי אפשר להפיק בהם תלות חדשה</td></tr>
+</table></div>
+<h4>ב. פירוק ל־<bdi dir="ltr">4NF</bdi></h4>
+<p>אין תלויות פונקציונליות, ולכן המפתח־על היחיד של כל תבנית הוא התבנית כולה. כל תלות רב־ערכית לא־טריוויאלית מפרה <bdi dir="ltr">4NF</bdi>.</p>
+<ol>
+<li><code class="xp">A →→ BC</code> על <bdi dir="ltr">R</bdi> ← <code class="xp">(A,B,C)</code> ו־<code class="xp">(A,D,E)</code>.</li>
+<li>על <code class="xp">(A,D,E)</code>: <code class="xp">A →→ D</code> (מסעיף א׳) לא טריוויאלית שם ← <code class="xp">(A,D)</code> ו־<code class="xp">(A,E)</code>.</li>
+<li>על <code class="xp">(A,B,C)</code>: מ־<code class="xp">B →→ CD</code> נובע <code class="xp">B →→ C</code> בתבנית הזו ← <code class="xp">(B,C)</code> ו־<code class="xp">(A,B)</code>.</li>
+</ol>
+<p class="mathline"><code class="xp">{ (A,B),  (B,C),  (A,D),  (A,E) }</code></p>
+<p>כל תבנית בת שתי תכונות ב־<bdi dir="ltr">4NF</bdi> (כל תלות רב־ערכית בה טריוויאלית). כל שלב הוא פירוק לפי תלות רב־ערכית, ולכן משמר מידע לפי <bdi dir="ltr">Fagin</bdi>. הפירוק אינו יחיד — בחירה אחרת של תלות בשלב 1 נותנת פירוק אחר.</p>
+<h4>ג. השלמת היחס</h4>
+<p>לכל השורות אותו <bdi dir="ltr">A</bdi> ואותו <bdi dir="ltr">B</bdi>, אז בודקים החלפות:</p>
+<ul><li><code class="xp">B →→ CD</code> עם <bdi dir="ltr">t1</bdi> = שורה 2 ו־<bdi dir="ltr">t2</bdi> = שורה 1: צריכה להיות שורה עם <bdi dir="ltr">CD</bdi> של שורה 2 ושאר הערכים של שורה 1: <code class="xp">(a1, b1, c1, d2, e1)</code> — <strong>חסרה</strong>.</li>
+<li>אחרי שמוסיפים אותה, כל ארבעת הצירופים של <bdi dir="ltr">D</bdi> ∈ {<bdi dir="ltr">d1, d2</bdi>} ו־<bdi dir="ltr">E</bdi> ∈ {<bdi dir="ltr">e1, e2</bdi>} קיימים, וכל ההחלפות של <code class="xp">A →→ BC</code> ו־<code class="xp">E →→ AD</code> כבר ביחס.</li></ul>
+<div class="rtrow"><div class="rtwrap"><table class="rt" dir="ltr"><thead><tr><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead><tbody><tr><td>a1</td><td>b1</td><td>c1</td><td>d1</td><td>e1</td></tr><tr><td>a1</td><td>b1</td><td>c1</td><td>d2</td><td>e2</td></tr><tr><td>a1</td><td>b1</td><td>c1</td><td>d1</td><td>e2</td></tr><tr class="fresh"><td>a1</td><td>b1</td><td>c1</td><td>d2</td><td>e1</td></tr></tbody></table><div class="rtcount">נוספה שורה אחת</div></div></div>
+</details>
+</section>
+
+<section id="ntraps">
+<h2>מלכודות</h2>
+<div class="tbl"><table>
+<tr><th>טעות</th><th>למה זה שגוי</th><th>התיקון</th></tr>
+<tr><td>״יותר שורות בצירוף = יותר מידע״</td><td>שורות מזויפות הן <strong>אובדן</strong> מידע — אי אפשר לדעת מה אמיתי</td><td>משמר מידע ⇔ הצירוף מחזיר בדיוק את <bdi dir="ltr">r</bdi></td></tr>
+<tr><td>בדיקת <bdi dir="ltr">BCNF</bdi> של חלק לפי <bdi dir="ltr">F</bdi> בלבד</td><td>תלות ב־<code class="xp">F⁺</code> שלא כתובה ב־<bdi dir="ltr">F</bdi> יכולה להפר <bdi dir="ltr">BCNF</bdi> בחלק</td><td>חשב סגור של תת־קבוצות של החלק</td></tr>
+<tr><td>משפט הפירוק על 3 תבניות</td><td>המשפט מדבר על פירוק לשתיים</td><td>שיטת הטבלה, או פירוק שלב אחרי שלב</td></tr>
+<tr><td>דוגמה נגדית שלא מקיימת את <bdi dir="ltr">F</bdi></td><td>יחס שמפר את <bdi dir="ltr">F</bdi> אינו ״יחס חוקי״ ולא מוכיח כלום</td><td>בדוק כל תלות על השורות שבחרת</td></tr>
+<tr><td><bdi dir="ltr">3NF</bdi> בלי תבנית מפתח</td><td>בלי מפתח הפירוק עלול לא לשמר מידע</td><td>הצעד האחרון באלגוריתם</td></tr>
+</table></div>
+</section>
+
+<section id="ntool">
+<h2>מחשבון פירוק</h2>
+<p>הזן תבנית, תלויות, ואם רוצים — פירוק לבדיקה (תבניות מופרדות ב־;). המחשבון בודק שימור מידע בשיטת הטבלה ושימור תלויות, ומחשב פירוק ל־<bdi dir="ltr">BCNF</bdi> ול־<bdi dir="ltr">3NF</bdi>.</p>
+<div class="calc" id="nCalc">
+<div class="calcin"><label>R = <input name="R" dir="ltr" value="ABCDE" spellcheck="false"></label>
+<label>F = <input name="F" dir="ltr" value="A→BC, CD→E, B→D, E→A" spellcheck="false" class="wide"></label>
+<label>פירוק <input name="D" dir="ltr" value="ABC; ADE" spellcheck="false" class="wide"></label>
+<button class="btn calcBtn" type="button">חשב</button></div>
+<div class="calcex"><span class="muted">דוגמאות:</span> <button type="button" class="chip" data-ex="ex6">6.1</button> <button type="button" class="chip" data-ex="q2">6.2</button> <button type="button" class="chip" data-ex="q7">6.7</button> <button type="button" class="chip" data-ex="lend">Lending</button></div>
+<div class="calcout"></div></div>
+<p class="sxnote">בדוגמת <bdi dir="ltr">Lending</bdi>: <bdi dir="ltr">B=branch-name, A=assets, C=branch-city, L=loan-number, N=customer-name, M=amount</bdi>.</p>
+</section>
+
+<section id="npractice">
+<h2>תרגול עצמי</h2>
+<div class="taskq"><p>נתונה התבנית <code class="xp">R=(A,B,C)</code> עם <code class="xp">F={AB→C, C→B}</code>.</p>
+<p>א. מצא את המפתחות הקבילים. ב. האם <bdi dir="ltr">R</bdi> ב־<bdi dir="ltr">BCNF</bdi>? ב־<bdi dir="ltr">3NF</bdi>? ג. פרק את <bdi dir="ltr">R</bdi> ל־<bdi dir="ltr">BCNF</bdi>. האם הפירוק משמר תלויות?</p></div>
+<div class="ladder"><ol class="hints"><li><code class="xp">AB⁺</code> ו־<code class="xp">AC⁺</code> — מה הם?</li><li>ב־<code class="xp">C→B</code>: <bdi dir="ltr">C</bdi> אינו מפתח־על. אבל האם <bdi dir="ltr">B</bdi> ראשונית?</li><li>אחרי הפירוק: באיזו תבנית אפשר לבדוק את <code class="xp">AB→C</code>?</li></ol><div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button></div></div>
+<details class="sol"><summary>פתרון</summary>
+<p>א. <code class="xp">AB⁺ = ABC</code> ו־<code class="xp">AC⁺ = ABC</code>. המפתחות: <code class="xp">AB, AC</code>.</p>
+<p>ב. <code class="xp">C→B</code> מפרה <bdi dir="ltr">BCNF</bdi> (<bdi dir="ltr">C</bdi> אינו מפתח־על). אבל <bdi dir="ltr">B</bdi> שייכת למפתח <bdi dir="ltr">AB</bdi> — התנאי השלישי של <bdi dir="ltr">3NF</bdi> מתקיים. <bdi dir="ltr">R</bdi> ב־<bdi dir="ltr">3NF</bdi> ולא ב־<bdi dir="ltr">BCNF</bdi>.</p>
+<div class="ex gstep" data-gen="n-bcnfP"><div class="q"><b>ג.</b> פירוק ל־<bdi dir="ltr">BCNF</bdi>.</div></div>
+<p>זו הדוגמה הקלאסית: אי אפשר להגיע ל־<bdi dir="ltr">BCNF</bdi> בלי לאבד תלות. במקרה כזה בוחרים בדרך כלל להישאר ב־<bdi dir="ltr">3NF</bdi>.</p>
+</details>
+</section>
+
+<div class="pager"><a class="prev" href="fd.html"><span>הנושא הקודם</span>4. תלויות פונקציונליות</a><a class="next" href="indexing.html"><span>הנושא הבא</span>6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a></div>
+</div>
+</main>
+</div>
+<script src="guide.js"></script>
+<script src="gstep.js"></script><script src="fdeng.js"></script><script src="fdpage.js"></script><script src="normpage.js"></script>
+</body>
+</html>
