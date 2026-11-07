@@ -703,3 +703,15 @@ ol.chaptree ol.local a.active{color:var(--ent);font-weight:700;background:var(--
 nav.side .navh{display:none}
 .hero .lede{max-width:none}
 p,li,.lede{text-wrap:pretty}
+/* text tagger */
+.tagger .tgbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0 10px}
+.tgcat{font:inherit;font-weight:700;border:2px solid var(--c,var(--line));color:var(--c,var(--ink));background:var(--surface);border-radius:999px;padding:3px 14px;cursor:pointer}
+.tgcat[aria-pressed="true"]{background:var(--c,var(--ink));color:#fff}
+.tgsep{flex:1}
+.tgtext{line-height:2.1}
+.tg{border-bottom:2px dotted var(--muted);cursor:pointer;padding:1px 3px;border-radius:4px}
+.tg.m-e{background:#E6EEFC;color:#2457C5;border-bottom-color:#2457C5}
+.tg.m-a{background:#DFF4EF;color:#12806C;border-bottom-color:#12806C}
+.tg.m-k{background:#FCEAE7;color:#C0392B;border-bottom-color:#C0392B;text-decoration:underline}
+.tg.m-r{background:#FCF0DC;color:#B86A00;border-bottom-color:#B86A00}
+.tg.ok{box-shadow:0 0 0 2px var(--ok)}.tg.bad{box-shadow:0 0 0 2px var(--key)}.tg.miss{box-shadow:0 0 0 2px var(--fresh)}
