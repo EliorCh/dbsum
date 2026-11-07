@@ -9,11 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="guide.css">
 </head>
-<body class="pg-cc">
+<body class="pg-cc chapter">
 <div class="layout">
-<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html" aria-current="page" class="active">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#txn">טרנזקציה</a></li><li><a href="#schedules">תזמונים</a></li><li><a href="#conflict">Conflict serializability</a></li><li><a href="#view">View serializability</a></li><li><a href="#locks">נעילות ו־2PL</a></li><li><a href="#ts">חותמות זמן</a></li><li class="sub"><a href="#thomas">חוק תומאס</a></li><li class="sub"><a href="#optimistic">ולידציה</a></li><li class="sub"><a href="#granularity">גרנולריות</a></li><li class="sub"><a href="#isolation">רמות בידוד</a></li><li><a href="#ccmethod">שיטת פתרון</a></li><li><a href="#cctraps">מלכודות</a></li><li><a href="#cctool">מנתח תזמונים</a></li></ol></nav>
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">פרקים</div><ol class="pages chaptree"><li class="chap"><a href="index.html">דף הבית</a></li><li class="chap"><span class="cn">1</span><span class="ct">מודל ER</span><span class="kids"><a href="er.html">מדריך</a><a href="er-ex.html">תרגיל 1</a></span></li><li class="chap"><span class="cn">2</span><span class="ct">מודל היחסים</span><span class="kids"><a href="relational.html">מדריך</a><a href="relational-ex.html">תרגיל 2</a></span></li><li class="chap"><span class="cn">3</span><span class="ct">SQL</span><span class="kids"><a href="sql.html">מדריך</a><a href="sql-ex.html">תרגילים 3–4</a></span></li><li class="chap"><span class="cn">4</span><span class="ct">תלויות פונקציונליות</span><span class="kids"><a href="fd.html">מדריך</a><a href="fd-ex.html">תרגיל 5</a></span></li><li class="chap"><span class="cn">5</span><span class="ct">תיכון ונרמול</span><span class="kids"><a href="norm.html">מדריך</a><a href="norm-ex.html">תרגיל 6</a></span></li><li class="chap"><span class="cn">6</span><span class="ct">אינדקסים ו־hashing</span><span class="kids"><a href="indexing.html">מדריך</a><a href="indexing-ex.html">תרגיל 7</a></span></li><li class="chap cur"><span class="cn">7</span><span class="ct">בקרת בו־זמניות</span><span class="kids"><a href="cc.html" aria-current="page">מדריך</a><a href="cc-ex.html">תרגיל 8</a></span></li><li class="chap"><a href="practice.html">מטלות תרגול נוספות</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#txn">טרנזקציה</a></li><li><a href="#schedules">תזמונים</a></li><li><a href="#conflict">Conflict serializability</a></li><li><a href="#view">View serializability</a></li><li><a href="#locks">נעילות ו־2PL</a></li><li><a href="#ts">חותמות זמן</a></li><li class="sub"><a href="#thomas">חוק תומאס</a></li><li class="sub"><a href="#optimistic">ולידציה</a></li><li class="sub"><a href="#granularity">גרנולריות</a></li><li class="sub"><a href="#isolation">רמות בידוד</a></li><li><a href="#ccmethod">שיטת פתרון</a></li><li><a href="#cctraps">מלכודות</a></li><li><a href="#cctool">מנתח תזמונים</a></li></ol></nav>
 <main>
-<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="fd.html">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html" aria-current="page">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav><nav class="subtabs" aria-label="מדריך ותרגיל"><a href="cc.html" aria-current="page">המדריך</a><a href="cc-ex.html">תרגיל 8</a></nav>
+<header class="chap"><a class="chapnav prev" href="indexing.html"><span>פרק קודם</span>אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><div class="chapmid"><div class="chapnum">פרק 7 מתוך 7</div><div class="chaptitle">בקרת בו־זמניות</div><nav class="seg2" aria-label="מדריך או תרגיל"><a href="cc.html" aria-current="page"><b>המדריך</b><small>הסבר, שיטה ודוגמאות</small></a><a href="cc-ex.html"><b>תרגיל 8</b><small>השאלות והפתרונות</small></a></nav></div><span class="chapnav"></span></header>
 <div class="wrap">
 <section class="hero" id="top">
   <h1>בקרת בו־זמניות</h1>
@@ -36,6 +36,7 @@
 
 <section id="schedules">
 <h2>תזמונים</h2>
+<p class="intro">כשכמה טרנזקציות רצות במקביל, הפעולות שלהן מתערבבות. סדר הפעולות בפועל נקרא <strong>תזמון</strong>:</p>
 <div class="tbl"><table>
 <tr><th>מושג</th><th>הגדרה</th></tr>
 <tr><td><strong>תזמון</strong> (schedule)</td><td>רצף של כל הפעולות של קבוצת טרנזקציות, ששומר על הסדר שבתוך כל טרנזקציה</td></tr>
@@ -49,8 +50,8 @@
 <tr><td><bdi dir="ltr">S3</bdi>: משולב</td><td><code class="xp">A = 855, B = 2145</code></td><td>✓ — כמו <bdi dir="ltr">S1</bdi></td></tr>
 <tr><td><bdi dir="ltr">S4</bdi>: משולב</td><td><code class="xp">A = 950, B = 2150</code></td><td>✗ — הסכום 3100</td></tr></table></div>
 <p>שני תזמונים סדרתיים יכולים לתת תוצאות שונות, ושניהם נכונים. מה שאסור הוא תוצאה ש<strong>אף</strong> תזמון סדרתי לא נותן. עבור על <bdi dir="ltr">S4</bdi> וראה איפה הכסף נוצר:</p>
-<div class="ex gstep" data-gen="c-s4"><div class="q"><b><bdi dir="ltr">S4</bdi> (שקף 6)</b>תזמון בו־זמני שאינו שקול לתזמון סדרתי.</div></div>
-<details class="sol"><summary>להשוואה: <bdi dir="ltr">S3</bdi> — תזמון משולב תקין</summary><div class="ex gstep" data-gen="c-s3"><div class="q"><b><bdi dir="ltr">S3</bdi> (שקף 5)</b>תזמון בו־זמני ששקול ל־<bdi dir="ltr">S1</bdi>.</div></div></details>
+<div class="ex gstep" data-gen="c-s4"><div class="q"><b>S4</b>תזמון בו־זמני שאינו שקול לתזמון סדרתי.</div></div>
+<details class="sol"><summary>להשוואה: <bdi dir="ltr">S3</bdi> — תזמון משולב תקין</summary><div class="ex gstep" data-gen="c-s3"><div class="q"><b>S3</b>תזמון בו־זמני ששקול ל־<bdi dir="ltr">S1</bdi>.</div></div></details>
 </section>
 
 <section id="conflict">
@@ -76,17 +77,18 @@
 <li>אם ב־<bdi dir="ltr">S</bdi> הטרנזקציה <bdi dir="ltr">Ti</bdi> כותבת את הערך <strong>הסופי</strong> של <bdi dir="ltr">Q</bdi> — גם ב־<bdi dir="ltr">S</bdi>′.</li></ol>
 <p>תזמון הוא <bdi dir="ltr">view serializable</bdi> אם הוא שקול תצפית לתזמון סדרתי כלשהו.</p></div>
 <p>כל תזמון <bdi dir="ltr">conflict serializable</bdi> הוא גם <bdi dir="ltr">view serializable</bdi> — אבל לא להפך. ההבדל הוא ב<strong>כתיבות עיוורות</strong> (כתיבה בלי קריאה קודמת). הבדיקה של <bdi dir="ltr">view serializability</bdi> היא <bdi dir="ltr">NP-complete</bdi> — בפועל בודקים את כל הסדרים.</p>
-<p>הדוגמה משקף <bdi dir="ltr">10</bdi>: <bdi dir="ltr">T2</bdi>&nbsp;ו־<bdi dir="ltr">T3</bdi> כותבות את <bdi dir="ltr">Q</bdi> בלי לקרוא אותו.</p>
-<div class="ex gstep" data-gen="c-pg10"><div class="q"><b>שקף 10</b><bdi dir="ltr">T1</bdi> קוראת את <bdi dir="ltr">Q, T2</bdi> כותבת, <bdi dir="ltr">T1</bdi> כותבת, <bdi dir="ltr">T3</bdi> כותבת.</div></div>
+<p>הדוגמה מהמצגת: <bdi dir="ltr">T2</bdi>&nbsp;ו־<bdi dir="ltr">T3</bdi> כותבות את <bdi dir="ltr">Q</bdi> בלי לקרוא אותו.</p>
+<div class="ex gstep" data-gen="c-pg10"><div class="q"><b>המצגת</b><bdi dir="ltr">T1</bdi> קוראת את <bdi dir="ltr">Q, T2</bdi> כותבת, <bdi dir="ltr">T1</bdi> כותבת, <bdi dir="ltr">T3</bdi> כותבת.</div></div>
 <p>בגרף יש מעגל בין <bdi dir="ltr">T1</bdi> ל־<bdi dir="ltr">T2</bdi> — לא <bdi dir="ltr">conflict serializable</bdi>. אבל הוא שקול תצפית ל־<bdi dir="ltr">T1, T2, T3: T1</bdi> קוראת את הערך ההתחלתי בשניהם, ו־<bdi dir="ltr">T3</bdi> כותבת את הערך הסופי בשניהם. הכתיבות של <bdi dir="ltr">T1</bdi>&nbsp;ו־<bdi dir="ltr">T2</bdi> נדרסות בכל מקרה, ולכן הסדר שלהן לא משנה לאף אחד.</p>
 </section>
 
 <section id="locks">
 <h2>פרוטוקולי נעילה</h2>
+<p class="intro">הדרך הנפוצה למנוע תזמונים בעייתיים היא נעילות: לפני שטרנזקציה ניגשת לפריט, היא נועלת אותו. יש שני סוגים:</p>
 <div class="tbl"><table><tr><th>נעילה</th><th>מותר</th><th>תואמת ל־</th></tr>
 <tr><td><strong>משותפת</strong> <code class="xp">S-lock</code></td><td>קריאה בלבד</td><td>נעילות משותפות אחרות</td></tr>
 <tr><td><strong>בלעדית</strong> <code class="xp">X-lock</code></td><td>קריאה וכתיבה</td><td>שום נעילה אחרת</td></tr></table></div>
-<p>לפני כל גישה מבקשים נעילה מתאימה. אם היא לא תואמת לנעילה קיימת — ממתינים עד שהיא תשוחרר. נעילה לבד לא מספיקה: בשקפים 14–15 הנעילות משתחררות מוקדם מדי, ו־<bdi dir="ltr">T2</bdi> מציגה סכום של <bdi dir="ltr">A</bdi>&nbsp;ו־<bdi dir="ltr">B</bdi> באמצע העברה.</p>
+<p>לפני כל גישה מבקשים נעילה מתאימה. אם היא לא תואמת לנעילה קיימת — ממתינים עד שהיא תשוחרר. נעילה לבד לא מספיקה: במצגת הנעילות משתחררות מוקדם מדי, ו־<bdi dir="ltr">T2</bdi> מציגה סכום של <bdi dir="ltr">A</bdi>&nbsp;ו־<bdi dir="ltr">B</bdi> באמצע העברה.</p>
 <h3 id="twopl">נעילה דו־פאזית (<bdi dir="ltr">2PL</bdi>)</h3>
 <div class="box rule"><h4>הפרוטוקול</h4><ul><li><strong>פאזת גדילה</strong>: הטרנזקציה רשאית לבקש נעילות, ואינה משחררת אף אחת.</li><li><strong>פאזת הצטמקות</strong>: הטרנזקציה משחררת נעילות, ואינה מבקשת חדשות.</li></ul>
 <p>במילים: <strong>אחרי השחרור הראשון — אין יותר בקשות נעילה.</strong> הרגע של הנעילה האחרונה נקרא <strong>נקודת הנעילה</strong> (lock point).</p></div>
@@ -108,7 +110,7 @@
 <tr><td><code class="xp">TS(Ti) &lt; W-TS(Q)</code></td><td>נדחית, <bdi dir="ltr">Ti</bdi> מגולגלת — הערך כבר נדרס בידי צעירה ממנה</td></tr>
 <tr><td>אחרת</td><td>מתבצעת; <code class="xp">W-TS(Q) = TS(Ti)</code></td></tr></table></div>
 <p>טרנזקציה שגולגלה מקבלת חותמת חדשה ומתחילה מחדש. הפרוטוקול מבטיח <bdi dir="ltr">conflict serializability</bdi>, ואין בו <bdi dir="ltr">deadlock</bdi> — אף אחד לא מחכה.</p>
-<div class="ex gstep" data-gen="c-ts21"><div class="q"><b>שקף 21</b><code class="xp">TS(T1) = 1, TS(T2) = 2, TS(T3) = 3</code>. מה יהיו חותמות הזמן של <bdi dir="ltr">A, B, C</bdi>?</div></div>
+<div class="ex gstep" data-gen="c-ts21"><div class="q"><b>המצגת</b><code class="xp">TS(T1) = 1, TS(T2) = 2, TS(T3) = 3</code>. מה יהיו חותמות הזמן של <bdi dir="ltr">A, B, C</bdi>?</div></div>
 <p>התשובה: <code class="xp">A: R-TS = 2, W-TS = 3</code>; <code class="xp">B: R-TS = 3, W-TS = 2</code>; <code class="xp">C: R-TS = 3, W-TS = 0</code>. הכתיבה האחרונה, <code class="xp">write(C)</code> של <bdi dir="ltr">T2</bdi>, נדחית: <bdi dir="ltr">T3</bdi> הצעירה כבר קראה את <bdi dir="ltr">C</bdi>.</p>
 
 <h3 id="thomas">חוק הכתיבה של תומאס</h3>
@@ -126,6 +128,7 @@
 <tr><th>IS</th><td>✓</td><td>✓</td><td>✓</td><td>✗</td></tr><tr><th>IX</th><td>✓</td><td>✓</td><td>✗</td><td>✗</td></tr><tr><th>S</th><td>✓</td><td>✗</td><td>✓</td><td>✗</td></tr><tr><th>X</th><td>✗</td><td>✗</td><td>✗</td><td>✗</td></tr></tbody></table></div></div>
 <p>הכללים (<bdi dir="ltr">MGL</bdi>): השורש ננעל ראשון; <bdi dir="ltr">S</bdi> או <bdi dir="ltr">IS</bdi> על צומת רק אם ההורה ב־<bdi dir="ltr">IS</bdi> או <bdi dir="ltr">IX</bdi>; <bdi dir="ltr">X</bdi> או <bdi dir="ltr">IX</bdi> רק אם ההורה ב־<bdi dir="ltr">IX</bdi>; <bdi dir="ltr">2PL</bdi>; ומשחררים צומת רק אחרי שכל צאצאיו שוחררו.</p>
 <h3 id="isolation">רמות בידוד ב־<bdi dir="ltr">SQL</bdi></h3>
+<p class="intro">ב־<bdi dir="ltr">SQL</bdi> אפשר לבחור כמה בידוד מקבלת כל טרנזקציה. בידוד נמוך מאפשר יותר מקביליות, אבל גם יותר תופעות לא רצויות: <strong>dirty read</strong> — קריאת ערך שטרנזקציה אחרת כתבה ועוד לא אישרה; <strong>non-repeatable read</strong> — קריאה חוזרת של אותה שורה מחזירה ערך אחר; <strong>phantom</strong> — שאילתה חוזרת מחזירה שורות שנוספו בינתיים. בוחרים רמה בפקודה:</p>
 <pre class="algo" dir="ltr">SET TRANSACTION ISOLATION LEVEL SERIALIZABLE | REPEATABLE READ | READ COMMITTED | READ UNCOMMITTED</pre>
 <div class="tbl"><table><tr><th>רמה</th><th>dirty read</th><th>non-repeatable read</th><th>phantom</th></tr>
 <tr><td>Read Uncommitted</td><td>אפשרי</td><td>אפשרי</td><td>אפשרי</td></tr>
@@ -146,6 +149,7 @@
 
 <section id="cctraps">
 <h2>מלכודות</h2>
+<p class="intro">הטעויות הנפוצות בתרגילי בו־זמניות:</p>
 <div class="tbl"><table>
 <tr><th>טעות</th><th>למה זה שגוי</th><th>התיקון</th></tr>
 <tr><td>קשת בין שתי קריאות</td><td>קריאות לא מתנגשות — אפשר להחליף אותן</td><td>קשת רק כשלפחות אחת כתיבה</td></tr>
@@ -161,7 +165,7 @@
 <h2>מנתח תזמונים</h2>
 <p>כתוב תזמון בקיצור: <code class="xp">r1(A)</code> היא <code class="xp">read(A)</code> של <bdi dir="ltr">T1</bdi>, <code class="xp">w2(B)</code> היא <code class="xp">write(B)</code> של <bdi dir="ltr">T2</bdi>. המנתח בונה טבלה וגרף קדימויות, בודק <bdi dir="ltr">conflict</bdi>&nbsp;ו־<bdi dir="ltr">view serializability</bdi>, ומריץ את פרוטוקול חותמות הזמן.</p>
 <div class="calc ccin" id="ccTool"><textarea dir="ltr" spellcheck="false" aria-label="תזמון">r1(A) r2(B) w2(B) r3(C) r3(B) r2(A) w3(C) r1(C) w1(C) w2(A)</textarea>
-<div class="calcex"><button class="btn calcBtn" type="button">נתח</button><span class="muted">דוגמאות:</span> <button type="button" class="chip" data-ex="r1(A) r2(B) w2(B) r3(C) r3(B) r2(A) w3(C) r1(C) w1(C) w2(A)">8.5</button> <button type="button" class="chip" data-ex="r0(A) w1(A) r2(A) w0(A) w2(A)">8.7</button> <button type="button" class="chip" data-ex="r1(Q) w2(Q) w1(Q) w3(Q)">שקף 10</button> <button type="button" class="chip" data-ex="w1(A) r2(A) w3(B) r1(B)">8.8</button> <button type="button" class="chip" data-ex="r1(B) r2(A) w1(A)">8.9</button></div>
+<div class="calcex"><button class="btn calcBtn" type="button">נתח</button><span class="muted">דוגמאות:</span> <button type="button" class="chip" data-ex="r1(A) r2(B) w2(B) r3(C) r3(B) r2(A) w3(C) r1(C) w1(C) w2(A)">8.5</button> <button type="button" class="chip" data-ex="r0(A) w1(A) r2(A) w0(A) w2(A)">8.7</button> <button type="button" class="chip" data-ex="r1(Q) w2(Q) w1(Q) w3(Q)">המצגת</button> <button type="button" class="chip" data-ex="w1(A) r2(A) w3(B) r1(B)">8.8</button> <button type="button" class="chip" data-ex="r1(B) r2(A) w1(A)">8.9</button></div>
 <div class="calcout"></div></div>
 </section>
 

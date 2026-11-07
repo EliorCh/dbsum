@@ -9,11 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="guide.css">
 </head>
-<body class="pg-fd">
+<body class="pg-fd chapter">
 <div class="layout">
-<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html" aria-current="page" class="active">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#fd-def">ההגדרה</a></li><li><a href="#armstrong">כללי ארמסטרונג</a></li><li><a href="#closure">סגור <bdi dir="ltr">α⁺</bdi></a></li><li><a href="#keys">מפתח קביל</a></li><li><a href="#equiv">שקילות</a></li><li><a href="#canon">כיסוי קנוני</a></li><li><a href="#fdmethod">שיטת פתרון</a></li><li><a href="#fdtraps">מלכודות</a></li><li><a href="#fdtool">מחשבון תלויות</a></li></ol></nav>
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">פרקים</div><ol class="pages chaptree"><li class="chap"><a href="index.html">דף הבית</a></li><li class="chap"><span class="cn">1</span><span class="ct">מודל ER</span><span class="kids"><a href="er.html">מדריך</a><a href="er-ex.html">תרגיל 1</a></span></li><li class="chap"><span class="cn">2</span><span class="ct">מודל היחסים</span><span class="kids"><a href="relational.html">מדריך</a><a href="relational-ex.html">תרגיל 2</a></span></li><li class="chap"><span class="cn">3</span><span class="ct">SQL</span><span class="kids"><a href="sql.html">מדריך</a><a href="sql-ex.html">תרגילים 3–4</a></span></li><li class="chap cur"><span class="cn">4</span><span class="ct">תלויות פונקציונליות</span><span class="kids"><a href="fd.html" aria-current="page">מדריך</a><a href="fd-ex.html">תרגיל 5</a></span></li><li class="chap"><span class="cn">5</span><span class="ct">תיכון ונרמול</span><span class="kids"><a href="norm.html">מדריך</a><a href="norm-ex.html">תרגיל 6</a></span></li><li class="chap"><span class="cn">6</span><span class="ct">אינדקסים ו־hashing</span><span class="kids"><a href="indexing.html">מדריך</a><a href="indexing-ex.html">תרגיל 7</a></span></li><li class="chap"><span class="cn">7</span><span class="ct">בקרת בו־זמניות</span><span class="kids"><a href="cc.html">מדריך</a><a href="cc-ex.html">תרגיל 8</a></span></li><li class="chap"><a href="practice.html">מטלות תרגול נוספות</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#fd-def">ההגדרה</a></li><li><a href="#armstrong">כללי ארמסטרונג</a></li><li><a href="#closure">סגור <bdi dir="ltr">α⁺</bdi></a></li><li><a href="#keys">מפתח קביל</a></li><li><a href="#equiv">שקילות</a></li><li><a href="#canon">כיסוי קנוני</a></li><li><a href="#fdmethod">שיטת פתרון</a></li><li><a href="#fdtraps">מלכודות</a></li><li><a href="#fdtool">מחשבון תלויות</a></li></ol></nav>
 <main>
-<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="fd.html" aria-current="page">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav><nav class="subtabs" aria-label="מדריך ותרגיל"><a href="fd.html" aria-current="page">המדריך</a><a href="fd-ex.html">תרגיל 5</a></nav>
+<header class="chap"><a class="chapnav prev" href="sql.html"><span>פרק קודם</span>SQL</a><div class="chapmid"><div class="chapnum">פרק 4 מתוך 7</div><div class="chaptitle">תלויות פונקציונליות</div><nav class="seg2" aria-label="מדריך או תרגיל"><a href="fd.html" aria-current="page"><b>המדריך</b><small>הסבר, שיטה ודוגמאות</small></a><a href="fd-ex.html"><b>תרגיל 5</b><small>השאלות והפתרונות</small></a></nav></div><a class="chapnav next" href="norm.html"><span>פרק הבא</span>תיכון ונרמול</a></header>
 <div class="wrap">
 <section class="hero" id="top">
   <h1>תלויות פונקציונליות</h1>
@@ -29,7 +29,7 @@
 <p>במילים: כל ערך של <bdi dir="ltr">α</bdi> קשור לערך יחיד של <bdi dir="ltr">β</bdi>. זו הכללה של מפתח־על: <bdi dir="ltr">α</bdi> מפתח־על של <bdi dir="ltr">R</bdi> בדיוק כש־<code class="xp">α→R</code>.</p></div>
 
 <h3>נסה בעצמך: אילו תלויות מתקיימות על היחס?</h3>
-<p>זה היחס משקף 2 במצגת. בחר אגף שמאל ואגף ימין — אם התלות לא מתקיימת, יסומנו שתי השורות שמפרות אותה.</p>
+<p>זה היחס מהמצגת. בחר אגף שמאל ואגף ימין — אם התלות לא מתקיימת, יסומנו שתי השורות שמפרות אותה.</p>
 <div class="fdrel" id="fdRel"><div class="fdpick"></div><div class="fdrt"></div><div class="fdv"></div></div>
 <p>התשובה המלאה: התלויות הלא־טריוויאליות המינימליות שמתקיימות הן</p>
 <p class="mathline"><code class="xp">A→C,   D→B,   BC→A,   CD→A</code></p>
@@ -37,7 +37,8 @@
 
 <div class="box warn"><h4>תלות טריוויאלית</h4><p>תלות שמתקיימת על כל יחס, למשל <code class="xp">A→A</code> או <code class="xp">AB→A</code>. באופן כללי, <code class="xp">α→β</code> טריוויאלית אם ורק אם:</p><p class="mathline"><code class="xp">β ⊆ α</code></p></div>
 
-<h3>תלויות במערכת הבנק (שקף 4)</h3>
+<h3>תלויות במערכת הבנק</h3>
+<p class="intro">כך נראות תלויות במערכת אמיתית. לכל תבנית של הבנק — התלויות שנובעות ממשמעות הנתונים, ומה כל אחת אומרת:</p>
 <div class="tbl"><table>
 <tr><th>תבנית</th><th>תלויות</th><th>המשמעות</th></tr>
 <tr><td><code class="xp">Branch=(branch-name, assets, branch-city)</code></td><td><code class="xp">branch-name → assets, branch-city</code></td><td>לסניף יש עיר אחת ונכסים בסכום אחד</td></tr>
@@ -99,7 +100,7 @@ for each attribute A in result
 <section id="equiv">
 <h2>שקילות של קבוצות תלויות</h2>
 <p>שתי קבוצות <code class="xp">F1</code> ו־<code class="xp">F2</code> שקולות לוגית אם <code class="xp">F1⁺ = F2⁺</code>. בפועל בודקים שכל תלות באחת נובעת מהשנייה — בעזרת סגור.</p>
-<p>הדוגמה משקף 10:</p>
+<p>הדוגמה מהמצגת:</p>
 <p class="mathline"><code class="xp">F1 = {A→C, AC→D, E→AD, E→H}</code></p>
 <p class="mathline"><code class="xp">F2 = {A→CD, E→AH}</code></p>
 <div class="tbl"><table>
@@ -142,6 +143,7 @@ remove trivial f.d.'s</pre>
 
 <section id="fdtraps">
 <h2>מלכודות</h2>
+<p class="intro">הטעויות הנפוצות בעבודה עם תלויות, ואיך מתקנים:</p>
 <div class="tbl"><table>
 <tr><th>טעות</th><th>למה זה שגוי</th><th>התיקון</th></tr>
 <tr><td>״<code class="xp">AB→C</code>, לכן <code class="xp">A→C</code>״</td><td>פירוק עובד רק באגף ימין. באגף שמאל אסור להוריד תכונות סתם</td><td>בדוק אם <code class="xp">C ∈ A⁺</code></td></tr>
@@ -160,7 +162,7 @@ remove trivial f.d.'s</pre>
 <label>F = <input name="F" dir="ltr" value="A→BCE, CD→E, B→D, E→A, C→B" spellcheck="false" class="wide"></label>
 <label>סגור של <input name="X" dir="ltr" value="B" spellcheck="false" class="narrow"></label>
 <button class="btn calcBtn" type="button">חשב</button></div>
-<div class="calcex"><span class="muted">דוגמאות:</span> <button type="button" class="chip" data-ex="ABCDE|A→BCE, CD→E, B→D, E→A, C→B|B">תרגיל 5</button> <button type="button" class="chip" data-ex="ABCDE|A→BC, CD→E, B→D, E→A|CD">תרגיל 6</button> <button type="button" class="chip" data-ex="ENLCSDAMP|E→NS, NL→EMD, EN→LCD, C→S, D→M, M→D, EPD→AE, NLCP→A|EP">עובדים (5.6)</button> <button type="button" class="chip" data-ex="ABCDEH|A→C, AC→D, E→AD, E→H|E">שקף 10</button></div>
+<div class="calcex"><span class="muted">דוגמאות:</span> <button type="button" class="chip" data-ex="ABCDE|A→BCE, CD→E, B→D, E→A, C→B|B">תרגיל 5</button> <button type="button" class="chip" data-ex="ABCDE|A→BC, CD→E, B→D, E→A|CD">תרגיל 6</button> <button type="button" class="chip" data-ex="ENLCSDAMP|E→NS, NL→EMD, EN→LCD, C→S, D→M, M→D, EPD→AE, NLCP→A|EP">עובדים (5.6)</button> <button type="button" class="chip" data-ex="ABCDEH|A→C, AC→D, E→AD, E→H|E">המצגת</button></div>
 <div class="calcout"></div></div>
 </section>
 

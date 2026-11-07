@@ -9,11 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="guide.css">
 </head>
-<body class="pg-sql">
+<body class="pg-sql chapter">
 <div class="layout">
-<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html" aria-current="page" class="active">3. SQL</a></li><li><a href="fd.html">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#sql-data">נתוני הבנק</a></li><li><a href="#sql-order">סדר הביצוע</a></li><li><a href="#sql-basic">שאילתות בסיסיות</a></li><li><a href="#sql-sets">פעולות קבוצה</a></li><li><a href="#sql-sub">תתי־שאילתות</a></li><li><a href="#sql-join">צירופים</a></li><li><a href="#sql-agg">הקבצה</a></li><li><a href="#sql-sort">מיון</a></li><li><a href="#sql-dml">עדכונים</a></li><li><a href="#sql-views">תצפיות</a></li><li><a href="#sql-ddl">טבלאות ואילוצים</a></li><li><a href="#ra2sql">מילון אלגברה ← SQL</a></li><li><a href="#sql-traps">מלכודות ב־SQL</a></li><li><a href="#sql-play">ארגז חול</a></li></ol></nav>
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">פרקים</div><ol class="pages chaptree"><li class="chap"><a href="index.html">דף הבית</a></li><li class="chap"><span class="cn">1</span><span class="ct">מודל ER</span><span class="kids"><a href="er.html">מדריך</a><a href="er-ex.html">תרגיל 1</a></span></li><li class="chap"><span class="cn">2</span><span class="ct">מודל היחסים</span><span class="kids"><a href="relational.html">מדריך</a><a href="relational-ex.html">תרגיל 2</a></span></li><li class="chap cur"><span class="cn">3</span><span class="ct">SQL</span><span class="kids"><a href="sql.html" aria-current="page">מדריך</a><a href="sql-ex.html">תרגילים 3–4</a></span></li><li class="chap"><span class="cn">4</span><span class="ct">תלויות פונקציונליות</span><span class="kids"><a href="fd.html">מדריך</a><a href="fd-ex.html">תרגיל 5</a></span></li><li class="chap"><span class="cn">5</span><span class="ct">תיכון ונרמול</span><span class="kids"><a href="norm.html">מדריך</a><a href="norm-ex.html">תרגיל 6</a></span></li><li class="chap"><span class="cn">6</span><span class="ct">אינדקסים ו־hashing</span><span class="kids"><a href="indexing.html">מדריך</a><a href="indexing-ex.html">תרגיל 7</a></span></li><li class="chap"><span class="cn">7</span><span class="ct">בקרת בו־זמניות</span><span class="kids"><a href="cc.html">מדריך</a><a href="cc-ex.html">תרגיל 8</a></span></li><li class="chap"><a href="practice.html">מטלות תרגול נוספות</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#sql-data">נתוני הבנק</a></li><li><a href="#sql-order">סדר הביצוע</a></li><li><a href="#sql-basic">שאילתות בסיסיות</a></li><li><a href="#sql-sets">פעולות קבוצה</a></li><li><a href="#sql-sub">תתי־שאילתות</a></li><li><a href="#sql-join">צירופים</a></li><li><a href="#sql-agg">הקבצה</a></li><li><a href="#sql-sort">מיון</a></li><li><a href="#sql-dml">עדכונים</a></li><li><a href="#sql-views">תצפיות</a></li><li><a href="#sql-ddl">טבלאות ואילוצים</a></li><li><a href="#ra2sql">מילון אלגברה ← SQL</a></li><li><a href="#sql-traps">מלכודות ב־SQL</a></li><li><a href="#sql-play">ארגז חול</a></li></ol></nav>
 <main>
-<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html" aria-current="page">3. SQL</a><a href="fd.html">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav><nav class="subtabs" aria-label="מדריך ותרגיל"><a href="sql.html" aria-current="page">המדריך</a><a href="sql-ex.html">תרגילים 3–4</a></nav>
+<header class="chap"><a class="chapnav prev" href="relational.html"><span>פרק קודם</span>מודל היחסים</a><div class="chapmid"><div class="chapnum">פרק 3 מתוך 7</div><div class="chaptitle">SQL</div><nav class="seg2" aria-label="מדריך או תרגיל"><a href="sql.html" aria-current="page"><b>המדריך</b><small>הסבר, שיטה ודוגמאות</small></a><a href="sql-ex.html"><b>תרגילים 3–4</b><small>השאלות והפתרונות</small></a></nav></div><a class="chapnav next" href="fd.html"><span>פרק הבא</span>תלויות פונקציונליות</a></header>
 <div class="wrap">
 
 <section class="hero" id="top">
@@ -31,7 +31,7 @@
 
 <section id="sql-data">
 <h2>נתוני הבנק — גרסה מורחבת</h2>
-<p>אלה הטבלאות משקף 5, עם כמה שורות נוספות (מסומנות <span class="xtra">נוסף</span>), כדי שלשאילתות עם <code class="xp">group by</code> ו־<code class="xp">having</code> תהיה תוצאה מעניינת: לחלק מהלקוחות יש כמה חשבונות, ול־<bdi dir="ltr">Pinkas</bdi> אין אף חשבון חיסכון.</p>
+<p>אלה הטבלאות מהמצגת, עם כמה שורות נוספות (מסומנות <span class="xtra">נוסף</span>), כדי שלשאילתות עם <code class="xp">group by</code> ו־<code class="xp">having</code> תהיה תוצאה מעניינת: לחלק מהלקוחות יש כמה חשבונות, ול־<bdi dir="ltr">Pinkas</bdi> אין אף חשבון חיסכון.</p>
 <div class="bankgrid" id="sqlBank"></div>
 </section>
 
@@ -55,6 +55,7 @@
 
 <section id="sql-basic">
 <h2>שאילתות בסיסיות</h2>
+<p class="intro">שאילתת <bdi dir="ltr">SQL</bdi> בסיסית בנויה משלושה חלקים: <code class="xp">select</code> — אילו עמודות מחזירים, <code class="xp">from</code> — מאילו יחסים, ו־<code class="xp">where</code> — אילו שורות נשארות. כל דוגמה בסעיף מתחילה בשאלה ובהסבר, ואחריהם הקוד והתוצאה; לצד הדוגמה מוצגות הטבלאות שהיא משתמשת בהן, ו״ערוך והרץ״ מאפשר לשנות אותה.</p>
 <div class="sqlex" data-ex="b1"></div>
 <div class="sqlex" data-ex="b2"></div>
 <div class="sqlex" data-ex="b3"></div>
@@ -105,7 +106,8 @@
 <tr><td><code class="xp">right outer join</code></td><td>שורות הימני נשארות, עם <bdi dir="ltr">null</bdi> משמאל</td><td></td><td><code class="xp">using (A1, …)</code></td><td>רשימת עמודות משותפות</td></tr>
 <tr><td><code class="xp">full outer join</code></td><td>שורות משני הצדדים נשארות</td><td></td><td></td><td></td></tr>
 </table></div>
-<h3>נסה בעצמך: הנתונים של שקף 18</h3>
+<h3>נסה בעצמך: סוגי הצירוף על שתי טבלאות קטנות</h3>
+<p class="intro">שתי טבלאות קטנות, ובהן לקוח בלי חשבון וחשבון בלי לקוח. בחר סוג צירוף ובדוק מה קורה לשורות שלא מצאו התאמה: הן נעלמות, או נשארות עם <bdi dir="ltr">null</bdi> בצד השני.</p>
 <div class="joinx" id="joinX">
   <div class="jbtns" role="group" aria-label="סוג צירוף"><button type="button" data-j="inner" aria-pressed="true">natural inner join</button><button type="button" data-j="left" aria-pressed="false">left outer</button><button type="button" data-j="right" aria-pressed="false">right outer</button><button type="button" data-j="full" aria-pressed="false">full outer</button></div>
   <pre class="sqlcode jsql"></pre>
@@ -159,7 +161,7 @@
 <div class="sqlex" data-ex="v2"></div>
 <div class="sqlex" data-ex="v3"></div>
 <div class="tbl"><table>
-<tr><th>מתי אפשר לעדכן תצפית? (שקף 29)</th><th>למה</th></tr>
+<tr><th>מתי אפשר לעדכן תצפית?</th><th>למה</th></tr>
 <tr><td>מבוססת על טבלה אחת, כוללת מפתח (ראשי או קביל) וכל עמודה שהיא <code class="xp">not null</code></td><td>כל שורה בתצפית מתאימה לשורה אחת בטבלה — ברור מה לשנות</td></tr>
 <tr><td>מבוססת על צירוף של כמה טבלאות — בדרך כלל לא</td><td>שינוי בשורה אחת של התצפית יכול להתאים לכמה דרכים לשנות את הטבלאות</td></tr>
 <tr><td>כוללת הקבצה או פונקציית הקבצה — לא</td><td>אין דרך לדעת אילו שורות מקוריות לשנות (ראה <bdi dir="ltr">v3</bdi>)</td></tr>
@@ -168,7 +170,7 @@
 
 <section id="sql-ddl">
 <h2>הגדרת טבלאות ואילוצים</h2>
-<p>הבנק מהמצגת (שקף 31), עם כל סוגי האילוצים:</p>
+<p>הבנק מהמצגת, עם כל סוגי האילוצים:</p>
 <pre class="sqlcode" data-hl>create table deposit (
   branch_name    char(15),
   account_number char(10) not null,
@@ -200,6 +202,7 @@
 
 <section id="ra2sql">
 <h2>מילון: אלגברת יחסים ← <bdi dir="ltr">SQL</bdi></h2>
+<p class="intro">כל אופרטור של אלגברת היחסים, ואיך כותבים אותו ב־<bdi dir="ltr">SQL</bdi>. שימושי כשיש פתרון באלגברה (כמו בתרגיל 2) וצריך לכתוב אותו ב־<bdi dir="ltr">SQL</bdi> (כמו בתרגיל 3):</p>
 <div class="tbl"><table>
 <tr><th>אלגברה</th><th>SQL</th><th>הערה</th></tr>
 <tr><td><code class="xp">σ<sub>P</sub>(r)</code></td><td><code class="xp">select * from r where P</code></td><td></td></tr>
@@ -218,6 +221,7 @@
 
 <section id="sql-traps">
 <h2>מלכודות ב־<bdi dir="ltr">SQL</bdi></h2>
+<p class="intro">הטעויות שחוזרות בכתיבת <bdi dir="ltr">SQL</bdi>. בסוגריים — הדוגמה בעמוד שמראה את הטעות:</p>
 <div class="tbl"><table>
 <tr><th>טעות</th><th>מה קורה</th><th>התיקון</th></tr>
 <tr><td>שכחת <code class="xp">distinct</code></td><td>שורות כפולות בתוצאה (<bdi dir="ltr">b1</bdi>)</td><td><code class="xp">select distinct</code> כשהשאלה מבקשת רשימת ערכים</td></tr>
@@ -254,6 +258,6 @@ group by branch_name</textarea>
 </main>
 </div>
 <script src="guide.js"></script>
-<script src="sqldata.js"></script><script src="sqlpage.js"></script><script src="ex4page.js"></script><script src="palette.js"></script>
+<script src="sqldata.js"></script><script src="sqlhow.js"></script><script src="sqlpage.js"></script><script src="ex4page.js"></script><script src="palette.js"></script>
 </body>
 </html>

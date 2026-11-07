@@ -9,17 +9,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="guide.css">
 </head>
-<body class="pg-er">
+<body class="pg-er chapter">
 <div class="layout">
-<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html" aria-current="page" class="active">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#top">פתיחה</a></li><li><a href="#toys">פתרון: חנות צעצועים</a></li><li><a href="#family">פתרון: הורות ומגדר</a></li><li><a href="#weak">פתרון: ישות חלשה</a></li><li><a href="#clinic">פתרון: מרפאה</a></li><li><a href="#practice">תרגול עצמי</a></li></ol></nav>
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">פרקים</div><ol class="pages chaptree"><li class="chap"><a href="index.html">דף הבית</a></li><li class="chap cur"><span class="cn">1</span><span class="ct">מודל ER</span><span class="kids"><a href="er.html">מדריך</a><a href="er-ex.html" aria-current="page">תרגיל 1</a></span></li><li class="chap"><span class="cn">2</span><span class="ct">מודל היחסים</span><span class="kids"><a href="relational.html">מדריך</a><a href="relational-ex.html">תרגיל 2</a></span></li><li class="chap"><span class="cn">3</span><span class="ct">SQL</span><span class="kids"><a href="sql.html">מדריך</a><a href="sql-ex.html">תרגילים 3–4</a></span></li><li class="chap"><span class="cn">4</span><span class="ct">תלויות פונקציונליות</span><span class="kids"><a href="fd.html">מדריך</a><a href="fd-ex.html">תרגיל 5</a></span></li><li class="chap"><span class="cn">5</span><span class="ct">תיכון ונרמול</span><span class="kids"><a href="norm.html">מדריך</a><a href="norm-ex.html">תרגיל 6</a></span></li><li class="chap"><span class="cn">6</span><span class="ct">אינדקסים ו־hashing</span><span class="kids"><a href="indexing.html">מדריך</a><a href="indexing-ex.html">תרגיל 7</a></span></li><li class="chap"><span class="cn">7</span><span class="ct">בקרת בו־זמניות</span><span class="kids"><a href="cc.html">מדריך</a><a href="cc-ex.html">תרגיל 8</a></span></li><li class="chap"><a href="practice.html">מטלות תרגול נוספות</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#top">פתיחה</a></li><li><a href="#toys">פתרון: חנות צעצועים</a></li><li><a href="#family">פתרון: הורות ומגדר</a></li><li><a href="#weak">פתרון: ישות חלשה</a></li><li><a href="#clinic">פתרון: מרפאה</a></li><li><a href="#practice">תרגול עצמי</a></li></ol></nav>
 <main>
-<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html" aria-current="page">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="fd.html">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav><nav class="subtabs" aria-label="מדריך ותרגיל"><a href="er.html">המדריך</a><a href="er-ex.html" aria-current="page">תרגיל 1</a></nav>
+<header class="chap"><span class="chapnav"></span><div class="chapmid"><div class="chapnum">פרק 1 מתוך 7</div><div class="chaptitle">מודל <bdi dir="ltr">ER</bdi></div><nav class="seg2" aria-label="מדריך או תרגיל"><a href="er.html"><b>המדריך</b><small>הסבר, שיטה ודוגמאות</small></a><a href="er-ex.html" aria-current="page"><b>תרגיל 1</b><small>השאלות והפתרונות</small></a></nav></div><a class="chapnav next" href="relational.html"><span>פרק הבא</span>מודל היחסים</a></header>
 <div class="wrap">
-<section class="hero" id="top"><h1>תרגיל 1: מודל <bdi dir="ltr">ER</bdi></h1><p class="lede">השאלות של התרגיל, כל אחת עם כל הנתונים שלה, רמזים מדורגים ופתרון מלא. את החומר עצמו — ההגדרות, השיטה והדוגמאות מהמצגת — תמצא <a href="er.html">במדריך</a>.</p></section>
+<section class="hero" id="top"><p class="lede">השאלות של התרגיל, כל אחת עם כל הנתונים שלה, רמזים מדורגים ופתרון מלא. את החומר עצמו — ההגדרות, השיטה והדוגמאות מהמצגת — תמצא <a href="er.html">במדריך</a>.</p></section>
 
 <!-- ===================== TOYS ===================== -->
 <section id="toys">
 <h2>פתרון מודרך: חנות צעצועים</h2>
+<p class="intro">שאלות 1 ו־2 בתרגיל 1: חנות עם עובדים, מחלקות, פריטים ויצרנים. השאלה מלמדת להבחין בין תכונה לקשר, ולזהות שני קשרים שונים בין אותן ישויות (עובד במחלקה, ומנהל המחלקה). בכל לחיצה על ״השלב הבא״ נוסף לתרשים רובד אחד — ישויות, קשרים, מידות ריבוי, מפתחות — והחלק החדש מסומן בסגול. ההסבר של כל שלב מופיע לצד התרשים, ומעל התרשים אפשר להחליף סימון (<bdi dir="ltr">Chen</bdi>, חצים, <bdi dir="ltr">Crow</bdi>’<bdi dir="ltr">s foot</bdi>).</p>
 <div class="ex stepped">
 <div class="q"><b>השאלה (שאלות 1 ו־2 בתרגיל)</b>עובדים (מס׳, שם, כתובת, מחלקה), מחלקות (שם ייחודי, עובדים, מנהל, פריטים), פריטים (שם, יצרן, מחיר, מספר דגם של היצרן, מספר פריט פנימי ייחודי), יצרנים (שם, כתובת, פריטים). בנה דיאגרמה, ציין מפתחות וסוג כל קשר.</div>
 <div class="exgrid">
@@ -68,6 +69,7 @@
 <!-- ===================== FAMILY ===================== -->
 <section id="family">
 <h2>פתרון מודרך: הורות, נישואין ומגדר</h2>
+<p class="intro">שאלה על קשרים רקורסיביים — קשרים בין אדם לאדם. בקשר כזה כל קו צריך תפקיד (אב, ילד, בן זוג), אחרת לא ברור מי מה. הפתרון מתחיל בגרסה של המצגת (גבר, אישה) ומרחיב אותה כך שתתאים גם להורות חד־מינית ולכל מגדר. בכל לחיצה על ״השלב הבא״ נוסף לתרשים רובד אחד — ישויות, קשרים, מידות ריבוי, מפתחות — והחלק החדש מסומן בסגול. ההסבר של כל שלב מופיע לצד התרשים, ומעל התרשים אפשר להחליף סימון (<bdi dir="ltr">Chen</bdi>, חצים, <bdi dir="ltr">Crow</bdi>’<bdi dir="ltr">s foot</bdi>).</p>
 <div class="ex stepped">
 <div class="q"><b>השאלה</b>בנה דיאגרמת <bdi dir="ltr">ER</bdi> לבסיס נתונים המראה אבהות, אימהות וקשרי נישואין בין גברים ונשים.</div>
 <div class="exgrid">
@@ -130,6 +132,7 @@
 <!-- ===================== WEAK ===================== -->
 <section id="weak">
 <h2>פתרון מודרך: ישות חלשה ← ישות חזקה</h2>
+<p class="intro">שאלה עיונית: אפשר להפוך כל ישות חלשה לחזקה על ידי הוספת תכונות — אז למה בכלל יש ישויות חלשות? הפתרון מדגים את ההפיכה על הלוואה ותשלומים, ומסביר מה מפסידים בה. בכל לחיצה על ״השלב הבא״ נוסף לתרשים רובד אחד — ישויות, קשרים, מידות ריבוי, מפתחות — והחלק החדש מסומן בסגול. ההסבר של כל שלב מופיע לצד התרשים, ומעל התרשים אפשר להחליף סימון (<bdi dir="ltr">Chen</bdi>, חצים, <bdi dir="ltr">Crow</bdi>’<bdi dir="ltr">s foot</bdi>).</p>
 <div class="ex stepped">
 <div class="q"><b>השאלה</b>כל טיפוס ישויות חלש ניתן להפיכה לטיפוס ישויות חזק על ידי הוספת תכונות מתאימות. (א) הדגם. (ב) מדוע אם כן יש בבסיס נתונים טיפוסי ישויות חלשים?</div>
 <div class="exgrid">
@@ -161,6 +164,7 @@
 <!-- ===================== CLINIC ===================== -->
 <section id="clinic">
 <h2>פתרון מודרך: מרפאה</h2>
+<p class="intro">השאלה הארוכה בתרגיל 1: רופאים, חולים, ביקורים, תרופות ובדיקות. היא מתרגלת את כל מה שבשיטה — תכונות רב־ערכיות, תכונות של קשר, וקשר שצריך להפוך לישות. בכל לחיצה על ״השלב הבא״ נוסף לתרשים רובד אחד — ישויות, קשרים, מידות ריבוי, מפתחות — והחלק החדש מסומן בסגול. ההסבר של כל שלב מופיע לצד התרשים, ומעל התרשים אפשר להחליף סימון (<bdi dir="ltr">Chen</bdi>, חצים, <bdi dir="ltr">Crow</bdi>’<bdi dir="ltr">s foot</bdi>).</p>
 <div class="ex stepped">
 <div class="q"><b>השאלה</b>רופאים (מס׳ זיהוי, שם, כתובת, טלפון, מס׳ רישיון ייחודי, תחום התמחות אחד או יותר, שיבוץ שבועי בימים ושעות). חולים (ת״ז, שם, כתובת, טלפון) מתקבלים אצל רופא, לא בהכרח אותו רופא; שומרים תאריך ביקור ואבחנה. בביקור: תרופות (שם ייחודי, כמות יומית, מס׳ ימים), והפניות לבדיקות (מועד אחרון). לבדיקה: קוד, שם, מקום אחד.</div>
 <div class="exgrid">

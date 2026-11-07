@@ -9,11 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="guide.css">
 </head>
-<body class="pg-norm">
+<body class="pg-norm chapter">
 <div class="layout">
-<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html">4. תלויות פונקציונליות</a></li><li><a href="norm.html" aria-current="page" class="active">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#why">כפילות ואנומליות</a></li><li><a href="#lossless">פירוק משמר מידע</a></li><li><a href="#preserve">שימור תלויות</a></li><li><a href="#bcnf">BCNF</a></li><li><a href="#nf3">3NF ו־2NF</a></li><li><a href="#mvd">רב־ערכיות ו־4NF</a></li><li><a href="#nmethod">שיטת פתרון</a></li><li><a href="#ntraps">מלכודות</a></li><li><a href="#ntool">מחשבון פירוק</a></li></ol></nav>
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">פרקים</div><ol class="pages chaptree"><li class="chap"><a href="index.html">דף הבית</a></li><li class="chap"><span class="cn">1</span><span class="ct">מודל ER</span><span class="kids"><a href="er.html">מדריך</a><a href="er-ex.html">תרגיל 1</a></span></li><li class="chap"><span class="cn">2</span><span class="ct">מודל היחסים</span><span class="kids"><a href="relational.html">מדריך</a><a href="relational-ex.html">תרגיל 2</a></span></li><li class="chap"><span class="cn">3</span><span class="ct">SQL</span><span class="kids"><a href="sql.html">מדריך</a><a href="sql-ex.html">תרגילים 3–4</a></span></li><li class="chap"><span class="cn">4</span><span class="ct">תלויות פונקציונליות</span><span class="kids"><a href="fd.html">מדריך</a><a href="fd-ex.html">תרגיל 5</a></span></li><li class="chap cur"><span class="cn">5</span><span class="ct">תיכון ונרמול</span><span class="kids"><a href="norm.html" aria-current="page">מדריך</a><a href="norm-ex.html">תרגיל 6</a></span></li><li class="chap"><span class="cn">6</span><span class="ct">אינדקסים ו־hashing</span><span class="kids"><a href="indexing.html">מדריך</a><a href="indexing-ex.html">תרגיל 7</a></span></li><li class="chap"><span class="cn">7</span><span class="ct">בקרת בו־זמניות</span><span class="kids"><a href="cc.html">מדריך</a><a href="cc-ex.html">תרגיל 8</a></span></li><li class="chap"><a href="practice.html">מטלות תרגול נוספות</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#why">כפילות ואנומליות</a></li><li><a href="#lossless">פירוק משמר מידע</a></li><li><a href="#preserve">שימור תלויות</a></li><li><a href="#bcnf">BCNF</a></li><li><a href="#nf3">3NF ו־2NF</a></li><li><a href="#mvd">רב־ערכיות ו־4NF</a></li><li><a href="#nmethod">שיטת פתרון</a></li><li><a href="#ntraps">מלכודות</a></li><li><a href="#ntool">מחשבון פירוק</a></li></ol></nav>
 <main>
-<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="fd.html">4. תלויות פונקציונליות</a><a href="norm.html" aria-current="page">5. תיכון ונרמול</a><a href="indexing.html">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav><nav class="subtabs" aria-label="מדריך ותרגיל"><a href="norm.html" aria-current="page">המדריך</a><a href="norm-ex.html">תרגיל 6</a></nav>
+<header class="chap"><a class="chapnav prev" href="fd.html"><span>פרק קודם</span>תלויות פונקציונליות</a><div class="chapmid"><div class="chapnum">פרק 5 מתוך 7</div><div class="chaptitle">תיכון ונרמול</div><nav class="seg2" aria-label="מדריך או תרגיל"><a href="norm.html" aria-current="page"><b>המדריך</b><small>הסבר, שיטה ודוגמאות</small></a><a href="norm-ex.html"><b>תרגיל 6</b><small>השאלות והפתרונות</small></a></nav></div><a class="chapnav next" href="indexing.html"><span>פרק הבא</span>אינדקסים ו־<bdi dir="ltr">hashing</bdi></a></header>
 <div class="wrap">
 <section class="hero" id="top">
   <h1>תיכון ונרמול</h1>
@@ -25,7 +25,7 @@
 <h2>למה לפרק: כפילות ואנומליות</h2>
 <p>במקום שתי התבניות <code class="xp">Branch=(branch-name, assets, branch-city)</code> ו־<code class="xp">Borrow=(branch-name, loan-number, customer-name, amount)</code>, אפשר לשמור תבנית אחת:</p>
 <p class="mathline"><code class="xp">Lending=(branch-name, assets, branch-city, loan-number, customer-name, amount)</code></p>
-<div class="rtrow"><div class="rtwrap"><div class="rtname"><bdi dir="ltr">lending</bdi> (שקף 2)</div><table class="rt" dir="ltr"><thead><tr><th>branch-name</th><th>assets</th><th>branch-city</th><th>loan-number</th><th>customer-name</th><th>amount</th></tr></thead><tbody>
+<div class="rtrow"><div class="rtwrap"><div class="rtname">lending</div><table class="rt" dir="ltr"><thead><tr><th>branch-name</th><th>assets</th><th>branch-city</th><th>loan-number</th><th>customer-name</th><th>amount</th></tr></thead><tbody>
 <tr class="dup"><td>Hamerkaz</td><td>9000000</td><td>Tiberias</td><td>17</td><td>Morag</td><td>1000</td></tr>
 <tr><td>Pinkas</td><td>2100000</td><td>Eilat</td><td>23</td><td>Tamir</td><td>2000</td></tr>
 <tr><td>Aviv</td><td>1700000</td><td>Jaffa</td><td>15</td><td>Avivi</td><td>1500</td></tr>
@@ -50,7 +50,7 @@
 <p class="mathline"><code class="xp">R = R1 ∪ R2 ∪ … ∪ Rn</code></p>
 <p>נסמן <code class="xp">ri = π<sub>Ri</sub>(r)</code>. הפירוק <strong>משמר מידע</strong> אם לכל יחס חוקי <bdi dir="ltr">r</bdi>:</p>
 <p class="mathline"><code class="xp">r = r1 ⋈ r2 ⋈ … ⋈ rn</code></p></div>
-<p>הצירוף תמיד מחזיר <strong>לפחות</strong> את <bdi dir="ltr">r</bdi>. הבעיה היא שורות מזויפות. הדוגמה משקפים 5–7: מפרקים את <bdi dir="ltr">borrow</bdi> ל־<code class="xp">Amt-scheme=(customer-name, amount)</code> ול־<code class="xp">Loan-scheme=(branch-name, loan-number, amount)</code>. התכונה המשותפת היחידה היא <bdi dir="ltr">amount</bdi>, ושני לווים עם אותו סכום מתערבבים:</p>
+<p>הצירוף תמיד מחזיר <strong>לפחות</strong> את <bdi dir="ltr">r</bdi>. הבעיה היא שורות מזויפות. הדוגמה מהמצגת: מפרקים את <bdi dir="ltr">borrow</bdi> ל־<code class="xp">Amt-scheme=(customer-name, amount)</code> ול־<code class="xp">Loan-scheme=(branch-name, loan-number, amount)</code>. התכונה המשותפת היחידה היא <bdi dir="ltr">amount</bdi>, ושני לווים עם אותו סכום מתערבבים:</p>
 <div id="lossyJoin" class="joinfig"></div>
 <p>השורות המסומנות לא היו ב־<bdi dir="ltr">borrow</bdi>. מהצירוף אי אפשר לדעת ש־<bdi dir="ltr">Avivi</bdi> לוותה ב־<bdi dir="ltr">Aviv</bdi> ולא ב־<bdi dir="ltr">Hamerkaz</bdi> — <strong>המידע אבד</strong>, למרות שיש יותר שורות.</p>
 
@@ -58,7 +58,7 @@
 <p class="mathline"><code class="xp">R1 ∩ R2 → R1</code></p>
 <p class="mathline"><code class="xp">R1 ∩ R2 → R2</code></p>
 <p>כלומר: החיתוך הוא מפתח־על של אחד החלקים. בודקים בעזרת הסגור של החיתוך.</p></div>
-<p>דוגמה (שקף 10): <code class="xp">Lending</code> ל־<code class="xp">R1=(branch-name, assets, branch-city)</code> ו־<code class="xp">R2=(branch-name, loan-number, customer-name, amount)</code>. החיתוך הוא <bdi dir="ltr">branch-name</bdi>, ו־<code class="xp">branch-name → assets, branch-city</code>, כלומר החיתוך קובע את כל <bdi dir="ltr">R1</bdi>. משמר מידע.</p>
+<p>דוגמה: <code class="xp">Lending</code> ל־<code class="xp">R1=(branch-name, assets, branch-city)</code> ו־<code class="xp">R2=(branch-name, loan-number, customer-name, amount)</code>. החיתוך הוא <bdi dir="ltr">branch-name</bdi>, ו־<code class="xp">branch-name → assets, branch-city</code>, כלומר החיתוך קובע את כל <bdi dir="ltr">R1</bdi>. משמר מידע.</p>
 <div class="box warn"><h4>פירוק ליותר משתי תבניות</h4><p>המשפט מדבר על שתי תבניות. לפירוק ל־3 תבניות ומעלה משתמשים ב<strong>שיטת הטבלה</strong> (<bdi dir="ltr">chase</bdi>) — ראה שאלה 7 בתרגיל 6.</p></div>
 </section>
 
@@ -111,17 +111,18 @@ if no scheme in result contains a candidate key of R
 
 <section id="mvd">
 <h2>תלויות רב־ערכיות ו־<bdi dir="ltr">4NF</bdi></h2>
-<p>לפעמים אין שום תלות פונקציונלית, ובכל זאת יש כפילות. בדוגמה משקף 19, ללקוח יכולות להיות כמה הלוואות וכמה כתובות, והן בלתי תלויות זו בזו:</p>
+<p>לפעמים אין שום תלות פונקציונלית, ובכל זאת יש כפילות. בדוגמה מהמצגת, ללקוח יכולות להיות כמה הלוואות וכמה כתובות, והן בלתי תלויות זו בזו:</p>
 <p class="mathline"><code class="xp">BC = (loan-number, customer-name, street, customer-city)</code></p>
 <p class="mathline"><code class="xp">customer-name →→ street, customer-city</code></p>
 <div class="rtrow"><div class="rtwrap"><div class="rtname">יחס חוקי</div><table class="rt" dir="ltr"><thead><tr><th>loan-number</th><th>customer-name</th><th>street</th><th>customer-city</th></tr></thead><tbody>
 <tr><td>13</td><td>Morag</td><td>Pinkas</td><td>Rishon</td></tr><tr><td>13</td><td>Morag</td><td>Bialick</td><td>Eilat</td></tr><tr><td>15</td><td>Tamir</td><td>Allenby</td><td>Haifa</td></tr><tr><td>28</td><td>Tamir</td><td>Allenby</td><td>Haifa</td></tr><tr><td>17</td><td>Even</td><td>Allenby</td><td>Haifa</td></tr></tbody></table></div>
 <div class="rtwrap"><div class="rtname">יחס לא חוקי</div><table class="rt" dir="ltr"><thead><tr><th>loan-number</th><th>customer-name</th><th>street</th><th>customer-city</th></tr></thead><tbody>
 <tr class="spur"><td>13</td><td>Morag</td><td>Pinkas</td><td>Rishon</td></tr><tr class="spur"><td>97</td><td>Morag</td><td>Bialick</td><td>Eilat</td></tr><tr><td>17</td><td>Even</td><td>Allenby</td><td>Haifa</td></tr></tbody></table><div class="rtcount">חסרות (<bdi dir="ltr">97, Morag, Pinkas, Rishon</bdi>) ו־(<bdi dir="ltr">13, Morag, Bialick, Eilat</bdi>)</div></div></div>
-<div class="box rule"><h4>הגדרה (הגרסה החלופית, שקף 21)</h4><p><code class="xp">α →→ β</code> מתקיימת על <bdi dir="ltr">R</bdi> אם לכל יחס חוקי <bdi dir="ltr">r</bdi> ולכל זוג שורות <bdi dir="ltr">t1, t2</bdi> עם <code class="xp">t1[α] = t2[α]</code>, קיימת שורה <bdi dir="ltr">t3</bdi> ב־<bdi dir="ltr">r</bdi> כך ש:</p>
+<div class="box rule"><h4>הגדרה (הגרסה החלופית)</h4><p><code class="xp">α →→ β</code> מתקיימת על <bdi dir="ltr">R</bdi> אם לכל יחס חוקי <bdi dir="ltr">r</bdi> ולכל זוג שורות <bdi dir="ltr">t1, t2</bdi> עם <code class="xp">t1[α] = t2[α]</code>, קיימת שורה <bdi dir="ltr">t3</bdi> ב־<bdi dir="ltr">r</bdi> כך ש:</p>
 <p class="mathline"><code class="xp">t3[α] = t1[α],   t3[β] = t1[β],   t3[R − β] = t2[R − β]</code></p>
 <p>במילים: ערכי <bdi dir="ltr">β</bdi> וערכי ״כל השאר״ מתחלפים חופשי. כל צירוף של <bdi dir="ltr">β</bdi> עם שאר התכונות — של אותו <bdi dir="ltr">α</bdi> — חייב להופיע. <code class="xp">α →→ β</code> טריוויאלית אם <code class="xp">β ⊆ α</code> או <code class="xp">α ∪ β = R</code>.</p></div>
 <h3>כללי הסק לתלויות רב־ערכיות</h3>
+<p class="intro">כמו כללי ארמסטרונג לתלויות פונקציונליות, יש כללים להסקת תלויות רב־ערכיות. חמשת הכללים הראשונים, יחד עם כללי ארמסטרונג, נאותים ושלמים; שלושת האחרונים נגזרים מהם:</p>
 <div class="tbl"><table>
 <tr><th>כלל</th><th>אם</th><th>אז</th></tr>
 <tr><td>השלמה לקבוצה (<bdi dir="ltr">complementation</bdi>)</td><td><code class="xp">α →→ β</code></td><td><code class="xp">α →→ R − α − β</code></td></tr>
@@ -156,6 +157,7 @@ while (result contains a scheme Ri not in 4NF)
 
 <section id="ntraps">
 <h2>מלכודות</h2>
+<p class="intro">הטעויות הנפוצות בפירוק ובנרמול:</p>
 <div class="tbl"><table>
 <tr><th>טעות</th><th>למה זה שגוי</th><th>התיקון</th></tr>
 <tr><td>״יותר שורות בצירוף = יותר מידע״</td><td>שורות מזויפות הן <strong>אובדן</strong> מידע — אי אפשר לדעת מה אמיתי</td><td>משמר מידע <bdi dir="ltr">⇔</bdi> הצירוף מחזיר בדיוק את <bdi dir="ltr">r</bdi></td></tr>

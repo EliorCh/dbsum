@@ -9,11 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="guide.css">
 </head>
-<body class="pg-er">
+<body class="pg-er chapter">
 <div class="layout">
-<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html" aria-current="page" class="active">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#notation">סימונים ומושגים</a></li><li><a href="#method">שיטת 7 הצעדים</a></li><li class="sub"><a href="#cardtool">כלי: מידת ריבוי</a></li><li class="sub"><a href="#phrases">מילון ניסוחים</a></li><li><a href="#traps">מלכודות נפוצות</a></li></ol></nav>
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">פרקים</div><ol class="pages chaptree"><li class="chap"><a href="index.html">דף הבית</a></li><li class="chap cur"><span class="cn">1</span><span class="ct">מודל ER</span><span class="kids"><a href="er.html" aria-current="page">מדריך</a><a href="er-ex.html">תרגיל 1</a></span></li><li class="chap"><span class="cn">2</span><span class="ct">מודל היחסים</span><span class="kids"><a href="relational.html">מדריך</a><a href="relational-ex.html">תרגיל 2</a></span></li><li class="chap"><span class="cn">3</span><span class="ct">SQL</span><span class="kids"><a href="sql.html">מדריך</a><a href="sql-ex.html">תרגילים 3–4</a></span></li><li class="chap"><span class="cn">4</span><span class="ct">תלויות פונקציונליות</span><span class="kids"><a href="fd.html">מדריך</a><a href="fd-ex.html">תרגיל 5</a></span></li><li class="chap"><span class="cn">5</span><span class="ct">תיכון ונרמול</span><span class="kids"><a href="norm.html">מדריך</a><a href="norm-ex.html">תרגיל 6</a></span></li><li class="chap"><span class="cn">6</span><span class="ct">אינדקסים ו־hashing</span><span class="kids"><a href="indexing.html">מדריך</a><a href="indexing-ex.html">תרגיל 7</a></span></li><li class="chap"><span class="cn">7</span><span class="ct">בקרת בו־זמניות</span><span class="kids"><a href="cc.html">מדריך</a><a href="cc-ex.html">תרגיל 8</a></span></li><li class="chap"><a href="practice.html">מטלות תרגול נוספות</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#notation">סימונים ומושגים</a></li><li><a href="#method">שיטת 7 הצעדים</a></li><li class="sub"><a href="#cardtool">כלי: מידת ריבוי</a></li><li class="sub"><a href="#phrases">מילון ניסוחים</a></li><li><a href="#traps">מלכודות נפוצות</a></li></ol></nav>
 <main>
-<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html" aria-current="page">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="fd.html">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav><nav class="subtabs" aria-label="מדריך ותרגיל"><a href="er.html" aria-current="page">המדריך</a><a href="er-ex.html">תרגיל 1</a></nav>
+<header class="chap"><span class="chapnav"></span><div class="chapmid"><div class="chapnum">פרק 1 מתוך 7</div><div class="chaptitle">מודל <bdi dir="ltr">ER</bdi></div><nav class="seg2" aria-label="מדריך או תרגיל"><a href="er.html" aria-current="page"><b>המדריך</b><small>הסבר, שיטה ודוגמאות</small></a><a href="er-ex.html"><b>תרגיל 1</b><small>השאלות והפתרונות</small></a></nav></div><a class="chapnav next" href="relational.html"><span>פרק הבא</span>מודל היחסים</a></header>
 <div class="wrap">
 <section class="hero" id="top">
   <h1>איך פותרים תרגיל <bdi dir="ltr">ER</bdi></h1>
@@ -106,6 +106,7 @@
 
 <div class="tool" id="cardtool">
 <h3 style="margin-top:0">כלי: מידת ריבוי בשתי שאלות</h3>
+<p class="intro">מידת הריבוי של קשר נקבעת משתי שאלות, אחת לכל צד: ״לכמה <bdi dir="ltr">B</bdi> יכול להיות קשור <bdi dir="ltr">A</bdi> אחד?״ ו״לכמה <bdi dir="ltr">A</bdi> יכול להיות קשור <bdi dir="ltr">B</bdi> אחד?״. כתוב את שמות הישויות והקשר, או בחר דוגמה מתרגיל 1, ענה על שתי השאלות — ותראה את סוג הקשר ואיך מציירים אותו בשלושת הסימונים.</p>
 <div class="row">
   <label>טיפוס ישויות <bdi dir="ltr">A</bdi> <input id="tA" value="עובד"></label>
   <label>קשר <input id="tR" value="שייך"></label>
@@ -132,6 +133,7 @@
 </div>
 
 <h3 id="phrases">מילון ניסוחים: מה הטקסט אומר ← מה מציירים</h3>
+<p class="intro">בתרגילי <bdi dir="ltr">ER</bdi> חוזרים אותם ניסוחים שוב ושוב, ולכל אחד יש תרגום קבוע לדיאגרמה. כשקוראים שאלה, מסמנים כל ניסוח כזה ומחליטים מיד מה הוא יהיה:</p>
 <div class="tbl"><table>
 <tr><th>ניסוח בתרגיל</th><th>מה זה בדיאגרמה</th><th>דוגמה מתרגיל 1</th></tr>
 <tr><td>״לכל <bdi dir="ltr">X</bdi> יש לשמור את…״</td><td><bdi dir="ltr">X</bdi> טיפוס ישויות, הרשימה תכונות</td><td>לכל רופא: מס׳ זיהוי, שם, כתובת</td></tr>
@@ -150,6 +152,7 @@
 <!-- ===================== TRAPS ===================== -->
 <section id="traps">
 <h2>מלכודות נפוצות</h2>
+<p class="intro">הטעויות שחוזרות הכי הרבה בתרגילי <bdi dir="ltr">ER</bdi>. לכל אחת — למה היא שגויה ומה עושים במקום:</p>
 <div class="tbl"><table>
 <tr><th>טעות</th><th>למה זה שגוי</th><th>התיקון</th></tr>
 <tr><td>״מחלקה״ כתכונה של עובד</td><td>מחלקה היא ישות; מקבלים מידע כפול שעלול לסתור</td><td>קשר שייך</td></tr>

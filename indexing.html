@@ -9,11 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="guide.css">
 </head>
-<body class="pg-indexing">
+<body class="pg-indexing chapter">
 <div class="layout">
-<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html" aria-current="page" class="active">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#storage">אחסון ובלוקים</a></li><li><a href="#ordered">אינדקסים מסודרים</a></li><li><a href="#bplus">עץ B+</a></li><li class="sub"><a href="#bpplay">נסה בעצמך: B+</a></li><li class="sub"><a href="#nsize">חישוב n</a></li><li><a href="#hashing">Hashing</a></li><li><a href="#bitmap">Bitmap</a></li><li><a href="#itraps">מלכודות</a></li></ol></nav>
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">פרקים</div><ol class="pages chaptree"><li class="chap"><a href="index.html">דף הבית</a></li><li class="chap"><span class="cn">1</span><span class="ct">מודל ER</span><span class="kids"><a href="er.html">מדריך</a><a href="er-ex.html">תרגיל 1</a></span></li><li class="chap"><span class="cn">2</span><span class="ct">מודל היחסים</span><span class="kids"><a href="relational.html">מדריך</a><a href="relational-ex.html">תרגיל 2</a></span></li><li class="chap"><span class="cn">3</span><span class="ct">SQL</span><span class="kids"><a href="sql.html">מדריך</a><a href="sql-ex.html">תרגילים 3–4</a></span></li><li class="chap"><span class="cn">4</span><span class="ct">תלויות פונקציונליות</span><span class="kids"><a href="fd.html">מדריך</a><a href="fd-ex.html">תרגיל 5</a></span></li><li class="chap"><span class="cn">5</span><span class="ct">תיכון ונרמול</span><span class="kids"><a href="norm.html">מדריך</a><a href="norm-ex.html">תרגיל 6</a></span></li><li class="chap cur"><span class="cn">6</span><span class="ct">אינדקסים ו־hashing</span><span class="kids"><a href="indexing.html" aria-current="page">מדריך</a><a href="indexing-ex.html">תרגיל 7</a></span></li><li class="chap"><span class="cn">7</span><span class="ct">בקרת בו־זמניות</span><span class="kids"><a href="cc.html">מדריך</a><a href="cc-ex.html">תרגיל 8</a></span></li><li class="chap"><a href="practice.html">מטלות תרגול נוספות</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#storage">אחסון ובלוקים</a></li><li><a href="#ordered">אינדקסים מסודרים</a></li><li><a href="#bplus">עץ B+</a></li><li class="sub"><a href="#bpplay">נסה בעצמך: B+</a></li><li class="sub"><a href="#nsize">חישוב n</a></li><li><a href="#hashing">Hashing</a></li><li><a href="#bitmap">Bitmap</a></li><li><a href="#itraps">מלכודות</a></li></ol></nav>
 <main>
-<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="fd.html">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html" aria-current="page">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav><nav class="subtabs" aria-label="מדריך ותרגיל"><a href="indexing.html" aria-current="page">המדריך</a><a href="indexing-ex.html">תרגיל 7</a></nav>
+<header class="chap"><a class="chapnav prev" href="norm.html"><span>פרק קודם</span>תיכון ונרמול</a><div class="chapmid"><div class="chapnum">פרק 6 מתוך 7</div><div class="chaptitle">אינדקסים ו־<bdi dir="ltr">hashing</bdi></div><nav class="seg2" aria-label="מדריך או תרגיל"><a href="indexing.html" aria-current="page"><b>המדריך</b><small>הסבר, שיטה ודוגמאות</small></a><a href="indexing-ex.html"><b>תרגיל 7</b><small>השאלות והפתרונות</small></a></nav></div><a class="chapnav next" href="cc.html"><span>פרק הבא</span>בקרת בו־זמניות</a></header>
 <div class="wrap">
 <section class="hero" id="top">
   <h1>אינדקסים ו־<bdi dir="ltr">hashing</bdi></h1>
@@ -23,6 +23,7 @@
 
 <section id="storage">
 <h2>אחסון: למה בלוקים חשובים</h2>
+<p class="intro">כדי להבין למה אינדקסים בנויים כמו שהם בנויים, צריך לדעת כמה עולה כל גישה לנתונים. אלה רמות האחסון, מהמהירה לאיטית:</p>
 <div class="tbl"><table>
 <tr><th>רמה</th><th>זמן גישה (סדר גודל)</th><th>יחידת קריאה</th><th>נדיף?</th></tr>
 <tr><td>cache</td><td>1–5 ננו־שניות</td><td>—</td><td>כן</td></tr>
@@ -83,8 +84,8 @@ drop index br_indx;</pre>
 <tr><td><strong>מחיקה</strong></td><td>אם נשארו מעט מדי ערכים: מנסים לאחד עם שכן (<bdi dir="ltr">coalesce</bdi>) — אם יחד הם נכנסים בצומת אחד. אחרת — חלוקה מחדש (<bdi dir="ltr">redistribution</bdi>): לוקחים ערך מהשכן ומעדכנים את ערך ההפרדה בהורה. איחוד מוחק ערך מההורה, ויכול להתגלגל למעלה. שורש עם בן אחד — נמחק, והעץ מתנמך.</td></tr>
 </table></div>
 <p class="sxnote">בשכן: הבדיקה כאן מתחילה בשכן השמאלי (אם יש), כמו באלגוריתם של <bdi dir="ltr">Silberschatz</bdi>. בחירה בשכן הימני היא גם חוקית, ועשויה לתת עץ אחר.</p>
-<h3>הדוגמה משקף 13</h3>
-<p>שמות הסניפים, <bdi dir="ltr">n=3</bdi>. הכנסה בסדר עולה נותנת עץ בגובה 2. בשקף מופיע עץ בגובה 3 עם אותם ערכים — גם הוא חוקי. אותם ערכים יכולים לתת עצים שונים, לפי סדר ההכנסה.</p>
+<h3>הדוגמה מהמצגת</h3>
+<p>שמות הסניפים, <bdi dir="ltr">n=3</bdi>. הכנסה בסדר עולה נותנת עץ בגובה 2. במצגת מופיע עץ בגובה 3 עם אותם ערכים — גם הוא חוקי. אותם ערכים יכולים לתת עצים שונים, לפי סדר ההכנסה.</p>
 <div class="ex gstep" data-gen="i-bslide"><div class="q"><b>דוגמה</b>הכנסה של <bdi dir="ltr">Aviv, Darom, Eilat, Merkazi, Pinkas, Tsafon</bdi> לעץ ריק עם <bdi dir="ltr">n=3</bdi>.</div></div>
 
 <h3 id="bpplay">נסה בעצמך</h3>
@@ -110,7 +111,7 @@ drop index br_indx;</pre>
 <tr><td>כשהקובץ גדל</td><td>דליי גלישה (<bdi dir="ltr">overflow</bdi>), הביצועים יורדים</td><td>מפצלים רק את הדלי שהתמלא</td></tr>
 <tr><td>חיפוש טווח</td><td colspan="2">לא מתאים — ערכים קרובים מתפזרים לדליים שונים. לטווחים: עץ <bdi dir="ltr">B</bdi>+</td></tr>
 </table></div>
-<p>דוגמה (שקף 18): <code class="xp">h(x) = (…) mod 5</code> על <bdi dir="ltr">branch-name</bdi> — 5 דליים, וכל הרשומות של אותו סניף באותו דלי.</p>
+<p>דוגמה: <code class="xp">h(x) = (…) mod 5</code> על <bdi dir="ltr">branch-name</bdi> — 5 דליים, וכל הרשומות של אותו סניף באותו דלי.</p>
 <h3>Extendable hashing</h3>
 <div class="box rule"><h4>המבנה</h4><ul>
 <li><strong>עומק גלובלי <bdi dir="ltr">i</bdi></strong>: טבלת הכתובות (<bdi dir="ltr">bucket address table</bdi>) מכילה <code class="xp">2^i</code> כניסות, לפי <bdi dir="ltr">i</bdi> ביטים של ה־<bdi dir="ltr">hash</bdi>.</li>
@@ -119,11 +120,11 @@ drop index br_indx;</pre>
 <tr><td>העומק המקומי <strong>קטן</strong> מהגלובלי</td><td>מפצלים רק את הדלי: עומק מקומי +1, מחלקים את הערכים לפי הביט החדש, ומעדכנים חצי מהכניסות שהצביעו אליו</td></tr>
 <tr><td>העומק המקומי <strong>שווה</strong> לגלובלי</td><td>קודם מכפילים את הטבלה (<bdi dir="ltr">i+1</bdi>, כל כניסה מוכפלת) — ואז מפצלים כמו בשורה הקודמת</td></tr></table></div>
 <p>אחרי פיצול מנסים שוב להכניס. אם כל הערכים עברו לאותו צד — מפצלים שוב.</p>
-<p>הדוגמה משקפים 20–25: הביטים נלקחים <strong>משמאל</strong> (<bdi dir="ltr">prefix</bdi>), דלי מכיל 2 רשומות, ו־8 הביטים הראשונים של ה־<bdi dir="ltr">hash</bdi>:</p>
+<p>הדוגמה מהמצגת: הביטים נלקחים <strong>משמאל</strong> (<bdi dir="ltr">prefix</bdi>), דלי מכיל 2 רשומות, ו־8 הביטים הראשונים של ה־<bdi dir="ltr">hash</bdi>:</p>
 <div class="tbl"><table><tr><th>סניף</th><th>8 הביטים הראשונים</th></tr>
 <tr><td>Aviv</td><td><code class="xp">0010 1101</code></td></tr><tr><td>Darom</td><td><code class="xp">1010 0011</code></td></tr><tr><td>Eilat</td><td><code class="xp">1000 0111</code></td></tr><tr><td>Merkazi</td><td><code class="xp">1111 0001</code></td></tr><tr><td>Pinkas</td><td><code class="xp">1011 0101</code></td></tr><tr><td>Tsafon</td><td><code class="xp">0101 1000</code></td></tr><tr><td>Carmel</td><td><code class="xp">1101 0101</code></td></tr></table></div>
 <div class="ex gstep" data-gen="i-ehslide"><div class="q"><b>דוגמה</b>הכנסת שבעת הסניפים לפי הסדר.</div></div>
-<p>המבנה הסופי זהה לשקף <bdi dir="ltr">25</bdi>: <bdi dir="ltr">Aviv</bdi>&nbsp;ו־<bdi dir="ltr">Tsafon</bdi> בדלי עם עומק <bdi dir="ltr">1, Eilat</bdi> לבד ו־<bdi dir="ltr">Darom</bdi> עם <bdi dir="ltr">Pinkas</bdi> בדליים עם עומק <bdi dir="ltr">3, Merkazi</bdi>&nbsp;ו־<bdi dir="ltr">Carmel</bdi> בדלי עם עומק 2.</p>
+<p>המבנה הסופי זהה לתוצאה במצגת: <bdi dir="ltr">Aviv</bdi>&nbsp;ו־<bdi dir="ltr">Tsafon</bdi> בדלי עם עומק <bdi dir="ltr">1, Eilat</bdi> לבד ו־<bdi dir="ltr">Darom</bdi> עם <bdi dir="ltr">Pinkas</bdi> בדליים עם עומק <bdi dir="ltr">3, Merkazi</bdi>&nbsp;ו־<bdi dir="ltr">Carmel</bdi> בדלי עם עומק 2.</p>
 </section>
 
 <section id="bitmap">
@@ -141,6 +142,7 @@ drop index br_indx;</pre>
 
 <section id="itraps">
 <h2>מלכודות</h2>
+<p class="intro">הטעויות הנפוצות בעצי <bdi dir="ltr">B</bdi>+ וב־<bdi dir="ltr">hashing</bdi>:</p>
 <div class="tbl"><table>
 <tr><th>טעות</th><th>למה זה שגוי</th><th>התיקון</th></tr>
 <tr><td>בפיצול צומת פנימי, הערך נשאר גם בצומת</td><td>רק בעלה הערך מועתק. בצומת פנימי הוא <strong>עולה</strong> ונעלם מהרמה</td><td><bdi dir="ltr">n+1</bdi> מצביעים: ⌈(<bdi dir="ltr">n+1</bdi>)/2⌉ נשארים, ערך אחד עולה</td></tr>

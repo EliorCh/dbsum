@@ -69,7 +69,8 @@ const EXI=Object.fromEntries((SQLD.EX||[]).map(e=>[e.id,e]));
 document.querySelectorAll('.sqlex[data-ex]').forEach(el=>{
   const e=EXI[el.dataset.ex];if(!e)return;
   const res=e.res.error?resultHTML(e.res):e.diff?resultHTML(e.res,`${e.diff} אחרי הפקודה`,e.before):resultHTML(e.res,'תוצאה');
-  el.innerHTML=`<div class="sxq">${capHTML(e.q)}</div>`+withSide(`
+  const HW=(window.SQLHOW||{})[e.id];
+  el.innerHTML=`<div class="sxq">${capHTML(HW?HW[0]:e.q)}</div>${HW?`<p class="sxhow">${HW[1].split(/(<code[^>]*>.*?<\/code>|<[^>]+>)/).map((x,i)=>i%2?x:capHTML(x)).join('')}</p>`:''}`+withSide(`
    ${e.course?`<div class="sxlab">בתחביר הקורס</div><pre class="sqlcode course">${hl(e.course)}</pre><div class="sxlab">גרסה שרצה ב־SQLite</div>`:''}
    <pre class="sqlcode">${hl(e.sql)}</pre>
    ${e.ra?`<div class="sxra"><span>באלגברה:</span> <code class="xp wrap">${e.ra}</code></div>`:''}

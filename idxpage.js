@@ -17,7 +17,7 @@ GEN['i-b4']=()=>bptGen(4,[],VALS.map(k=>['+',k]),{h:'עץ ריק, n=4',p:`<p>כ�
 GEN['i-b6']=()=>bptGen(6,[],VALS.map(k=>['+',k]),{h:'עץ ריק, n=6',p:`<p>כל צומת: עד 6 מצביעים ו־5 ערכים.</p>${rules(6)}`,cap:'[ ]',fig:()=>BPT.svg({id:0,leaf:true,keys:[],ch:[]},6,[],{cw:26})});
 GEN['i-b4ops']=()=>bptGen(4,VALS.map(k=>['+',k]),OPS);
 GEN['i-b6ops']=()=>bptGen(6,VALS.map(k=>['+',k]),OPS);
-GEN['i-bslide']=()=>bptGen(3,[],['Aviv','Darom','Eilat','Merkazi','Pinkas','Tsafon'].map(k=>['+',k]),{h:'עץ ריק, n=3',p:`<p>הדוגמה משקף 13: מפתח החיפוש הוא שם הסניף, n=3 — עד 2 ערכים בצומת.</p>${rules(3)}`,cap:'[ ]',fig:()=>BPT.svg({id:0,leaf:true,keys:[],ch:[]},3,[],{cw:62})});
+GEN['i-bslide']=()=>bptGen(3,[],['Aviv','Darom','Eilat','Merkazi','Pinkas','Tsafon'].map(k=>['+',k]),{h:'עץ ריק, n=3',p:`<p>הדוגמה מהמצגת: מפתח החיפוש הוא שם הסניף, n=3 — עד 2 ערכים בצומת.</p>${rules(3)}`,cap:'[ ]',fig:()=>BPT.svg({id:0,leaf:true,keys:[],ch:[]},3,[],{cw:62})});
 /* extendable hashing */
 function ehGen(vals,cap,bits,lsb,names){const r=EH.run(vals,cap,bits,lsb);const nm=v=>names?names[v]:v;const out=[];
   out.push({h:'התחלה',p:`<p>עומק גלובלי i=0: טבלת הכתובות מכילה כניסה אחת, שמצביעה לדלי יחיד עם עומק מקומי 0. דלי מכיל עד ${cap} ערכים.</p><p>${lsb?'הביטים נלקחים מימין (LSB)':'הביטים נלקחים משמאל (prefix)'}.</p>`,cap:`עומק גלובלי 0, דלי אחד`,fig:()=>EH.svg({g:0,table:[0],buckets:[{id:0,d:0,k:[]}]},bits,lsb)});

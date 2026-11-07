@@ -39,7 +39,7 @@ function tsSteps(S,ts,mode,intro){const r=CC.tsSim(S,ts,mode);const items=[...ne
   r.log.forEach((l,k)=>{const verdict={ok:'מתבצעת',rollback:`נדחית — ${l.t} מגולגלת אחורנית`,ignore:'מתעלמים ממנה (חוק תומאס)',skip:'מדלגים'}[l.res];
     out.push({h:`${l.t}: ${x(l.s)} — ${verdict}`,p:`<p>${x(l.why)}</p>${l.res==='ok'?`<p>מעדכנים: ${x(CC.op(l.s).k==='r'?`R-TS(${l.x}) = max(R-TS, ${ts[l.t]}) = ${l.R[l.x]}`:`W-TS(${l.x}) = ${l.W[l.x]}`)}</p>`:''}`,cap:verdict,fig:()=>fig(k)});});
   return {steps:out,r};}
-GEN['c-ts21']=()=>{const g=tsSteps(CC.parseShort('r1(A) w1(A) w2(B) r2(A) r3(B) r3(C) w3(A) r1(C) w2(C)'),{T1:1,T2:2,T3:3},'basic','<p>הדוגמה משקף 21.</p>');return g;};
+GEN['c-ts21']=()=>{const g=tsSteps(CC.parseShort('r1(A) w1(A) w2(B) r2(A) r3(B) r3(C) w3(A) r1(C) w2(C)'),{T1:1,T2:2,T3:3},'basic','<p>הדוגמה מהמצגת.</p>');return g;};
 GEN['c-thomas']=()=>{const S=CC.parseShort('r1(Q) w2(Q) w1(Q)');const a=tsSteps(S,{T1:100,T2:200},'thomas','<p>T1 ותיקה יותר: <code class="xp">TS(T1) &lt; TS(T2)</code>, ולכן התזמון צריך להיות שקול ל־T1 ואחריה T2.</p>');
   a.steps[a.steps.length-1].p+=`<p>בפרוטוקול הבסיסי ${x('w1(Q)')} הייתה גורמת לגלגול של T1. לפי חוק תומאס מתעלמים ממנה: בסדר T1 ← T2, T2 הייתה דורסת אותה בכל מקרה. התוצאה שקולת־תצפית לסדר הסדרתי T1, T2 — אבל לא שקולת־קונפליקט.</p>`;return a;};
 GEN['c-q7ts']=()=>tsSteps(S7,{T0:0,T1:1,T2:2},'basic','<p>חותמות זמן לפי סדר ההתחלה: T0, אחריה T1, אחריה T2.</p>');

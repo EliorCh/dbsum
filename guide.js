@@ -434,7 +434,7 @@ const B=BANK,B20=BANK20;
   {expr:F(e1),ev:()=>c1,base:B.customer,cap:'σ הוריד את הלקוחות שלא גרים ב־Haifa (מחוקים)'},
   {expr:`${e1} ${F('⋈ deposit')}`,ev:()=>c2,cap:'⋈ על customer-name הוסיף את עמודות החשבון (מסומנות)'},
   {expr:`${e1} ⋈ deposit ${F('⋈ branch')}`,ev:()=>c3,cap:'⋈ על branch-name הוסיף נכסים ועיר סניף'},
-  {expr:`${F('π<sub>branch-name, assets</sub>')}(${e1} ⋈ deposit ⋈ branch)`,ev:()=>c4,cap:'התוצאה — זהה לשקף 18'}]};}
+  {expr:`${F('π<sub>branch-name, assets</sub>')}(${e1} ⋈ deposit ⋈ branch)`,ev:()=>c4,cap:'התוצאה — זהה לתוצאה במצגת'}]};}
 /* ---- worked: rename (slide 12) ---- */
 {const m1=σ_(B.customer,t=>t['customer-name']==='Morag'),m2=π_(m1,['customer-city']),m3=ρ_(m2,'cust2'),
  m4=X_(B.customer,m3),m5=σ_(m4,t=>t['customer.customer-city']===t['cust2.customer-city']),m6=π_(m5,['customer.customer-name']);
@@ -446,7 +446,7 @@ const B=BANK,B20=BANK20;
   {expr:`${F('ρ<sub>cust2</sub>')}(${b})`,ev:()=>m3,cap:'אותו תוכן, שם חדש: cust2'},
   {expr:`customer ${F('×')} ${c}`,ev:()=>m4,cap:'4 × 1 = 4 שורות; העיר של Morag לצד כל לקוח'},
   {expr:`${F('σ<sub>customer.customer-city=cust2.customer-city</sub>')}(customer × ${c})`,ev:()=>m5,cap:'השוואה בתוך השורה: נשארו שני לקוחות מ־Rishon'},
-  {expr:`${F('π<sub>customer.customer-name</sub>')}(σ<sub>…</sub>(customer × ${c}))`,ev:()=>m6,cap:'התוצאה — זהה לשקף 12'}]};}
+  {expr:`${F('π<sub>customer.customer-name</sub>')}(σ<sub>…</sub>(customer × ${c}))`,ev:()=>m6,cap:'התוצאה — זהה לתוצאה במצגת'}]};}
 /* ---- worked: max (slide 15) ---- */
 {const d=ρ_(B.deposit,'d'),x1=X_(B.deposit,d),x2=σ_(x1,t=>t['deposit.balance']<t['d.balance']),x3=π_(x2,['deposit.balance']),all=π_(B.deposit,['balance']),x4=D_(all,x3);
  ALGQ.wMax={data:B,steps:[
@@ -454,7 +454,7 @@ const B=BANK,B20=BANK20;
   {expr:`deposit ${F('× ρ<sub>d</sub>(deposit)')}`,ev:()=>x1,cap:'3 × 3 = 9 זוגות חשבונות'},
   {expr:`${F('σ<sub>deposit.balance&lt;d.balance</sub>')}(deposit × ρ<sub>d</sub>(deposit))`,ev:()=>x2,cap:'זוגות שבהם הסכום השמאלי קטן מהימני'},
   {expr:`${F('π<sub>deposit.balance</sub>')}(σ<sub>deposit.balance&lt;d.balance</sub>(…))`,ev:()=>x3,cap:'400 ו־500 אינם מרביים (400 נשאר פעם אחת)'},
-  {expr:`${F('π<sub>balance</sub>(deposit) −')} π<sub>deposit.balance</sub>(…)`,ev:()=>[['כל הסכומים',all],['קטנים ממשהו',x3],['תוצאה',x4,null]],cap:'נשאר 700 — זהה לשקף 15'}]};}
+  {expr:`${F('π<sub>balance</sub>(deposit) −')} π<sub>deposit.balance</sub>(…)`,ev:()=>[['כל הסכומים',all],['קטנים ממשהו',x3],['תוצאה',x4,null]],cap:'נשאר 700 — זהה לתוצאה במצגת'}]};}
 /* ---- worked: division (slide 20) ---- */
 {const s=π_(σ_(B20.branch,t=>t['branch-city']==='Jaffa'),['branch-name']),r=π_(B20.deposit,['customer-name','branch-name']),q=V_(r,s);
  const es=xp('branch-name',xs("branch-city='Jaffa'",'branch')),er_=xp('customer-name, branch-name','deposit');
@@ -463,7 +463,7 @@ const B=BANK,B20=BANK20;
   {expr:F(es),ev:()=>s,base:π_(B20.branch,['branch-name']),cap:'המחלק: Darom ו־Tsafon'},
   {expr:`${F(er_)} ÷ ${es}`,ev:()=>[['המחולק',r],['המחלק',s]],cap:'המחולק: זוגות (לקוח, סניף) בלבד'},
   {expr:`${er_} ${F('÷')} ${es}`,ev:()=>[['המחולק',r,null,t=>t[0]==='Tamir'],['המחלק',s]],cap:'ל־Tamir יש שורה לכל סניף במחלק (מסומן)'},
-  {expr:`${er_} ÷ ${es}`,ev:()=>q,cap:'התוצאה — זהה לשקף 20'}]};}
+  {expr:`${er_} ÷ ${es}`,ev:()=>q,cap:'התוצאה — זהה לתוצאה במצגת'}]};}
 /* ---- practice ---- */
 {const p1a=σ_(B.borrow,t=>t['branch-name']==='Pinkas'&&t.amount>1500),p1b=π_(p1a,['customer-name']);
  ALGQ.p1={data:B,steps:[{schema:[[],[]],cap:'נסה לבד'},{schema:[['borrow'],['branch-name','customer-name','amount']],cap:'הכול ב־borrow'},
@@ -654,7 +654,7 @@ document.querySelectorAll('.ex.alg').forEach(ex=>{const q=ALGQ[ex.dataset.q];if(
     {sym:'∩',he:'חיתוך',en:'intersection',icon:ic.venn('i'),what:'שורות שנמצאות גם ב־r וגם ב־s.',cond:'כמו באיחוד. שווה ל־r − (r − s)',
      expr:`${xp('customer-name','borrow')} ∩ ${xp('customer-name','deposit')}`,
      ins:[['borrow',B.borrow,['customer-name']],['deposit',B.deposit,['customer-name']]],mid:([r,s])=>[['לווים',π_(r,['customer-name'])],['חוסכים',π_(s,['customer-name'])]],
-     f:([r,s])=>I_(π_(r,['customer-name']),π_(s,['customer-name'])),look:'לקוחות שגם לווים וגם חוסכים. Morag לא נמצא ברשימת החוסכים, ולכן הוא עמום. בשקף 16 החיתוך מוגבל לסניף Hamerkaz, והתוצאה שם ריקה'},
+     f:([r,s])=>I_(π_(r,['customer-name']),π_(s,['customer-name'])),look:'לקוחות שגם לווים וגם חוסכים. Morag לא נמצא ברשימת החוסכים, ולכן הוא עמום. במצגת החיתוך מוגבל לסניף Hamerkaz, והתוצאה שם ריקה'},
     {sym:'⋈',he:'צירוף טבעי',en:'natural join',icon:'<div class="icx">r⋈s</div>',what:'שרשור של שורות מ־r ו־s שערכיהן שווים בכל התכונות המשותפות. כל תכונה משותפת מופיעה פעם אחת.',cond:'מצרף לפי <strong>כל</strong> התכונות בעלות אותו שם',
      expr:'customer ⋈ deposit',ins:[['customer',B.customer,['customer-name']],['deposit',B.deposit,['customer-name']]],f:([r,s])=>J_(r,s),look:'Morag עמום: אין לו חשבון חיסכון, ולכן אין לו שורה בתוצאה'},
     {sym:'÷',he:'חילוק',en:'division',icon:'<div class="icx">r÷s</div>',what:'הערכים ב־R−S שמופיעים ב־r בשילוב עם <strong>כל</strong> שורה של s.',cond:'S ⊂ R (הכלה ממש). התבנית של התוצאה: R − S',
@@ -795,10 +795,10 @@ secs.forEach(s=>io.observe(s));
 /* ---------- collapsible menu ---------- */
 (function(){
   const nav=document.querySelector('nav.side');if(!nav)return;
-  const b=document.createElement('button');b.type='button';b.className='menubtn';b.setAttribute('aria-expanded','false');b.textContent='הצג תפריט';
+  const b=document.createElement('button');b.type='button';b.className='menubtn';b.setAttribute('aria-expanded','false');b.textContent='☰ כל הפרקים';
   const sc=document.createElement('div');sc.className='scrim';
   document.body.append(b,sc);
-  const set=o=>{document.body.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',o);b.textContent=o?'סגור תפריט':'הצג תפריט';};
+  const set=o=>{document.body.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',o);b.textContent=o?'✕ סגור':'☰ כל הפרקים';};
   b.addEventListener('click',()=>set(!document.body.classList.contains('menu-open')));
   sc.addEventListener('click',()=>set(false));
   nav.addEventListener('click',e=>{if(e.target.closest('a'))set(false);});

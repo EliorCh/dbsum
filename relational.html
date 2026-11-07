@@ -9,17 +9,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="guide.css">
 </head>
-<body class="pg-relational">
+<body class="pg-relational chapter">
 <div class="layout">
-<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html" aria-current="page" class="active">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#partB" class="active">פתיחה</a></li><li><a href="#rel-intro">מושגים ונתוני הבנק</a></li><li><a href="#er2rel">מ־ER לטבלאות</a></li><li><a href="#ops">תשעת האופרטורים</a></li><li><a href="#qmethod">שיטת כתיבת שאילתה</a></li><li class="sub"><a href="#qpatterns">תבניות שאילתה</a></li><li><a href="#w-join">פתרון: שרשרת צירופים</a></li><li><a href="#w-rename">פתרון: כינוי</a></li><li><a href="#w-max">פתרון: הערך המרבי</a></li><li><a href="#w-div">פתרון: חילוק</a></li><li><a href="#drc">תחשיב יחסים</a></li><li><a href="#ratraps">מלכודות באלגברה</a></li></ol></nav>
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">פרקים</div><ol class="pages chaptree"><li class="chap"><a href="index.html">דף הבית</a></li><li class="chap"><span class="cn">1</span><span class="ct">מודל ER</span><span class="kids"><a href="er.html">מדריך</a><a href="er-ex.html">תרגיל 1</a></span></li><li class="chap cur"><span class="cn">2</span><span class="ct">מודל היחסים</span><span class="kids"><a href="relational.html" aria-current="page">מדריך</a><a href="relational-ex.html">תרגיל 2</a></span></li><li class="chap"><span class="cn">3</span><span class="ct">SQL</span><span class="kids"><a href="sql.html">מדריך</a><a href="sql-ex.html">תרגילים 3–4</a></span></li><li class="chap"><span class="cn">4</span><span class="ct">תלויות פונקציונליות</span><span class="kids"><a href="fd.html">מדריך</a><a href="fd-ex.html">תרגיל 5</a></span></li><li class="chap"><span class="cn">5</span><span class="ct">תיכון ונרמול</span><span class="kids"><a href="norm.html">מדריך</a><a href="norm-ex.html">תרגיל 6</a></span></li><li class="chap"><span class="cn">6</span><span class="ct">אינדקסים ו־hashing</span><span class="kids"><a href="indexing.html">מדריך</a><a href="indexing-ex.html">תרגיל 7</a></span></li><li class="chap"><span class="cn">7</span><span class="ct">בקרת בו־זמניות</span><span class="kids"><a href="cc.html">מדריך</a><a href="cc-ex.html">תרגיל 8</a></span></li><li class="chap"><a href="practice.html">מטלות תרגול נוספות</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#partB" class="active">פתיחה</a></li><li><a href="#rel-intro">מושגים ונתוני הבנק</a></li><li><a href="#er2rel">מ־ER לטבלאות</a></li><li><a href="#ops">תשעת האופרטורים</a></li><li><a href="#qmethod">שיטת כתיבת שאילתה</a></li><li class="sub"><a href="#qpatterns">תבניות שאילתה</a></li><li><a href="#w-join">פתרון: שרשרת צירופים</a></li><li><a href="#w-rename">פתרון: כינוי</a></li><li><a href="#w-max">פתרון: הערך המרבי</a></li><li><a href="#w-div">פתרון: חילוק</a></li><li><a href="#drc">תחשיב יחסים</a></li><li><a href="#ratraps">מלכודות באלגברה</a></li></ol></nav>
 <main>
-<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html" aria-current="page">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="fd.html">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav><nav class="subtabs" aria-label="מדריך ותרגיל"><a href="relational.html" aria-current="page">המדריך</a><a href="relational-ex.html">תרגיל 2</a></nav>
+<header class="chap"><a class="chapnav prev" href="er.html"><span>פרק קודם</span>מודל <bdi dir="ltr">ER</bdi></a><div class="chapmid"><div class="chapnum">פרק 2 מתוך 7</div><div class="chaptitle">מודל היחסים</div><nav class="seg2" aria-label="מדריך או תרגיל"><a href="relational.html" aria-current="page"><b>המדריך</b><small>הסבר, שיטה ודוגמאות</small></a><a href="relational-ex.html"><b>תרגיל 2</b><small>השאלות והפתרונות</small></a></nav></div><a class="chapnav next" href="sql.html"><span>פרק הבא</span>SQL</a></header>
 <div class="wrap">
 <div class="partdiv" id="partB"><span>נושא 2</span><h2>מודל היחסים ואלגברת היחסים</h2>
 <p>בחלק הזה עוברים מהדיאגרמה לטבלאות, ומהטבלאות לשאילתות. כל הטבלאות כאן מחושבות בזמן אמת על נתוני הבנק מהמצגת, כך שכל תוצאת ביניים היא תוצאה אמיתית.</p></div>
 
 <section id="rel-intro">
 <h2>מושגי היסוד</h2>
+<p class="intro">במודל היחסים כל הנתונים שמורים בטבלאות. לפני הכל — המונחים: מה נקרא יחס, תכונה, <bdi dir="ltr">n</bdi>־יה ותבנית, ואיך כל אחד נראה בבנק שמשמש את כל הדוגמאות:</p>
 <div class="tbl"><table>
 <tr><th>מושג</th><th>מה זה</th><th>בבנק</th></tr>
 <tr><td><strong>יחס</strong> (relation)</td><td>טבלה עם שורות ועמודות, עם שם ייחודי</td><td><code class="xp">customer</code></td></tr>
@@ -37,7 +38,7 @@
 
 <h3>מהדיאגרמה לטבלאות — מערכת הבנק</h3>
 <p>זו הדיאגרמה מהמצגת ותבניות היחסים שנגזרו ממנה. שים לב שלקשרים <span class="r">deposit</span> ו<span class="r">borrow</span> יש תכונות משלהם (מספר וסכום), והן עוברות לטבלה של הקשר.</p>
-<figure class="fig"><div data-spec="bankER" data-show="art"></div><figcaption>מערכת הבנק בשקף 4 — שני טיפוסי ישויות ושני קשרים עם תכונות</figcaption></figure>
+<figure class="fig"><div data-spec="bankER" data-show="art"></div><figcaption>מערכת הבנק במצגת — שני טיפוסי ישויות ושני קשרים עם תכונות</figcaption></figure>
 <div class="tbl"><table>
 <tr><th>בדיאגרמה</th><th>בטבלאות</th><th>בבנק</th></tr>
 <tr><td>טיפוס ישויות</td><td>יחס עם התכונות שלו</td><td><code class="xp">Branch=(branch-name, assets, branch-city)</code></td></tr>
@@ -45,7 +46,7 @@
 <tr><td>קו בין קשר לישות</td><td>תכונה משותפת לשני יחסים — הדרך לקשר שורות</td><td><code class="xp">customer-name</code> מופיע ב־<bdi dir="ltr">Customer</bdi> וב־<bdi dir="ltr">Deposit</bdi></td></tr>
 </table></div>
 
-<h3 id="bankdata">נתוני הבנק (שקף 5)</h3>
+<h3 id="bankdata">נתוני הבנק</h3>
 <p>כל הדוגמאות והתרגולים בחלק הזה רצים על הטבלאות האלה. כדאי לפתוח אותן לידך כשאתה פותר.</p>
 <div class="bankgrid" id="bankTables"></div>
 </section>
@@ -107,6 +108,7 @@
 </ol>
 
 <h3 id="qphrases">מילון: מה כתוב בשאלה ← איזה אופרטור</h3>
+<p class="intro">כמו במודל <bdi dir="ltr">ER</bdi>, גם כאן לכל ניסוח בשאלה יש אופרטור קבוע. הטבלה עוזרת לתרגם שאלה לאלגברה מילה אחרי מילה:</p>
 <div class="tbl"><table>
 <tr><th>ניסוח בשאלה</th><th>אופרטור</th><th>דוגמה מהמצגת</th></tr>
 <tr><td>״בסניף <bdi dir="ltr">X</bdi>״, ״שגרים ב־<bdi dir="ltr">Y</bdi>״, ״בסכום מעל…״</td><td class="c"><bdi dir="ltr">σ</bdi></td><td>הלוואות בסניף <bdi dir="ltr">Aviv</bdi></td></tr>
@@ -138,8 +140,9 @@
 <!-- ===== worked: join chain ===== -->
 <section id="w-join">
 <h2>פתרון מודרך: שרשרת צירופים</h2>
+<p class="intro">כשהנתונים שהשאלה מבקשת מפוזרים בכמה יחסים, מחברים אותם בשרשרת של צירופים. הפתרון בונה את הביטוי צעד אחרי צעד, ואחרי כל צעד מוצגת הטבלה שהתקבלה על נתוני הבנק: שורות שנוספו מסומנות בסגול ושורות שנמחקו מחוקות. ״טבלאות המקור״ פותח את היחסים שהביטוי משתמש בהם.</p>
 <div class="ex alg" data-q="wJoin">
-<div class="q"><b>השאלה (שקף 18)</b>מצא את שמות הסניפים שיש להם לקוחות בעלי חשבונות חיסכון הגרים ב־<bdi dir="ltr">Haifa</bdi>, ואת ערכי נכסיהם.</div>
+<div class="q"><b>השאלה</b>מצא את שמות הסניפים שיש להם לקוחות בעלי חשבונות חיסכון הגרים ב־<bdi dir="ltr">Haifa</bdi>, ואת ערכי נכסיהם.</div>
 <div class="exgrid">
 <div class="exfig"><figure class="fig livefig algfig"><div class="algpanel"></div><figcaption class="livecap"></figcaption></figure>
 <div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button><button class="btn ghost srcBtn" type="button" aria-pressed="false">טבלאות המקור</button></div></div>
@@ -154,15 +157,16 @@
 <div class="step"><div class="sh">צעד 3: מחברים ל־<bdi dir="ltr">branch</bdi></div>
 <p>עכשיו התכונה המשותפת היא <code class="xp">branch-name</code>, ונוספים הנכסים ועיר הסניף. שים לב: אין כאן התנגשות בין <code class="xp">customer-city</code> ל־<code class="xp">branch-city</code>, כי יש להן שמות שונים. אם שתיהן היו נקראות <code class="xp">city</code>, ה־<code class="xp">⋈</code> היה דורש שגם הן יהיו שוות.</p></div>
 <div class="step"><div class="sh">צעד 6: הטלה לתשובה</div>
-<p>נשארות רק העמודות שהשאלה ביקשה. זו בדיוק התוצאה בשקף 18.</p></div>
+<p>נשארות רק העמודות שהשאלה ביקשה. זו בדיוק התוצאה במצגת.</p></div>
 </div></div></div>
 </section>
 
 <!-- ===== worked: rename ===== -->
 <section id="w-rename">
 <h2>פתרון מודרך: כינוי והשוואה עצמית</h2>
+<p class="intro">כשצריך להשוות שורה של יחס לשורה אחרת של אותו יחס, משתמשים בשינוי שם (<bdi dir="ltr">ρ</bdi>) כדי לקבל שני עותקים. הפתרון בונה את הביטוי צעד אחרי צעד, ואחרי כל צעד מוצגת הטבלה שהתקבלה על נתוני הבנק: שורות שנוספו מסומנות בסגול ושורות שנמחקו מחוקות. ״טבלאות המקור״ פותח את היחסים שהביטוי משתמש בהם.</p>
 <div class="ex alg" data-q="wRename">
-<div class="q"><b>השאלה (שקף 12)</b>מצא את שמות כל הלקוחות הגרים בעיר שבה גר <bdi dir="ltr">Morag</bdi>.</div>
+<div class="q"><b>השאלה</b>מצא את שמות כל הלקוחות הגרים בעיר שבה גר <bdi dir="ltr">Morag</bdi>.</div>
 <div class="exgrid">
 <div class="exfig"><figure class="fig livefig algfig"><div class="algpanel"></div><figcaption class="livecap"></figcaption></figure>
 <div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button><button class="btn ghost srcBtn" type="button" aria-pressed="false">טבלאות המקור</button></div></div>
@@ -182,8 +186,9 @@
 <!-- ===== worked: max ===== -->
 <section id="w-max">
 <h2>פתרון מודרך: הערך המרבי</h2>
+<p class="intro">באלגברת יחסים אין פונקציה <bdi dir="ltr">max</bdi>. הפתרון מראה איך מוצאים ערך מרבי בעזרת מכפלה, בחירה והפרש. הפתרון בונה את הביטוי צעד אחרי צעד, ואחרי כל צעד מוצגת הטבלה שהתקבלה על נתוני הבנק: שורות שנוספו מסומנות בסגול ושורות שנמחקו מחוקות. ״טבלאות המקור״ פותח את היחסים שהביטוי משתמש בהם.</p>
 <div class="ex alg" data-q="wMax">
-<div class="q"><b>השאלה (שקף 15)</b>מצא את סכום החיסכון המרבי.</div>
+<div class="q"><b>השאלה</b>מצא את סכום החיסכון המרבי.</div>
 <div class="exgrid">
 <div class="exfig"><figure class="fig livefig algfig"><div class="algpanel"></div><figcaption class="livecap"></figcaption></figure>
 <div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button><button class="btn ghost srcBtn" type="button" aria-pressed="false">טבלאות המקור</button></div></div>
@@ -201,8 +206,9 @@
 <!-- ===== worked: division ===== -->
 <section id="w-div">
 <h2>פתרון מודרך: חילוק — ״בכל״</h2>
+<p class="intro">שאלות עם המילה ״בכל״ נפתרות בחילוק (<bdi dir="ltr">÷</bdi>). הפתרון מראה איך מזהים שאלה כזו, איך בונים את המחולק ואת המחלק, ומה החילוק מחזיר. הפתרון בונה את הביטוי צעד אחרי צעד, ואחרי כל צעד מוצגת הטבלה שהתקבלה על נתוני הבנק: שורות שנוספו מסומנות בסגול ושורות שנמחקו מחוקות. ״טבלאות המקור״ פותח את היחסים שהביטוי משתמש בהם.</p>
 <div class="ex alg" data-q="wDiv">
-<div class="q"><b>השאלה (שקף 20)</b>מצא את שמות הלקוחות שיש להם חשבונות חיסכון בכל הסניפים בעיר <bdi dir="ltr">Jaffa</bdi>. <span class="muted">(הנתונים של שקף 20: נוספו הסניף <bdi dir="ltr">Darom</bdi> ושני חשבונות.)</span></div>
+<div class="q"><b>השאלה</b>מצא את שמות הלקוחות שיש להם חשבונות חיסכון בכל הסניפים בעיר <bdi dir="ltr">Jaffa</bdi>. <span class="muted">(בנתונים כאן נוספו הסניף <bdi dir="ltr">Darom</bdi> ושני חשבונות.)</span></div>
 <div class="exgrid">
 <div class="exfig"><figure class="fig livefig algfig"><div class="algpanel"></div><figcaption class="livecap"></figcaption></figure>
 <div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button><button class="btn ghost srcBtn" type="button" aria-pressed="false">טבלאות המקור</button></div></div>
@@ -234,20 +240,21 @@
 <tr><td><code class="xp">÷</code> (״בכל״)</td><td><code class="xp">∀ (… ⇒ …)</code></td><td>ראה הדוגמה למטה</td></tr>
 </table></div>
 <h3>שתי השאילתות מהשקפים, בתחשיב</h3>
-<p><strong>שקף 18</strong> — סניפים עם חוסכים מ־<bdi dir="ltr">Haifa</bdi>, ונכסיהם:</p>
+<p><strong>המצגת</strong> — סניפים עם חוסכים מ־<bdi dir="ltr">Haifa</bdi>, ונכסיהם:</p>
 <p class="mathline"><code class="xp">{ &lt;b, a&gt; | ∃c, s, n, v, bc ( &lt;c, s, 'Haifa'&gt; ∈ customer ∧ &lt;b, n, c, v&gt; ∈ deposit ∧ &lt;b, a, bc&gt; ∈ branch ) }</code></p>
 <p>המשתנה <code class="xp">c</code> מחבר את <bdi dir="ltr">customer</bdi> ל־<bdi dir="ltr">deposit</bdi>, והמשתנה <code class="xp">b</code> מחבר את <bdi dir="ltr">deposit</bdi> ל־<bdi dir="ltr">branch</bdi>. זה ה־<code class="xp">⋈</code>.</p>
-<p><strong>שקף 20</strong> — לקוחות עם חשבון בכל הסניפים ב־<bdi dir="ltr">Jaffa</bdi>:</p>
+<p><strong>המצגת</strong> — לקוחות עם חשבון בכל הסניפים ב־<bdi dir="ltr">Jaffa</bdi>:</p>
 <p class="mathline"><code class="xp">{ &lt;c&gt; | ∃b',n',v' (&lt;b',n',c,v'&gt; ∈ deposit) ∧ ∀b ( ∃a (&lt;b, a, 'Jaffa'&gt; ∈ branch) ⇒ ∃n,v (&lt;b, n, c, v&gt; ∈ deposit) ) }</code></p>
 <p>קרא את זה כך: <bdi dir="ltr">c</bdi> הוא לקוח, ו<strong>לכל</strong> סניף <bdi dir="ltr">b</bdi> — אם <bdi dir="ltr">b</bdi> נמצא ב־<bdi dir="ltr">Jaffa</bdi>, אז ל־<bdi dir="ltr">c</bdi> יש בו חשבון. החלק הראשון מבטיח ש־<bdi dir="ltr">c</bdi> הוא לקוח אמיתי; בלעדיו, ״כל ערך שהוא״ היה עונה על התנאי אם אין סניפים ב־<bdi dir="ltr">Jaffa</bdi>.</p>
 </section>
 
 <section id="ratraps">
 <h2>מלכודות באלגברת יחסים</h2>
+<p class="intro">הטעויות הנפוצות בכתיבת ביטויים באלגברה, עם ההסבר והתיקון:</p>
 <div class="tbl"><table>
 <tr><th>טעות</th><th>למה זה שגוי</th><th>התיקון</th></tr>
 <tr><td><code class="xp">∪</code> / <code class="xp">−</code> / <code class="xp">∩</code> בין טבלאות עם עמודות שונות</td><td>הפעולות מוגדרות רק על תבניות תואמות</td><td><code class="xp">π</code> לשני הצדדים לפני הפעולה</td></tr>
-<tr><td><code class="xp">×</code> בלי תנאי שוויון</td><td>כל שורה מתחברת לכל שורה — שורות מזויפות (12 במקום 3 בשקף 11)</td><td><code class="xp">σ</code> עם שוויון, או <code class="xp">⋈</code></td></tr>
+<tr><td><code class="xp">×</code> בלי תנאי שוויון</td><td>כל שורה מתחברת לכל שורה — שורות מזויפות (12 שורות במקום 3)</td><td><code class="xp">σ</code> עם שוויון, או <code class="xp">⋈</code></td></tr>
 <tr><td><code class="xp">π</code> מוקדם מדי</td><td>עמודה שהוסרה לא זמינה לחיבור או לתנאי שבא אחר כך</td><td><code class="xp">π</code> מהותי רק בסוף ולפני פעולות קבוצה</td></tr>
 <tr><td>״שאין להם הלוואה״ עם <code class="xp">σ<sub>≠</sub></code></td><td><code class="xp">σ<sub>branch-name≠'Hamerkaz'</sub>(borrow)</code> מחזיר מי שיש לו הלוואה בסניף <strong>אחר</strong>, גם אם יש לו גם ב־<bdi dir="ltr">Hamerkaz</bdi></td><td>שלילה = <code class="xp">−</code> בין כל הלקוחות למי שכן</td></tr>
 <tr><td><code class="xp">∩</code> על שמות כשהשאלה אומרת ״באותו סניף״</td><td>מקבלים מי שיש לו הלוואה בסניף אחד וחיסכון בסניף אחר</td><td><code class="xp">∩</code> על הזוג (סניף, לקוח), ורק אחר כך <code class="xp">π</code></td></tr>
