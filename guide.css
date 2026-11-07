@@ -651,3 +651,6 @@ tr.spur td,tr.dup td{background:#F3E8FB}
 @media (max-width:600px){table.sched td{white-space:normal;word-break:break-word;font-size:.76rem;padding:3px 4px}table.sched th{padding:3px 4px}.ccgrid{gap:8px}}
 @media (max-width:600px){.tbl td code.xp{white-space:normal;word-break:break-word}}
 @media (max-width:600px){.mathline code.xp{white-space:normal;max-width:100%}}
+nav.subtabs{display:flex;gap:6px;justify-content:center;margin:-6px 0 18px;flex-wrap:wrap}
+nav.subtabs a{padding:6px 18px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;font-weight:700;font-size:.95rem}
+nav.subtabs a[aria-current="page"]{background:var(--ent);border-color:var(--ent);color:#fff}

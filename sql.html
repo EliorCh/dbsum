@@ -11,9 +11,9 @@
 </head>
 <body class="pg-sql">
 <div class="layout">
-<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html" aria-current="page" class="active">3. SQL</a></li><li><a href="fd.html">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#sql-data">נתוני הבנק</a></li><li><a href="#sql-order">סדר הביצוע</a></li><li><a href="#sql-basic">שאילתות בסיסיות</a></li><li><a href="#sql-sets">פעולות קבוצה</a></li><li><a href="#sql-sub">תתי־שאילתות</a></li><li><a href="#sql-join">צירופים</a></li><li><a href="#sql-agg">הקבצה</a></li><li><a href="#sql-sort">מיון</a></li><li><a href="#sql-dml">עדכונים</a></li><li><a href="#sql-views">תצפיות</a></li><li><a href="#sql-ddl">טבלאות ואילוצים</a></li><li><a href="#ra2sql">מילון אלגברה ← SQL</a></li><li><a href="#sql-traps">מלכודות ב־SQL</a></li><li><a href="#ex3">תרגיל 3: בדיקת הפתרון</a></li><li><a href="#ex4">תרגיל 4: SQL מעשי</a></li><li class="sub"><a href="#ex4schema-h">מבנה בסיס הנתונים</a></li><li class="sub"><a href="#ex4q">השאלות</a></li><li class="sub"><a href="#ex4review">בדיקת הפתרון החלקי</a></li><li><a href="#sql-practice">תרגול עם בדיקה</a></li><li><a href="#sql-play">ארגז חול</a></li></ol></nav>
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html" aria-current="page" class="active">3. SQL</a></li><li><a href="fd.html">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#sql-data">נתוני הבנק</a></li><li><a href="#sql-order">סדר הביצוע</a></li><li><a href="#sql-basic">שאילתות בסיסיות</a></li><li><a href="#sql-sets">פעולות קבוצה</a></li><li><a href="#sql-sub">תתי־שאילתות</a></li><li><a href="#sql-join">צירופים</a></li><li><a href="#sql-agg">הקבצה</a></li><li><a href="#sql-sort">מיון</a></li><li><a href="#sql-dml">עדכונים</a></li><li><a href="#sql-views">תצפיות</a></li><li><a href="#sql-ddl">טבלאות ואילוצים</a></li><li><a href="#ra2sql">מילון אלגברה ← SQL</a></li><li><a href="#sql-traps">מלכודות ב־SQL</a></li><li><a href="#sql-play">ארגז חול</a></li></ol></nav>
 <main>
-<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html" aria-current="page">3. SQL</a><a href="fd.html">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav>
+<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html" aria-current="page">3. SQL</a><a href="fd.html">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav><nav class="subtabs" aria-label="מדריך ותרגיל"><a href="sql.html" aria-current="page">המדריך</a><a href="sql-ex.html">תרגילים 3–4</a></nav>
 <div class="wrap">
 
 <section class="hero" id="top">
@@ -233,61 +233,6 @@
 </table></div>
 </section>
 
-<section id="ex3">
-<h2>תרגיל 3 — בדיקת הפתרון</h2>
-<p>הפתרון הרשמי של תרגיל 3, שאילתה אחרי שאילתה. לכל אחת: הנוסח בפתרון, הערות, וגרסה שרצה על נתוני דוגמה. רוב השאילתות נכונות; כמה מכילות שגיאות כתיב שבבחינה היו עולות בנקודות, וכמה נכונות רק בהנחה שכדאי לכתוב במפורש.</p>
-<p>שאלה 2 היא אותן שאילתות של תרגיל 2 שאלה 3 — עכשיו ב־<bdi dir="ltr">SQL</bdi>. כדאי להשוות לרמזים של האלגברה ב<a href="relational.html#ex2q3">עמוד מודל היחסים</a>. הנתונים כאן הם נתוני הדוגמה של תרגיל 2, ועוד העובד <bdi dir="ltr">Lahav</bdi> (מ־3א) והחברה <bdi dir="ltr">Elit</bdi> (מ־5ה).</p>
-<div class="legend-row"><span><span class="vd ok">תקין</span> הפתרון נכון</span><span><span class="vd note">הערה</span> נכון בהנחה, או כדאי לשפר</span><span><span class="vd fix">תיקון</span> יש שגיאה בנוסח</span></div>
-<div class="tblnav" id="ex3Tabs"></div>
-<div id="ex3List"></div>
-</section>
-
-
-<section id="ex4">
-<h2>תרגיל <bdi dir="ltr">4</bdi>: <bdi dir="ltr">SQL</bdi> מעשי על בסיס הנתונים של הקורס</h2>
-<p>בתרגיל הזה השאילתות רצות על בסיס נתונים אמיתי (קובץ <code class="xp">database.sql</code>, שבתרשים בתרגיל נקרא <bdi dir="ltr">asademo.db</bdi>): 126 לקוחות, 648 הזמנות ו־1097 שורות הזמנה. כאן הוא נטען לדפדפן — כל שאילתה שתכתוב נבדקת מול התוצאה של הפתרון על אותו בסיס נתונים.</p>
-<div class="box tip"><h4>הגשה</h4><p>כל השאילתות בקובץ אחד בשם <code class="xp">ex4.sql</code> (אותיות קטנות), לפי הסדר, כל שאילתה מסתיימת ב־<code class="xp">;</code>. הקובץ חייב לרוץ ב־<bdi dir="ltr">SQLite</bdi> בלי אף שגיאה (<code class="xp">.read ex4.sql</code>) — שגיאה אחת וכל התרגיל לא יקבל ניקוד. שאלות 8 ו־11 בוטלו.</p>
-<pre class="algo" dir="ltr">sqlite&gt; .read database.sql
-sqlite&gt; .mode column
-sqlite&gt; .header ON
-sqlite&gt; .read ex4.sql</pre></div>
-<h3 id="ex4schema-h">מבנה בסיס הנתונים</h3>
-<p>שש הטבלאות שהשאלות משתמשות בהן. כל טבלה מוצגת הפוך — עמודה בכל שורה, ולצידה הערכים של שלוש השורות הראשונות. המפתח הראשי עם קו תחתון. ריחוף מעל עמודה עם קו תחתון מקווקו מראה לאן היא מפנה.</p>
-<div class="tbl"><table><tr><th>חיבור</th><th>המשמעות</th></tr>
-<tr><td><code class="xp">sales_order.cust_id = customer.id</code></td><td>מי הזמין</td></tr>
-<tr><td><code class="xp">sales_order.sales_rep = employee.emp_id</code></td><td>איזה עובד טיפל בהזמנה</td></tr>
-<tr><td><code class="xp">sales_order_items.id = sales_order.id</code></td><td>שורות של הזמנה (מפתח: <code class="xp">id, line_id</code>)</td></tr>
-<tr><td><code class="xp">sales_order_items.prod_id = product.id</code></td><td>איזה מוצר בשורה</td></tr>
-<tr><td><code class="xp">employee.dept_id = department.dept_id</code></td><td>המחלקה של העובד</td></tr>
-<tr><td><code class="xp">department.dept_head_id = employee.emp_id</code></td><td>ראש המחלקה</td></tr></table></div>
-<div class="bankgrid" id="ex4schema"></div>
-<h3 id="ex4q">השאלות</h3>
-<div id="ex4tasks"></div>
-
-<h3 id="ex4review">בדיקת הפתרון החלקי שהעלית</h3>
-<p>הרצתי את הקובץ <code class="xp">ex4_sol_updated_partial.sql</code> על בסיס הנתונים, שאילתה אחרי שאילתה:</p>
-<div class="tbl"><table><tr><th>שאלה</th><th>מצב</th><th>מה קורה</th></tr>
-<tr><td>1</td><td>✗ שגיאה</td><td><code class="xp">no such column: customer_id</code> — העמודה נקראת <code class="xp">id</code>. חסרים גם התנאי על האות <bdi dir="ltr">b</bdi> ושמות הלקוח. <strong>שגיאה אחת מפילה את כל הקובץ.</strong></td></tr>
-<tr><td>2</td><td>✓</td><td>2 לקוחות — זהה לפתרון</td></tr>
-<tr><td>3</td><td>✓</td><td>0 שורות — נכון: לכל לקוח שהזמין יש הזמנה ב־1994. <code class="xp">"1993-%"</code> בגרשיים כפולים עובד ב־<bdi dir="ltr">SQLite</bdi>, אבל בתקן זה שם של עמודה — עדיף <code class="xp">'1993-%'</code></td></tr>
-<tr><td>4</td><td>✓</td><td>17 לקוחות</td></tr>
-<tr><td>5</td><td>✗</td><td>התנאי הפוך: <code class="xp">order_date &lt; ship_date</code> מוצא משלוחים <em>רגילים</em> (10 מוצרים). צריך <code class="xp">ship_date &lt; order_date</code> (5 מוצרים)</td></tr>
-<tr><td>6</td><td>~</td><td>חסר <code class="xp">order by</code> לפי שם המוצר, שהשאלה דורשת. האות <bdi dir="ltr">D</bdi> — של מי שכתב את הקובץ; צריך את האות שלך</td></tr>
-<tr><td>7</td><td>✗ שגיאה</td><td>כתוב על טבלאות שלא קיימות (<code class="xp">clients</code>, <code class="xp">orders</code>). גם הלוגיקה הפוכה: היא מוצאת מי שהזמין מוצר <em>שאינו</em> חולצה, לא מי ש<em>לא הזמין אף</em> חולצה</td></tr>
-<tr><td>9, 10, 13</td><td>✓</td><td>תואמות לפתרון</td></tr>
-<tr><td>11</td><td>—</td><td>השאלה בוטלה; אפשר למחוק</td></tr>
-<tr><td>12</td><td>✗</td><td>מחפשת את המדינה עם <strong>הכי הרבה</strong> לקוחות (<bdi dir="ltr">NY</bdi>). השאלה: מספר <strong>מינימלי</strong> — 12 מדינות עם לקוח אחד</td></tr>
-<tr><td>14א, 15א, 15ב, 16</td><td>✓</td><td>רצות ונכונות</td></tr>
-<tr><td>14ב, 17</td><td>חסר</td><td>—</td></tr>
-<tr><td>18</td><td>~</td><td>עובד, אבל <code class="xp">from customer</code> מיותר; ובגרשיים כפולים — כמו בשאלה 3</td></tr></table></div>
-</section>
-
-<section id="sql-practice">
-<h2>תרגול עם בדיקה אוטומטית</h2>
-<p>כתוב שאילתה ולחץ ״בדוק״. הבדיקה מריצה את השאילתה שלך על נתוני הבנק ומשווה את התוצאה לתוצאה הצפויה — בלי להתחשב בסדר השורות ובשמות העמודות. אם יש הבדל, תראה את מספר השורות שלך מול המספר הנכון.</p>
-<div id="practiceList"></div>
-</section>
-
 <section id="sql-play">
 <h2>ארגז חול</h2>
 <p>כתוב כל שאילתה שתרצה על אחד ממאגרי הנתונים. כל הרצה מתחילה מנתונים מקוריים, כך שאפשר גם למחוק ולעדכן בלי חשש.</p>
@@ -304,7 +249,7 @@ group by branch_name</textarea>
 
 <p class="foot">מבוסס על המצגת ״<bdi dir="ltr">SQL</bdi>״ (פרק 3), על המדריך ״שאילתות <bdi dir="ltr">SQL</bdi>״ של פרופ׳ גדעון דרור, ועל פתרון תרגיל 3. כל התוצאות בעמוד חושבו ב־<bdi dir="ltr">SQLite</bdi> ונבדקו מול השקפים.</p>
 
-<div class="pager"><a class="prev" href="relational.html"><span>הנושא הקודם</span>2. מודל היחסים</a><a class="next" href="fd.html"><span>הנושא הבא</span>4. תלויות פונקציונליות</a></div>
+<div class="pager"><a class="prev" href="relational-ex.html"><span>הקודם</span>תרגיל 2 — מודל היחסים</a><a class="next" href="sql-ex.html"><span>הבא</span>תרגילים 3–4 — <bdi dir="ltr">SQL</bdi></a></div>
 </div>
 </main>
 </div>

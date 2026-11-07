@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>תרגיל 5 — תלויות פונקציונליות — מדריך פתרון</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body class="pg-fd">
+<div class="layout">
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html" aria-current="page" class="active">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#top">פתיחה</a></li><li><a href="#ex5">תרגיל 5</a></li><li class="sub"><a href="#ex5q1">שאלה 1 — DDL</a></li><li class="sub"><a href="#ex5q2">שאלה 2</a></li><li class="sub"><a href="#ex5q3">שאלה 3</a></li><li class="sub"><a href="#ex5q4">שאלה 4</a></li><li class="sub"><a href="#ex5q5">שאלה 5</a></li><li class="sub"><a href="#ex5q6">שאלה 6</a></li><li><a href="#fdpractice">תרגול עצמי</a></li></ol></nav>
+<main>
+<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="fd.html" aria-current="page">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav><nav class="subtabs" aria-label="מדריך ותרגיל"><a href="fd.html">המדריך</a><a href="fd-ex.html" aria-current="page">תרגיל 5</a></nav>
+<div class="wrap">
+<section class="hero" id="top"><h1>תרגיל 5: תלויות פונקציונליות</h1><p class="lede">השאלות של התרגיל, כל אחת עם כל הנתונים שלה, רמזים מדורגים ופתרון מלא. את החומר עצמו — ההגדרות, השיטה והדוגמאות מהמצגת — תמצא <a href="fd.html">במדריך</a>.</p></section>
+
+<section id="ex5">
+<h2>תרגיל 5: אילוצי שלמות ותלויות</h2>
+
+<h3 id="ex5q1">שאלה 1</h3>
+<div class="taskq"><p>נתון בסיס נתונים יחסי בעל התבניות הבאות:</p>
+<pre class="schemabox" dir="ltr">lives(person-name, street, city)
+works(person-name, company-name, salary)
+located-in(company-name, city)
+managers(person-name, manager-name)</pre>
+<p><strong>כתוב את הגדרות <bdi dir="ltr">SQL DDL</bdi> לבסיס נתונים זה, כלומר את ההגדרה המלאה של תבניות היחסים ואת הפקודות המגדירות את אילוצי השלמות שחייבים להתקיים (אילוצי תחום, מפתחות ראשיים וקבילים, מפתחות זרים).</strong></p></div>
+<div class="ladder"><ol class="hints">
+<li>לכל טבלה שאל: מה מזהה שורה? אדם גר בכתובת אחת ← המפתח של <bdi dir="ltr">lives</bdi> הוא <bdi dir="ltr">person-name</bdi>.</li>
+<li><bdi dir="ltr">works</bdi>: אדם עובד בחברה אחת (כמו בדוגמת <bdi dir="ltr">Korth</bdi>) ← המפתח הוא <bdi dir="ltr">person-name</bdi>. אם אדם יכול לעבוד בכמה חברות, המפתח הוא (<bdi dir="ltr">person-name, company-name</bdi>).</li>
+<li>מפתח זר מפנה תמיד למפתח (ראשי או <bdi dir="ltr">unique</bdi>) של טבלה אחרת. <bdi dir="ltr">company-name</bdi> ב־<bdi dir="ltr">works</bdi> יכול להפנות ל־<bdi dir="ltr">located-in</bdi> רק אם <bdi dir="ltr">company-name</bdi> הוא המפתח שם — כלומר אם לכל חברה עיר אחת.</li>
+<li>אילוצי תחום: <code class="xp">not null</code> על מפתחות, <code class="xp">check (salary &gt;= 0)</code>, ואדם אינו המנהל של עצמו.</li>
+</ol><div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button></div></div>
+<details class="sol"><summary>פתרון</summary>
+<p>ההנחות: לכל אדם כתובת אחת, מקום עבודה אחד ומנהל אחד; לכל חברה עיר אחת. מנהל הוא עובד בעצמו.</p>
+<div id="ddl5"><script type="text/plain">create table lives (
+  person_name  varchar(30) not null,
+  street       varchar(30),
+  city         varchar(20) not null,
+  primary key (person_name));
+
+create table located_in (
+  company_name varchar(30) not null,
+  city         varchar(20) not null,
+  primary key (company_name));
+
+create table works (
+  person_name  varchar(30) not null,
+  company_name varchar(30) not null,
+  salary       numeric(10,2) check (salary >= 0),
+  primary key (person_name),
+  foreign key (person_name)  references lives(person_name),
+  foreign key (company_name) references located_in(company_name));
+
+create table managers (
+  person_name  varchar(30) not null,
+  manager_name varchar(30) not null,
+  primary key (person_name),
+  foreign key (person_name)  references works(person_name),
+  foreign key (manager_name) references works(person_name),
+  check (person_name <> manager_name));
+
+insert into lives values ('Dana','Herzl 5','Haifa'), ('Gil','Allenby 2','Tel-Aviv');
+insert into located_in values ('Intel','Haifa');
+insert into works values ('Dana','Intel',30000), ('Gil','Intel',25000);
+insert into managers values ('Gil','Dana');
+select * from managers;</script>
+<pre class="sqlcode course" dir="ltr">create table lives (
+  person_name  varchar(30) not null,
+  street       varchar(30),
+  city         varchar(20) not null,
+  primary key (person_name));
+
+create table located_in (
+  company_name varchar(30) not null,
+  city         varchar(20) not null,
+  primary key (company_name));
+
+create table works (
+  person_name  varchar(30) not null,
+  company_name varchar(30) not null,
+  salary       numeric(10,2) check (salary &gt;= 0),
+  primary key (person_name),
+  foreign key (person_name)  references lives(person_name),
+  foreign key (company_name) references located_in(company_name));
+
+create table managers (
+  person_name  varchar(30) not null,
+  manager_name varchar(30) not null,
+  primary key (person_name),
+  foreign key (person_name)  references works(person_name),
+  foreign key (manager_name) references works(person_name),
+  check (person_name &lt;&gt; manager_name));</pre>
+<div class="ldbtns"><button class="btn ghost ddlbtn" type="button">ערוך והרץ</button></div>
+<div class="ddled" hidden></div></div>
+<p class="sxnote">בעורך הפקודות רצות ב־<bdi dir="ltr">SQLite</bdi> עם בדיקת מפתחות זרים. נסה להוסיף <code class="xp">insert into works values ('Noa','Intel',100);</code> — <bdi dir="ltr">Noa</bdi> לא קיימת ב־<bdi dir="ltr">lives</bdi>, והפקודה תידחה. כך גם <code class="xp">salary</code> שלילי, או אדם שהוא המנהל של עצמו.</p>
+<div class="tbl"><table><tr><th>אילוץ</th><th>איפה</th><th>למה</th></tr>
+<tr><td>מפתח ראשי</td><td><bdi dir="ltr">person-name</bdi> בשלוש טבלאות, <bdi dir="ltr">company-name</bdi> ב־<bdi dir="ltr">located-in</bdi></td><td>מה שמזהה שורה לפי ההנחות</td></tr>
+<tr><td>מפתח זר</td><td><bdi dir="ltr">works</bdi> ← <bdi dir="ltr">lives, works</bdi> ← <bdi dir="ltr">located-in, managers</bdi> ← <bdi dir="ltr">works</bdi> (פעמיים)</td><td>אי אפשר לעבוד בלי לגור, בחברה שלא קיימת, או להיות מנוהל בידי מי שלא עובד</td></tr>
+<tr><td>תחום</td><td><code class="xp">not null</code>, <code class="xp">check (salary &gt;= 0)</code>, <code class="xp">check (person_name &lt;&gt; manager_name)</code></td><td>ערכים חסרים או לא הגיוניים</td></tr></table></div>
+<p class="sxnote">אם לחברה יכולות להיות כמה ערים, המפתח של <bdi dir="ltr">located-in</bdi> הוא (<bdi dir="ltr">company-name, city</bdi>), ואז <bdi dir="ltr">company-name</bdi> ב־<bdi dir="ltr">works</bdi> <strong>לא יכול</strong> להיות מפתח זר אליה — הוא אינו מפתח שם. זו נקודה שכדאי לכתוב כהנחה בתשובה.</p>
+</details>
+
+<h3 id="ex5q2">שאלה 2</h3>
+<div class="taskq"><p><strong>השתמש בהגדרה של ״תלות פונקציונלית״ להוכיח את כלל ההשלמה (<bdi dir="ltr">Augmentation rule</bdi>) — השני בכללי ארמסטרונג.</strong></p>
+<p>כלל ההשלמה: אם <code class="xp">α→β</code> מתקיימת ו־<bdi dir="ltr">γ</bdi> קבוצת תכונות, אז <code class="xp">γα→γβ</code> מתקיימת.</p></div>
+<details class="sol"><summary>פתרון</summary>
+<p>יהי <bdi dir="ltr">r</bdi> יחס חוקי, ויהיו <bdi dir="ltr">t1, t2</bdi> שתי שורות בו כך ש:</p>
+<p class="mathline"><code class="xp">t1[γα] = t2[γα]</code></p>
+<p>צריך להראות ש־<code class="xp">t1[γβ] = t2[γβ]</code>.</p>
+<ol>
+<li>מ־<code class="xp">t1[γα] = t2[γα]</code> נובע ש־<code class="xp">t1[γ] = t2[γ]</code>, וגם <code class="xp">t1[α] = t2[α]</code> (שוויון על איחוד ⇐ שוויון על כל חלק).</li>
+<li>הנתון <code class="xp">α→β</code> והשוויון <code class="xp">t1[α] = t2[α]</code> נותנים, לפי הגדרת התלות: <code class="xp">t1[β] = t2[β]</code>.</li>
+<li>משני השוויונות <code class="xp">t1[γ] = t2[γ]</code> ו־<code class="xp">t1[β] = t2[β]</code>: <code class="xp">t1[γβ] = t2[γβ]</code>.</li>
+</ol>
+<p><bdi dir="ltr">t1, t2</bdi> היו כלשהן, ולכן <code class="xp">γα→γβ</code> מתקיימת על כל יחס חוקי. ∎</p>
+</details>
+
+<h3 id="ex5q3">שאלה 3</h3>
+<div class="taskq"><p>נתונה תבנית היחסים <code class="xp">R=(A,B,C,D,E)</code> וקבוצת התלויות הפונקציונליות:</p>
+<p class="mathline"><code class="xp">F = {A→BCE, CD→E, B→D, E→A, C→B}</code></p>
+<p>א. הדגם את כל אחד מכללי ארמסטרונג, וחשב לפחות 6 תלויות פונקציונליות הנובעות לוגית מ־<bdi dir="ltr">F</bdi>.</p>
+<p>ב. אילו מחמש התלויות הבאות שייכות ל־<code class="xp">F⁺</code>?</p>
+<p class="mathline"><code class="xp">BD→C,   D→A,   C→D,   AD→E,   E→D</code></p>
+<p>ג. מצא מפתח קביל של התבנית.</p></div>
+<div class="ladder"><ol class="hints">
+<li>לסעיף ב׳ אין צורך בשרשראות של כללים: חשב את הסגור של אגף השמאל של כל תלות.</li>
+<li>חשב קודם <code class="xp">A⁺</code>, <code class="xp">C⁺</code> ו־<code class="xp">E⁺</code>. אם אחת מהן היא כל <bdi dir="ltr">R</bdi>, כל תלות שאגף השמאל שלה מכיל אותה — נובעת.</li>
+<li><bdi dir="ltr">D</bdi> מופיעה רק כאגף ימין של <code class="xp">B→D</code>, ובאגף שמאל רק עם <bdi dir="ltr">C</bdi>. מה <code class="xp">D⁺</code>?</li>
+</ol><div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div>
+<div class="check" hidden><ul class="check-list"><li>בסעיף ב׳ שלוש תלויות שייכות ל־<code class="xp">F⁺</code> ושתיים לא.</li><li>לתבנית שלושה מפתחות קבילים, כל אחד מתכונה אחת.</li></ul></div></div>
+<details class="sol"><summary>פתרון</summary>
+<h4>א. כללי ארמסטרונג ותלויות שנובעות</h4>
+<div class="tbl"><table>
+<tr><th>#</th><th>תלות</th><th>נימוק</th></tr>
+<tr><td>1</td><td><code class="xp">AB→A</code></td><td>רפלקסיביות: <code class="xp">A ⊆ AB</code></td></tr>
+<tr><td>2</td><td><code class="xp">AD→BCDE</code></td><td>השלמה של <code class="xp">A→BCE</code> ב־<bdi dir="ltr">D</bdi></td></tr>
+<tr><td>3</td><td><code class="xp">C→D</code></td><td>טרנזיטיביות: <code class="xp">C→B</code>, <code class="xp">B→D</code></td></tr>
+<tr><td>4</td><td><code class="xp">E→BCE</code></td><td>טרנזיטיביות: <code class="xp">E→A</code>, <code class="xp">A→BCE</code></td></tr>
+<tr><td>5</td><td><code class="xp">C→BD</code></td><td>איחוד: <code class="xp">C→B</code> ו־<code class="xp">C→D</code> (3)</td></tr>
+<tr><td>6</td><td><code class="xp">A→C</code></td><td>פירוק של <code class="xp">A→BCE</code></td></tr>
+<tr><td>7</td><td><code class="xp">C→E</code></td><td>טרנזיטיביות מדומה: <code class="xp">C→D</code> (3) ו־<code class="xp">CD→E</code> ⇐ <code class="xp">CC→E</code></td></tr>
+<tr><td>8</td><td><code class="xp">C→A</code></td><td>טרנזיטיביות: <code class="xp">C→E</code> (7), <code class="xp">E→A</code></td></tr>
+<tr><td>9</td><td><code class="xp">A→D</code></td><td>טרנזיטיביות: <code class="xp">A→C</code> (6), <code class="xp">C→D</code> (3)</td></tr>
+</table></div>
+<h4>ב. מי שייכת ל־<bdi dir="ltr">F</bdi><bdi dir="ltr">⁺</bdi></h4>
+<div class="tbl"><table>
+<tr><th>תלות</th><th>סגור של אגף שמאל</th><th>אגף ימין בפנים?</th></tr>
+<tr><td><code class="xp">BD→C</code></td><td><code class="xp">BD⁺ = BD</code></td><td>לא ✗</td></tr>
+<tr><td><code class="xp">D→A</code></td><td><code class="xp">D⁺ = D</code></td><td>לא ✗</td></tr>
+<tr><td><code class="xp">C→D</code></td><td><code class="xp">C⁺ = ABCDE</code></td><td>כן ✓</td></tr>
+<tr><td><code class="xp">AD→E</code></td><td><code class="xp">AD⁺ = ABCDE</code></td><td>כן ✓</td></tr>
+<tr><td><code class="xp">E→D</code></td><td><code class="xp">E⁺ = ABCDE</code></td><td>כן ✓</td></tr>
+</table></div>
+<p>הסגור של <code class="xp">BD</code> לא גדל: התלות היחידה שאגף השמאל שלה בתוך <bdi dir="ltr">BD</bdi> היא <code class="xp">B→D</code>, והיא לא מוסיפה דבר.</p>
+<h4>ג. מפתח קביל</h4>
+<p><code class="xp">A⁺ = ABCDE</code>, ול־<bdi dir="ltr">A</bdi> יש תכונה אחת — אי אפשר להקטין. לכן <bdi dir="ltr">A</bdi> מפתח קביל. באותו אופן <bdi dir="ltr">C</bdi>&nbsp;ו־<bdi dir="ltr">E</bdi>. ראה את השלבים בדוגמה <a href="fd.html#keys">במפתח קביל</a>. כל המפתחות:</p>
+<p class="mathline"><code class="xp">A,   C,   E</code></p>
+</details>
+
+<h3 id="ex5q4">שאלה 4</h3>
+<div class="taskq"><p>בהתייחס לתלויות של שאלה 3 — <code class="xp">R=(A,B,C,D,E)</code>, <code class="xp">F={A→BCE, CD→E, B→D, E→A, C→B}</code> — <strong>חשב את <code class="xp">B⁺</code></strong>.</p></div>
+<details class="sol"><summary>פתרון</summary>
+<div class="ex gstep" data-gen="f-closB"><div class="q"><b>החישוב</b>סגור של <bdi dir="ltr">B</bdi> לפי <bdi dir="ltr">F</bdi>.</div></div>
+<p><bdi dir="ltr">B</bdi> קובעת רק את <bdi dir="ltr">D</bdi>. זה לא סותר את <code class="xp">C→B</code>: תלות היא בכיוון אחד.</p>
+</details>
+
+<h3 id="ex5q5">שאלה 5</h3>
+<div class="taskq"><p>בהתייחס לתלויות של שאלה 3 — <code class="xp">R=(A,B,C,D,E)</code>, <code class="xp">F={A→BCE, CD→E, B→D, E→A, C→B}</code> — <strong>חשב את הכיסוי הקנוני של <bdi dir="ltr">F</bdi></strong>.</p></div>
+<div class="ladder"><ol class="hints">
+<li>אין אגפי שמאל זהים — אין מה לאחד בהתחלה.</li>
+<li>באגף שמאל יש רק תלות אחת עם יותר מתכונה אחת: <code class="xp">CD→E</code>. מה <code class="xp">C⁺</code>?</li>
+<li>ב־<code class="xp">A→BCE</code>: האם אפשר להסיק את <bdi dir="ltr">B</bdi> מ־<bdi dir="ltr">A</bdi> בלי התלות הזאת? (רמז: <code class="xp">A→C</code>, <code class="xp">C→B</code>).</li>
+</ol><div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button></div></div>
+<details class="sol"><summary>פתרון</summary>
+<div class="ex gstep" data-gen="f-canon5"><div class="q"><b>החישוב</b>תכונה עודפת אחת בכל שלב.</div></div>
+</details>
+
+<h3 id="ex5q6">שאלה 6</h3>
+<div class="taskq"><p>נתונה תבנית המייצגת נתונים של עובדים ופעילותם בחברה:</p>
+<p class="mathline"><code class="xp">R = (Emp_no, Name, Last_name, Category, Salary, Department, Amount_of_time, Manager, Project)</code></p>
+<p>להלן תלויות פונקציונליות החלות על המערכת. התכונות מצוינות לפי האות הראשונה שלהן (<bdi dir="ltr">E</bdi> במקום <bdi dir="ltr">Emp_no</bdi> וכו׳). <strong>מצא את <code class="xp">F<sub>c</sub></code>.</strong></p>
+<p class="mathline"><code class="xp">F = {E→NS,  NL→EMD,  EN→LCD,  C→S,  D→M,  M→D,  EPD→AE,  NLCP→A}</code></p></div>
+<div class="ladder"><ol class="hints">
+<li>בכל אגף ימין, בדוק תכונות שאפשר להסיק בדרך אחרת: למשל <bdi dir="ltr">S</bdi> ב־<code class="xp">E→NS</code> — יש דרך מ־<bdi dir="ltr">E</bdi> ל־<bdi dir="ltr">C</bdi>?</li>
+<li><code class="xp">EPD→AE</code> מכילה <bdi dir="ltr">E</bdi> באגף ימין — זה חלק טריוויאלי, והוא נעלם.</li>
+<li>באגף שמאל של <code class="xp">EN→LCD</code>: האם <bdi dir="ltr">E</bdi> לבד קובעת את <bdi dir="ltr">N</bdi>?</li>
+<li>ב־<code class="xp">NLCP→A</code>: האם <bdi dir="ltr">C</bdi> נחוצה, כש־<code class="xp">NL→E</code>?</li>
+</ol><div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div>
+<div class="check" hidden><ul class="check-list"><li>ב־<code class="xp">F<sub>c</sub></code> שלך 6 תלויות.</li><li>אגף השמאל הארוך ביותר הוא בן 3 תכונות.</li></ul></div></div>
+<details class="sol"><summary>פתרון</summary>
+<div class="ex gstep" data-gen="f-canon6"><div class="q"><b>החישוב</b>תכונה עודפת אחת בכל שלב.</div></div>
+</details>
+</section>
+
+<section id="fdpractice">
+<h2>תרגול עצמי</h2>
+<div class="taskq"><p>נתונה התבנית <code class="xp">R=(A,B,C,D,E,G)</code> עם התלויות:</p>
+<p class="mathline"><code class="xp">F = {AB→C,  C→D,  D→B,  DE→G,  G→A}</code></p></div>
+<div class="fdcheck ladder" data-r="ABCDEG" data-f="AB→C, C→D, D→B, DE→G, G→A" data-kind="clo" data-arg="CE"><div class="lq">א. חשב את <code class="xp">CE⁺</code> (כתוב את התכונות, למשל <bdi dir="ltr">ABC</bdi>):</div>
+<div class="ldbtns"><input dir="ltr" spellcheck="false" aria-label="הסגור שלך"><button class="btn" type="button">בדוק</button><span class="fdres"></span></div></div>
+<div class="fdcheck ladder" data-r="ABCDEG" data-f="AB→C, C→D, D→B, DE→G, G→A" data-kind="keys"><div class="lq">ב. מצא את <strong>כל</strong> המפתחות הקבילים (מופרדים בפסיקים):</div>
+<ol class="hints"><li><bdi dir="ltr">E</bdi> לא מופיעה באף אגף ימין — היא בכל מפתח.</li><li>חשב <code class="xp">E⁺</code>, ואז נסה להוסיף ל־<bdi dir="ltr">E</bdi> כל תכונה אחרת.</li></ol>
+<div class="ldbtns"><input dir="ltr" spellcheck="false" aria-label="המפתחות שלך"><button class="btn" type="button">בדוק</button><button class="btn ghost hintBtn" type="button">רמז</button><span class="fdres"></span></div></div>
+<details class="sol"><summary>פתרון</summary>
+<p class="mathline"><code class="xp">CE⁺ = ABCDEG</code></p>
+<p>שרשרת התלויות שהופעלו:</p>
+<p class="mathline"><code class="xp">C→D,  D→B,  DE→G,  G→A</code></p>
+<p>לכן <bdi dir="ltr">CE</bdi> מפתח־על, ומאחר ש־<code class="xp">C⁺ = BCD</code> ו־<code class="xp">E⁺ = E</code> — גם מפתח קביל.</p>
+<p>כל המפתחות הקבילים:</p>
+<p class="mathline"><code class="xp">CE,   DE,   ABE,   BEG</code></p>
+<p><code class="xp">EG</code> לבד אינה מפתח: <code class="xp">EG⁺ = AEG</code>, חסרה <bdi dir="ltr">B</bdi> — ולכן צריך להוסיף אותה.</p>
+<p>אפשר לוודא במחשבון למעלה.</p>
+</details>
+</section>
+<div class="pager"><a class="prev" href="fd.html"><span>הקודם</span>4. תלויות פונקציונליות</a><a class="next" href="norm.html"><span>הבא</span>5. תיכון ונרמול</a></div>
+</div>
+</main>
+</div>
+<script src="guide.js"></script>
+<script src="sqldata.js"></script><script src="sqlpage.js"></script><script src="peekdata.js"></script><script src="gstep.js"></script><script src="fdeng.js"></script><script src="fdpage.js"></script>
+</body>
+</html>

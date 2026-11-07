@@ -11,9 +11,9 @@
 </head>
 <body class="pg-indexing">
 <div class="layout">
-<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html" aria-current="page" class="active">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#storage">אחסון ובלוקים</a></li><li><a href="#ordered">אינדקסים מסודרים</a></li><li><a href="#bplus">עץ B+</a></li><li class="sub"><a href="#bpplay">נסה בעצמך: B+</a></li><li class="sub"><a href="#nsize">חישוב n</a></li><li><a href="#hashing">Hashing</a></li><li><a href="#bitmap">Bitmap</a></li><li><a href="#ex7">תרגיל 7</a></li><li class="sub"><a href="#ex7q1">שאלה 1</a></li><li class="sub"><a href="#ex7q2">שאלה 2</a></li><li class="sub"><a href="#ex7q3">שאלה 3</a></li><li class="sub"><a href="#ex7q4">שאלה 4</a></li><li class="sub"><a href="#ex7q5">שאלה 5</a></li><li><a href="#itraps">מלכודות</a></li></ol></nav>
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html" aria-current="page" class="active">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#storage">אחסון ובלוקים</a></li><li><a href="#ordered">אינדקסים מסודרים</a></li><li><a href="#bplus">עץ B+</a></li><li class="sub"><a href="#bpplay">נסה בעצמך: B+</a></li><li class="sub"><a href="#nsize">חישוב n</a></li><li><a href="#hashing">Hashing</a></li><li><a href="#bitmap">Bitmap</a></li><li><a href="#itraps">מלכודות</a></li></ol></nav>
 <main>
-<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="fd.html">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html" aria-current="page">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav>
+<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="fd.html">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html" aria-current="page">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav><nav class="subtabs" aria-label="מדריך ותרגיל"><a href="indexing.html" aria-current="page">המדריך</a><a href="indexing-ex.html">תרגיל 7</a></nav>
 <div class="wrap">
 <section class="hero" id="top">
   <h1>אינדקסים ו־<bdi dir="ltr">hashing</bdi></h1>
@@ -139,75 +139,6 @@ drop index br_indx;</pre>
 <tr><td>ספירה</td><td>טבלה מחושבת מראש של 256 כניסות: לכל בית — כמה ביטים דולקים בו.</td></tr></table></div>
 </section>
 
-<section id="ex7">
-<h2>תרגיל <bdi dir="ltr">7</bdi>: <bdi dir="ltr">Indexing &amp</bdi>; <bdi dir="ltr">Hashing</bdi></h2>
-
-<h3 id="ex7q1">שאלה 1</h3>
-<div class="taskq"><p><strong>אינדקסים מאיצים עיבוד של שאילתות. מדוע, אם כן, לא שומרים אינדקס לכל מפתח חיפוש אפשרי?</strong></p></div>
-<details class="sol"><summary>פתרון</summary>
-<ul><li><strong>עדכונים יקרים יותר.</strong> כל הכנסה, מחיקה או עדכון של רשומה מחייבים לעדכן <strong>כל</strong> אינדקס שקיים על הטבלה — עוד גישות לדיסק, ופיצולים ואיחודים בעצים.</li>
-<li><strong>מקום.</strong> כל אינדקס הוא קובץ נוסף. אינדקס צפוף על כל שדה, ועל כל צירוף שדות, יכול לתפוס יותר מהקובץ עצמו.</li>
-<li><strong>תועלת נמוכה.</strong> אינדקס על שדה שלא מחפשים לפיו לא חוסך דבר. גם על שדה עם מעט ערכים שונים, אינדקס רגיל כמעט לא מצמצם את מספר הבלוקים (שם עדיף <bdi dir="ltr">bitmap</bdi>).</li>
-<li>אינדקס <strong>ראשי</strong> יכול להיות רק אחד — הקובץ ממוין לפי שדה אחד. כל השאר משניים: צפופים, ופחות יעילים בחיפוש טווח.</li></ul>
-<p>לכן בוחרים אינדקסים לפי השאילתות הנפוצות, ומאזנים מול תדירות העדכונים.</p>
-</details>
-
-<h3 id="ex7q2">שאלה 2</h3>
-<div class="taskq"><p><strong>בנה עץ <bdi dir="ltr">B</bdi>+ עבור קבוצת הערכים הבאה:</strong></p>
-<p class="mathline"><code class="xp">(2, 3, 5, 7, 11, 17, 19, 23, 31)</code></p>
-<p>בהנחה שהעץ ריק בתחילה והערכים מוכנסים בסדר עולה, ומספר הפוינטרים בצומת הוא: א. 4. ב. 6.</p></div>
-<div class="ladder"><ol class="hints"><li><bdi dir="ltr">n=4</bdi>: בעלה עד 3 ערכים. הערך הרביעי (7) גורם לפיצול 2+2, ו־5 עולה לשורש.</li><li>הכנסה בסדר עולה תמיד נכנסת לעלה הימני ביותר — העלים משמאל נשארים חצי מלאים.</li><li><bdi dir="ltr">n=6</bdi>: בעלה עד 5 ערכים. הפיצול הראשון רק בערך השישי (17).</li></ol><div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div>
-<div class="check" hidden><ul class="check-list"><li>א. לעץ 2 רמות; בשורש 3 ערכים ו־4 עלים.</li><li>ב. לעץ 2 רמות; בשורש 2 ערכים ו־3 עלים.</li></ul></div></div>
-<details class="sol"><summary>פתרון — א. <bdi dir="ltr">n=4</bdi></summary>
-<div class="ex gstep" data-gen="i-b4"><div class="q"><b>n=4</b>הכנסה של תשעת הערכים אחד אחרי השני.</div></div>
-</details>
-<details class="sol"><summary>פתרון — ב. <bdi dir="ltr">n=6</bdi></summary>
-<div class="ex gstep" data-gen="i-b6"><div class="q"><b>n=6</b>הכנסה של תשעת הערכים אחד אחרי השני.</div></div>
-</details>
-
-<h3 id="ex7q3">שאלה 3</h3>
-<div class="taskq"><p><strong>לכל אחד מהעצים בשאלה 2 הראה את מצב העץ לאחר כל אחת מהפעולות הבאות</strong> (מבוצעות זו אחר זו):</p>
-<p>א. הוסף 9. ב. הוסף 10. ג. הוסף 8. ד. מחק 23. ה. מחק 19.</p>
-<p>העצים משאלה 2 נבנו מהערכים <code class="xp">(2, 3, 5, 7, 11, 17, 19, 23, 31)</code>, בסדר עולה, עם 4 ועם 6 מצביעים בצומת.</p></div>
-<details class="sol"><summary>פתרון — <bdi dir="ltr">n=4</bdi></summary>
-<div class="ex gstep" data-gen="i-b4ops"><div class="q"><b>n=4</b>חמש הפעולות, כל אחת על התוצאה של הקודמת.</div></div>
-</details>
-<details class="sol"><summary>פתרון — <bdi dir="ltr">n=6</bdi></summary>
-<div class="ex gstep" data-gen="i-b6ops"><div class="q"><b>n=6</b>חמש הפעולות, כל אחת על התוצאה של הקודמת.</div></div>
-</details>
-
-<h3 id="ex7q4">שאלה 4</h3>
-<div class="taskq"><p>מעוניינים ליצור אינדקס ראשי צפוף על השדה <code class="xp">prod_id</code> בטבלת <bdi dir="ltr">product</bdi> שלהלן. נתון כי גודל בלוק הוא 4096 בתים, וגודל של מצביע לקובץ הנתונים הוא 4 בתים. <strong>אם לאינדקס יהיה מבנה של עץ <bdi dir="ltr">B</bdi>+, מה צריך להיות הערך של <bdi dir="ltr">n</bdi> (מספר הפוינטרים בצומת)?</strong> ניתן להניח שהתווים הם תווי <bdi dir="ltr">ascii</bdi>, כלומר כל תו תופס בית אחד.</p>
-<pre class="schemabox" dir="ltr">CREATE TABLE product (
-  prod_id     CHAR(9)  NOT NULL,
-  name        CHAR(15) NOT NULL,
-  description CHAR(30) NOT NULL,
-  size        CHAR(18) NOT NULL,
-  color       CHAR(6)  NOT NULL,
-  unit_price  NUMERIC(15, 2) NOT NULL,
-  PRIMARY KEY (id) )</pre></div>
-<details class="sol"><summary>פתרון</summary>
-<p>המפתח באינדקס הוא <code class="xp">prod_id</code> בלבד: <code class="xp">CHAR(9)</code> = 9 בתים. שאר העמודות לא נכנסות לאינדקס.</p>
-<p class="mathline"><code class="xp">4n + 9(n − 1) ≤ 4096</code></p>
-<p class="mathline"><code class="xp">13n ≤ 4105</code></p>
-<p class="mathline"><code class="xp">n ≤ 315.77</code></p>
-<p>לכן <strong>n = 315</strong>: בכל צומת עד 315 מצביעים ו־314 מפתחות. אפשר לבדוק במחשבון <a href="#nsize">למעלה</a> עם מפתח של 9 בתים.</p>
-<p class="sxnote">בהגדרת הטבלה כתוב <code class="xp">PRIMARY KEY (id)</code>, אבל אין עמודה בשם <bdi dir="ltr">id</bdi> — כנראה הכוונה ל־<code class="xp">prod_id</code>. זה לא משנה את החישוב.</p>
-</details>
-
-<h3 id="ex7q5">שאלה 5</h3>
-<div class="taskq"><p><strong>יש לבנות <bdi dir="ltr">extendable hashing</bdi> על ידי הזנת הערכים הבאים:</strong></p>
-<p class="mathline"><code class="xp">13, 4, 7, 12, 31, 27, 18, 9, 32, 41, 19, 11, 26, 17, 23</code></p>
-<p>פונקציית ה־<bdi dir="ltr">hash</bdi> היא פונקציית הזהות — משתמשים בייצוג הבינארי של הערכים עצמם, למשל:</p>
-<p class="mathline"><code class="xp">h(13) = 13 = 0000 1101</code></p>
-<ul><li>מספיקה פונקציית <bdi dir="ltr">hash</bdi> של 8 ביטים.</li><li>דלי יכול לכלול לכל היותר 4 ערכים.</li><li>בניגוד לדוגמה בכיתה, הפיצולים נעשים לפי הביטים <strong>הפחות משמעותיים</strong> (LSB).</li></ul></div>
-<div class="ladder"><ol class="hints"><li>עם <bdi dir="ltr">i</bdi> ביטים מימין, הכניסה בטבלה היא <code class="xp">h mod 2^i</code>. למשל ל־<bdi dir="ltr">i=2</bdi>, הערך 13 = …01 הולך לכניסה 01.</li><li>ההכפלה עם <bdi dir="ltr">LSB</bdi>: הכניסה <bdi dir="ltr">j</bdi> החדשה מצביעה לאותו דלי כמו <code class="xp">j mod 2^(i−1)</code>.</li><li>הפיצול הראשון ב־31: 4 ערכים כבר בדלי היחיד.</li></ol><div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div>
-<div class="check" hidden><ul class="check-list"><li>בסוף העומק הגלובלי הוא 3, ויש 5 דליים.</li><li>היו 4 פיצולים, ו־3 מהם הכפילו את הטבלה.</li></ul></div></div>
-<details class="sol"><summary>פתרון</summary>
-<div class="ex gstep" data-gen="i-eh7"><div class="q"><b>החישוב</b>ערך אחד בכל שלב; פיצול הוא שלב נפרד.</div></div>
-</details>
-</section>
-
 <section id="itraps">
 <h2>מלכודות</h2>
 <div class="tbl"><table>
@@ -220,7 +151,7 @@ drop index br_indx;</pre>
 </table></div>
 </section>
 
-<div class="pager"><a class="prev" href="norm.html"><span>הנושא הקודם</span>5. תיכון ונרמול</a><a class="next" href="cc.html"><span>הנושא הבא</span>7. בקרת בו־זמניות</a></div>
+<div class="pager"><a class="prev" href="norm-ex.html"><span>הקודם</span>תרגיל 6 — תיכון ונרמול</a><a class="next" href="indexing-ex.html"><span>הבא</span>תרגיל 7 — אינדקסים ו־<bdi dir="ltr">hashing</bdi></a></div>
 </div>
 </main>
 </div>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>תרגיל 2 — מודל היחסים — מדריך פתרון</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body class="pg-relational">
+<div class="layout">
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html" aria-current="page" class="active">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#rapractice">תרגול עם רמזים</a></li><li><a href="#ex2">תרגיל 2: רמזים</a></li></ol></nav>
+<main>
+<nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html" aria-current="page">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="fd.html">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav><nav class="subtabs" aria-label="מדריך ותרגיל"><a href="relational.html">המדריך</a><a href="relational-ex.html" aria-current="page">תרגיל 2</a></nav>
+<div class="wrap">
+<section class="hero" id="top"><h1>תרגיל 2: מודל היחסים</h1><p class="lede">השאלות של התרגיל, כל אחת עם כל הנתונים שלה, רמזים מדורגים ופתרון מלא. את החומר עצמו — ההגדרות, השיטה והדוגמאות מהמצגת — תמצא <a href="relational.html">במדריך</a>.</p></section>
+
+<section id="rapractice">
+<h2>תרגול עצמי עם רמזים</h2>
+<p>שש שאלות על נתוני הבנק. בכל שאלה: נסה לכתוב את השאילתה על דף, ורק אם נתקעת פתח רמז אחד. הרמזים עולים בהדרגה: איפה הנתונים ← איזה אופרטור ← שלד השאילתה ← הפתרון עם הטבלאות.</p>
+
+<div class="practice-tabs" role="tablist" id="pTabs"></div>
+<div class="ex alg prac" data-q="p1" data-title="1. סינון כפול">
+<div class="q"><b>שאלה 1</b>מצא את שמות הלקוחות שיש להם הלוואה בסניף <bdi dir="ltr">Pinkas</bdi> בסכום הגדול מ־1500.</div>
+<div class="exgrid"><div class="exfig"><figure class="fig livefig algfig"><div class="algpanel"></div><figcaption class="livecap"></figcaption></figure>
+<div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">רמז / השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button><button class="btn ghost srcBtn" type="button" aria-pressed="false">טבלאות המקור</button></div></div>
+<div class="steps">
+<div class="step"><div class="sh">נסה לבד</div><p>כתוב את השאילתה על דף. רק אחר כך לחץ על ״רמז״.</p></div>
+<div class="step"><div class="sh">רמז 1: איפה הנתונים</div><p>כל מה שצריך (סניף, סכום, שם לקוח) נמצא ביחס אחד.</p></div>
+<div class="step"><div class="sh">רמז 2: אופרטור</div><p>שני תנאים על אותה שורה ← <code class="xp">σ</code> אחד עם <code class="xp">∧</code>.</p></div>
+<div class="step"><div class="sh">פתרון: סינון</div><p>נשארות שתי הלוואות. שתיהן הלוואה מספר 23 — הלוואה משותפת של <bdi dir="ltr">Tamir</bdi>&nbsp;ו־<bdi dir="ltr">Avivi</bdi>.</p></div>
+<div class="step"><div class="sh">פתרון: הטלה</div><p>שני לקוחות.</p></div>
+</div></div></div>
+
+<div class="ex alg prac" data-q="p2" data-title="2. שלילה">
+<div class="q"><b>שאלה 2</b>מצא את שמות הלקוחות שיש להם הלוואה, אבל אין להם חשבון חיסכון באף סניף.</div>
+<div class="exgrid"><div class="exfig"><figure class="fig livefig algfig"><div class="algpanel"></div><figcaption class="livecap"></figcaption></figure>
+<div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">רמז / השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button><button class="btn ghost srcBtn" type="button" aria-pressed="false">טבלאות המקור</button></div></div>
+<div class="steps">
+<div class="step"><div class="sh">נסה לבד</div><p>כתוב את השאילתה על דף. רק אחר כך לחץ על ״רמז״.</p></div>
+<div class="step"><div class="sh">רמז 1: איפה הנתונים</div><p>״יש הלוואה״ ← <code class="xp">borrow</code>. ״יש חיסכון״ ← <code class="xp">deposit</code>.</p></div>
+<div class="step"><div class="sh">רמז 2: אופרטור</div><p>״אבל אין להם״ היא שלילה ← <code class="xp">−</code>. לא <code class="xp">σ</code> עם <code class="xp">≠</code> (ראה מלכודות).</p></div>
+<div class="step"><div class="sh">רמז 3: שלד</div><p>שני הצדדים צריכים להיות רשימות שמות.</p></div>
+<div class="step"><div class="sh">פתרון: כל בעלי ההלוואות</div><p>ארבעה לקוחות. <bdi dir="ltr">Avivi</bdi> מופיע פעם אחת למרות שתי הלוואות.</p></div>
+<div class="step"><div class="sh">פתרון: פחות בעלי החיסכון</div><p>נשאר רק <bdi dir="ltr">Morag</bdi>.</p></div>
+</div></div></div>
+
+<div class="ex alg prac" data-q="p3" data-title="3. צירוף">
+<div class="q"><b>שאלה 3</b>לכל הלוואה, מצא את שם הלקוח ואת העיר של הסניף שבו ניתנה ההלוואה.</div>
+<div class="exgrid"><div class="exfig"><figure class="fig livefig algfig"><div class="algpanel"></div><figcaption class="livecap"></figcaption></figure>
+<div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">רמז / השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button><button class="btn ghost srcBtn" type="button" aria-pressed="false">טבלאות המקור</button></div></div>
+<div class="steps">
+<div class="step"><div class="sh">נסה לבד</div><p>כתוב את השאילתה על דף. רק אחר כך לחץ על ״רמז״.</p></div>
+<div class="step"><div class="sh">רמז 1: איפה הנתונים</div><p>שם הלקוח ב־<code class="xp">borrow</code>. עיר הסניף ב־<code class="xp">branch</code>. שאל: מה משותף להם?</p></div>
+<div class="step"><div class="sh">רמז 2: אופרטור</div><p>יש תכונה משותפת באותו שם (<code class="xp">branch-name</code>) ← <code class="xp">⋈</code>.</p></div>
+<div class="step"><div class="sh">פתרון: צירוף</div><p>כל הלוואה מקבלת את פרטי הסניף שלה. העמודות החדשות מסומנות.</p></div>
+<div class="step"><div class="sh">פתרון: הטלה</div><p>חמש שורות, כי לכל אחת מחמש ההלוואות יש צירוף שונה של לקוח ועיר.</p></div>
+</div></div></div>
+
+<div class="ex alg prac" data-q="p4" data-title="4. מזערי">
+<div class="q"><b>שאלה 4</b>מצא את שם הסניף שערך הנכסים שלו הנמוך ביותר.</div>
+<div class="exgrid"><div class="exfig"><figure class="fig livefig algfig"><div class="algpanel"></div><figcaption class="livecap"></figcaption></figure>
+<div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">רמז / השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button><button class="btn ghost srcBtn" type="button" aria-pressed="false">טבלאות המקור</button></div></div>
+<div class="steps">
+<div class="step"><div class="sh">נסה לבד</div><p>כתוב את השאילתה על דף. רק אחר כך לחץ על ״רמז״.</p></div>
+<div class="step"><div class="sh">רמז 1: הרעיון</div><p>זו התבנית של ״המרבי״, הפוכה. הנמוך ביותר הוא סניף ש<strong>אין</strong> סניף עם נכסים קטנים משלו.</p></div>
+<div class="step"><div class="sh">רמז 2: שלד</div><p>מצא את כל הסניפים שיש מישהו קטן מהם, והורד אותם מכל הסניפים.</p></div>
+<div class="step"><div class="sh">פתרון: כל זוג סניפים</div><p>4 <bdi dir="ltr">×</bdi> 4 = 16 שורות.</p></div>
+<div class="step"><div class="sh">פתרון: הסניפים שאינם הנמוכים</div><p>שלושה סניפים שיש סניף אחר קטן מהם.</p></div>
+<div class="step"><div class="sh">פתרון: ההפרש</div><p>נשאר <bdi dir="ltr">Tsafon</bdi>, עם 400000.</p></div>
+</div></div></div>
+
+<div class="ex alg prac" data-q="p5" data-title="5. לפחות שניים">
+<div class="q"><b>שאלה 5</b>מצא את שמות הלקוחות שיש להם הלוואות בשני סניפים שונים לפחות.</div>
+<div class="exgrid"><div class="exfig"><figure class="fig livefig algfig"><div class="algpanel"></div><figcaption class="livecap"></figcaption></figure>
+<div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">רמז / השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button><button class="btn ghost srcBtn" type="button" aria-pressed="false">טבלאות המקור</button></div></div>
+<div class="steps">
+<div class="step"><div class="sh">נסה לבד</div><p>כתוב את השאילתה על דף. רק אחר כך לחץ על ״רמז״.</p></div>
+<div class="step"><div class="sh">רמז 1: הרעיון</div><p>״שני סניפים שונים״ = שתי שורות של <code class="xp">borrow</code> עם אותו לקוח וסניף שונה. השוואה בין שתי שורות של אותו יחס ← <code class="xp">ρ</code>.</p></div>
+<div class="step"><div class="sh">רמז 2: התנאי</div><p>בשורה של המכפלה: אותו שם לקוח בשני הצדדים <strong>וגם</strong> שם סניף שונה.</p></div>
+<div class="step"><div class="sh">פתרון: כל זוג הלוואות</div><p>5 <bdi dir="ltr">×</bdi> 5 = 25 שורות.</p></div>
+<div class="step"><div class="sh">פתרון: אותו לקוח, סניף אחר</div><p>שתי שורות: (<bdi dir="ltr">Aviv, Pinkas</bdi>) ו־(<bdi dir="ltr">Pinkas, Aviv</bdi>) של <bdi dir="ltr">Avivi</bdi>. כל זוג מופיע פעמיים, פעם בכל סדר.</p></div>
+<div class="step"><div class="sh">פתרון: הטלה</div><p><bdi dir="ltr">Avivi</bdi>. ל<bdi dir="ltr">Tamir</bdi> יש הלוואה רק ב־<bdi dir="ltr">Pinkas</bdi>.</p></div>
+</div></div></div>
+
+<div class="ex alg prac" data-q="p6" data-title="6. באותו סניף">
+<div class="q"><b>שאלה 6</b>מצא את שמות הלקוחות שיש להם גם הלוואה וגם חשבון חיסכון <strong>באותו סניף</strong>.</div>
+<div class="exgrid"><div class="exfig"><figure class="fig livefig algfig"><div class="algpanel"></div><figcaption class="livecap"></figcaption></figure>
+<div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">רמז / השלב הבא</button><button class="btn ghost allBtn" type="button">לפתרון המלא</button><button class="btn ghost srcBtn" type="button" aria-pressed="false">טבלאות המקור</button></div></div>
+<div class="steps">
+<div class="step"><div class="sh">נסה לבד</div><p>כתוב את השאילתה על דף. רק אחר כך לחץ על ״רמז״.</p></div>
+<div class="step"><div class="sh">רמז 1: ״גם… וגם״</div><p>״גם וגם״ ← <code class="xp">∩</code>. השאלה החשובה: חיתוך של <strong>מה</strong>?</p></div>
+<div class="step"><div class="sh">ניסיון שגוי: חיתוך שמות</div><p>זו התשובה ל״גם הלוואה וגם חיסכון״ — בלי ״באותו סניף״. <bdi dir="ltr">Even</bdi>, למשל, חוסך ב־<bdi dir="ltr">Hamerkaz</bdi> ולווה ב־<bdi dir="ltr">Tsafon</bdi>.</p></div>
+<div class="step"><div class="sh">רמז 2: חיתוך זוגות</div><p>״באותו סניף״ אומר שהזוג (סניף, לקוח) צריך להופיע בשתי הטבלאות. חותכים זוגות, ורק אחר כך מטילים על השם.</p></div>
+<div class="step"><div class="sh">פתרון</div><p>רק הזוג (<bdi dir="ltr">Aviv, Avivi</bdi>) משותף. לכן התשובה <bdi dir="ltr">Avivi</bdi>.</p></div>
+</div></div></div>
+</section>
+
+<section id="ex2">
+<h2>תרגיל 2: רמזים לפתרון עצמאי</h2>
+<p>לכל סעיף יש סולם רמזים: פתח רמז אחד בכל פעם, ונסה להמשיך לבד אחרי כל רמז. בשאלות 3 ו־4 יש גם כפתור <strong>בדוק את עצמך:</strong> נתוני דוגמה שבניתי (לא מהתרגיל), והתוצאה שהשאילתה שלך צריכה להחזיר עליהם. הרץ את השאילתה שלך ביד על הנתונים והשווה.</p>
+
+<h3 id="ex2q1">שאלה 1: משרד רישום אוניברסיטאי</h3>
+<p>זו שאלת תכנון. עבוד בשני שלבים: קודם דיאגרמת <bdi dir="ltr">ER</bdi> לפי <a href="er.html#method">שיטת 7 הצעדים</a>, ואחר כך מיפוי לטבלאות לפי <a href="relational.html#er2rel">כללי המיפוי</a>.</p>
+<div class="ladder" data-check="">
+<ol class="hints">
+<li><strong>ישויות:</strong> סמן את שמות העצם שעליהם שומרים נתונים. יש ארבעה ״גדולים״. מרצה הוא אחד מהם — לא תכונה של קבוצה, כי שומרים עליו תואר, ת״ז וכתובת.</li>
+<li><strong>דרישות קדם:</strong> קורס דורש קורס. זה קשר בין טיפוס ישויות לעצמו — <a href="er-ex.html#family">קשר רקורסיבי</a> עם שני תפקידים. חשוב מה מידת הריבוי: האם קורס יכול להיות דרישת קדם של כמה קורסים?</li>
+<li><strong>קבוצת לימוד:</strong> קרא שוב: ״נבדלות זו מזו במספרן הסידורי… בשנות לימוד שונות תיתכנה שתי קבוצות… עם אותו מס׳ סידורי״. מה זה אומר על המפתח שלה? איזה מושג מחלק א׳ מתאים (רמז: <a href="er-ex.html#weak">ישות חלשה</a>), ומה המפתח החלקי?</li>
+<li><strong>ימים ושעות:</strong> ״קבוצות מסוימות נפגשות יותר מפעם אחת בשבוע״ — אז ״מועד״ הוא ערך אחד או כמה? תסתכל איך טיפלנו בשיבוץ של רופאים במרפאה.</li>
+<li><strong>סטודנט:</strong> ״מערכת השעות השבועית שלו״ — אל תשמור מערכת שעות כנתון נפרד. אם סטודנט רשום ל<strong>קבוצה</strong>, אפשר להגיע ממנה גם לקורס וגם למועדים. איפה הציון? הוא תלוי גם בסטודנט וגם בקורס (או בקבוצה) — <a href="er-ex.html#clinic">תכונה של קשר</a>.</li>
+<li><strong>מיפוי:</strong> אחרי הדיאגרמה, עבור על כללים 1–7. שים לב במיוחד: הקשר בין קבוצה למרצה הוא <bdi dir="ltr">1:N</bdi> ← עמודה בטבלת הקבוצה, לא טבלה חדשה.</li>
+</ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div>
+<div class="check" hidden><div class="ckhead">התכנון שלך צריך לאפשר לענות על השאלות האלה בעזרת צירופים בלבד:</div>
+<ul class="check-list"><li>מה דרישות הקדם של קורס 101?</li><li>מי המרצה של קבוצה 2 בקורס 101 בשנת 2026, ומה התואר שלו?</li><li>מה מערכת השעות של סטודנט 555 (יום, שעה, שם קורס)?</li><li>מה הציון של סטודנט 555 בקורס 101?</li><li>אילו סטודנטים רשומים לקבוצה 1 של קורס 101 ב־2025, ואילו לקבוצה 1 ב־2026 — ושתי הקבוצות האלה לא מתערבבות?</li></ul>
+<p>אם אחת מהשאלות דורשת לשמור אותו נתון בשני מקומות, או שאי אפשר לענות עליה — חזור לרמז המתאים.</p></div>
+</div>
+
+<h3 id="ex2q2">שאלה <bdi dir="ltr">2</bdi>: <bdi dir="ltr">Person, Car, Accident</bdi></h3>
+<figure class="fig"><div data-spec="ex2ER" data-show="arctk" data-nt="arrow"></div><figcaption>הדיאגרמה מהתרגיל, בסימונים של המדריך. <bdi dir="ltr">owns</bdi> בלי חצים, <bdi dir="ltr">log</bdi> עם חץ ל־<bdi dir="ltr">Car</bdi></figcaption></figure>
+<div class="ladder" data-check="">
+<ol class="hints">
+<li><strong>זהה את סוגי הרכיבים:</strong> אילו ישויות חזקות, אילו חלשות (מלבן כפול)? מה סוג כל קשר לפי החצים? בסימון החצים של המצגת: אין חץ ← רבים.</li>
+<li><strong>owns:</strong> אין חצים ← <bdi dir="ltr">M:N</bdi> ← כלל 3.</li>
+<li><strong>Accident:</strong> ישות חלשה, <code class="xp">date</code> הוא המפתח החלקי (קו מקווקו) ← כלל 2. ממי היא מקבלת את המפתח?</li>
+<li><strong>log:</strong> מעוין כפול = קשר מזהה ← לפי כלל 2 הוא לא מקבל טבלה. אם כתבת טבלה בשם <bdi dir="ltr">Log</bdi>, מחק אותה ובדוק שהמידע שלה כבר נמצא בטבלת <bdi dir="ltr">Accident</bdi>.</li>
+</ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div>
+<div class="check" hidden><ul class="check-list"><li>יש לך <strong>4</strong> טבלאות.</li><li>למפתח הראשי של טבלת התאונות יש <strong>2</strong> עמודות.</li><li>אחת הטבלאות היא כולה מפתח: אין בה אף עמודה שאינה חלק מהמפתח.</li><li>אין טבלה בשם <bdi dir="ltr">log</bdi>.</li></ul></div>
+</div>
+
+<h3 id="ex2q3">שאלה <bdi dir="ltr">3</bdi>: <bdi dir="ltr">Lives, Works, Located-in, Manages</bdi></h3>
+<p>נתוני הדוגמה לבדיקה (שלי, לא מהתרגיל). שים לב: <bdi dir="ltr">Yossi</bdi> עובד בשתי חברות, ו־<bdi dir="ltr">Elta</bdi>&nbsp;ו־<bdi dir="ltr">Bezek</bdi> נמצאות בכמה ערים — בכוונה, כדי לתפוס טעויות נפוצות.</p>
+<div class="bankgrid" id="w3data"></div>
+<div class="ladder" data-check="q3a"><div class="lq"><b>א.</b> שמות כל העובדים בחברת <bdi dir="ltr">Elta</bdi>.</div>
+<ol class="hints"><li>הכל נמצא ב־<code class="xp">Works</code>.</li><li><code class="xp">σ</code> על החברה, <code class="xp">π</code> על השם.</li><li><strong>בתחשיב:</strong> כל עמודה שלא מחזירים מקבלת <code class="xp">∃</code>; ערך קבוע נכתב ישירות במקום המשתנה: <code class="xp">&lt;p, 'Elta', s&gt; ∈ Works</code>.</li></ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
+
+<div class="ladder" data-check="q3b"><div class="lq"><b>ב.</b> שמות וכתובות העובדים בחברת <bdi dir="ltr">Elta</bdi>.</div>
+<ol class="hints"><li>הכתובת נמצאת ב־<code class="xp">Lives</code>, השם בשני היחסים.</li><li>תכונה משותפת באותו שם ← <code class="xp">⋈</code>. מה הוא מצרף לפיו?</li><li>״כתובת״ = רחוב <strong>ועיר</strong>.</li><li><strong>בתחשיב:</strong> אותו משתנה <code class="xp">p</code> בשני היחסים הוא הצירוף.</li></ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
+
+<div class="ladder" data-check="q3c"><div class="lq"><b>ג.</b> כמו ב׳, רק למי שמרוויח יותר מ־10,000.</div>
+<ol class="hints"><li>זה ב׳ עם תנאי נוסף על שורה אחת של <code class="xp">Works</code>.</li><li>תנאי שני באותו <code class="xp">σ</code>, עם <code class="xp">∧</code>.</li></ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
+
+<div class="ladder" data-check="q3d"><div class="lq"><b>ד.</b> שמות העובדים הגרים בעיר שבה נמצאת החברה שבה הם עובדים.</div>
+<ol class="hints"><li>שלושה יחסים: מי עובד איפה, מי גר איפה, איפה החברה.</li><li>בדוק אילו תכונות משותפות ל־<code class="xp">Works</code>, <code class="xp">Lives</code>, <code class="xp">Located-in</code>. כאן ה־<code class="xp">⋈</code> הטבעי עושה בדיוק את מה שצריך — למה?</li><li><code class="xp">city</code> מופיע גם ב־<code class="xp">Lives</code> וגם ב־<code class="xp">Located-in</code>, וזה בדיוק התנאי ״גר בעיר שבה החברה״.</li></ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
+
+<div class="ladder" data-check="q3e"><div class="lq"><b>ה.</b> שמות העובדים הגרים בעיר שבה מתגורר המנהל שלהם.</div>
+<ol class="hints"><li>צריך את העיר של <strong>שני</strong> אנשים: העובד והמנהל. שניהם ב־<code class="xp">Lives</code>.</li><li>אותו יחס פעמיים ← <code class="xp">ρ</code>. זו התבנית ״<a href="relational.html#qpatterns">באותו ערך כמו</a>״ ו<a href="relational.html#w-rename">הדוגמה של <bdi dir="ltr">Morag</bdi></a>.</li><li>למה <code class="xp">⋈</code> טבעי לא יעבוד כאן ישירות? כי <code class="xp">Manages</code> ו־<code class="xp">Lives</code> משותפים רק ב־<code class="xp">person-name</code> — זה מחבר את העובד לעיר שלו, לא את המנהל.</li><li>שלד: <code class="xp">(Manages ⋈ Lives) × ρ<sub>m</sub>(Lives)</code>, ואחר כך <code class="xp">σ</code> עם שני תנאי שוויון.</li></ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
+
+<div class="ladder" data-check="q3f"><div class="lq"><b>ו.</b> שמות העובדים שאינם עובדים ב־<bdi dir="ltr">Elta</bdi>.</div>
+<ol class="hints"><li>שלילה ← <code class="xp">−</code>. לא <code class="xp">σ<sub>company-name≠'Elta'</sub></code>.</li><li>בדוק את <bdi dir="ltr">Yossi</bdi> בנתוני הדוגמה: הוא עובד ב־<bdi dir="ltr">Elta</bdi> וגם ב־<bdi dir="ltr">Bezek</bdi>. מה <code class="xp">σ<sub>≠</sub></code> היה מחזיר עליו? ומה התשובה הנכונה?</li><li><strong>בתחשיב:</strong> <code class="xp">∧ ¬∃s (&lt;p, 'Elta', s&gt; ∈ Works)</code>.</li></ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
+
+<div class="ladder" data-check="q3g"><div class="lq"><b>ז.</b> שמות העובדים שמרוויחים יותר מכל עובד בחברת <bdi dir="ltr">Bezek</bdi>.</div>
+<ol class="hints"><li>״יותר מכל״ = אין אף עובד של <bdi dir="ltr">Bezek</bdi> שמרוויח לפחות כמוהו. זו שלילה ← <code class="xp">−</code>.</li><li>זו גרסה של תבנית <a href="relational.html#w-max">״המרבי״</a>: מצא את מי שמרוויח <strong>פחות או שווה</strong> לעובד כלשהו ב־<bdi dir="ltr">Bezek</bdi>, והורד אותו מכל העובדים.</li><li>שלד: <code class="xp">π<sub>person-name</sub>(Works) − π<sub>Works.person-name</sub>(σ<sub>Works.salary ≤ b.salary</sub>(Works × ρ<sub>b</sub>(___)))</code></li><li><strong>בתחשיב:</strong> <code class="xp">∀</code> או <code class="xp">¬∃</code>: אין <code class="xp">&lt;q, 'Bezek', t&gt; ∈ Works</code> עם <code class="xp">t ≥ s</code>.</li></ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
+
+<div class="ladder" data-check="q3h"><div class="lq"><b>ח.</b> שמות החברות הממוקמות בכל עיר שבה ממוקמת <bdi dir="ltr">Elta</bdi>.</div>
+<ol class="hints"><li>״בכל עיר״ ← <code class="xp">÷</code>. ראה <a href="relational.html#w-div">את הדוגמה של <bdi dir="ltr">Jaffa</bdi></a>.</li><li>המחלק: הערים של <bdi dir="ltr">Elta</bdi>. המחולק: זוגות (חברה, עיר).</li><li><bdi dir="ltr">Elta</bdi> עצמה תופיע בתשובה — היא כמובן נמצאת בכל הערים של עצמה. אם רוצים ״חברות אחרות״, מורידים אותה בסוף.</li><li><strong>בתחשיב:</strong> <code class="xp">∀x ( &lt;'Elta', x&gt; ∈ Located-in ⇒ &lt;c, x&gt; ∈ Located-in )</code>, ובנוסף ש־<bdi dir="ltr">c</bdi> הוא חברה קיימת.</li></ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
+
+<h3 id="ex2q4">שאלה 4: הזמנות, עובדים ומחלקות</h3>
+<p>נתוני הדוגמה לבדיקה (שלי). <bdi dir="ltr">Omer</bdi> (2) הוא מנהל מחלקה 30 אבל שייך למחלקה 10 — בכוונה.</p>
+<div class="bankgrid" id="s4data"></div>
+<div class="ladder" data-check="q4a"><div class="lq"><b>א.</b> לכל מנהל מחלקה: שמו, שנת הלידה ועיר המגורים.</div>
+<ol class="hints"><li>מנהל המחלקה מופיע ב־<code class="xp">Department</code> רק כמספר (<code class="xp">dept_head_id</code>). הפרטים שלו ב־<code class="xp">Employee</code>.</li><li><strong>זהירות:</strong> <code class="xp">Employee ⋈ Department</code> יצרף לפי <code class="xp">dept_id</code> — המחלקה שבה העובד <strong>עובד</strong>, לא זו שהוא <strong>מנהל</strong>. ראה את <bdi dir="ltr">Omer</bdi> בנתוני הדוגמה.</li><li>ההשוואה היא בין עמודות עם שמות שונים (<code class="xp">emp_id</code>, <code class="xp">dept_head_id</code>) ← <code class="xp">×</code> ואחריו <code class="xp">σ</code>.</li></ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
+
+<div class="ladder" data-check="q4b"><div class="lq"><b>ב.</b> עובדים (ת״ז, שם) שטיפלו בהזמנה כלשהי בסכום מעל 1000.</div>
+<ol class="hints"><li><code class="xp">Order</code> מכיל את מי שטיפל (<code class="xp">emp_id</code>) ואת הסכום. השם ב־<code class="xp">Employee</code>.</li><li>מה משותף ל־<code class="xp">Order</code> ול־<code class="xp">Employee</code>? רק <code class="xp">emp_id</code> — לכן <code class="xp">⋈</code> בטוח כאן. (בין <code class="xp">Customer</code> ל־<code class="xp">Employee</code> הוא <strong>לא</strong> היה בטוח: <code class="xp">birth</code>, <code class="xp">street</code>, <code class="xp">city</code> משותפים.)</li></ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
+
+<div class="ladder" data-check="q4c"><div class="lq"><b>ג.</b> עובדים (ת״ז, שם) שכל ההזמנות שטיפלו בהן היו בסכום מתחת ל־1000 (וטיפלו בלפחות אחת).</div>
+<ol class="hints"><li>״כל ההזמנות מתחת ל־1000״ = ״אין להם אף הזמנה של 1000 ומעלה״. שלילה ← <code class="xp">−</code>.</li><li>מאיזו קבוצה מורידים? לא מכל העובדים — אז היו נכנסים עובדים שלא טיפלו באף הזמנה (<bdi dir="ltr">Tal</bdi>&nbsp;ו־<bdi dir="ltr">Dor</bdi> בנתוני הדוגמה). התחל ממי שטיפל בהזמנה כלשהי.</li><li>שלד: <code class="xp">(π<sub>emp_id</sub>(Order) − π<sub>emp_id</sub>(σ<sub>___</sub>(Order))) ⋈ Employee</code>, ואחר כך <code class="xp">π</code>.</li><li>שים לב לגבול: ״מתחת ל־1000״, אז מה שמורידים הוא <code class="xp">amount ≥ 1000</code>.</li></ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
+
+<div class="ladder" data-check="q4d"><div class="lq"><b>ד.</b> הזמנות שכוללות את כל המוצרים שהמחיר שלהם ליחידה הוא 10 או פחות.</div>
+<ol class="hints"><li>״את כל המוצרים ש…״ ← <code class="xp">÷</code>.</li><li>המחלק: מספרי המוצרים הזולים. המחולק: זוגות (הזמנה, מוצר) — מאיזה יחס?</li><li>הטל את המחולק <strong>בדיוק</strong> על <code class="xp">order_id, prod_id</code>. אם תשאיר את <code class="xp">line_id</code> או <code class="xp">quantity</code>, הם ייכנסו לתשובה והחילוק לא יעבוד.</li></ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
+
+<div class="ladder" data-check="q4e"><div class="lq"><b>ה.</b> מחלקות (מס׳, שם) שהעובדים שלהן לא טיפלו באף הזמנה.</div>
+<ol class="hints"><li>״לא טיפלו באף״ = שלילה ← כל המחלקות <code class="xp">−</code> המחלקות שמישהו מהן <strong>כן</strong> טיפל.</li><li>איך מגיעים מהזמנה למחלקה? הזמנה ← עובד (<code class="xp">emp_id</code>) ← מחלקה (<code class="xp">dept_id</code>).</li><li>שני צדי ה־<code class="xp">−</code> צריכים את אותן עמודות: <code class="xp">dept_id, dept_name</code>.</li><li>שאלה למחשבה: מחלקה בלי עובדים בכלל — האם היא בתשובה? לפי השאילתה עם <code class="xp">−</code>, כן. כתוב את ההנחה שלך.</li></ol>
+<div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
+</section>
+<div class="pager"><a class="prev" href="relational.html"><span>הקודם</span>2. מודל היחסים</a><a class="next" href="sql.html"><span>הבא</span>3. SQL</a></div>
+</div>
+</main>
+</div>
+<script src="guide.js"></script>
+<script src="sqldata.js"></script><script src="sqlpage.js"></script><script src="peekdata.js"></script><script src="peek.js"></script><script src="palette.js"></script>
+</body>
+</html>
