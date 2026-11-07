@@ -715,3 +715,19 @@ p,li,.lede{text-wrap:pretty}
 .tg.m-k{background:#FCEAE7;color:#C0392B;border-bottom-color:#C0392B;text-decoration:underline}
 .tg.m-r{background:#FCF0DC;color:#B86A00;border-bottom-color:#B86A00}
 .tg.ok{box-shadow:0 0 0 2px var(--ok)}.tg.bad{box-shadow:0 0 0 2px var(--key)}.tg.miss{box-shadow:0 0 0 2px var(--fresh)}
+/* tagger v2: clear verdicts */
+.tglab{font-weight:700;color:var(--muted);font-size:.9rem}
+.tagger.checked .tg.dim{border-bottom-color:transparent;opacity:.75}
+.tagger.checked .tg{box-shadow:none}
+.tg.v-ok{outline:2px solid var(--ok);outline-offset:1px}
+.tg.v-bad{outline:2px solid var(--key);outline-offset:1px}
+.tg.v-miss{outline:2px dashed #8A6D00;outline-offset:1px;background:#FFF6D6}
+.tgb{display:inline-block;font-size:.72rem;font-weight:800;line-height:1.3;border-radius:999px;padding:0 7px;margin-inline-start:3px;vertical-align:super;white-space:nowrap}
+.tgb.ok{background:var(--ok);color:#fff}
+.tgb.bad{background:var(--key);color:#fff}
+.tgb.miss{background:#FFF6D6;color:#6B5300;border:1px dashed #8A6D00}
+.tgsum{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.tgsum .tgb{vertical-align:baseline;font-size:.9rem;padding:3px 12px}
+.tg.v-miss{outline:1.5px dashed #B8A050;outline-offset:1px;background:none}
+.tgh{margin:12px 0 4px;color:var(--key)}
+details.tgmiss{margin-top:8px}details.tgmiss>summary{cursor:pointer;font-weight:700;color:#6B5300}

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="guide.css?v=0aaa190e">
+<link rel="stylesheet" href="guide.css?v=3f35c74f">
 </head>
 <body class="pg-practice">
 <div class="layout">
@@ -32,11 +32,7 @@
 <h2 class="sheet">מטלה 1 — מודל <bdi dir="ltr">ER</bdi></h2>
 
 <h3 id="m1q1">שאלה 1</h3>
-<div class="taskq"><p>רשת בתי קולנוע מעוניינת במערכת לניהול הקרנות ומכירת כרטיסים.</p>
-<p>לכל בית קולנוע יש לשמור את שמו (ייחודי), כתובתו ועירו. בכל בית קולנוע יש מספר אולמות, הממוספרים 1, 2, 3 וכו׳ בתוך בית הקולנוע (כלומר בבתי קולנוע שונים עשויים להיות אולמות עם אותו מספר). לכל אולם יש לשמור את מספר המושבים בו.</p>
-<p>לכל סרט יש לשמור קוד (ייחודי), שם, אורך בדקות, וז׳אנר אחד או יותר. סרט מוקרן באולמות שונים ובמועדים שונים; לכל הקרנה יש לשמור תאריך, שעת התחלה ומחיר כרטיס.</p>
-<p>לכל לקוח יש לשמור מס׳ ת״ז, שם וטלפון. לקוח רוכש כרטיסים להקרנות, ויכול לרכוש כמה כרטיסים לאותה הקרנה; לכל כרטיס יש לשמור את השורה ואת מספר המושב.</p>
-<p><strong>בנה דיאגרמת <bdi dir="ltr">ER</bdi> למערכת. ציין את המפתחות ואת סוג כל קשר. כתוב כל הנחה שהנחת.</strong></p></div>
+<div class="taskq tagger"><div class="tgbar"></div><p class="tgtext">רשת בתי קולנוע מעוניינת במערכת לניהול הקרנות ומכירת כרטיסים.</p><p class="tgtext">לכל <span class="tg" data-k="e" data-why="ישות" tabindex="0">בית קולנוע</span> יש לשמור את <span class="tg" data-k="k" data-why="ייחודי — מפתח" tabindex="0">שמו (ייחודי)</span>, <span class="tg" data-k="a" data-why="תכונה" tabindex="0">כתובתו</span> ו<span class="tg" data-k="a" data-why="תכונה" tabindex="0">עירו</span>. בכל בית קולנוע יש מספר <span class="tg" data-k="e" data-why="ישות — חלשה: מזוהה רק בתוך בית הקולנוע" tabindex="0">אולמות</span>, <span class="tg" data-k="k" data-why="מפתח חלקי של האולם" tabindex="0">הממוספרים 1, 2, 3 וכו׳ בתוך בית הקולנוע</span> (כלומר בבתי קולנוע שונים עשויים להיות אולמות עם אותו מספר). לכל אולם יש לשמור את <span class="tg" data-k="a" data-why="תכונה" tabindex="0">מספר המושבים</span> בו.</p><p class="tgtext">לכל <span class="tg" data-k="e" data-why="ישות" tabindex="0">סרט</span> יש לשמור <span class="tg" data-k="k" data-why="מפתח" tabindex="0">קוד (ייחודי)</span>, <span class="tg" data-k="a" data-why="תכונה" tabindex="0">שם</span>, <span class="tg" data-k="a" data-why="תכונה" tabindex="0">אורך בדקות</span>, ו<span class="tg" data-k="e" data-why="״אחד או יותר״ — ישות נפרדת וקשר M:N" tabindex="0">ז׳אנר אחד או יותר</span>. סרט <span class="tg" data-k="r" data-why="קשר בין הקרנה לסרט ולאולם" tabindex="0">מוקרן</span> באולמות שונים ובמועדים שונים; לכל <span class="tg" data-k="e" data-why="יש לה נתונים משלה והיא מתחברת לסרט, לאולם ולכרטיסים — ישות" tabindex="0">הקרנה</span> יש לשמור <span class="tg" data-k="a" data-why="תכונה" tabindex="0">תאריך</span>, <span class="tg" data-k="a" data-why="תכונה" tabindex="0">שעת התחלה</span> ו<span class="tg" data-k="a" data-why="תכונה של ההקרנה" tabindex="0">מחיר כרטיס</span>.</p><p class="tgtext">לכל <span class="tg" data-k="e" data-why="ישות" tabindex="0">לקוח</span> יש לשמור <span class="tg" data-k="k" data-why="מפתח" tabindex="0">מס׳ ת״ז</span>, <span class="tg" data-k="a" data-why="תכונה" tabindex="0">שם</span> ו<span class="tg" data-k="a" data-why="תכונה" tabindex="0">טלפון</span>. לקוח <span class="tg" data-k="r" data-why="קשר בין לקוח לכרטיס, 1:N" tabindex="0">רוכש</span> <span class="tg" data-k="e" data-why="לקוח קונה כמה כרטיסים לאותה הקרנה — לכן כרטיס הוא ישות (חלשה של הקרנה), לא קשר" tabindex="0">כרטיסים</span> להקרנות, ויכול לרכוש כמה כרטיסים לאותה הקרנה; לכל כרטיס יש לשמור את <span class="tg" data-k="k" data-why="חלק מהמפתח החלקי של הכרטיס" tabindex="0">השורה</span> ואת <span class="tg" data-k="k" data-why="חלק מהמפתח החלקי של הכרטיס" tabindex="0">מספר המושב</span>.</p><p><strong>בנה דיאגרמת <bdi dir="ltr">ER</bdi> למערכת. ציין את המפתחות ואת סוג כל קשר. כתוב כל הנחה שהנחת.</strong></p><p class="muted">לפני שבונים: בחר סוג ולחץ על הביטויים המסומנים בקו מקווקו. ״בדוק״ מסמן ליד כל ביטוי אם צדקת (✓), טעית (✗ והתשובה הנכונה) או פספסת.</p><div class="tgout"></div></div>
 <div class="ladder" data-check="">
 <ol class="hints">
 <li><strong>ישויות:</strong> יש חמישה שמות עצם ״גדולים״ שעליהם שומרים נתונים, ועוד שניים שצריך לחשוב עליהם: ז׳אנר וכרטיס.</li>
@@ -63,10 +59,7 @@
 </details>
 
 <h3 id="m1q2">שאלה 2</h3>
-<div class="taskq"><p>ברשת חברתית יש משתמשים. לכל משתמש יש לשמור שם משתמש (ייחודי), שם מלא ותאריך הצטרפות.</p>
-<p>משתמש יכול לעקוב אחרי משתמשים אחרים (לא בהכרח הדדית). לכל מעקב יש לשמור את התאריך שבו התחיל.</p>
-<p>משתמש יכול גם להמליץ על משתמש אחר בתחום מסוים (למשל ״<bdi dir="ltr">SQL</bdi>״ או ״עיצוב״), ואותו משתמש יכול להמליץ על אותו משתמש בכמה תחומים. לכל המלצה יש לשמור ציון (1–5).</p>
-<p><strong>בנה דיאגרמת <bdi dir="ltr">ER</bdi>. ציין תפקידים, מפתחות ומידות ריבוי.</strong></p></div>
+<div class="taskq tagger"><div class="tgbar"></div><p class="tgtext">ברשת חברתית יש <span class="tg" data-k="e" data-why="ישות" tabindex="0">משתמשים</span>. לכל משתמש יש לשמור <span class="tg" data-k="k" data-why="מפתח" tabindex="0">שם משתמש (ייחודי)</span>, <span class="tg" data-k="a" data-why="תכונה" tabindex="0">שם מלא</span> ו<span class="tg" data-k="a" data-why="תכונה" tabindex="0">תאריך הצטרפות</span>.</p><p class="tgtext">משתמש יכול <span class="tg" data-k="r" data-why="קשר רקורסיבי משתמש–משתמש, M:N, עם תפקידים עוקב ונעקב" tabindex="0">לעקוב</span> אחרי משתמשים אחרים (לא בהכרח הדדית). לכל מעקב יש לשמור את <span class="tg" data-k="a" data-why="תלוי בזוג — תכונה של הקשר" tabindex="0">התאריך שבו התחיל</span>.</p><p class="tgtext">משתמש יכול גם <span class="tg" data-k="r" data-why="קשר מעלה 3: ממליץ, מומלץ ותחום" tabindex="0">להמליץ</span> על משתמש אחר <span class="tg" data-k="e" data-why="משתתף שלישי בקשר — אחרת אותו זוג לא יכול להופיע בכמה תחומים" tabindex="0">בתחום</span> מסוים (למשל ״<bdi dir="ltr">SQL</bdi>״ או ״עיצוב״), ואותו משתמש יכול להמליץ על אותו משתמש בכמה תחומים. לכל המלצה יש לשמור <span class="tg" data-k="a" data-why="תכונה של הקשר ממליץ" tabindex="0">ציון</span> (1–5).</p><p><strong>בנה דיאגרמת <bdi dir="ltr">ER</bdi>. ציין תפקידים, מפתחות ומידות ריבוי.</strong></p><p class="muted">לפני שבונים: בחר סוג ולחץ על הביטויים המסומנים בקו מקווקו. ״בדוק״ מסמן ליד כל ביטוי אם צדקת (✓), טעית (✗ והתשובה הנכונה) או פספסת.</p><div class="tgout"></div></div>
 <div class="ladder" data-check="">
 <ol class="hints">
 <li>כל הקשרים הם בין משתמש למשתמש ← <a href="er-ex.html#family">קשרים רקורסיביים</a> עם תפקידים.</li>
@@ -265,6 +258,6 @@ Teaches = (lecturer-name, <u>course-id</u>, <u>semester</u>)</pre>
 </main>
 </div>
 <script src="guide.js?v=8c3c214b"></script>
-<script src="mra.js?v=fbafdbbf"></script><script src="sqldata.js?v=aa87ac7c"></script><script src="mdata.js?v=fcd0f99f"></script><script src="sqlpage.js?v=e0c03ae9"></script><script src="practice.js?v=7e71df79"></script><script src="palette.js?v=68636c53"></script>
+<script src="mra.js?v=fbafdbbf"></script><script src="sqldata.js?v=aa87ac7c"></script><script src="mdata.js?v=fcd0f99f"></script><script src="sqlpage.js?v=e0c03ae9"></script><script src="practice.js?v=7e71df79"></script><script src="palette.js?v=68636c53"></script><script src="tagger.js?v=03403f81"></script>
 </body>
 </html>
