@@ -79,7 +79,7 @@
 <div class="step"><div class="sh">כלל 2: ישות חלשה</div><p>שיבוץ מזוהה דרך הרופא. הטבלה מקבלת את <code class="xp">doc_id</code> של הרופא, ויחד עם המפתח החלקי (יום, שעת התחלה) הוא המפתח הראשי.</p><p>הקשר המזהה <span class="r">משובץ</span> לא מקבל טבלה — הוא כבר מיוצג ב־<code class="xp">doc_id</code> שבטבלה.</p></div>
 <div class="step"><div class="sh">כלל 3: <bdi dir="ltr">M:N</bdi> בלי תכונות</div><p><span class="r">מתמחה</span> הוא <bdi dir="ltr">M:N</bdi>, ולכן מקבל טבלה משלו עם שני המפתחות. אף אחד מהם לבד לא ייחודי — רק הזוג.</p></div>
 <div class="step"><div class="sh">כלל 3: <bdi dir="ltr">M:N</bdi> עם תכונות</div><p>התכונות של <span class="r">מרשם</span> (כמות יומית, מספר ימים) עוברות לטבלת הקשר. זה בדיוק מה שקורה בבנק: <code class="xp">balance</code> של הקשר <bdi dir="ltr">deposit</bdi> נמצא בטבלה <bdi dir="ltr">Deposit</bdi>.</p></div>
-<div class="step"><div class="sh">בדיקה</div><p>עבור על כל רכיב בדיאגרמה וודא שהוא מופיע בדיוק פעם אחת: כל ישות כטבלה, כל <bdi dir="ltr">M:N</bdi> כטבלה, כל <bdi dir="ltr">1:N</bdi> כמפתח זר.</p><p><strong>אופציונלי:</strong> <bdi dir="ltr">Medicine</bdi> ו־<bdi dir="ltr">Specialty</bdi> הן טבלאות של עמודה אחת. אפשר לוותר עליהן, כי השם כבר מופיע בטבלאות הקשר. משאירים אותן אם רוצים רשימה סגורה של ערכים מותרים.</p></div>
+<div class="step"><div class="sh">בדיקה</div><p>עבור על כל רכיב בדיאגרמה וודא שהוא מופיע בדיוק פעם אחת: כל ישות כטבלה, כל <bdi dir="ltr">M:N</bdi> כטבלה, כל <bdi dir="ltr">1:N</bdi> כמפתח זר.</p><p><strong>אופציונלי:</strong> <bdi dir="ltr">Medicine</bdi>&nbsp;ו־<bdi dir="ltr">Specialty</bdi> הן טבלאות של עמודה אחת. אפשר לוותר עליהן, כי השם כבר מופיע בטבלאות הקשר. משאירים אותן אם רוצים רשימה סגורה של ערכים מותרים.</p></div>
 </div></div></div>
 </section>
 
@@ -88,9 +88,9 @@
 <p>כל אופרטור מקבל יחס אחד או שניים ומחזיר <strong>יחס חדש</strong>. לכן אפשר להרכיב אותם זה על זה, כמו פונקציות. בכל שורה: מימין — מה האופרטור עושה ומתי מותר להשתמש בו; משמאל — הדוגמה מהמצגת: טבלאות הקלט ← התוצאה. שורות קלט שעוברות לתוצאה צבועות, שורות שנופלות עמומות, והעמודות שהאופרטור משתמש בהן מסומנות בקו ירוק.</p>
 <div class="opgrid" id="opGrid"></div>
 <div class="box tip"><h4>שלושה ״כלים״ לזכור</h4>
-<p><strong>σ חותך שורות, π חותך עמודות.</strong> כל השאר מחברים טבלאות.</p>
-<p><strong>∪, −, ∩</strong> דורשים שתי טבלאות עם אותו מספר עמודות ואותם תחומים. לכן כמעט תמיד מופיע π לפניהם.</p>
-<p><strong>⋈</strong> הוא קיצור של × ואחריו σ על כל התכונות שיש להן אותו שם, ואחריו הסרת העמודה הכפולה.</p></div>
+<p><strong><bdi dir="ltr">σ</bdi> חותך שורות, <bdi dir="ltr">π</bdi> חותך עמודות.</strong> כל השאר מחברים טבלאות.</p>
+<p><strong><bdi dir="ltr">∪</bdi>, −, <bdi dir="ltr">∩</bdi></strong> דורשים שתי טבלאות עם אותו מספר עמודות ואותם תחומים. לכן כמעט תמיד מופיע <bdi dir="ltr">π</bdi> לפניהם.</p>
+<p><strong><bdi dir="ltr">⋈</bdi></strong> הוא קיצור של <bdi dir="ltr">×</bdi> ואחריו <bdi dir="ltr">σ</bdi> על כל התכונות שיש להן אותו שם, ואחריו הסרת העמודה הכפולה.</p></div>
 </section>
 
 <section id="qmethod">
@@ -103,21 +103,21 @@
 <li><h3>תנאים על שורה בודדת</h3><p>כל תנאי שאפשר לבדוק על שורה אחת (עיר מסוימת, סכום מעל ערך) הוא <code class="xp">σ</code>. שים אותו כמה שיותר מוקדם — הטבלאות קטנות יותר ומספר הטעויות קטן.</p></li>
 <li><h3>מילות קבוצה</h3><p>מילים שמשוות בין <strong>קבוצות</strong> של שורות דורשות אופרטור קבוצה: ״או״, ״גם״, ״אך לא״, ״בכל״, ״המרבי״, ״לפחות שניים״. ראה את המילון ואת התבניות למטה.</p></li>
 <li><h3>התאם סכמות</h3><p>לפני <code class="xp">∪ − ∩</code>: הטל את שני הצדדים לאותן עמודות. לפני <code class="xp">÷</code>: המחולק צריך להכיל בדיוק את עמודות התשובה ואת עמודות המחלק.</p></li>
-<li><h3>הרץ ביד</h3><p>הטבלאות במצגת קטנות. הרץ את השאילתה על השורות שלהן וודא שהתוצאה הגיונית. שאילתה שמחזירה ״יותר מדי״ שורות היא כמעט תמיד × בלי תנאי שוויון.</p></li>
+<li><h3>הרץ ביד</h3><p>הטבלאות במצגת קטנות. הרץ את השאילתה על השורות שלהן וודא שהתוצאה הגיונית. שאילתה שמחזירה ״יותר מדי״ שורות היא כמעט תמיד <bdi dir="ltr">×</bdi> בלי תנאי שוויון.</p></li>
 </ol>
 
 <h3 id="qphrases">מילון: מה כתוב בשאלה ← איזה אופרטור</h3>
 <div class="tbl"><table>
 <tr><th>ניסוח בשאלה</th><th>אופרטור</th><th>דוגמה מהמצגת</th></tr>
-<tr><td>״בסניף <bdi dir="ltr">X</bdi>״, ״שגרים ב־<bdi dir="ltr">Y</bdi>״, ״בסכום מעל…״</td><td class="c">σ</td><td>הלוואות בסניף <bdi dir="ltr">Aviv</bdi></td></tr>
-<tr><td>״מצא את שם… ואת…״</td><td class="c">π</td><td>שם הלקוח ושם הסניף</td></tr>
-<tr><td>״לכל חשבון מצא את… ואת עיר המגורים״ (נתונים משני יחסים)</td><td class="c">⋈</td><td>בעל חשבון, עיר וסכום</td></tr>
-<tr><td>״באותה עיר שבה גר…״, השוואה של יחס לעצמו</td><td class="c">ρ + ×</td><td>לקוחות שגרים בעיר של <bdi dir="ltr">Morag</bdi></td></tr>
-<tr><td>״…או…״, ״בעלי חשבון חיסכון או הלוואה״</td><td class="c">∪</td><td>לקוחות של <bdi dir="ltr">Hamerkaz</bdi></td></tr>
-<tr><td>״גם… וגם…״</td><td class="c">∩</td><td>גם הלוואה וגם חיסכון</td></tr>
+<tr><td>״בסניף <bdi dir="ltr">X</bdi>״, ״שגרים ב־<bdi dir="ltr">Y</bdi>״, ״בסכום מעל…״</td><td class="c"><bdi dir="ltr">σ</bdi></td><td>הלוואות בסניף <bdi dir="ltr">Aviv</bdi></td></tr>
+<tr><td>״מצא את שם… ואת…״</td><td class="c"><bdi dir="ltr">π</bdi></td><td>שם הלקוח ושם הסניף</td></tr>
+<tr><td>״לכל חשבון מצא את… ואת עיר המגורים״ (נתונים משני יחסים)</td><td class="c"><bdi dir="ltr">⋈</bdi></td><td>בעל חשבון, עיר וסכום</td></tr>
+<tr><td>״באותה עיר שבה גר…״, השוואה של יחס לעצמו</td><td class="c"><bdi dir="ltr">ρ</bdi> + <bdi dir="ltr">×</bdi></td><td>לקוחות שגרים בעיר של <bdi dir="ltr">Morag</bdi></td></tr>
+<tr><td>״…או…״, ״בעלי חשבון חיסכון או הלוואה״</td><td class="c"><bdi dir="ltr">∪</bdi></td><td>לקוחות של <bdi dir="ltr">Hamerkaz</bdi></td></tr>
+<tr><td>״גם… וגם…״</td><td class="c"><bdi dir="ltr">∩</bdi></td><td>גם הלוואה וגם חיסכון</td></tr>
 <tr><td>״…אך לא…״, ״שאין להם״</td><td class="c">−</td><td>חיסכון אך לא הלוואה</td></tr>
-<tr><td>״המרבי״, ״הגדול ביותר״, ״הנמוך ביותר״</td><td class="c">ρ + × + σ + −</td><td>סכום החיסכון המרבי</td></tr>
-<tr><td>״בכל ה…״, ״בכל הסניפים בעיר…״</td><td class="c">÷</td><td>חיסכון בכל הסניפים ב־<bdi dir="ltr">Jaffa</bdi></td></tr>
+<tr><td>״המרבי״, ״הגדול ביותר״, ״הנמוך ביותר״</td><td class="c"><bdi dir="ltr">ρ</bdi> + <bdi dir="ltr">×</bdi> + <bdi dir="ltr">σ</bdi> + −</td><td>סכום החיסכון המרבי</td></tr>
+<tr><td>״בכל ה…״, ״בכל הסניפים בעיר…״</td><td class="c"><bdi dir="ltr">÷</bdi></td><td>חיסכון בכל הסניפים ב־<bdi dir="ltr">Jaffa</bdi></td></tr>
 </table></div>
 
 <h3 id="qpatterns">תבניות שאילתה מוכנות</h3>
@@ -150,7 +150,7 @@
 <div class="step"><div class="sh">צעד 4: קודם מסננים</div>
 <p>תנאי על שורה בודדת ← <code class="xp">σ</code>, וכמה שיותר מוקדם. מתוך ארבעת הלקוחות נשארים שניים. השורות המחוקות בטבלה הן אלה שהסינון הוריד.</p></div>
 <div class="step"><div class="sh">צעד 3: מחברים ל־<bdi dir="ltr">deposit</bdi></div>
-<p>התכונה המשותפת היא <code class="xp">customer-name</code>, לכן <code class="xp">⋈</code> מחבר כל לקוח לחשבונות שלו. העמודות החדשות מסומנות. הלקוחות ב־<bdi dir="ltr">Haifa</bdi> הם <bdi dir="ltr">Tamir</bdi> ו־<bdi dir="ltr">Even</bdi>, ולכל אחד חשבון אחד.</p></div>
+<p>התכונה המשותפת היא <code class="xp">customer-name</code>, לכן <code class="xp">⋈</code> מחבר כל לקוח לחשבונות שלו. העמודות החדשות מסומנות. הלקוחות ב־<bdi dir="ltr">Haifa</bdi> הם <bdi dir="ltr">Tamir</bdi>&nbsp;ו־<bdi dir="ltr">Even</bdi>, ולכל אחד חשבון אחד.</p></div>
 <div class="step"><div class="sh">צעד 3: מחברים ל־<bdi dir="ltr">branch</bdi></div>
 <p>עכשיו התכונה המשותפת היא <code class="xp">branch-name</code>, ונוספים הנכסים ועיר הסניף. שים לב: אין כאן התנגשות בין <code class="xp">customer-city</code> ל־<code class="xp">branch-city</code>, כי יש להן שמות שונים. אם שתיהן היו נקראות <code class="xp">city</code>, ה־<code class="xp">⋈</code> היה דורש שגם הן יהיו שוות.</p></div>
 <div class="step"><div class="sh">צעד 6: הטלה לתשובה</div>
@@ -173,7 +173,7 @@
 <div class="step"><div class="sh">מוצאים את <bdi dir="ltr">Morag</bdi></div><p>סינון רגיל: נשארת שורה אחת.</p></div>
 <div class="step"><div class="sh">רק העיר</div><p>מכל השורה צריך רק את העיר. התוצאה היא יחס עם עמודה אחת ושורה אחת: <bdi dir="ltr">Rishon</bdi>.</p></div>
 <div class="step"><div class="sh">נותנים שם: <bdi dir="ltr">cust2</bdi></div><p><code class="xp">ρ<sub>cust2</sub></code> לא משנה את התוכן, רק את השם. מעכשיו העמודה נקראת <code class="xp">cust2.customer-city</code>, ואפשר להבדיל בינה לבין <code class="xp">customer.customer-city</code>.</p></div>
-<div class="step"><div class="sh">מכפלה קרטזית</div><p>כל לקוח מקבל לצידו את העיר של <bdi dir="ltr">Morag</bdi>. יש ארבע שורות (4 × 1). עכשיו כל ההשוואה נמצאת בתוך אותה שורה.</p></div>
+<div class="step"><div class="sh">מכפלה קרטזית</div><p>כל לקוח מקבל לצידו את העיר של <bdi dir="ltr">Morag</bdi>. יש ארבע שורות (4 <bdi dir="ltr">×</bdi> 1). עכשיו כל ההשוואה נמצאת בתוך אותה שורה.</p></div>
 <div class="step"><div class="sh">משווים בתוך השורה</div><p>עכשיו <code class="xp">σ</code> עובד: משאירים שורות שבהן שתי הערים שוות. השורות המחוקות הן לקוחות מ־<bdi dir="ltr">Haifa</bdi>.</p></div>
 <div class="step"><div class="sh">הטלה לתשובה</div><p><bdi dir="ltr">Morag</bdi> עצמו מופיע בתשובה, כי הוא גר בעיר של עצמו. אם השאלה הייתה ״לקוחות <strong>אחרים</strong>״, היינו מוסיפים לתנאי <code class="xp">customer-name≠'Morag'</code>.</p></div>
 </div></div></div>
@@ -191,7 +191,7 @@
 <div class="step"><div class="sh">הרעיון</div>
 <p>אין <code class="xp">max</code> באלגברת יחסים. במקום זה מגדירים: <strong>המרבי הוא סכום שאינו קטן מאף סכום אחר</strong>.</p>
 <p>התוכנית: (1) למצוא את כל הסכומים שכן קטנים ממשהו. (2) להוריד אותם מכל הסכומים.</p></div>
-<div class="step"><div class="sh">כל זוג סכומים</div><p>כדי להשוות כל סכום לכל סכום אחר, מכפילים את <code class="xp">deposit</code> בעותק שלו בשם <code class="xp">d</code>. יש 3 × 3 = 9 שורות, וכל שורה היא זוג חשבונות.</p></div>
+<div class="step"><div class="sh">כל זוג סכומים</div><p>כדי להשוות כל סכום לכל סכום אחר, מכפילים את <code class="xp">deposit</code> בעותק שלו בשם <code class="xp">d</code>. יש 3 <bdi dir="ltr">×</bdi> 3 = 9 שורות, וכל שורה היא זוג חשבונות.</p></div>
 <div class="step"><div class="sh">הזוגות שבהם השמאלי קטן</div><p>משאירים שורות שבהן <code class="xp">deposit.balance &lt; d.balance</code>. בכל שורה שנשארה, הסכום השמאלי <strong>בוודאות אינו המרבי</strong> — יש סכום גדול ממנו.</p></div>
 <div class="step"><div class="sh">הסכומים שאינם מרביים</div><p>הטלה על הסכום השמאלי. 400 מופיע פעמיים (קטן גם מ־500 וגם מ־700), אבל ביחס הוא נשאר פעם אחת — יחס הוא קבוצה.</p></div>
 <div class="step"><div class="sh">כל הסכומים פחות הלא־מרביים</div><p><code class="xp">−</code> בין כל הסכומים לבין הסכומים שקטנים ממשהו. נשאר רק 700. שני הצדדים הם בעלי עמודה אחת, לכן ההפרש מותר.</p></div>
@@ -210,7 +210,7 @@
 <div class="step"><div class="sh">מזהים ״בכל״</div>
 <p>המילה ״בכל״ היא הסימן ל־<code class="xp">÷</code>. מה שאחרי ״בכל״ (הסניפים ב־<bdi dir="ltr">Jaffa</bdi>) הוא <strong>המחלק</strong>. הזוגות (לקוח, סניף) הם <strong>המחולק</strong>.</p>
 <p>התוצאה של <code class="xp">r ÷ s</code>: כל <bdi dir="ltr">x</bdi> כך שלכל שורה <bdi dir="ltr">y</bdi> ב־<bdi dir="ltr">s</bdi>, הזוג (<bdi dir="ltr">x, y</bdi>) נמצא ב־<bdi dir="ltr">r</bdi>.</p></div>
-<div class="step"><div class="sh">המחלק: הסניפים ב־<bdi dir="ltr">Jaffa</bdi></div><p><code class="xp">σ</code> על העיר ו־<code class="xp">π</code> על שם הסניף. התוצאה: <bdi dir="ltr">Darom</bdi> ו־<bdi dir="ltr">Tsafon</bdi>. זו ״רשימת הדרישות״.</p></div>
+<div class="step"><div class="sh">המחלק: הסניפים ב־<bdi dir="ltr">Jaffa</bdi></div><p><code class="xp">σ</code> על העיר ו־<code class="xp">π</code> על שם הסניף. התוצאה: <bdi dir="ltr">Darom</bdi>&nbsp;ו־<bdi dir="ltr">Tsafon</bdi>. זו ״רשימת הדרישות״.</p></div>
 <div class="step"><div class="sh">המחולק: מי מחזיק חשבון באיזה סניף</div><p>מטילים את <code class="xp">deposit</code> בדיוק על (לקוח, סניף). עמודות מיותרות כמו מספר חשבון היו הורסות את החילוק: הן היו נכנסות לתשובה.</p></div>
 <div class="step"><div class="sh">בודקים כל לקוח</div><p>השורות המסומנות הן של <bdi dir="ltr">Tamir</bdi>: יש לו חשבון גם ב־<bdi dir="ltr">Tsafon</bdi> וגם ב־<bdi dir="ltr">Darom</bdi>, כלומר בכל הסניפים ב־<bdi dir="ltr">Jaffa</bdi>. ל־<bdi dir="ltr">Lerner</bdi> יש רק <bdi dir="ltr">Tsafon</bdi>, ול־<bdi dir="ltr">Even</bdi> ול־<bdi dir="ltr">Avivi</bdi> אין אף סניף ב־<bdi dir="ltr">Jaffa</bdi>.</p></div>
 <div class="step"><div class="sh">התוצאה</div><p>התבנית של התוצאה היא <code class="xp">R − S</code>: העמודות של המחולק פחות העמודות של המחלק. כאן נשאר רק <code class="xp">customer-name</code>.</p></div>
@@ -270,7 +270,7 @@
 <div class="step"><div class="sh">נסה לבד</div><p>כתוב את השאילתה על דף. רק אחר כך לחץ על ״רמז״.</p></div>
 <div class="step"><div class="sh">רמז 1: איפה הנתונים</div><p>כל מה שצריך (סניף, סכום, שם לקוח) נמצא ביחס אחד.</p></div>
 <div class="step"><div class="sh">רמז 2: אופרטור</div><p>שני תנאים על אותה שורה ← <code class="xp">σ</code> אחד עם <code class="xp">∧</code>.</p></div>
-<div class="step"><div class="sh">פתרון: סינון</div><p>נשארות שתי הלוואות. שתיהן הלוואה מספר 23 — הלוואה משותפת של <bdi dir="ltr">Tamir</bdi> ו־<bdi dir="ltr">Avivi</bdi>.</p></div>
+<div class="step"><div class="sh">פתרון: סינון</div><p>נשארות שתי הלוואות. שתיהן הלוואה מספר 23 — הלוואה משותפת של <bdi dir="ltr">Tamir</bdi>&nbsp;ו־<bdi dir="ltr">Avivi</bdi>.</p></div>
 <div class="step"><div class="sh">פתרון: הטלה</div><p>שני לקוחות.</p></div>
 </div></div></div>
 
@@ -307,7 +307,7 @@
 <div class="step"><div class="sh">נסה לבד</div><p>כתוב את השאילתה על דף. רק אחר כך לחץ על ״רמז״.</p></div>
 <div class="step"><div class="sh">רמז 1: הרעיון</div><p>זו התבנית של ״המרבי״, הפוכה. הנמוך ביותר הוא סניף ש<strong>אין</strong> סניף עם נכסים קטנים משלו.</p></div>
 <div class="step"><div class="sh">רמז 2: שלד</div><p>מצא את כל הסניפים שיש מישהו קטן מהם, והורד אותם מכל הסניפים.</p></div>
-<div class="step"><div class="sh">פתרון: כל זוג סניפים</div><p>4 × 4 = 16 שורות.</p></div>
+<div class="step"><div class="sh">פתרון: כל זוג סניפים</div><p>4 <bdi dir="ltr">×</bdi> 4 = 16 שורות.</p></div>
 <div class="step"><div class="sh">פתרון: הסניפים שאינם הנמוכים</div><p>שלושה סניפים שיש סניף אחר קטן מהם.</p></div>
 <div class="step"><div class="sh">פתרון: ההפרש</div><p>נשאר <bdi dir="ltr">Tsafon</bdi>, עם 400000.</p></div>
 </div></div></div>
@@ -320,7 +320,7 @@
 <div class="step"><div class="sh">נסה לבד</div><p>כתוב את השאילתה על דף. רק אחר כך לחץ על ״רמז״.</p></div>
 <div class="step"><div class="sh">רמז 1: הרעיון</div><p>״שני סניפים שונים״ = שתי שורות של <code class="xp">borrow</code> עם אותו לקוח וסניף שונה. השוואה בין שתי שורות של אותו יחס ← <code class="xp">ρ</code>.</p></div>
 <div class="step"><div class="sh">רמז 2: התנאי</div><p>בשורה של המכפלה: אותו שם לקוח בשני הצדדים <strong>וגם</strong> שם סניף שונה.</p></div>
-<div class="step"><div class="sh">פתרון: כל זוג הלוואות</div><p>5 × 5 = 25 שורות.</p></div>
+<div class="step"><div class="sh">פתרון: כל זוג הלוואות</div><p>5 <bdi dir="ltr">×</bdi> 5 = 25 שורות.</p></div>
 <div class="step"><div class="sh">פתרון: אותו לקוח, סניף אחר</div><p>שתי שורות: (<bdi dir="ltr">Aviv, Pinkas</bdi>) ו־(<bdi dir="ltr">Pinkas, Aviv</bdi>) של <bdi dir="ltr">Avivi</bdi>. כל זוג מופיע פעמיים, פעם בכל סדר.</p></div>
 <div class="step"><div class="sh">פתרון: הטלה</div><p><bdi dir="ltr">Avivi</bdi>. ל<bdi dir="ltr">Tamir</bdi> יש הלוואה רק ב־<bdi dir="ltr">Pinkas</bdi>.</p></div>
 </div></div></div>
@@ -373,7 +373,7 @@
 </div>
 
 <h3 id="ex2q3">שאלה <bdi dir="ltr">3</bdi>: <bdi dir="ltr">Lives, Works, Located-in, Manages</bdi></h3>
-<p>נתוני הדוגמה לבדיקה (שלי, לא מהתרגיל). שים לב: <bdi dir="ltr">Yossi</bdi> עובד בשתי חברות, ו־<bdi dir="ltr">Elta</bdi> ו־<bdi dir="ltr">Bezek</bdi> נמצאות בכמה ערים — בכוונה, כדי לתפוס טעויות נפוצות.</p>
+<p>נתוני הדוגמה לבדיקה (שלי, לא מהתרגיל). שים לב: <bdi dir="ltr">Yossi</bdi> עובד בשתי חברות, ו־<bdi dir="ltr">Elta</bdi>&nbsp;ו־<bdi dir="ltr">Bezek</bdi> נמצאות בכמה ערים — בכוונה, כדי לתפוס טעויות נפוצות.</p>
 <div class="bankgrid" id="w3data"></div>
 <div class="ladder" data-check="q3a"><div class="lq"><b>א.</b> שמות כל העובדים בחברת <bdi dir="ltr">Elta</bdi>.</div>
 <ol class="hints"><li>הכל נמצא ב־<code class="xp">Works</code>.</li><li><code class="xp">σ</code> על החברה, <code class="xp">π</code> על השם.</li><li><strong>בתחשיב:</strong> כל עמודה שלא מחזירים מקבלת <code class="xp">∃</code>; ערך קבוע נכתב ישירות במקום המשתנה: <code class="xp">&lt;p, 'Elta', s&gt; ∈ Works</code>.</li></ol>
@@ -419,7 +419,7 @@
 <div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
 
 <div class="ladder" data-check="q4c"><div class="lq"><b>ג.</b> עובדים (ת״ז, שם) שכל ההזמנות שטיפלו בהן היו בסכום מתחת ל־1000 (וטיפלו בלפחות אחת).</div>
-<ol class="hints"><li>״כל ההזמנות מתחת ל־1000״ = ״אין להם אף הזמנה של 1000 ומעלה״. שלילה ← <code class="xp">−</code>.</li><li>מאיזו קבוצה מורידים? לא מכל העובדים — אז היו נכנסים עובדים שלא טיפלו באף הזמנה (<bdi dir="ltr">Tal</bdi> ו־<bdi dir="ltr">Dor</bdi> בנתוני הדוגמה). התחל ממי שטיפל בהזמנה כלשהי.</li><li>שלד: <code class="xp">(π<sub>emp_id</sub>(Order) − π<sub>emp_id</sub>(σ<sub>___</sub>(Order))) ⋈ Employee</code>, ואחר כך <code class="xp">π</code>.</li><li>שים לב לגבול: ״מתחת ל־1000״, אז מה שמורידים הוא <code class="xp">amount ≥ 1000</code>.</li></ol>
+<ol class="hints"><li>״כל ההזמנות מתחת ל־1000״ = ״אין להם אף הזמנה של 1000 ומעלה״. שלילה ← <code class="xp">−</code>.</li><li>מאיזו קבוצה מורידים? לא מכל העובדים — אז היו נכנסים עובדים שלא טיפלו באף הזמנה (<bdi dir="ltr">Tal</bdi>&nbsp;ו־<bdi dir="ltr">Dor</bdi> בנתוני הדוגמה). התחל ממי שטיפל בהזמנה כלשהי.</li><li>שלד: <code class="xp">(π<sub>emp_id</sub>(Order) − π<sub>emp_id</sub>(σ<sub>___</sub>(Order))) ⋈ Employee</code>, ואחר כך <code class="xp">π</code>.</li><li>שים לב לגבול: ״מתחת ל־1000״, אז מה שמורידים הוא <code class="xp">amount ≥ 1000</code>.</li></ol>
 <div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div></div>
 
 <div class="ladder" data-check="q4d"><div class="lq"><b>ד.</b> הזמנות שכוללות את כל המוצרים שהמחיר שלהם ליחידה הוא 10 או פחות.</div>

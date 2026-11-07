@@ -18,11 +18,11 @@
 
 <section class="hero" id="top">
   <h1><bdi dir="ltr">SQL</bdi>: מאלגברה לשאילתות</h1>
-  <p class="lede">כל שאילתת <bdi dir="ltr">SQL</bdi> היא ביטוי באלגברת יחסים בכתיב אחר. אם אתה יודע לכתוב σ, π ו־×, אתה כבר יודע לכתוב <bdi dir="ltr">select, from</bdi> ו־<bdi dir="ltr">where</bdi>. העמוד הזה עובר על כל מה שבמצגת ובמדריך של <bdi dir="ltr">SQL</bdi>, וכל דוגמה בו רצה באמת: לחץ על ״ערוך והרץ״, שנה את השאילתה וראה מה קורה.</p>
+  <p class="lede">כל שאילתת <bdi dir="ltr">SQL</bdi> היא ביטוי באלגברת יחסים בכתיב אחר. אם אתה יודע לכתוב <bdi dir="ltr">σ</bdi>,&nbsp;<bdi dir="ltr">π</bdi>&nbsp;ו־<bdi dir="ltr">×</bdi>, אתה כבר יודע לכתוב <bdi dir="ltr">select, from</bdi>&nbsp;ו־<bdi dir="ltr">where</bdi>. העמוד הזה עובר על כל מה שבמצגת ובמדריך של <bdi dir="ltr">SQL</bdi>, וכל דוגמה בו רצה באמת: לחץ על ״ערוך והרץ״, שנה את השאילתה וראה מה קורה.</p>
   <div class="anat" aria-label="מבנה שאילתה">
-    <div class="anrow"><code class="kwc c-sel">select A<sub>1</sub>, …, A<sub>n</sub></code><span>←</span><span class="anra"><b>π</b> הטלה — אילו עמודות</span></div>
-    <div class="anrow"><code class="kwc c-from">from r<sub>1</sub>, …, r<sub>m</sub></code><span>←</span><span class="anra"><b>×</b> מכפלה — אילו יחסים</span></div>
-    <div class="anrow"><code class="kwc c-where">where P</code><span>←</span><span class="anra"><b>σ</b> בחירה — אילו שורות</span></div>
+    <div class="anrow"><code class="kwc c-sel">select A<sub>1</sub>, …, A<sub>n</sub></code><span>←</span><span class="anra"><b><bdi dir="ltr">π</bdi></b> הטלה — אילו עמודות</span></div>
+    <div class="anrow"><code class="kwc c-from">from r<sub>1</sub>, …, r<sub>m</sub></code><span>←</span><span class="anra"><b><bdi dir="ltr">×</bdi></b> מכפלה — אילו יחסים</span></div>
+    <div class="anrow"><code class="kwc c-where">where P</code><span>←</span><span class="anra"><b><bdi dir="ltr">σ</bdi></b> בחירה — אילו שורות</span></div>
   </div>
   <p class="mathline"><code class="xp">π<sub>A1,…,An</sub>(σ<sub>P</sub>(r<sub>1</sub> × … × r<sub>m</sub>))</code></p>
   <div class="box warn"><h4>ההבדל החשוב: <bdi dir="ltr">SQL</bdi> לא עובדת עם קבוצות</h4><p>באלגברה יחס הוא קבוצה — שורה כפולה נעלמת. ב־<bdi dir="ltr">SQL</bdi> תוצאה יכולה להכיל אותה שורה כמה פעמים (<bdi dir="ltr">multiset</bdi>, ״שק״). רוצים קבוצה? כותבים <code class="xp">select distinct</code>. פעולות הקבוצה <code class="xp">union</code>, <code class="xp">intersect</code>, <code class="xp">except</code> מסלקות כפילויות לבד.</p></div>
@@ -45,7 +45,7 @@
 <div class="stepbar"><button class="btn ghost prevBtn" type="button">הקודם</button><span class="prog"></span><button class="btn nextBtn" type="button">השלב הבא</button><button class="btn ghost allBtn" type="button">לסוף</button></div></div>
 <div class="steps">
 <div class="step"><div class="sh"><bdi dir="ltr">1. from</bdi> — מאיפה</div><p>קודם כול נבנית הטבלה שעליה עובדים: הצירוף של <code class="xp">deposit</code> ו־<code class="xp">customer</code>. כל חשבון מקבל את פרטי הלקוח שלו — 8 שורות.</p></div>
-<div class="step"><div class="sh"><bdi dir="ltr">2. where</bdi> — סינון שורות</div><p>התנאי נבדק על כל שורה בנפרד. השורות של לקוחות מ־<bdi dir="ltr">Haifa</bdi> (<bdi dir="ltr">Tamir</bdi> ו־<bdi dir="ltr">Even</bdi>) מחוקות.</p><p>בשלב הזה עוד אין קבוצות, ולכן אין משמעות ל־<code class="xp">count</code> או ל־<code class="xp">avg</code>.</p></div>
+<div class="step"><div class="sh"><bdi dir="ltr">2. where</bdi> — סינון שורות</div><p>התנאי נבדק על כל שורה בנפרד. השורות של לקוחות מ־<bdi dir="ltr">Haifa</bdi> (<bdi dir="ltr">Tamir</bdi>&nbsp;ו־<bdi dir="ltr">Even</bdi>) מחוקות.</p><p>בשלב הזה עוד אין קבוצות, ולכן אין משמעות ל־<code class="xp">count</code> או ל־<code class="xp">avg</code>.</p></div>
 <div class="step"><div class="sh"><bdi dir="ltr">3. group by</bdi> — חלוקה לקבוצות</div><p>השורות שנשארו מתחלקות לפי <code class="xp">branch_name</code>. כל צבע הוא קבוצה. מכאן והלאה כל קבוצה תהפוך לשורה אחת.</p></div>
 <div class="step"><div class="sh"><bdi dir="ltr">4. having</bdi> — סינון קבוצות</div><p>התנאי נבדק על כל <strong>קבוצה</strong>. ל־<bdi dir="ltr">Hamerkaz</bdi> יש רק שורה אחת, ולכן היא נופלת. עכשיו כבר מותר <code class="xp">count(*)</code>.</p></div>
 <div class="step"><div class="sh"><bdi dir="ltr">5. select</bdi> — מה מחזירים</div><p>כל קבוצה שנשארה מתכווצת לשורה אחת. מותר להציג רק את עמודות ההקבצה ופונקציות הקבצה — כי לכל עמודה אחרת יש כמה ערכים בקבוצה. כאן גם נוצרים הכינויים <code class="xp">n</code> ו־<code class="xp">avg_balance</code>.</p></div>
@@ -66,7 +66,7 @@
 
 <section id="sql-sets">
 <h2>פעולות קבוצה</h2>
-<p><code class="xp">union</code>, <code class="xp">intersect</code> ו־<code class="xp">except</code> (במצגת: <code class="xp">minus</code>) הן בדיוק ∪, ∩ ו־− של האלגברה. כמו שם, שני הצדדים חייבים להחזיר את אותו מספר עמודות עם אותם תחומים.</p>
+<p><code class="xp">union</code>, <code class="xp">intersect</code> ו־<code class="xp">except</code> (במצגת: <code class="xp">minus</code>) הן בדיוק <bdi dir="ltr">∪</bdi>,&nbsp;<bdi dir="ltr">∩</bdi> ו־− של האלגברה. כמו שם, שני הצדדים חייבים להחזיר את אותו מספר עמודות עם אותם תחומים.</p>
 <div class="sqlex" data-ex="s1"></div>
 <div class="sqlex" data-ex="s2"></div>
 <div class="sqlex" data-ex="s3"></div>
@@ -120,7 +120,7 @@
 <section id="sql-agg">
 <h2>הקבצה ופונקציות קבוצה</h2>
 <p>חמש פונקציות: <code class="xp">count</code>, <code class="xp">sum</code>, <code class="xp">avg</code>, <code class="xp">min</code>, <code class="xp">max</code>. כל אחת לוקחת אוסף ערכים ומחזירה ערך אחד — לכל קבוצה של <code class="xp">group by</code>, או לכל הטבלה אם אין <code class="xp">group by</code>.</p>
-<h3><bdi dir="ltr">count</bdi> ו־<bdi dir="ltr">null</bdi></h3>
+<h3><bdi dir="ltr">count</bdi>&nbsp;ו־<bdi dir="ltr">null</bdi></h3>
 <p>כל הפונקציות <strong>מתעלמות מ־<bdi dir="ltr">null</bdi></strong>, חוץ מ־<code class="xp">count(*)</code> שסופר שורות. על הטבלה <bdi dir="ltr">t</bdi> שלמטה:</p>
 <div class="nulldemo" id="nullDemo"></div>
 <div class="sqlex" data-ex="a1"></div>
@@ -211,7 +211,7 @@
 <tr><td><code class="xp">r ∩ s</code></td><td><code class="xp">… intersect …</code></td><td>או <code class="xp">in</code> / <code class="xp">exists</code></td></tr>
 <tr><td><code class="xp">r − s</code></td><td><code class="xp">… except …</code></td><td>במצגת <bdi dir="ltr">minus</bdi>; או <code class="xp">not in</code> / <code class="xp">not exists</code></td></tr>
 <tr><td><code class="xp">r ÷ s</code></td><td><code class="xp">not exists (s except …)</code></td><td>או <code class="xp">contains</code> בתחביר הקורס</td></tr>
-<tr><td>המרבי (ρ + × + −)</td><td><code class="xp">&gt;= all (…)</code> או <code class="xp">= (select max(…))</code></td><td>ב־<bdi dir="ltr">SQL</bdi> זה קצר בהרבה</td></tr>
+<tr><td>המרבי (<bdi dir="ltr">ρ</bdi> + <bdi dir="ltr">×</bdi> + −)</td><td><code class="xp">&gt;= all (…)</code> או <code class="xp">= (select max(…))</code></td><td>ב־<bdi dir="ltr">SQL</bdi> זה קצר בהרבה</td></tr>
 <tr><td>— (אין באלגברה הבסיסית)</td><td><code class="xp">group by</code>, <code class="xp">count</code>, <code class="xp">avg</code>, <code class="xp">order by</code>, outer join</td><td>יכולות ש־<bdi dir="ltr">SQL</bdi> מוסיפה</td></tr>
 </table></div>
 </section>

@@ -11,7 +11,7 @@
 </head>
 <body class="pg-fd">
 <div class="layout">
-<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html" aria-current="page" class="active">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#fd-def">ההגדרה</a></li><li><a href="#armstrong">כללי ארמסטרונג</a></li><li><a href="#closure">סגור α⁺</a></li><li><a href="#keys">מפתח קביל</a></li><li><a href="#equiv">שקילות</a></li><li><a href="#canon">כיסוי קנוני</a></li><li><a href="#fdmethod">שיטת פתרון</a></li><li><a href="#ex5">תרגיל 5</a></li><li class="sub"><a href="#ex5q1">שאלה 1 — DDL</a></li><li class="sub"><a href="#ex5q2">שאלה 2</a></li><li class="sub"><a href="#ex5q3">שאלה 3</a></li><li class="sub"><a href="#ex5q4">שאלה 4</a></li><li class="sub"><a href="#ex5q5">שאלה 5</a></li><li class="sub"><a href="#ex5q6">שאלה 6</a></li><li><a href="#fdtraps">מלכודות</a></li><li><a href="#fdtool">מחשבון תלויות</a></li><li><a href="#fdpractice">תרגול עצמי</a></li></ol></nav>
+<nav class="side" aria-label="תוכן"><div class="brand">מדריך פתרון: מערכות בסיסי נתונים</div><div class="navh">נושאים</div><ol class="pages"><li><a href="index.html">כל הנושאים</a></li><li><a href="er.html">1. מודל ER</a></li><li><a href="relational.html">2. מודל היחסים</a></li><li><a href="sql.html">3. SQL</a></li><li><a href="fd.html" aria-current="page" class="active">4. תלויות פונקציונליות</a></li><li><a href="norm.html">5. תיכון ונרמול</a></li><li><a href="indexing.html">6. אינדקסים ו־hashing</a></li><li><a href="cc.html">7. בקרת בו־זמניות</a></li><li><a href="practice.html">8. מטלות תרגול</a></li></ol><div class="navh">בעמוד הזה</div><ol class="local"><li><a href="#top" class="active">פתיחה</a></li><li><a href="#fd-def">ההגדרה</a></li><li><a href="#armstrong">כללי ארמסטרונג</a></li><li><a href="#closure">סגור <bdi dir="ltr">α⁺</bdi></a></li><li><a href="#keys">מפתח קביל</a></li><li><a href="#equiv">שקילות</a></li><li><a href="#canon">כיסוי קנוני</a></li><li><a href="#fdmethod">שיטת פתרון</a></li><li><a href="#ex5">תרגיל 5</a></li><li class="sub"><a href="#ex5q1">שאלה 1 — DDL</a></li><li class="sub"><a href="#ex5q2">שאלה 2</a></li><li class="sub"><a href="#ex5q3">שאלה 3</a></li><li class="sub"><a href="#ex5q4">שאלה 4</a></li><li class="sub"><a href="#ex5q5">שאלה 5</a></li><li class="sub"><a href="#ex5q6">שאלה 6</a></li><li><a href="#fdtraps">מלכודות</a></li><li><a href="#fdtool">מחשבון תלויות</a></li><li><a href="#fdpractice">תרגול עצמי</a></li></ol></nav>
 <main>
 <nav class="topics" aria-label="נושאים"><a href="index.html">כל הנושאים</a><a href="er.html">1. מודל <bdi dir="ltr">ER</bdi></a><a href="relational.html">2. מודל היחסים</a><a href="sql.html">3. SQL</a><a href="fd.html" aria-current="page">4. תלויות פונקציונליות</a><a href="norm.html">5. תיכון ונרמול</a><a href="indexing.html">6. אינדקסים ו־<bdi dir="ltr">hashing</bdi></a><a href="cc.html">7. בקרת בו־זמניות</a><a href="practice.html">8. מטלות תרגול</a></nav>
 <div class="wrap">
@@ -24,9 +24,9 @@
 <section id="fd-def">
 <h2>ההגדרה</h2>
 <div class="box rule"><h4>תלות פונקציונלית</h4>
-<p>יהי <bdi dir="ltr">r</bdi> יחס על התבנית <bdi dir="ltr">R</bdi>, ויהיו α ו־β תתי־קבוצות של <bdi dir="ltr">R</bdi>. התלות α→β מתקיימת על <bdi dir="ltr">R</bdi> אם לכל יחס חוקי <bdi dir="ltr">r</bdi>(<bdi dir="ltr">R</bdi>) ולכל זוג שורות <bdi dir="ltr">t1, t2</bdi> ב־<bdi dir="ltr">r</bdi>:</p>
+<p>יהי <bdi dir="ltr">r</bdi> יחס על התבנית <bdi dir="ltr">R</bdi>, ויהיו <bdi dir="ltr">α</bdi>&nbsp;ו־<bdi dir="ltr">β</bdi> תתי־קבוצות של <bdi dir="ltr">R</bdi>. התלות <bdi dir="ltr">α</bdi>→<bdi dir="ltr">β</bdi> מתקיימת על <bdi dir="ltr">R</bdi> אם לכל יחס חוקי <bdi dir="ltr">r</bdi>(<bdi dir="ltr">R</bdi>) ולכל זוג שורות <bdi dir="ltr">t1, t2</bdi> ב־<bdi dir="ltr">r</bdi>:</p>
 <p class="mathline"><code class="xp">t1[α] = t2[α]  ⇒  t1[β] = t2[β]</code></p>
-<p>במילים: כל ערך של α קשור לערך יחיד של β. זו הכללה של מפתח־על: α מפתח־על של <bdi dir="ltr">R</bdi> בדיוק כש־<code class="xp">α→R</code>.</p></div>
+<p>במילים: כל ערך של <bdi dir="ltr">α</bdi> קשור לערך יחיד של <bdi dir="ltr">β</bdi>. זו הכללה של מפתח־על: <bdi dir="ltr">α</bdi> מפתח־על של <bdi dir="ltr">R</bdi> בדיוק כש־<code class="xp">α→R</code>.</p></div>
 
 <h3>נסה בעצמך: אילו תלויות מתקיימות על היחס?</h3>
 <p>זה היחס משקף 2 במצגת. בחר אגף שמאל ואגף ימין — אם התלות לא מתקיימת, יסומנו שתי השורות שמפרות אותה.</p>
@@ -49,12 +49,12 @@
 </section>
 
 <section id="armstrong">
-<h2>כללי ארמסטרונג והסגור <bdi dir="ltr">F</bdi>⁺</h2>
+<h2>כללי ארמסטרונג והסגור <bdi dir="ltr">F</bdi><bdi dir="ltr">⁺</bdi></h2>
 <p>בהינתן קבוצה <bdi dir="ltr">F</bdi> של תלויות על <bdi dir="ltr">R</bdi>, יש תלויות נוספות שנובעות ממנה לוגית. <strong>הסגור</strong> <code class="xp">F⁺</code> הוא קבוצת כל התלויות שנובעות לוגית מ־<bdi dir="ltr">F</bdi>. מסיקים אותן בשלושה כללים:</p>
 <div class="tbl"><table>
 <tr><th>כלל</th><th>אם</th><th>אז</th><th>דוגמה על <code class="xp">F={A→BCE, CD→E, B→D, E→A, C→B}</code></th></tr>
 <tr><td><strong>רפלקסיביות</strong> (reflexivity)</td><td><code class="xp">β ⊆ α</code></td><td><code class="xp">α→β</code></td><td><code class="xp">CD→C</code></td></tr>
-<tr><td><strong>השלמה</strong> (augmentation)</td><td><code class="xp">α→β</code></td><td><code class="xp">γα→γβ</code></td><td>מ־<code class="xp">B→D</code> עם γ=<bdi dir="ltr">C</bdi>: <code class="xp">BC→CD</code></td></tr>
+<tr><td><strong>השלמה</strong> (augmentation)</td><td><code class="xp">α→β</code></td><td><code class="xp">γα→γβ</code></td><td>מ־<code class="xp">B→D</code> עם <bdi dir="ltr">γ</bdi>=<bdi dir="ltr">C</bdi>: <code class="xp">BC→CD</code></td></tr>
 <tr><td><strong>טרנזיטיביות</strong> (transitivity)</td><td><code class="xp">α→β, β→γ</code></td><td><code class="xp">α→γ</code></td><td><code class="xp">C→B, B→D</code> ⇐ <code class="xp">C→D</code></td></tr>
 </table></div>
 <p>כללים נוספים — נגזרים משלושת הכללים, ולכן מותר להשתמש בהם:</p>
@@ -68,8 +68,8 @@
 </section>
 
 <section id="closure">
-<h2>סגור של קבוצת תכונות α⁺</h2>
-<p>לחשב את כל <code class="xp">F⁺</code> זה אקספוננציאלי. במקום זה מחשבים את <strong>הסגור של קבוצת תכונות</strong>: כל התכונות ש־α קובעת.</p>
+<h2>סגור של קבוצת תכונות <bdi dir="ltr">α⁺</bdi></h2>
+<p>לחשב את כל <code class="xp">F⁺</code> זה אקספוננציאלי. במקום זה מחשבים את <strong>הסגור של קבוצת תכונות</strong>: כל התכונות ש־<bdi dir="ltr">α</bdi> קובעת.</p>
 <p class="mathline"><code class="xp">α⁺ = { A ∈ R | α→A ∈ F⁺ }</code></p>
 <div class="tbl"><table><tr><th>האלגוריתם</th><th>שימוש</th></tr>
 <tr><td><pre class="algo" dir="ltr">result = α
@@ -77,14 +77,14 @@ repeat
   for each β→γ in F
     if β ⊆ result
       result = result ∪ γ
-until no change</pre></td><td><p><strong>האם <code class="xp">α→β ∈ F⁺</code>?</strong> בודקים אם <code class="xp">β ⊆ α⁺</code>. זו הדרך הקצרה ביותר לענות על ״האם התלות נובעת״.</p><p><strong>האם α מפתח־על?</strong> בודקים אם <code class="xp">α⁺ = R</code>.</p></td></tr></table></div>
+until no change</pre></td><td><p><strong>האם <code class="xp">α→β ∈ F⁺</code>?</strong> בודקים אם <code class="xp">β ⊆ α⁺</code>. זו הדרך הקצרה ביותר לענות על ״האם התלות נובעת״.</p><p><strong>האם <bdi dir="ltr">α</bdi> מפתח־על?</strong> בודקים אם <code class="xp">α⁺ = R</code>.</p></td></tr></table></div>
 
 <div class="ex gstep" data-gen="f-closA"><div class="q"><b>דוגמה</b>על <code class="xp">R=(A,B,C,D,E)</code> עם <code class="xp">F={A→BCE, CD→E, B→D, E→A, C→B}</code>, חשב את <code class="xp">A⁺</code>.</div></div>
 </section>
 
 <section id="keys">
 <h2>מפתח קביל</h2>
-<p>α היא <strong>מפתח־על</strong> אם <code class="xp">α⁺ = R</code>. α היא <strong>מפתח קביל</strong> אם היא מפתח־על מינימלי: אי אפשר להוריד ממנה אף תכונה. האלגוריתם מהמצגת מתחיל מכל <bdi dir="ltr">R</bdi> ומוריד תכונות כל עוד הסגור נשאר <bdi dir="ltr">R</bdi>:</p>
+<p><bdi dir="ltr">α</bdi> היא <strong>מפתח־על</strong> אם <code class="xp">α⁺ = R</code>. <bdi dir="ltr">α</bdi> היא <strong>מפתח קביל</strong> אם היא מפתח־על מינימלי: אי אפשר להוריד ממנה אף תכונה. האלגוריתם מהמצגת מתחיל מכל <bdi dir="ltr">R</bdi> ומוריד תכונות כל עוד הסגור נשאר <bdi dir="ltr">R</bdi>:</p>
 <pre class="algo" dir="ltr">result = R
 for each attribute A in result
   if (result − A)⁺ = R
@@ -132,7 +132,7 @@ remove trivial f.d.'s</pre>
 <section id="fdmethod">
 <h2>שיטת פתרון</h2>
 <ol class="method">
-<li><h3>״האם התלות α→β שייכת ל־<bdi dir="ltr">F</bdi>⁺?״</h3><p>חשב <code class="xp">α⁺</code>. אם <code class="xp">β ⊆ α⁺</code> — כן. אחרת לא, והסגור עצמו הוא ההוכחה.</p></li>
+<li><h3>״האם התלות <bdi dir="ltr">α</bdi>→<bdi dir="ltr">β</bdi> שייכת ל־<bdi dir="ltr">F</bdi><bdi dir="ltr">⁺</bdi>?״</h3><p>חשב <code class="xp">α⁺</code>. אם <code class="xp">β ⊆ α⁺</code> — כן. אחרת לא, והסגור עצמו הוא ההוכחה.</p></li>
 <li><h3>״הסק תלויות בכללי ארמסטרונג״</h3><p>כתוב כל שורה עם שם הכלל ועם התלויות שהיא משתמשת בהן. סגור של תכונה (למשל <code class="xp">A⁺ = ABCDE</code>) נותן רשימה מוכנה של תלויות להסיק.</p></li>
 <li><h3>״מצא מפתח קביל״</h3><p>התחל מהתכונות שלא מופיעות באף אגף ימין. הוסף תכונות עד ש־<code class="xp">α⁺ = R</code>, ובדוק מינימליות: הורדת כל תכונה מקטינה את הסגור.</p></li>
 <li><h3>״חשב <bdi dir="ltr">F</bdi><sub>c</sub>״</h3><p>איחוד אגפים ← עודפות באגף שמאל ← עודפות באגף ימין ← שוב איחוד. בכל שלב כתוב את הסגור שהצדיק את ההורדה.</p></li>
@@ -228,7 +228,7 @@ create table managers (
 
 <h3 id="ex5q2">שאלה 2</h3>
 <div class="taskq"><p><strong>השתמש בהגדרה של ״תלות פונקציונלית״ להוכיח את כלל ההשלמה (<bdi dir="ltr">Augmentation rule</bdi>) — השני בכללי ארמסטרונג.</strong></p>
-<p>כלל ההשלמה: אם <code class="xp">α→β</code> מתקיימת ו־γ קבוצת תכונות, אז <code class="xp">γα→γβ</code> מתקיימת.</p></div>
+<p>כלל ההשלמה: אם <code class="xp">α→β</code> מתקיימת ו־<bdi dir="ltr">γ</bdi> קבוצת תכונות, אז <code class="xp">γα→γβ</code> מתקיימת.</p></div>
 <details class="sol"><summary>פתרון</summary>
 <p>יהי <bdi dir="ltr">r</bdi> יחס חוקי, ויהיו <bdi dir="ltr">t1, t2</bdi> שתי שורות בו כך ש:</p>
 <p class="mathline"><code class="xp">t1[γα] = t2[γα]</code></p>
@@ -268,7 +268,7 @@ create table managers (
 <tr><td>8</td><td><code class="xp">C→A</code></td><td>טרנזיטיביות: <code class="xp">C→E</code> (7), <code class="xp">E→A</code></td></tr>
 <tr><td>9</td><td><code class="xp">A→D</code></td><td>טרנזיטיביות: <code class="xp">A→C</code> (6), <code class="xp">C→D</code> (3)</td></tr>
 </table></div>
-<h4>ב. מי שייכת ל־<bdi dir="ltr">F</bdi>⁺</h4>
+<h4>ב. מי שייכת ל־<bdi dir="ltr">F</bdi><bdi dir="ltr">⁺</bdi></h4>
 <div class="tbl"><table>
 <tr><th>תלות</th><th>סגור של אגף שמאל</th><th>אגף ימין בפנים?</th></tr>
 <tr><td><code class="xp">BD→C</code></td><td><code class="xp">BD⁺ = BD</code></td><td>לא ✗</td></tr>
@@ -279,7 +279,7 @@ create table managers (
 </table></div>
 <p>הסגור של <code class="xp">BD</code> לא גדל: התלות היחידה שאגף השמאל שלה בתוך <bdi dir="ltr">BD</bdi> היא <code class="xp">B→D</code>, והיא לא מוסיפה דבר.</p>
 <h4>ג. מפתח קביל</h4>
-<p><code class="xp">A⁺ = ABCDE</code>, ול־<bdi dir="ltr">A</bdi> יש תכונה אחת — אי אפשר להקטין. לכן <bdi dir="ltr">A</bdi> מפתח קביל. באותו אופן <bdi dir="ltr">C</bdi> ו־<bdi dir="ltr">E</bdi>. ראה את השלבים בדוגמה <a href="#keys">במפתח קביל</a>. כל המפתחות:</p>
+<p><code class="xp">A⁺ = ABCDE</code>, ול־<bdi dir="ltr">A</bdi> יש תכונה אחת — אי אפשר להקטין. לכן <bdi dir="ltr">A</bdi> מפתח קביל. באותו אופן <bdi dir="ltr">C</bdi>&nbsp;ו־<bdi dir="ltr">E</bdi>. ראה את השלבים בדוגמה <a href="#keys">במפתח קביל</a>. כל המפתחות:</p>
 <p class="mathline"><code class="xp">A,   C,   E</code></p>
 </details>
 
@@ -332,7 +332,7 @@ create table managers (
 
 <section id="fdtool">
 <h2>מחשבון תלויות</h2>
-<p>הזן תבנית ותלויות (תכונות באות אחת, תלויות מופרדות בפסיקים). המחשבון מחשב סגור, מפתחות, כיסוי קנוני, ובודק <bdi dir="ltr">BCNF</bdi> ו־<bdi dir="ltr">3NF</bdi> — עם הנימוק לכל שלב.</p>
+<p>הזן תבנית ותלויות (תכונות באות אחת, תלויות מופרדות בפסיקים). המחשבון מחשב סגור, מפתחות, כיסוי קנוני, ובודק <bdi dir="ltr">BCNF</bdi>&nbsp;ו־<bdi dir="ltr">3NF</bdi> — עם הנימוק לכל שלב.</p>
 <div class="calc" id="fdCalc">
 <div class="calcin"><label>R = <input name="R" dir="ltr" value="ABCDE" spellcheck="false"></label>
 <label>F = <input name="F" dir="ltr" value="A→BCE, CD→E, B→D, E→A, C→B" spellcheck="false" class="wide"></label>

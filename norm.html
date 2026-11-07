@@ -17,7 +17,7 @@
 <div class="wrap">
 <section class="hero" id="top">
   <h1>תיכון ונרמול</h1>
-  <p class="lede">איך בוחרים תבניות טובות? טבלה אחת גדולה חוסכת צירופים, אבל שומרת כל עובדה הרבה פעמים. פירוק לתבניות קטנות פותר את זה — בתנאי שהוא לא מאבד מידע ולא מאבד תלויות. בעמוד הזה: הקריטריונים, הצורות הנורמליות <bdi dir="ltr">BCNF, 3NF</bdi> ו־<bdi dir="ltr">4NF</bdi>, והאלגוריתמים לפירוק — כל אחד שלב אחרי שלב.</p>
+  <p class="lede">איך בוחרים תבניות טובות? טבלה אחת גדולה חוסכת צירופים, אבל שומרת כל עובדה הרבה פעמים. פירוק לתבניות קטנות פותר את זה — בתנאי שהוא לא מאבד מידע ולא מאבד תלויות. בעמוד הזה: הקריטריונים, הצורות הנורמליות <bdi dir="ltr">BCNF, 3NF</bdi>&nbsp;ו־<bdi dir="ltr">4NF</bdi>, והאלגוריתמים לפירוק — כל אחד שלב אחרי שלב.</p>
   <div class="box tip"><h4>מה צריך לדעת לעשות (תרגיל 6)</h4><p>להראות שפירוק משמר או לא משמר מידע, לבדוק שימור תלויות, לפרק ל־<bdi dir="ltr">BCNF</bdi> ול־<bdi dir="ltr">3NF</bdi>, לבדוק פירוק לכמה תבניות בשיטת הטבלה, ולעבוד עם תלויות רב־ערכיות ו־<bdi dir="ltr">4NF</bdi>. העמוד משתמש בסגור ובכיסוי קנוני מ<a href="fd.html">תלויות פונקציונליות</a>.</p></div>
 </section>
 
@@ -66,14 +66,14 @@
 <h2>שימור תלויות</h2>
 <p>אם תלות מתפצלת בין שתי תבניות, כל עדכון מחייב לחשב צירוף כדי לבדוק אותה. <strong>הצמצום</strong> <code class="xp">Fi</code> של <bdi dir="ltr">F</bdi> ל־<bdi dir="ltr">Ri</bdi> הוא קבוצת התלויות ב־<code class="xp">F⁺</code> שכל התכונות שלהן ב־<bdi dir="ltr">Ri</bdi>. הפירוק משמר תלויות אם:</p>
 <p class="mathline"><code class="xp">(F1 ∪ F2 ∪ … ∪ Fn)⁺ = F⁺</code></p>
-<p>תמיד מתקיים ⊆. בפועל בודקים: לכל תלות <code class="xp">α→β</code> ב־<bdi dir="ltr">F</bdi>, מחשבים את <code class="xp">α⁺</code> לפי <code class="xp">F1 ∪ … ∪ Fn</code> ובודקים ש־<code class="xp">β ⊆ α⁺</code>.</p>
+<p>תמיד מתקיים <bdi dir="ltr">⊆</bdi>. בפועל בודקים: לכל תלות <code class="xp">α→β</code> ב־<bdi dir="ltr">F</bdi>, מחשבים את <code class="xp">α⁺</code> לפי <code class="xp">F1 ∪ … ∪ Fn</code> ובודקים ש־<code class="xp">β ⊆ α⁺</code>.</p>
 <div class="box tip"><h4>קיצור דרך</h4><p>אם כל תלות ב־<bdi dir="ltr">F</bdi> נמצאת בשלמותה בתבנית אחת — הפירוק משמר תלויות. ההפך לא נכון: תלות שמתפצלת עדיין יכולה לנבוע מהצמצומים. במקרה כזה חייבים לחשב.</p></div>
 </section>
 
 <section id="bcnf">
 <h2>BCNF</h2>
 <div class="box rule"><h4>הגדרה</h4><p><bdi dir="ltr">R</bdi> ב־<bdi dir="ltr">BCNF</bdi> ביחס ל־<bdi dir="ltr">F</bdi> אם לכל תלות <code class="xp">α→β</code> ב־<code class="xp">F⁺</code> (כש־<code class="xp">α, β ⊆ R</code>) מתקיים לפחות אחד:</p>
-<ul><li><code class="xp">α→β</code> טריוויאלית (<code class="xp">β ⊆ α</code>)</li><li>α מפתח־על של <bdi dir="ltr">R</bdi></li></ul>
+<ul><li><code class="xp">α→β</code> טריוויאלית (<code class="xp">β ⊆ α</code>)</li><li><bdi dir="ltr">α</bdi> מפתח־על של <bdi dir="ltr">R</bdi></li></ul>
 <p>בסיס נתונים ב־<bdi dir="ltr">BCNF</bdi> אם כל התבניות בו ב־<bdi dir="ltr">BCNF</bdi>.</p></div>
 <p>במילים: כל דבר שקובע משהו הוא מפתח. ב־<bdi dir="ltr">lending</bdi>, <code class="xp">branch-name → assets</code> מפר <bdi dir="ltr">BCNF</bdi> — <bdi dir="ltr">branch-name</bdi> אינו מפתח של <bdi dir="ltr">lending</bdi> — וזו בדיוק הסיבה לכפילות.</p>
 <pre class="algo" dir="ltr">result = {R}
@@ -81,14 +81,14 @@ while (result contains a scheme Ri not in BCNF)
   let α→β ∈ F⁺ be nontrivial on Ri,
       α not a superkey of Ri, and α ∩ β = ∅
   result = (result − {Ri}) ∪ {(Ri − β), (α, β)}</pre>
-<p>כל צעד הוא פירוק לשניים שמשמר מידע: החיתוך הוא α, ו־<code class="xp">α→β</code> אומר ש־α מפתח של <code class="xp">(α, β)</code>.</p>
+<p>כל צעד הוא פירוק לשניים שמשמר מידע: החיתוך הוא <bdi dir="ltr">α</bdi>, ו־<code class="xp">α→β</code> אומר ש־<bdi dir="ltr">α</bdi> מפתח של <code class="xp">(α, β)</code>.</p>
 <div class="box warn"><h4>שני דברים שכדאי לדעת</h4><p>1. פירוק ל־<bdi dir="ltr">BCNF</bdi> <strong>תמיד משמר מידע</strong>, אבל <strong>לא תמיד משמר תלויות</strong>.</p><p>2. כשבודקים תת־תבנית, צריך לבדוק תלויות ב־<code class="xp">F⁺</code> — לא רק ב־<bdi dir="ltr">F</bdi>. תלות שלא כתובה ב־<bdi dir="ltr">F</bdi> עדיין יכולה להפר <bdi dir="ltr">BCNF</bdi> בחלק.</p></div>
 </section>
 
 <section id="nf3">
 <h2>3NF</h2>
 <div class="box rule"><h4>הגדרה</h4><p><bdi dir="ltr">R</bdi> ב־<bdi dir="ltr">3NF</bdi> ביחס ל־<bdi dir="ltr">F</bdi> אם לכל תלות <code class="xp">α→β</code> ב־<code class="xp">F⁺</code> מתקיים לפחות אחד:</p>
-<ul><li><code class="xp">α→β</code> טריוויאלית</li><li>α מפתח־על של <bdi dir="ltr">R</bdi></li><li>כל תכונה ב־<code class="xp">β − α</code> שייכת למפתח קביל כלשהו של <bdi dir="ltr">R</bdi> (תכונה ״ראשונית״)</li></ul>
+<ul><li><code class="xp">α→β</code> טריוויאלית</li><li><bdi dir="ltr">α</bdi> מפתח־על של <bdi dir="ltr">R</bdi></li><li>כל תכונה ב־<code class="xp">β − α</code> שייכת למפתח קביל כלשהו של <bdi dir="ltr">R</bdi> (תכונה ״ראשונית״)</li></ul>
 <p>התנאי השלישי הוא ההקלה. לכן: כל תבנית ב־<bdi dir="ltr">BCNF</bdi> היא גם ב־<bdi dir="ltr">3NF</bdi>.</p></div>
 <p>היתרון: תמיד יש פירוק ל־<bdi dir="ltr">3NF</bdi> שמשמר <strong>גם</strong> מידע <strong>וגם</strong> תלויות. האלגוריתם בונה תבנית לכל תלות בכיסוי הקנוני:</p>
 <pre class="algo" dir="ltr">compute Fc
@@ -106,7 +106,7 @@ if no scheme in result contains a candidate key of R
 <tr><td><strong>BCNF</strong></td><td>כל אגף שמאל לא־טריוויאלי הוא מפתח־על</td><td>תמיד</td><td>לא תמיד</td></tr>
 <tr><td><strong>4NF</strong></td><td>כמו <bdi dir="ltr">BCNF</bdi>, גם עבור תלויות רב־ערכיות</td><td>תמיד</td><td>לא תמיד</td></tr>
 </table></div>
-<p class="sxnote">תלות שלמה: <code class="xp">α→β</code> שלמה אם הורדת כל תכונה מ־α שוברת אותה. תבנית שכל המפתחות הקבילים שלה בני תכונה אחת היא תמיד ב־<bdi dir="ltr">2NF</bdi>.</p>
+<p class="sxnote">תלות שלמה: <code class="xp">α→β</code> שלמה אם הורדת כל תכונה מ־<bdi dir="ltr">α</bdi> שוברת אותה. תבנית שכל המפתחות הקבילים שלה בני תכונה אחת היא תמיד ב־<bdi dir="ltr">2NF</bdi>.</p>
 </section>
 
 <section id="mvd">
@@ -120,7 +120,7 @@ if no scheme in result contains a candidate key of R
 <tr class="spur"><td>13</td><td>Morag</td><td>Pinkas</td><td>Rishon</td></tr><tr class="spur"><td>97</td><td>Morag</td><td>Bialick</td><td>Eilat</td></tr><tr><td>17</td><td>Even</td><td>Allenby</td><td>Haifa</td></tr></tbody></table><div class="rtcount">חסרות (<bdi dir="ltr">97, Morag, Pinkas, Rishon</bdi>) ו־(<bdi dir="ltr">13, Morag, Bialick, Eilat</bdi>)</div></div></div>
 <div class="box rule"><h4>הגדרה (הגרסה החלופית, שקף 21)</h4><p><code class="xp">α →→ β</code> מתקיימת על <bdi dir="ltr">R</bdi> אם לכל יחס חוקי <bdi dir="ltr">r</bdi> ולכל זוג שורות <bdi dir="ltr">t1, t2</bdi> עם <code class="xp">t1[α] = t2[α]</code>, קיימת שורה <bdi dir="ltr">t3</bdi> ב־<bdi dir="ltr">r</bdi> כך ש:</p>
 <p class="mathline"><code class="xp">t3[α] = t1[α],   t3[β] = t1[β],   t3[R − β] = t2[R − β]</code></p>
-<p>במילים: ערכי β וערכי ״כל השאר״ מתחלפים חופשי. כל צירוף של β עם שאר התכונות — של אותו α — חייב להופיע. <code class="xp">α →→ β</code> טריוויאלית אם <code class="xp">β ⊆ α</code> או <code class="xp">α ∪ β = R</code>.</p></div>
+<p>במילים: ערכי <bdi dir="ltr">β</bdi> וערכי ״כל השאר״ מתחלפים חופשי. כל צירוף של <bdi dir="ltr">β</bdi> עם שאר התכונות — של אותו <bdi dir="ltr">α</bdi> — חייב להופיע. <code class="xp">α →→ β</code> טריוויאלית אם <code class="xp">β ⊆ α</code> או <code class="xp">α ∪ β = R</code>.</p></div>
 <h3>כללי הסק לתלויות רב־ערכיות</h3>
 <div class="tbl"><table>
 <tr><th>כלל</th><th>אם</th><th>אז</th></tr>
@@ -128,12 +128,12 @@ if no scheme in result contains a candidate key of R
 <tr><td>השלמה (<bdi dir="ltr">augmentation</bdi>)</td><td><code class="xp">α →→ β</code>, <code class="xp">δ ⊆ γ ⊆ R</code></td><td><code class="xp">γα →→ δβ</code></td></tr>
 <tr><td>טרנזיטיביות</td><td><code class="xp">α →→ β</code>, <code class="xp">β →→ γ</code></td><td><code class="xp">α →→ γ − β</code></td></tr>
 <tr><td>שכפול (<bdi dir="ltr">replication</bdi>)</td><td><code class="xp">α → β</code></td><td><code class="xp">α →→ β</code></td></tr>
-<tr><td>התלכדות (<bdi dir="ltr">coalescence</bdi>)</td><td><code class="xp">α →→ β</code>, <code class="xp">γ ⊆ β</code>, ויש δ עם <code class="xp">δ ∩ β = ∅</code> ו־<code class="xp">δ → γ</code></td><td><code class="xp">α → γ</code></td></tr>
+<tr><td>התלכדות (<bdi dir="ltr">coalescence</bdi>)</td><td><code class="xp">α →→ β</code>, <code class="xp">γ ⊆ β</code>, ויש <bdi dir="ltr">δ</bdi> עם <code class="xp">δ ∩ β = ∅</code> ו־<code class="xp">δ → γ</code></td><td><code class="xp">α → γ</code></td></tr>
 <tr><td>איחוד</td><td><code class="xp">α →→ β</code>, <code class="xp">α →→ γ</code></td><td><code class="xp">α →→ βγ</code></td></tr>
 <tr><td>חיתוך</td><td><code class="xp">α →→ β</code>, <code class="xp">α →→ γ</code></td><td><code class="xp">α →→ β ∩ γ</code></td></tr>
 <tr><td>הפרש</td><td><code class="xp">α →→ β</code>, <code class="xp">α →→ γ</code></td><td><code class="xp">α →→ β − γ</code>, <code class="xp">α →→ γ − β</code></td></tr>
 </table></div>
-<div class="box rule"><h4><bdi dir="ltr">4NF</bdi> ומשפט הפירוק של <bdi dir="ltr">Fagin</bdi></h4><p><bdi dir="ltr">R</bdi> ב־<bdi dir="ltr">4NF</bdi> ביחס ל־<bdi dir="ltr">D</bdi> (תלויות פונקציונליות ורב־ערכיות) אם לכל <code class="xp">α →→ β</code> ב־<code class="xp">D⁺</code>: היא טריוויאלית, או ש־α מפתח־על של <bdi dir="ltr">R</bdi>. כל תבנית ב־<bdi dir="ltr">4NF</bdi> היא גם ב־<bdi dir="ltr">BCNF</bdi>.</p>
+<div class="box rule"><h4><bdi dir="ltr">4NF</bdi> ומשפט הפירוק של <bdi dir="ltr">Fagin</bdi></h4><p><bdi dir="ltr">R</bdi> ב־<bdi dir="ltr">4NF</bdi> ביחס ל־<bdi dir="ltr">D</bdi> (תלויות פונקציונליות ורב־ערכיות) אם לכל <code class="xp">α →→ β</code> ב־<code class="xp">D⁺</code>: היא טריוויאלית, או ש־<bdi dir="ltr">α</bdi> מפתח־על של <bdi dir="ltr">R</bdi>. כל תבנית ב־<bdi dir="ltr">4NF</bdi> היא גם ב־<bdi dir="ltr">BCNF</bdi>.</p>
 <p>פירוק <bdi dir="ltr">R</bdi> ל־<bdi dir="ltr">R1, R2</bdi> משמר מידע <strong>אם ורק אם</strong> אחת מהתלויות האלה ב־<code class="xp">D⁺</code>:</p>
 <p class="mathline"><code class="xp">R1 ∩ R2 →→ R1</code></p><p class="mathline"><code class="xp">R1 ∩ R2 →→ R2</code></p></div>
 <pre class="algo" dir="ltr">result = {R}
@@ -188,7 +188,7 @@ while (result contains a scheme Ri not in 4NF)
 <p>(״…״ — תלויות נוספות שנובעות מאלה ונשארות בתוך התבנית.)</p>
 <p>עכשיו בודקים כל תלות ב־<bdi dir="ltr">F</bdi> מול <code class="xp">F1 ∪ F2</code>:</p>
 <div id="presQ3"></div>
-<p><code class="xp">B→D</code>: <bdi dir="ltr">B</bdi> נמצאת רק ב־<bdi dir="ltr">R1</bdi> ו־<bdi dir="ltr">D</bdi> רק ב־<bdi dir="ltr">R2</bdi>. לפי <code class="xp">F1 ∪ F2</code>, הסגור של <bdi dir="ltr">B</bdi> הוא <bdi dir="ltr">B</bdi> בלבד — התלות אבדה. מספיקה תלות אחת כדי להראות שהפירוק אינו משמר תלויות (גם <code class="xp">CD→E</code> אבדה).</p>
+<p><code class="xp">B→D</code>: <bdi dir="ltr">B</bdi> נמצאת רק ב־<bdi dir="ltr">R1</bdi>&nbsp;ו־<bdi dir="ltr">D</bdi> רק ב־<bdi dir="ltr">R2</bdi>. לפי <code class="xp">F1 ∪ F2</code>, הסגור של <bdi dir="ltr">B</bdi> הוא <bdi dir="ltr">B</bdi> בלבד — התלות אבדה. מספיקה תלות אחת כדי להראות שהפירוק אינו משמר תלויות (גם <code class="xp">CD→E</code> אבדה).</p>
 </details>
 
 <h3 id="ex6q4">שאלה 4</h3>
@@ -227,18 +227,18 @@ while (result contains a scheme Ri not in 4NF)
 </details>
 
 <h3 id="ex6q8">שאלה 8</h3>
-<div class="taskq"><p><strong>הוכח את כלל ההתלכדות (<bdi dir="ltr">coalescence rule</bdi>) מההגדרה:</strong> אם <code class="xp">α →→ β</code>, <code class="xp">γ ⊆ β</code>, וקיימת δ כך ש־<code class="xp">δ ∩ β = ∅</code> ו־<code class="xp">δ → γ</code>, אז <code class="xp">α → γ</code>.</p>
-<p>הנחיה: היעזר בהגדרה של →→ לזוג שורות <bdi dir="ltr">t1, t2</bdi> כך ש־<code class="xp">t1[α] = t2[α]</code>. הראה כי מכיוון ש־<code class="xp">δ ⊆ R − β</code>, אם לשתי שורות יש ערך זהה של <code class="xp">R − β</code>, אז יש להן אותו ערך של δ.</p></div>
+<div class="taskq"><p><strong>הוכח את כלל ההתלכדות (<bdi dir="ltr">coalescence rule</bdi>) מההגדרה:</strong> אם <code class="xp">α →→ β</code>, <code class="xp">γ ⊆ β</code>, וקיימת <bdi dir="ltr">δ</bdi> כך ש־<code class="xp">δ ∩ β = ∅</code> ו־<code class="xp">δ → γ</code>, אז <code class="xp">α → γ</code>.</p>
+<p>הנחיה: היעזר בהגדרה של →→ לזוג שורות <bdi dir="ltr">t1, t2</bdi> כך ש־<code class="xp">t1[α] = t2[α]</code>. הראה כי מכיוון ש־<code class="xp">δ ⊆ R − β</code>, אם לשתי שורות יש ערך זהה של <code class="xp">R − β</code>, אז יש להן אותו ערך של <bdi dir="ltr">δ</bdi>.</p></div>
 <details class="sol"><summary>פתרון</summary>
 <p>יהיו <bdi dir="ltr">t1, t2</bdi> שורות ביחס חוקי <bdi dir="ltr">r</bdi> עם <code class="xp">t1[α] = t2[α]</code>. צריך להראות ש־<code class="xp">t1[γ] = t2[γ]</code>.</p>
 <ol>
 <li>לפי ההגדרה החלופית של <code class="xp">α →→ β</code>, קיימת <bdi dir="ltr">t3</bdi> ב־<bdi dir="ltr">r</bdi> עם:<p class="mathline"><code class="xp">t3[β] = t1[β],   t3[R − β] = t2[R − β]</code></p></li>
 <li><code class="xp">δ ∩ β = ∅</code>, ולכן <code class="xp">δ ⊆ R − β</code>. מכאן <code class="xp">t3[δ] = t2[δ]</code>.</li>
-<li><bdi dir="ltr">t3</bdi> ו־<bdi dir="ltr">t2</bdi> שורות ב־<bdi dir="ltr">r</bdi> שמסכימות על δ, ו־<code class="xp">δ → γ</code>. לפי הגדרת התלות הפונקציונלית: <code class="xp">t3[γ] = t2[γ]</code>.</li>
+<li><bdi dir="ltr">t3</bdi>&nbsp;ו־<bdi dir="ltr">t2</bdi> שורות ב־<bdi dir="ltr">r</bdi> שמסכימות על <bdi dir="ltr">δ</bdi>, ו־<code class="xp">δ → γ</code>. לפי הגדרת התלות הפונקציונלית: <code class="xp">t3[γ] = t2[γ]</code>.</li>
 <li><code class="xp">γ ⊆ β</code>, ו־<code class="xp">t3[β] = t1[β]</code>. לכן <code class="xp">t3[γ] = t1[γ]</code>.</li>
 <li>מ־3 ו־4: <code class="xp">t1[γ] = t3[γ] = t2[γ]</code>.</li>
 </ol>
-<p><bdi dir="ltr">t1, t2</bdi> היו כלשהן עם אותו α, ולכן <code class="xp">α → γ</code>. ∎</p>
+<p><bdi dir="ltr">t1, t2</bdi> היו כלשהן עם אותו <bdi dir="ltr">α</bdi>, ולכן <code class="xp">α → γ</code>. ∎</p>
 </details>
 
 <h3 id="ex6q9">שאלה 9</h3>
@@ -254,7 +254,7 @@ while (result contains a scheme Ri not in 4NF)
 <tr><td>השלמה לקבוצה</td><td><code class="xp">A →→ BC</code></td><td><code class="xp">A →→ DE</code></td></tr>
 <tr><td>השלמה לקבוצה</td><td><code class="xp">B →→ CD</code></td><td><code class="xp">B →→ AE</code></td></tr>
 <tr><td>השלמה לקבוצה</td><td><code class="xp">E →→ AD</code></td><td><code class="xp">E →→ BC</code></td></tr>
-<tr><td>השלמה (γ=δ=<bdi dir="ltr">C</bdi>)</td><td><code class="xp">B →→ CD</code></td><td><code class="xp">BC →→ CD</code></td></tr>
+<tr><td>השלמה (<bdi dir="ltr">γ</bdi>=<bdi dir="ltr">δ</bdi>=<bdi dir="ltr">C</bdi>)</td><td><code class="xp">B →→ CD</code></td><td><code class="xp">BC →→ CD</code></td></tr>
 <tr><td>טרנזיטיביות</td><td><code class="xp">A →→ BC</code>, <code class="xp">BC →→ CD</code></td><td><code class="xp">A →→ CD − BC = D</code></td></tr>
 <tr><td>איחוד</td><td><code class="xp">A →→ BC</code>, <code class="xp">A →→ D</code></td><td><code class="xp">A →→ BCD</code></td></tr>
 <tr><td>הפרש</td><td><code class="xp">A →→ DE</code>, <code class="xp">A →→ D</code></td><td><code class="xp">A →→ E</code></td></tr>
@@ -273,7 +273,7 @@ while (result contains a scheme Ri not in 4NF)
 <h4>ג. השלמת היחס</h4>
 <p>לכל השורות אותו <bdi dir="ltr">A</bdi> ואותו <bdi dir="ltr">B</bdi>, אז בודקים החלפות:</p>
 <ul><li><code class="xp">B →→ CD</code> עם <bdi dir="ltr">t1</bdi> = שורה 2 ו־<bdi dir="ltr">t2</bdi> = שורה 1: צריכה להיות שורה עם <bdi dir="ltr">CD</bdi> של שורה 2 ושאר הערכים של שורה 1: <code class="xp">(a1, b1, c1, d2, e1)</code> — <strong>חסרה</strong>.</li>
-<li>אחרי שמוסיפים אותה, כל ארבעת הצירופים של <bdi dir="ltr">D</bdi> ∈ {<bdi dir="ltr">d1, d2</bdi>} ו־<bdi dir="ltr">E</bdi> ∈ {<bdi dir="ltr">e1, e2</bdi>} קיימים, וכל ההחלפות של <code class="xp">A →→ BC</code> ו־<code class="xp">E →→ AD</code> כבר ביחס.</li></ul>
+<li>אחרי שמוסיפים אותה, כל ארבעת הצירופים של <bdi dir="ltr">D</bdi> <bdi dir="ltr">∈</bdi> {<bdi dir="ltr">d1, d2</bdi>} ו־<bdi dir="ltr">E</bdi> <bdi dir="ltr">∈</bdi> {<bdi dir="ltr">e1, e2</bdi>} קיימים, וכל ההחלפות של <code class="xp">A →→ BC</code> ו־<code class="xp">E →→ AD</code> כבר ביחס.</li></ul>
 <div class="rtrow"><div class="rtwrap"><table class="rt" dir="ltr"><thead><tr><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead><tbody><tr><td>a1</td><td>b1</td><td>c1</td><td>d1</td><td>e1</td></tr><tr><td>a1</td><td>b1</td><td>c1</td><td>d2</td><td>e2</td></tr><tr><td>a1</td><td>b1</td><td>c1</td><td>d1</td><td>e2</td></tr><tr class="fresh"><td>a1</td><td>b1</td><td>c1</td><td>d2</td><td>e1</td></tr></tbody></table><div class="rtcount">נוספה שורה אחת</div></div></div>
 </details>
 </section>
@@ -282,7 +282,7 @@ while (result contains a scheme Ri not in 4NF)
 <h2>מלכודות</h2>
 <div class="tbl"><table>
 <tr><th>טעות</th><th>למה זה שגוי</th><th>התיקון</th></tr>
-<tr><td>״יותר שורות בצירוף = יותר מידע״</td><td>שורות מזויפות הן <strong>אובדן</strong> מידע — אי אפשר לדעת מה אמיתי</td><td>משמר מידע ⇔ הצירוף מחזיר בדיוק את <bdi dir="ltr">r</bdi></td></tr>
+<tr><td>״יותר שורות בצירוף = יותר מידע״</td><td>שורות מזויפות הן <strong>אובדן</strong> מידע — אי אפשר לדעת מה אמיתי</td><td>משמר מידע <bdi dir="ltr">⇔</bdi> הצירוף מחזיר בדיוק את <bdi dir="ltr">r</bdi></td></tr>
 <tr><td>בדיקת <bdi dir="ltr">BCNF</bdi> של חלק לפי <bdi dir="ltr">F</bdi> בלבד</td><td>תלות ב־<code class="xp">F⁺</code> שלא כתובה ב־<bdi dir="ltr">F</bdi> יכולה להפר <bdi dir="ltr">BCNF</bdi> בחלק</td><td>חשב סגור של תת־קבוצות של החלק</td></tr>
 <tr><td>משפט הפירוק על 3 תבניות</td><td>המשפט מדבר על פירוק לשתיים</td><td>שיטת הטבלה, או פירוק שלב אחרי שלב</td></tr>
 <tr><td>דוגמה נגדית שלא מקיימת את <bdi dir="ltr">F</bdi></td><td>יחס שמפר את <bdi dir="ltr">F</bdi> אינו ״יחס חוקי״ ולא מוכיח כלום</td><td>בדוק כל תלות על השורות שבחרת</td></tr>

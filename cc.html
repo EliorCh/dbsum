@@ -17,7 +17,7 @@
 <div class="wrap">
 <section class="hero" id="top">
   <h1>בקרת בו־זמניות</h1>
-  <p class="lede">כמה טרנזקציות רצות במקביל על אותם נתונים. מתי השילוב ביניהן בטוח? בעמוד הזה: תזמונים ושקילות, גרף קדימויות שנבנה קשת אחרי קשת, נעילה דו־פאזית, ופרוטוקול חותמות זמן עם הטבלה של <bdi dir="ltr">R-TS</bdi> ו־<bdi dir="ltr">W-TS</bdi> בכל צעד. אפשר גם להזין תזמון משלך ולקבל ניתוח מלא.</p>
+  <p class="lede">כמה טרנזקציות רצות במקביל על אותם נתונים. מתי השילוב ביניהן בטוח? בעמוד הזה: תזמונים ושקילות, גרף קדימויות שנבנה קשת אחרי קשת, נעילה דו־פאזית, ופרוטוקול חותמות זמן עם הטבלה של <bdi dir="ltr">R-TS</bdi>&nbsp;ו־<bdi dir="ltr">W-TS</bdi> בכל צעד. אפשר גם להזין תזמון משלך ולקבל ניתוח מלא.</p>
   <div class="box tip"><h4>מה צריך לדעת לעשות (תרגיל 8)</h4><p>לבנות גרף קדימויות ולהכריע <bdi dir="ltr">conflict serializability</bdi>, לבדוק <bdi dir="ltr">view serializability</bdi>, להוסיף נעילות ב־<bdi dir="ltr">2PL</bdi> ולזהות <bdi dir="ltr">deadlock</bdi>, ולהריץ ביד פרוטוקול חותמות זמן — בסיסי ועם חוק תומאס.</p></div>
 </section>
 
@@ -57,7 +57,7 @@
 <h2>Conflict serializability</h2>
 <div class="box rule"><h4>הגדרות</h4>
 <p><strong>פעולות מתנגשות</strong>: שתי פעולות של טרנזקציות שונות, על אותו פריט, כשלפחות אחת מהן כתיבה. (שתי קריאות אינן מתנגשות.)</p>
-<p><strong>שקילות קונפליקט</strong>: <bdi dir="ltr">S</bdi> ו־<bdi dir="ltr">S</bdi>′ שקולים אם אפשר לעבור מאחד לשני בהחלפות של פעולות סמוכות שאינן מתנגשות.</p>
+<p><strong>שקילות קונפליקט</strong>: <bdi dir="ltr">S</bdi>&nbsp;ו־<bdi dir="ltr">S</bdi>′ שקולים אם אפשר לעבור מאחד לשני בהחלפות של פעולות סמוכות שאינן מתנגשות.</p>
 <p><strong>conflict serializable</strong>: תזמון ששקול קונפליקט לתזמון סדרתי כלשהו.</p></div>
 <h3>הבדיקה: גרף קדימויות</h3>
 <p>קודקוד לכל טרנזקציה. קשת <code class="xp">Ti → Tj</code> אם יש פריט <bdi dir="ltr">Q</bdi> כך ש:</p>
@@ -70,15 +70,15 @@
 
 <section id="view">
 <h2>View serializability</h2>
-<div class="box rule"><h4>שקילות תצפית</h4><p><bdi dir="ltr">S</bdi> ו־<bdi dir="ltr">S</bdi>′ (על אותן טרנזקציות) שקולי תצפית אם לכל פריט <bdi dir="ltr">Q</bdi>:</p>
+<div class="box rule"><h4>שקילות תצפית</h4><p><bdi dir="ltr">S</bdi>&nbsp;ו־<bdi dir="ltr">S</bdi>′ (על אותן טרנזקציות) שקולי תצפית אם לכל פריט <bdi dir="ltr">Q</bdi>:</p>
 <ol><li>אם ב־<bdi dir="ltr">S</bdi> הטרנזקציה <bdi dir="ltr">Ti</bdi> קוראת את הערך <strong>ההתחלתי</strong> של <bdi dir="ltr">Q</bdi> — גם ב־<bdi dir="ltr">S</bdi>′.</li>
 <li>אם ב־<bdi dir="ltr">S</bdi> הטרנזקציה <bdi dir="ltr">Ti</bdi> קוראת ערך של <bdi dir="ltr">Q</bdi> ש<strong>נכתב בידי <bdi dir="ltr">Tj</bdi></strong> — גם ב־<bdi dir="ltr">S</bdi>′.</li>
 <li>אם ב־<bdi dir="ltr">S</bdi> הטרנזקציה <bdi dir="ltr">Ti</bdi> כותבת את הערך <strong>הסופי</strong> של <bdi dir="ltr">Q</bdi> — גם ב־<bdi dir="ltr">S</bdi>′.</li></ol>
 <p>תזמון הוא <bdi dir="ltr">view serializable</bdi> אם הוא שקול תצפית לתזמון סדרתי כלשהו.</p></div>
 <p>כל תזמון <bdi dir="ltr">conflict serializable</bdi> הוא גם <bdi dir="ltr">view serializable</bdi> — אבל לא להפך. ההבדל הוא ב<strong>כתיבות עיוורות</strong> (כתיבה בלי קריאה קודמת). הבדיקה של <bdi dir="ltr">view serializability</bdi> היא <bdi dir="ltr">NP-complete</bdi> — בפועל בודקים את כל הסדרים.</p>
-<p>הדוגמה משקף <bdi dir="ltr">10</bdi>: <bdi dir="ltr">T2</bdi> ו־<bdi dir="ltr">T3</bdi> כותבות את <bdi dir="ltr">Q</bdi> בלי לקרוא אותו.</p>
+<p>הדוגמה משקף <bdi dir="ltr">10</bdi>: <bdi dir="ltr">T2</bdi>&nbsp;ו־<bdi dir="ltr">T3</bdi> כותבות את <bdi dir="ltr">Q</bdi> בלי לקרוא אותו.</p>
 <div class="ex gstep" data-gen="c-pg10"><div class="q"><b>שקף 10</b><bdi dir="ltr">T1</bdi> קוראת את <bdi dir="ltr">Q, T2</bdi> כותבת, <bdi dir="ltr">T1</bdi> כותבת, <bdi dir="ltr">T3</bdi> כותבת.</div></div>
-<p>בגרף יש מעגל בין <bdi dir="ltr">T1</bdi> ל־<bdi dir="ltr">T2</bdi> — לא <bdi dir="ltr">conflict serializable</bdi>. אבל הוא שקול תצפית ל־<bdi dir="ltr">T1, T2, T3: T1</bdi> קוראת את הערך ההתחלתי בשניהם, ו־<bdi dir="ltr">T3</bdi> כותבת את הערך הסופי בשניהם. הכתיבות של <bdi dir="ltr">T1</bdi> ו־<bdi dir="ltr">T2</bdi> נדרסות בכל מקרה, ולכן הסדר שלהן לא משנה לאף אחד.</p>
+<p>בגרף יש מעגל בין <bdi dir="ltr">T1</bdi> ל־<bdi dir="ltr">T2</bdi> — לא <bdi dir="ltr">conflict serializable</bdi>. אבל הוא שקול תצפית ל־<bdi dir="ltr">T1, T2, T3: T1</bdi> קוראת את הערך ההתחלתי בשניהם, ו־<bdi dir="ltr">T3</bdi> כותבת את הערך הסופי בשניהם. הכתיבות של <bdi dir="ltr">T1</bdi>&nbsp;ו־<bdi dir="ltr">T2</bdi> נדרסות בכל מקרה, ולכן הסדר שלהן לא משנה לאף אחד.</p>
 </section>
 
 <section id="locks">
@@ -86,7 +86,7 @@
 <div class="tbl"><table><tr><th>נעילה</th><th>מותר</th><th>תואמת ל־</th></tr>
 <tr><td><strong>משותפת</strong> <code class="xp">S-lock</code></td><td>קריאה בלבד</td><td>נעילות משותפות אחרות</td></tr>
 <tr><td><strong>בלעדית</strong> <code class="xp">X-lock</code></td><td>קריאה וכתיבה</td><td>שום נעילה אחרת</td></tr></table></div>
-<p>לפני כל גישה מבקשים נעילה מתאימה. אם היא לא תואמת לנעילה קיימת — ממתינים עד שהיא תשוחרר. נעילה לבד לא מספיקה: בשקפים 14–15 הנעילות משתחררות מוקדם מדי, ו־<bdi dir="ltr">T2</bdi> מציגה סכום של <bdi dir="ltr">A</bdi> ו־<bdi dir="ltr">B</bdi> באמצע העברה.</p>
+<p>לפני כל גישה מבקשים נעילה מתאימה. אם היא לא תואמת לנעילה קיימת — ממתינים עד שהיא תשוחרר. נעילה לבד לא מספיקה: בשקפים 14–15 הנעילות משתחררות מוקדם מדי, ו־<bdi dir="ltr">T2</bdi> מציגה סכום של <bdi dir="ltr">A</bdi>&nbsp;ו־<bdi dir="ltr">B</bdi> באמצע העברה.</p>
 <h3 id="twopl">נעילה דו־פאזית (<bdi dir="ltr">2PL</bdi>)</h3>
 <div class="box rule"><h4>הפרוטוקול</h4><ul><li><strong>פאזת גדילה</strong>: הטרנזקציה רשאית לבקש נעילות, ואינה משחררת אף אחת.</li><li><strong>פאזת הצטמקות</strong>: הטרנזקציה משחררת נעילות, ואינה מבקשת חדשות.</li></ul>
 <p>במילים: <strong>אחרי השחרור הראשון — אין יותר בקשות נעילה.</strong> הרגע של הנעילה האחרונה נקרא <strong>נקודת הנעילה</strong> (lock point).</p></div>
@@ -140,7 +140,7 @@
 <li><h3>״האם התזמון <bdi dir="ltr">conflict serializable</bdi>?״</h3><p>כתוב את התזמון כשורות ממוספרות. לכל פריט, עבור על הפעולות עליו לפי הסדר, וסמן כל זוג מתנגש. צייר את הגרף, חפש מעגל. אין מעגל — כתוב מיון טופולוגי.</p></li>
 <li><h3>״האם <bdi dir="ltr">view serializable</bdi>?״</h3><p>לכל פריט רשום: מי קורא את הערך ההתחלתי, מי קורא ממי, מי כותב אחרון. אחר כך חפש סדר סדרתי שמקיים את שלושת הדברים.</p></li>
 <li><h3>״הוסף נעילות ב־<bdi dir="ltr">2PL</bdi>״</h3><p>נעל לפני כל גישה (<bdi dir="ltr">S</bdi> לקריאה, <bdi dir="ltr">X</bdi> לכתיבה — או <bdi dir="ltr">X</bdi> כבר בקריאה אם יש כתיבה אחר כך). שחרר הכל רק אחרי הנעילה האחרונה.</p></li>
-<li><h3>״האם הפרוטוקול יכול לבצע את התזמון?״</h3><p><bdi dir="ltr">2PL</bdi>: רק אם התזמון <bdi dir="ltr">conflict serializable</bdi> — ואז בדוק שאפשר לשבץ נעילות. חותמות זמן: הרץ ביד עם טבלת <bdi dir="ltr">R-TS</bdi> ו־<bdi dir="ltr">W-TS</bdi>.</p></li>
+<li><h3>״האם הפרוטוקול יכול לבצע את התזמון?״</h3><p><bdi dir="ltr">2PL</bdi>: רק אם התזמון <bdi dir="ltr">conflict serializable</bdi> — ואז בדוק שאפשר לשבץ נעילות. חותמות זמן: הרץ ביד עם טבלת <bdi dir="ltr">R-TS</bdi>&nbsp;ו־<bdi dir="ltr">W-TS</bdi>.</p></li>
 </ol>
 </section>
 
@@ -152,7 +152,7 @@
 <details class="sol"><summary>פתרון</summary>
 <p>נסמן ב־<code class="xp">LP(T)</code> את נקודת הנעילה של <bdi dir="ltr">T</bdi> — הזמן שבו קיבלה את הנעילה האחרונה שלה.</p>
 <p><strong>טענה:</strong> אם כל הטרנזקציות ב־<bdi dir="ltr">2PL</bdi> ויש קשת <code class="xp">Ti → Tj</code>, אז <code class="xp">LP(Ti) &lt; LP(Tj)</code>.</p>
-<ol><li>קשת <code class="xp">Ti → Tj</code> פירושה: <bdi dir="ltr">Ti</bdi> ו־<bdi dir="ltr">Tj</bdi> ניגשו לאותו פריט <bdi dir="ltr">Q</bdi> בפעולות מתנגשות, <bdi dir="ltr">Ti</bdi> קודם.</li>
+<ol><li>קשת <code class="xp">Ti → Tj</code> פירושה: <bdi dir="ltr">Ti</bdi>&nbsp;ו־<bdi dir="ltr">Tj</bdi> ניגשו לאותו פריט <bdi dir="ltr">Q</bdi> בפעולות מתנגשות, <bdi dir="ltr">Ti</bdi> קודם.</li>
 <li>הנעילות שלהן על <bdi dir="ltr">Q</bdi> אינן תואמות (לפחות אחת בלעדית). לכן <bdi dir="ltr">Tj</bdi> יכלה לקבל את הנעילה שלה על <bdi dir="ltr">Q</bdi> רק אחרי ש־<bdi dir="ltr">Ti</bdi> שחררה את שלה.</li>
 <li><bdi dir="ltr">Ti</bdi> ב־<bdi dir="ltr">2PL</bdi>: כל הנעילות שלה ניתנו לפני השחרור הראשון. לכן <code class="xp">LP(Ti) &lt; unlock<sub>i</sub>(Q)</code>.</li>
 <li><bdi dir="ltr">Tj</bdi> קיבלה נעילה על <bdi dir="ltr">Q</bdi> אחרי השחרור, ו־<code class="xp">LP(Tj)</code> הוא הנעילה האחרונה שלה: <code class="xp">unlock<sub>i</sub>(Q) &lt; lock<sub>j</sub>(Q) ≤ LP(Tj)</code>.</li></ol>
@@ -165,7 +165,7 @@
 <div class="taskq"><p>נתונות שתי הטרנזקציות:</p>
 <div class="rtrow"><div class="rtwrap"><table class="rt sched" dir="ltr"><thead><tr><th>T0</th><th>T1</th></tr></thead><tbody><tr><td>read(A)</td><td>read(B)</td></tr><tr><td>read(B)</td><td>read(A)</td></tr><tr><td>if (A==0) B=B+1</td><td>if (B==0) A=A+1</td></tr><tr><td>write(B)</td><td>write(A)</td></tr></tbody></table></div></div>
 <p>נניח כי על בסיס הנתונים לשמור את התנאי <code class="xp">A=0 ∨ B=0</code>, וכי הערכים ההתחלתיים הם <code class="xp">A=B=0</code>.</p>
-<p>א. הראה כי כל ביצוע סדרתי של <bdi dir="ltr">T0</bdi> ו־<bdi dir="ltr">T1</bdi> שומר על קונסיסטנטיות הנתונים.</p><p>ב. הראה תזמון בו־זמני של <bdi dir="ltr">T0</bdi> ו־<bdi dir="ltr">T1</bdi> שאינו שקול קונפליקט לתזמון סדרתי כלשהו.</p><p>ג. האם קיים תזמון בו־זמני של <bdi dir="ltr">T0</bdi> ו־<bdi dir="ltr">T1</bdi> השקול לתזמון סדרתי?</p></div>
+<p>א. הראה כי כל ביצוע סדרתי של <bdi dir="ltr">T0</bdi>&nbsp;ו־<bdi dir="ltr">T1</bdi> שומר על קונסיסטנטיות הנתונים.</p><p>ב. הראה תזמון בו־זמני של <bdi dir="ltr">T0</bdi>&nbsp;ו־<bdi dir="ltr">T1</bdi> שאינו שקול קונפליקט לתזמון סדרתי כלשהו.</p><p>ג. האם קיים תזמון בו־זמני של <bdi dir="ltr">T0</bdi>&nbsp;ו־<bdi dir="ltr">T1</bdi> השקול לתזמון סדרתי?</p></div>
 <details class="sol"><summary>פתרון</summary>
 <h4>א.</h4>
 <div class="tbl"><table><tr><th>סדר</th><th>מה קורה</th><th>סוף</th><th>התנאי</th></tr>
@@ -181,14 +181,14 @@
 <div class="taskq"><p><strong>נתון תזמון <bdi dir="ltr">S</bdi> אשר גרף הקדימויות שלו מתואר באיור. האם <bdi dir="ltr">S</bdi> שקול לתזמון סדרתי כלשהו? אם כן, מצא תזמון סדרתי השקול ל־<bdi dir="ltr">S</bdi>.</strong></p>
 <figure class="fig"><div id="q3graph" style="text-align:center"></div><figcaption>הקשתות: <code class="xp">T0→T1, T0→T2, T0→T3, T1→T2, T1→T3, T2→T4, T3→T4</code></figcaption></figure></div>
 <details class="sol"><summary>פתרון</summary>
-<p>אין בגרף מעגל: כל הקשתות יורדות ״מלמעלה למטה״ — <bdi dir="ltr">T0</bdi> לפני <bdi dir="ltr">T1</bdi>, שתיהן לפני <bdi dir="ltr">T2</bdi> ו־<bdi dir="ltr">T3</bdi>, ו־<bdi dir="ltr">T4</bdi> אחרונה. לכן <bdi dir="ltr">S</bdi> הוא <bdi dir="ltr">conflict serializable</bdi>, ולכן שקול לתזמון סדרתי.</p>
+<p>אין בגרף מעגל: כל הקשתות יורדות ״מלמעלה למטה״ — <bdi dir="ltr">T0</bdi> לפני <bdi dir="ltr">T1</bdi>, שתיהן לפני <bdi dir="ltr">T2</bdi>&nbsp;ו־<bdi dir="ltr">T3</bdi>, ו־<bdi dir="ltr">T4</bdi> אחרונה. לכן <bdi dir="ltr">S</bdi> הוא <bdi dir="ltr">conflict serializable</bdi>, ולכן שקול לתזמון סדרתי.</p>
 <p>כל מיון טופולוגי הוא תשובה. <bdi dir="ltr">T0</bdi> היא היחידה בלי קשתות נכנסות, אחריה <bdi dir="ltr">T1</bdi>. ל־<bdi dir="ltr">T2</bdi> ול־<bdi dir="ltr">T3</bdi> אין קשת ביניהן — לכן שני סדרים:</p>
 <p class="mathline"><code class="xp">T0, T1, T2, T3, T4</code></p>
 <p class="mathline"><code class="xp">T0, T1, T3, T2, T4</code></p>
 </details>
 
 <h3 id="ex8q4">שאלה 4</h3>
-<div class="taskq"><p>א. הוסף פקודות נעילה לטרנזקציות <bdi dir="ltr">T0</bdi> ו־<bdi dir="ltr">T1</bdi> של שאלה 2 כך שיהיו ב־<bdi dir="ltr">2PL</bdi>.</p><p>ב. האם ביצוע בו־זמני של טרנזקציות אלה עלול לגרום ל־<bdi dir="ltr">deadlock</bdi>?</p><p>ג. הראה כיצד פרוטוקול <bdi dir="ltr">2PL</bdi> מונע את התזמון הלא סדרתי שמצאת בסעיף 2ב׳.</p>
+<div class="taskq"><p>א. הוסף פקודות נעילה לטרנזקציות <bdi dir="ltr">T0</bdi>&nbsp;ו־<bdi dir="ltr">T1</bdi> של שאלה 2 כך שיהיו ב־<bdi dir="ltr">2PL</bdi>.</p><p>ב. האם ביצוע בו־זמני של טרנזקציות אלה עלול לגרום ל־<bdi dir="ltr">deadlock</bdi>?</p><p>ג. הראה כיצד פרוטוקול <bdi dir="ltr">2PL</bdi> מונע את התזמון הלא סדרתי שמצאת בסעיף 2ב׳.</p>
 <p>(הטרנזקציות משאלה 2 — <bdi dir="ltr">T0</bdi>: <code class="xp">read(A), read(B), if (A==0) B=B+1, write(B)</code>; T1: <code class="xp">read(B), read(A), if (B==0) A=A+1, write(A)</code>.)</p></div>
 <details class="sol"><summary>פתרון</summary>
 <h4>א.</h4>
@@ -283,7 +283,7 @@ unlock(X); unlock(Y); unlock(Z)</pre>
 
 <section id="cctool">
 <h2>מנתח תזמונים</h2>
-<p>כתוב תזמון בקיצור: <code class="xp">r1(A)</code> היא <code class="xp">read(A)</code> של <bdi dir="ltr">T1</bdi>, <code class="xp">w2(B)</code> היא <code class="xp">write(B)</code> של <bdi dir="ltr">T2</bdi>. המנתח בונה טבלה וגרף קדימויות, בודק <bdi dir="ltr">conflict</bdi> ו־<bdi dir="ltr">view serializability</bdi>, ומריץ את פרוטוקול חותמות הזמן.</p>
+<p>כתוב תזמון בקיצור: <code class="xp">r1(A)</code> היא <code class="xp">read(A)</code> של <bdi dir="ltr">T1</bdi>, <code class="xp">w2(B)</code> היא <code class="xp">write(B)</code> של <bdi dir="ltr">T2</bdi>. המנתח בונה טבלה וגרף קדימויות, בודק <bdi dir="ltr">conflict</bdi>&nbsp;ו־<bdi dir="ltr">view serializability</bdi>, ומריץ את פרוטוקול חותמות הזמן.</p>
 <div class="calc ccin" id="ccTool"><textarea dir="ltr" spellcheck="false" aria-label="תזמון">r1(A) r2(B) w2(B) r3(C) r3(B) r2(A) w3(C) r1(C) w1(C) w2(A)</textarea>
 <div class="calcex"><button class="btn calcBtn" type="button">נתח</button><span class="muted">דוגמאות:</span> <button type="button" class="chip" data-ex="r1(A) r2(B) w2(B) r3(C) r3(B) r2(A) w3(C) r1(C) w1(C) w2(A)">8.5</button> <button type="button" class="chip" data-ex="r0(A) w1(A) r2(A) w0(A) w2(A)">8.7</button> <button type="button" class="chip" data-ex="r1(Q) w2(Q) w1(Q) w3(Q)">שקף 10</button> <button type="button" class="chip" data-ex="w1(A) r2(A) w3(B) r1(B)">8.8</button> <button type="button" class="chip" data-ex="r1(B) r2(A) w1(A)">8.9</button></div>
 <div class="calcout"></div></div>
