@@ -683,3 +683,23 @@ ol.chaptree .kids{grid-column:2;display:flex;gap:6px;margin-top:3px}
 ol.chaptree .kids a{font-size:.82rem;padding:2px 9px!important;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
 ol.chaptree a[aria-current="page"]{background:var(--ent)!important;color:#fff!important;border-color:var(--ent)!important}
 body.chapter .hero>h1{display:none}body.chapter .hero{padding-top:0}
+/* chapter tree v2: chapters → sections, exercise as a sub-item */
+ol.chaptree li.home a{display:block;font-weight:700;padding:6px 10px;border-radius:8px}
+ol.chaptree li.home.cur a{background:var(--ent-bg);color:var(--ent)}
+ol.chaptree li.chap{display:block;padding:0;margin:2px 0}
+ol.chaptree details>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:8px}
+ol.chaptree details>summary::-webkit-details-marker{display:none}
+ol.chaptree details>summary::after{content:"‹";margin-inline-start:auto;color:var(--muted);transition:transform .15s}
+ol.chaptree details[open]>summary::after{transform:rotate(-90deg)}
+ol.chaptree li.chap.cur>details>summary{background:var(--ent-bg)}
+ol.chaptree .tree{border-inline-start:2px solid var(--line);margin:2px 18px 8px 0;padding-inline-start:8px}
+ol.chaptree a.leaf{display:block;font-weight:700;font-size:.9rem;padding:5px 8px!important;border-radius:6px;margin-top:2px}
+ol.chaptree a.leaf.ex{margin-top:8px;color:var(--rel)}
+ol.chaptree a.leaf.here{background:var(--ent);color:#fff!important}
+ol.chaptree ol.secs,ol.chaptree ol.local{list-style:none;padding:0;margin:2px 0 0}
+ol.chaptree ol.secs a,ol.chaptree ol.local a{display:block;font-size:.85rem;padding:3px 10px!important;color:var(--muted)}
+ol.chaptree ol.local li.sub a{padding-inline-start:22px!important;font-size:.8rem}
+ol.chaptree ol.local a.active{color:var(--ent);font-weight:700;background:var(--ent-bg)}
+nav.side .navh{display:none}
+.hero .lede{max-width:none}
+p,li,.lede{text-wrap:pretty}
