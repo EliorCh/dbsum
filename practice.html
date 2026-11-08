@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="guide.css?v=3f35c74f">
+<link rel="stylesheet" href="guide.css?v=bac3c5c3">
 </head>
 <body class="pg-practice">
 <div class="layout">
@@ -174,44 +174,44 @@ Teaches = (lecturer-name, course-id, semester)</pre>
 <div class="ladder" data-check="m3a"><div class="lq"><b>א.</b> מצא את שמות כל הסטודנטים שגרים ב־'<bdi dir="ltr">Haifa</bdi>'.</div>
 <ol class="hints"><li>יחס אחד: <bdi dir="ltr">σ</bdi> ואחריו <bdi dir="ltr">π</bdi>.</li></ol>
 <div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div>
-<details class="sol"><summary>פתרון</summary><p class="mathline"><code class="xp">π<sub>name</sub>(σ<sub>city='Haifa'</sub>(Student))</code></p><p class="mathline"><code class="xp">{ &lt;n&gt; | ∃i (&lt;i, n, 'Haifa'&gt; ∈ Student) }</code></p></details></div>
+<details class="sol"><summary>פתרון</summary><p class="mathline"><code class="xp">π<sub>name</sub>(σ<sub>city='Haifa'</sub>(Student))</code></p><div data-rax="m3a"></div><p class="mathline"><code class="xp">{ &lt;n&gt; | ∃i (&lt;i, n, 'Haifa'&gt; ∈ Student) }</code></p></details></div>
 
 <div class="ladder" data-check="m3b"><div class="lq"><b>ב.</b> מצא את שמות הסטודנטים ואת שמות הקורסים שלמדו, בקורסים של המחלקה '<bdi dir="ltr">CS</bdi>'.</div>
 <ol class="hints"><li>שלושה יחסים: <bdi dir="ltr">Student, Takes, Course</bdi>.</li><li>תכונות משותפות: <bdi dir="ltr">student-id</bdi> בין <bdi dir="ltr">Student</bdi> ל־<bdi dir="ltr">Takes, course-id</bdi> בין <bdi dir="ltr">Takes</bdi> ל־<bdi dir="ltr">Course</bdi> ← <bdi dir="ltr">⋈</bdi>.</li><li>כדאי לסנן את <bdi dir="ltr">Course</bdi> לפני הצירוף.</li></ol>
 <div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div>
-<details class="sol"><summary>פתרון</summary><p class="mathline"><code class="xp">π<sub>name, title</sub>(Student ⋈ Takes ⋈ σ<sub>dept='CS'</sub>(Course))</code></p><p class="mathline"><code class="xp">{ &lt;n, t&gt; | ∃i, c, ct, s, g, cr ( &lt;i, n, ct&gt; ∈ Student ∧ &lt;i, c, s, g&gt; ∈ Takes ∧ &lt;c, t, 'CS', cr&gt; ∈ Course ) }</code></p></details></div>
+<details class="sol"><summary>פתרון</summary><p class="mathline"><code class="xp">π<sub>name, title</sub>(Student ⋈ Takes ⋈ σ<sub>dept='CS'</sub>(Course))</code></p><div data-rax="m3b"></div><p class="mathline"><code class="xp">{ &lt;n, t&gt; | ∃i, c, ct, s, g, cr ( &lt;i, n, ct&gt; ∈ Student ∧ &lt;i, c, s, g&gt; ∈ Takes ∧ &lt;c, t, 'CS', cr&gt; ∈ Course ) }</code></p></details></div>
 
 <div class="ladder" data-check="m3c"><div class="lq"><b>ג.</b> מצא את שמות הסטודנטים שקיבלו ציון גבוה מ־90 בקורס '<bdi dir="ltr">Databases</bdi>'.</div>
 <ol class="hints"><li>כמו ב׳, עם תנאי על <bdi dir="ltr">title</bdi> ועל <bdi dir="ltr">grade</bdi>.</li><li>שני התנאים יכולים להיות ב־<bdi dir="ltr">σ</bdi> אחד אחרי הצירוף.</li></ol>
 <div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div>
-<details class="sol"><summary>פתרון</summary><p class="mathline"><code class="xp">π<sub>name</sub>(σ<sub>title='Databases' ∧ grade&gt;90</sub>(Student ⋈ Takes ⋈ Course))</code></p></details></div>
+<details class="sol"><summary>פתרון</summary><p class="mathline"><code class="xp">π<sub>name</sub>(σ<sub>title='Databases' ∧ grade&gt;90</sub>(Student ⋈ Takes ⋈ Course))</code></p><div data-rax="m3c"></div></details></div>
 
 <div class="ladder" data-check="m3d"><div class="lq"><b>ד.</b> מצא את שמות הסטודנטים שלמדו קורס כלשהו אצל המרצה '<bdi dir="ltr">Cohen</bdi>' (באותו סמסטר שבו לימד אותו).</div>
 <ol class="hints"><li>אילו תכונות משותפות ל־<bdi dir="ltr">Takes</bdi> ול־<bdi dir="ltr">Teaches</bdi>? כמה מהן?</li><li><bdi dir="ltr">⋈</bdi> טבעי מצרף לפי <strong>כל</strong> התכונות המשותפות — כאן זה בדיוק מה שצריך: אותו קורס <strong>וגם</strong> אותו סמסטר.</li></ol>
 <div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div>
-<details class="sol"><summary>פתרון</summary><p class="mathline"><code class="xp">π<sub>name</sub>(Student ⋈ Takes ⋈ σ<sub>lecturer-name='Cohen'</sub>(Teaches))</code></p><p class="sxnote"><bdi dir="ltr">Omer</bdi> למד את <bdi dir="ltr">C1</bdi> ב־<bdi dir="ltr">2025A</bdi> — אצל <bdi dir="ltr">Cohen. Tal</bdi> למד את <bdi dir="ltr">C1</bdi> ב־<bdi dir="ltr">2025B</bdi> — אצל <bdi dir="ltr">Levi</bdi>, אבל את <bdi dir="ltr">C2</bdi> ב־<bdi dir="ltr">2025A</bdi> אצל <bdi dir="ltr">Cohen</bdi>, ולכן גם הוא בתשובה.</p></details></div>
+<details class="sol"><summary>פתרון</summary><p class="mathline"><code class="xp">π<sub>name</sub>(Student ⋈ Takes ⋈ σ<sub>lecturer-name='Cohen'</sub>(Teaches))</code></p><div data-rax="m3d"></div><p class="sxnote"><bdi dir="ltr">Omer</bdi> למד את <bdi dir="ltr">C1</bdi> ב־<bdi dir="ltr">2025A</bdi> — אצל <bdi dir="ltr">Cohen. Tal</bdi> למד את <bdi dir="ltr">C1</bdi> ב־<bdi dir="ltr">2025B</bdi> — אצל <bdi dir="ltr">Levi</bdi>, אבל את <bdi dir="ltr">C2</bdi> ב־<bdi dir="ltr">2025A</bdi> אצל <bdi dir="ltr">Cohen</bdi>, ולכן גם הוא בתשובה.</p></details></div>
 
 <div class="ladder" data-check="m3e"><div class="lq"><b>ה.</b> מצא את שמות הסטודנטים שגרים באותה עיר שבה גר הסטודנט '<bdi dir="ltr">Omer</bdi>' (לא כולל <bdi dir="ltr">Omer</bdi> עצמו).</div>
 <ol class="hints"><li>תבנית ״<a href="relational.html#qpatterns">באותו ערך כמו</a>״: <bdi dir="ltr">ρ</bdi>&nbsp;ו־<bdi dir="ltr">×</bdi>.</li><li>הוצא את <bdi dir="ltr">Omer</bdi> בתנאי נוסף ב־<bdi dir="ltr">σ</bdi>.</li></ol>
 <div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div>
-<details class="sol"><summary>פתרון</summary><p class="mathline"><code class="xp">π<sub>Student.name</sub>(σ<sub>Student.city=o.city ∧ Student.name≠'Omer'</sub>(Student × ρ<sub>o</sub>(π<sub>city</sub>(σ<sub>name='Omer'</sub>(Student)))))</code></p><p class="mathline"><code class="xp">{ &lt;n&gt; | ∃i, c, j ( &lt;i, n, c&gt; ∈ Student ∧ &lt;j, 'Omer', c&gt; ∈ Student ∧ n ≠ 'Omer' ) }</code></p></details></div>
+<details class="sol"><summary>פתרון</summary><p class="mathline"><code class="xp">π<sub>Student.name</sub>(σ<sub>Student.city=o.city ∧ Student.name≠'Omer'</sub>(Student × ρ<sub>o</sub>(π<sub>city</sub>(σ<sub>name='Omer'</sub>(Student)))))</code></p><div data-rax="m3e"></div><p class="mathline"><code class="xp">{ &lt;n&gt; | ∃i, c, j ( &lt;i, n, c&gt; ∈ Student ∧ &lt;j, 'Omer', c&gt; ∈ Student ∧ n ≠ 'Omer' ) }</code></p></details></div>
 
 <div class="ladder" data-check="m3f"><div class="lq"><b>ו.</b> מצא את שמות הסטודנטים שלא למדו אף קורס במחלקה '<bdi dir="ltr">MATH</bdi>'.</div>
 <ol class="hints"><li>שלילה ← −. כל הסטודנטים פחות מי שלמד קורס ב־<bdi dir="ltr">MATH</bdi>.</li><li>ה־− צריך להיות על <bdi dir="ltr">student-id</bdi> (שמות יכולים לחזור), ורק אחר כך <bdi dir="ltr">⋈</bdi> עם <bdi dir="ltr">Student</bdi> לקבלת השם.</li><li><bdi dir="ltr">Dor</bdi> בנתוני הדוגמה לא למד כלום — האם הוא בתשובה שלך? הוא צריך להיות.</li></ol>
 <div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div>
-<details class="sol"><summary>פתרון</summary><p class="mathline"><code class="xp">π<sub>name</sub>((π<sub>student-id</sub>(Student) − π<sub>student-id</sub>(Takes ⋈ σ<sub>dept='MATH'</sub>(Course))) ⋈ Student)</code></p><p class="mathline"><code class="xp">{ &lt;n&gt; | ∃i, c ( &lt;i, n, c&gt; ∈ Student ∧ ¬∃k, s, g, t, cr ( &lt;i, k, s, g&gt; ∈ Takes ∧ &lt;k, t, 'MATH', cr&gt; ∈ Course ) ) }</code></p></details></div>
+<details class="sol"><summary>פתרון</summary><p class="mathline"><code class="xp">π<sub>name</sub>((π<sub>student-id</sub>(Student) − π<sub>student-id</sub>(Takes ⋈ σ<sub>dept='MATH'</sub>(Course))) ⋈ Student)</code></p><div data-rax="m3f"></div><p class="mathline"><code class="xp">{ &lt;n&gt; | ∃i, c ( &lt;i, n, c&gt; ∈ Student ∧ ¬∃k, s, g, t, cr ( &lt;i, k, s, g&gt; ∈ Takes ∧ &lt;k, t, 'MATH', cr&gt; ∈ Course ) ) }</code></p></details></div>
 
 <div class="ladder" data-check="m3g"><div class="lq"><b>ז.</b> מצא את שמות הסטודנטים שקיבלו בקורס '<bdi dir="ltr">Databases</bdi>' ציון גבוה מכל ציון שניתן בקורס '<bdi dir="ltr">Statistics</bdi>'.</div>
 <ol class="hints"><li>״גבוה מכל״ = אין ציון ב־<bdi dir="ltr">Statistics</bdi> שגדול או שווה לו ← −.</li><li>הכן שתי טבלאות: (<bdi dir="ltr">student-id, grade</bdi>) של <bdi dir="ltr">Databases</bdi>, ו־(<bdi dir="ltr">grade</bdi>) של <bdi dir="ltr">Statistics</bdi> (עם <bdi dir="ltr">ρ</bdi>). השווה ביניהן ב־<bdi dir="ltr">×</bdi>.</li><li>הורד את מי שיש לו ציון ב־<bdi dir="ltr">Statistics</bdi> שגדול או שווה לשלו.</li></ol>
 <div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div>
 <details class="sol"><summary>פתרון</summary>
 <p>נסמן <code class="xp">D = π<sub>student-id, grade</sub>(Takes ⋈ σ<sub>title='Databases'</sub>(Course))</code> ו־<code class="xp">St = π<sub>grade</sub>(Takes ⋈ σ<sub>title='Statistics'</sub>(Course))</code>:</p>
-<p class="mathline"><code class="xp">π<sub>name</sub>((π<sub>student-id</sub>(D) − π<sub>D.student-id</sub>(σ<sub>D.grade≤s.grade</sub>(D × ρ<sub>s</sub>(St)))) ⋈ Student)</code></p></details></div>
+<p class="mathline"><code class="xp">π<sub>name</sub>((π<sub>student-id</sub>(D) − π<sub>D.student-id</sub>(σ<sub>D.grade≤s.grade</sub>(D × ρ<sub>s</sub>(St)))) ⋈ Student)</code></p><div data-rax="m3g"></div></details></div>
 
 <div class="ladder" data-check="m3h"><div class="lq"><b>ח.</b> מצא את שמות הסטודנטים שלמדו את כל הקורסים של המחלקה '<bdi dir="ltr">CS</bdi>'.</div>
 <ol class="hints"><li>״את כל״ ← <bdi dir="ltr">÷</bdi>.</li><li>המחולק: (<bdi dir="ltr">student-id, course-id</bdi>) מ־<bdi dir="ltr">Takes</bdi>, בלי סמסטר וציון. המחלק: <bdi dir="ltr">course-id</bdi> של קורסי <bdi dir="ltr">CS</bdi>.</li></ol>
 <div class="ldbtns"><button class="btn ghost hintBtn" type="button">רמז</button><button class="btn ghost checkBtn" type="button">בדוק את עצמך</button></div><div class="check" hidden></div>
-<details class="sol"><summary>פתרון</summary><p class="mathline"><code class="xp">π<sub>name</sub>((π<sub>student-id, course-id</sub>(Takes) ÷ π<sub>course-id</sub>(σ<sub>dept='CS'</sub>(Course))) ⋈ Student)</code></p><p class="mathline"><code class="xp">{ &lt;n&gt; | ∃i, c ( &lt;i, n, c&gt; ∈ Student ∧ ∀k ( ∃t, cr (&lt;k, t, 'CS', cr&gt; ∈ Course) ⇒ ∃s, g (&lt;i, k, s, g&gt; ∈ Takes) ) ) }</code></p></details></div>
+<details class="sol"><summary>פתרון</summary><p class="mathline"><code class="xp">π<sub>name</sub>((π<sub>student-id, course-id</sub>(Takes) ÷ π<sub>course-id</sub>(σ<sub>dept='CS'</sub>(Course))) ⋈ Student)</code></p><div data-rax="m3h"></div><p class="mathline"><code class="xp">{ &lt;n&gt; | ∃i, c ( &lt;i, n, c&gt; ∈ Student ∧ ∀k ( ∃t, cr (&lt;k, t, 'CS', cr&gt; ∈ Course) ⇒ ∃s, g (&lt;i, k, s, g&gt; ∈ Takes) ) ) }</code></p></details></div>
 </section>
 
 <!-- ======================= ASSIGNMENT 3 ======================= -->
@@ -258,6 +258,6 @@ Teaches = (lecturer-name, <u>course-id</u>, <u>semester</u>)</pre>
 </main>
 </div>
 <script src="guide.js?v=8c3c214b"></script>
-<script src="mra.js?v=fbafdbbf"></script><script src="sqldata.js?v=aa87ac7c"></script><script src="mdata.js?v=fcd0f99f"></script><script src="sqlpage.js?v=e0c03ae9"></script><script src="practice.js?v=7e71df79"></script><script src="palette.js?v=68636c53"></script><script src="tagger.js?v=03403f81"></script>
+<script src="mra.js?v=fbafdbbf"></script><script src="sqldata.js?v=aa87ac7c"></script><script src="mdata.js?v=fcd0f99f"></script><script src="sqlpage.js?v=e0c03ae9"></script><script src="practice.js?v=7e71df79"></script><script src="palette.js?v=68636c53"></script><script src="tagger.js?v=03403f81"></script><script src="rax.js?v=d1c20f94"></script>
 </body>
 </html>

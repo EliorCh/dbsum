@@ -731,3 +731,17 @@ p,li,.lede{text-wrap:pretty}
 .tg.v-miss{outline:1.5px dashed #B8A050;outline-offset:1px;background:none}
 .tgh{margin:12px 0 4px;color:var(--key)}
 details.tgmiss{margin-top:8px}details.tgmiss>summary{cursor:pointer;font-weight:700;color:#6B5300}
+/* interactive algebra */
+.rax{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:10px 14px;margin:8px 0}
+.rxbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rxprog{font-weight:700;color:var(--muted);font-size:.9rem}
+.rxexpr{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:1.25rem;text-align:center;line-height:2.2;margin:10px 0;direction:ltr}
+.rxn{cursor:pointer;border-radius:5px;padding:1px 0;transition:background .15s}
+.rxn:hover{background:rgba(36,87,197,.08)}
+.rxn.done{background:rgba(18,128,108,.07)}
+.rxn.on{background:#F3E8FB;box-shadow:0 0 0 2px var(--fresh)}
+.rxn.on .rxn{background:none;box-shadow:none}
+.rxwhat{text-align:center;margin:6px 0}
+.rxarr{align-self:center;font-size:1.6rem;color:var(--muted)}
+@media (max-width:600px){.rxexpr{font-size:1rem}}
+.rxwhat code.xp{white-space:normal;word-break:break-word;display:inline-block;max-width:100%}@media (max-width:600px){.rxarr{transform:rotate(-90deg);width:100%;text-align:center}}
