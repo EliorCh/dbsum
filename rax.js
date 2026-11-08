@@ -37,7 +37,13 @@ function explain(n,data){const v=ev(n,data),k=kids(n).map(c=>ev(c,data));const b
     case'D':return `<b>− — הפרש.</b> השורות של השמאלי שלא מופיעות בימני: ${k[0].rows.length} פחות ${k[0].rows.length-v.rows.length} שנמחקו = ${v.rows.length}.`;
     case'U':return `<b>∪ — איחוד.</b> כל השורות משני הצדדים, בלי כפילויות: ${rows(v)}.`;
     case'I':return `<b>∩ — חיתוך.</b> שורות שמופיעות בשני הצדדים: ${rows(v)}.`;
-    case'V':return `<b>÷ — חילוק.</b> מחזיר ערכים של <code class="xp">${v.attrs.join(', ')}</code> שמופיעים בזוג עם <b>כל</b> שורה של המחלק (${k[1].rows.length} ${k[1].rows.length===1?'שורה':'שורות'}). נשארו ${rows(v)}.`;}}
+    case'V':{const L=k[0],Dv=k[1],keep=L.attrs.filter(x=>!Dv.attrs.map(base).includes(base(x))),ki=keep.map(x=>L.attrs.indexOf(x)),di=Dv.attrs.map(x=>L.attrs.map(base).indexOf(base(x)));
+      const cands=[...new Map(L.rows.map(r=>[JSON.stringify(ki.map(i=>r[i])),ki.map(i=>r[i])])).values()];
+      const fmtv=t=>t.join(', '),need=Dv.rows.map(fmtv).join(', ');
+      const lines=cands.map(c=>{const have=Dv.rows.filter(d=>L.rows.some(r=>ki.every((i,j)=>r[i]===c[j])&&di.every((i,j)=>r[i]===d[j])));
+        const miss=Dv.rows.filter(d=>!have.includes(d));
+        return `<li>${miss.length?'✗':'✓'} <b>${fmtv(c)}</b>: ${have.length?`יש ${have.map(fmtv).join(', ')}`:'אין אף אחד'}${miss.length?` — <b>חסר ${miss.map(fmtv).join(', ')}</b>`:' — יש את כולם'}</li>`;}).join('');
+      return `<b>÷ — חילוק.</b> המחלק דורש: <b>${need}</b>. נשאר רק ערך של <code class="xp">${v.attrs.join(', ')}</code> שמופיע בזוג עם <b>כל</b> אחד מהם:<ul class="rxdiv">${lines}</ul>`;}}}
 function post(n,out=[]){if(out.includes(n))return out;if(n.t!=='L')kids(n).forEach(c=>post(c,out));out.push(n);return out;}
 function mount(host,expr,data){const all=post(expr),order=all.filter(x=>x.t!=='R'),byId={};
   host.classList.add('rax');host.innerHTML=`<div class="rxbar"><span class="muted">לחץ על כל חלק בביטוי כדי לראות מה הוא מחזיר, או:</span><button type="button" class="btn ghost rxprev">הקודם</button><span class="rxprog"></span><button type="button" class="btn rxnext">בנה שלב אחרי שלב</button></div>

@@ -745,3 +745,4 @@ details.tgmiss{margin-top:8px}details.tgmiss>summary{cursor:pointer;font-weight:
 .rxarr{align-self:center;font-size:1.6rem;color:var(--muted)}
 @media (max-width:600px){.rxexpr{font-size:1rem}}
 .rxwhat code.xp{white-space:normal;word-break:break-word;display:inline-block;max-width:100%}@media (max-width:600px){.rxarr{transform:rotate(-90deg);width:100%;text-align:center}}
+.rxdiv{list-style:none;padding:0;margin:6px 0}.rxdiv li{margin:2px 0}
