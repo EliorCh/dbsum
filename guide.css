@@ -747,3 +747,13 @@ details.tgmiss{margin-top:8px}details.tgmiss>summary{cursor:pointer;font-weight:
 .rxwhat code.xp{white-space:normal;word-break:break-word;display:inline-block;max-width:100%}@media (max-width:600px){.rxarr{transform:rotate(-90deg);width:100%;text-align:center}}
 .rxdiv{list-style:none;padding:0;margin:6px 0}.rxdiv li{margin:2px 0}
 .jlbtns{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}.jlstats{margin:6px 0}.jlstats .tgb{vertical-align:baseline;font-size:.85rem;padding:2px 10px}
+/* join lab: stacked — query, source tables, result; fixed-height parts so switching never shifts the page */
+.jlbox{display:flex;flex-direction:column;gap:14px}
+.jlsec{background:var(--grid);border-radius:12px;padding:10px 12px}
+.jlsrc{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-start;justify-content:center}
+.jlsrc .srct .rtwrap{margin:0}
+.jlsrc .rtname:empty,.jlout .rtname:empty{display:none}
+.jlout{max-height:380px;overflow-y:auto;overflow-x:auto}
+.jlout thead th{position:sticky;top:0;z-index:1}
+.jlout .rtwrap{margin:0 auto}
+.jlhead .jlwhy{margin:8px 0 0}
