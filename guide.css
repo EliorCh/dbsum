@@ -760,3 +760,15 @@ details.tgmiss{margin-top:8px}details.tgmiss>summary{cursor:pointer;font-weight:
 .e3pick{font-weight:700;font-size:.92rem;margin:10px 0 4px}
 .e3next{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
 #ex3Tabs{scroll-margin-top:70px}
+/* exercise 3: alternative formulations */
+.e3alt{margin-top:14px;border-top:1px dashed var(--line,#cfd6e4);padding-top:10px}
+.e3althead{font-weight:800;font-size:.95rem;margin-bottom:6px}
+.e3altbtns{display:flex;flex-wrap:wrap;gap:6px}
+.e3altbtns .chip{position:relative;padding-inline-start:22px}
+.e3altbtns .chip::before{content:"";position:absolute;inset-inline-start:9px;top:50%;width:8px;height:8px;border-radius:50%;transform:translateY(-50%);background:var(--att)}
+.e3altbtns .chip.k-risk::before{background:var(--rel)}.e3altbtns .chip.k-trap::before{background:var(--key)}.e3altbtns .chip.k-note::before{background:#7a5af5}
+.e3altp{margin-top:10px;background:var(--grid);border-radius:10px;padding:10px 12px}
+.e3altk{margin-bottom:6px}.vd.alt{background:#ece7ff;color:#5b3fd1}
+.e3leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.8rem;color:var(--muted,#667);margin-bottom:6px}
+.e3leg span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:5px;background:var(--att)}
+.e3leg .k-risk::before{background:var(--rel)}.e3leg .k-trap::before{background:var(--key)}.e3leg .k-note::before{background:#7a5af5}

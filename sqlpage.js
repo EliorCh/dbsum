@@ -131,6 +131,30 @@ document.querySelectorAll('.sqlex[data-ex]').forEach(el=>{
   N.innerHTML=`<div class="rtrow">${relTable(toRel(R.table),null,{label:'t',noprov:1}).replace(/<td class="">null<\/td>/,'<td class="nul">null</td>')}
    <div class="rtwrap"><table class="rt nulltab"><tbody>${items.map(([e,val,why])=>`<tr><td dir="ltr"><code class="xp">${e}</code></td><td class="big">${val}</td><td class="why">${capHTML(why)}</td></tr>`).join('')}</tbody></table></div></div>`;}}
 
+/* ---- exercise 3: other ways to write the same query ---- */
+const AK={eq:['שקול','ok'],risk:['אותה תוצאה כאן — לא תמיד','note'],trap:['מלכודת','fix'],note:['שונה בכוונה','alt']};
+const rkey=r=>JSON.stringify(r.rows.map(x=>JSON.stringify(x.map(v=>typeof v==='number'?Math.round(v*1000)/1000:v))).sort());
+function altBox(el,e,AL){
+  const box=document.createElement('div');box.className='e3alt';
+  box.innerHTML=`<div class="e3althead">דרכים נוספות לכתוב — ומתי הן לא עובדות</div><div class="e3leg">${[...new Set(AL.map(a=>a.kind))].map(k=>`<span class="k-${k}">${AK[k][0]}</span>`).join('')}</div>
+   <div class="e3altbtns">${AL.map((a,i)=>`<button type="button" class="chip k-${a.kind}" data-i="${i}" aria-pressed="false">${esc(a.lab)}</button>`).join('')}</div><div class="e3altp" hidden></div>`;
+  el.append(box);const P=box.querySelector('.e3altp');let mainR=null,cur=-1;
+  box.querySelector('.e3altbtns').addEventListener('click',async ev=>{const b=ev.target.closest('.chip');if(!b)return;const i=+b.dataset.i;
+    if(i===cur){cur=-1;P.hidden=true;b.setAttribute('aria-pressed','false');return;}cur=i;
+    box.querySelectorAll('.e3altbtns .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));
+    const a=AL[i],[kl,kc]=AK[a.kind];let res='';
+    if(a.norun)res=`<div class="sqlmsg">SQL תקני, אבל SQLite (שמריץ את הדוגמאות באתר) לא תומך ב־all / some — לכן אין כאן הרצה.</div>`;
+    else{try{const r=await runLive(e.db,a.sql);if(i!==cur)return;
+      if(r.error)res=resultHTML(r);else{let v='';
+        if(!a.nocmp){if(!mainR)mainR=await runLive(e.db,e.sql);const same=!mainR.error&&rkey(r)===rkey(mainR);
+          v=`<div class="verdict ${same?'good':'bad'}">${same?'אותה תוצאה כמו הפתרון ✓':'תוצאה שונה מהפתרון ✗'}</div>`;}
+        res=v+resultHTML(r,'תוצאה על נתוני הדוגמה');}}catch(x){res=`<div class="sqlerr">${esc(x.message)}</div>`;}}
+    if(i!==cur)return;
+    P.innerHTML=`<div class="e3altk"><span class="vd ${kc}">${kl}</span></div><pre class="sqlcode">${hl(a.sql)}</pre><p class="sxnote">${capHTML(a.why)}</p><div class="sxres">${res}</div>
+      ${a.norun?'':'<div class="ldbtns"><button class="btn ghost editBtn" type="button">ערוך והרץ</button></div><div class="sxed" hidden></div>'}`;P.hidden=false;
+    const eb=P.querySelector('.editBtn');if(eb){const ed=P.querySelector('.sxed');eb.onclick=()=>{ed.hidden=!ed.hidden;eb.textContent=ed.hidden?'ערוך והרץ':'סגור עורך';if(!ed.innerHTML)editor(ed,e.db,a.sql);};}
+  });
+}
 /* ---- exercise 3 review ---- */
 {const L=document.getElementById('ex3List'),T=document.getElementById('ex3Tabs');if(L){
   const vt={ok:'תקין',note:'הערה',fix:'תיקון'};
@@ -144,6 +168,7 @@ document.querySelectorAll('.sqlex[data-ex]').forEach(el=>{
   L.querySelectorAll('.e3').forEach(el=>{const e=SQLD.EX3.find(x=>x.id===el.id);
     const b=el.querySelector('.editBtn'),ed=el.querySelector('.sxed');let made=false;
     b.onclick=()=>{ed.hidden=!ed.hidden;b.textContent=ed.hidden?'ערוך והרץ':'סגור עורך';if(!made){made=true;editor(ed,e.db,e.sql);}};
+    const AL=(window.EX3ALT||{})[e.id];if(AL)altBox(el,e,AL);
 });
   const qs=['1','2','3','4','5'],names={1:'1. אנשים ומכוניות',2:'2. שאילתות (כמו תרגיל 2)',3:'3. עדכונים',4:'4. תצפיות',5:'5. הקבצה'};
   T.className='practice-tabs';T.innerHTML=qs.map((q,i)=>`<button type="button" data-q="${q}" aria-pressed="${i===0}">${names[q]}</button>`).join('');
