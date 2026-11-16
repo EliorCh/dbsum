@@ -36,5 +36,7 @@ host.querySelectorAll('.ex4t').forEach(el=>{const t=M.tasks[+el.dataset.i];
       out.innerHTML=`<div class="verdict ${ok?'good':'bad'}">${ok?'נכון ✓':`עדיין לא: אצלך ${r.rows.length} שורות, ובתוצאה הצפויה ${want}.${r.rows.length===want?' מספר השורות זהה — בדוק את הערכים או את העמודות.':''}`}</div>${K.resultHTML(r,'התוצאה שלך')}`;
     }catch(e){out.innerHTML=`<div class="sqlerr">${esc(e.message)}</div>`;}};
   el.querySelector('.runBtn').onclick=go;ta.addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();go();}});
+  if(window.SQLX){const pre=t.pre||'';SQLX.button(el.querySelector('.ldbtns'),'ex4',()=>ta.value,'פרק את השאילתה שלי',loadData,pre);
+    const sol=el.querySelector('details.sol');if(sol){sol.insertAdjacentHTML('beforeend','<div class="ldbtns"></div>');SQLX.button(sol.querySelector('.ldbtns'),'ex4',()=>t.sql,null,loadData,pre);}}
 });
 })();

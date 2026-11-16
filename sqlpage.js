@@ -55,6 +55,7 @@ function editor(host,dbKey,sql,onRun){
   const ta=host.querySelector('textarea'),out=host.querySelector('.sqlout');
   const go=async()=>{out.innerHTML='<div class="sqlmsg">מריץ…</div>';try{const r=await runLive(dbKey,ta.value);out.innerHTML=onRun?onRun(r):resultHTML(r,'התוצאה שלך');}catch(e){out.innerHTML=`<div class="sqlerr">${esc(e.message)}. אפשר עדיין לקרוא את התוצאות המחושבות בעמוד.</div>`;}};
   host.querySelector('.runBtn').onclick=go;host.querySelector('.resetBtn').onclick=()=>{ta.value=sql;out.innerHTML='';};
+  if(window.SQLX)SQLX.button(host.querySelector('.ldbtns'),dbKey,()=>ta.value,'פרק את השאילתה שלי');
   ta.addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();go();}});
   return {go,ta};
 }
@@ -133,10 +134,7 @@ document.querySelectorAll('.sqlex[data-ex]').forEach(el=>{
    <div class="rtwrap"><table class="rt nulltab"><tbody>${items.map(([e,val,why])=>`<tr><td dir="ltr"><code class="xp">${e}</code></td><td class="big">${val}</td><td class="why">${capHTML(why)}</td></tr>`).join('')}</tbody></table></div></div>`;}}
 
 /* ---- interactive breakdown button ---- */
-function xbtn(host,db,sql){const bar=host.querySelector('.ldbtns');if(!bar||!window.SQLX)return;
-  const b=document.createElement('button');b.type='button';b.className='btn xbtn';b.textContent='פירוק אינטראקטיבי';bar.prepend(b);
-  const box=document.createElement('div');box.className='sqlx';box.hidden=true;bar.after(box);let made=false;
-  b.onclick=()=>{box.hidden=!box.hidden;b.textContent=box.hidden?'פירוק אינטראקטיבי':'סגור פירוק';if(!made){made=true;SQLX.mount(box,db,sql);}};}
+function xbtn(host,db,sql){if(window.SQLX)SQLX.button(host.querySelector(':scope > .ldbtns, .ldbtns'),db,()=>sql);}
 /* ---- exercise 3: other ways to write the same query ---- */
 const AK={eq:['שקול','ok'],risk:['אותה תוצאה כאן — לא תמיד','note'],trap:['מלכודת','fix'],note:['שונה בכוונה','alt']};
 const rkey=r=>JSON.stringify(r.rows.map(x=>JSON.stringify(x.map(v=>typeof v==='number'?Math.round(v*1000)/1000:v))).sort());

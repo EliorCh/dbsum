@@ -80,5 +80,7 @@ document.querySelectorAll('.mtask[data-task]').forEach(el=>{
       out.innerHTML=`<div class="verdict ${ok?'good':'bad'}">${ok?'נכון ✓':`עדיין לא: אצלך ${r.rows.length} שורות, ובתוצאה הצפויה ${t.expected.rows.length}.${r.rows.length===t.expected.rows.length?' מספר השורות זהה — בדוק את הערכים.':''}`}</div>${K.resultHTML(r,what)}`;
     }catch(e){out.innerHTML=`<div class="sqlerr">${esc(e.message)}</div>`;}};
   el.querySelector('.runBtn').onclick=go;ta.addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();go();}});
+  if(window.SQLX){SQLX.button(el.querySelector('.ldbtns'),t.db,()=>ta.value,'פרק את השאילתה שלי');
+    const sol=el.querySelector('details.sol');if(sol){sol.insertAdjacentHTML('beforeend','<div class="ldbtns"></div>');SQLX.button(sol.querySelector('.ldbtns'),t.db,()=>t.sql);}}
 });
 })();
