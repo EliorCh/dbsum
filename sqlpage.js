@@ -143,7 +143,7 @@ function altBox(el,e,AL){
     if(i===cur){cur=-1;P.hidden=true;b.setAttribute('aria-pressed','false');return;}cur=i;
     box.querySelectorAll('.e3altbtns .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));
     const a=AL[i],[kl,kc]=AK[a.kind];let res='';
-    if(a.norun)res=`<div class="sqlmsg">SQL תקני, אבל SQLite (שמריץ את הדוגמאות באתר) לא תומך ב־all / some — לכן אין כאן הרצה.</div>`;
+    if(a.norun)res=`<div class="sqlmsg">${typeof a.norun==='string'?esc(a.norun):'SQL תקני, אבל SQLite (שמריץ את הדוגמאות באתר) לא תומך ב־all / some — לכן אין כאן הרצה.'}</div>`;
     else{try{const r=await runLive(e.db,a.sql);if(i!==cur)return;
       if(r.error)res=resultHTML(r);else{let v='';
         if(!a.nocmp){if(!mainR)mainR=await runLive(e.db,e.sql);const same=!mainR.error&&rkey(r)===rkey(mainR);
