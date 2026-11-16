@@ -156,30 +156,21 @@ function altBox(el,e,AL){
   });
 }
 /* ---- exercise 3 review ---- */
-{const L=document.getElementById('ex3List'),T=document.getElementById('ex3Tabs');if(L){
+{const L=document.getElementById('ex3List');if(L){
   const vt={ok:'תקין',note:'הערה',fix:'תיקון'};
-  L.innerHTML=SQLD.EX3.map(e=>`<div class="sqlex e3" data-q="${e.id[1]}" id="${e.id}">
+  const card=e=>`<div class="sqlex e3" data-q="${e.id[1]}" id="${e.id}">
     <div class="sxq"><span class="vd ${e.verdict}">${vt[e.verdict]}</span> ${capHTML(e.q)}</div>
     ${withSide(`<div class="sxlab">בפתרון הרשמי</div><pre class="sqlcode course">${hl(e.official)}</pre>
     <div class="sxlab">גרסה שרצה ב־SQLite</div><pre class="sqlcode">${hl(e.sql)}</pre>
     ${e.note?`<p class="sxnote">${capHTML(e.note)}</p>`:''}
     <div class="sxres">${e.diff?resultHTML(e.res,`${e.diff} אחרי הפקודה`,e.before):resultHTML(e.res,'תוצאה על נתוני הדוגמה')}</div>
-    <div class="ldbtns"><button class="btn ghost editBtn" type="button">ערוך והרץ</button></div><div class="sxed" hidden></div>`,sourcesHTML(e.db,e.sql,'נתוני הדוגמה בשאילתה'))}</div>`).join('');
+    <div class="ldbtns"><button class="btn ghost editBtn" type="button">ערוך והרץ</button></div><div class="sxed" hidden></div>`,sourcesHTML(e.db,e.sql,'נתוני הדוגמה בשאילתה'))}</div>`;
+  L.querySelectorAll('.ex3grp').forEach(g=>{g.innerHTML=SQLD.EX3.filter(e=>e.id[1]===g.dataset.q).map(card).join('');});
   L.querySelectorAll('.e3').forEach(el=>{const e=SQLD.EX3.find(x=>x.id===el.id);
     const b=el.querySelector('.editBtn'),ed=el.querySelector('.sxed');let made=false;
     b.onclick=()=>{ed.hidden=!ed.hidden;b.textContent=ed.hidden?'ערוך והרץ':'סגור עורך';if(!made){made=true;editor(ed,e.db,e.sql);}};
     const AL=(window.EX3ALT||{})[e.id];if(AL)altBox(el,e,AL);
 });
-  const qs=['1','2','3','4','5'],names={1:'1. אנשים ומכוניות',2:'2. שאילתות (כמו תרגיל 2)',3:'3. עדכונים',4:'4. תצפיות',5:'5. הקבצה'};
-  T.className='practice-tabs';T.innerHTML=qs.map((q,i)=>`<button type="button" data-q="${q}" aria-pressed="${i===0}">${names[q]}</button>`).join('');
-  T.insertAdjacentHTML('beforebegin','<div class="e3pick">בחר שאלה:</div>');
-  const nx=document.createElement('div');nx.className='e3next';L.after(nx);
-  const show=(q,jump)=>{L.querySelectorAll('.e3').forEach(x=>x.hidden=x.dataset.q!==q);T.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.q===q));
-    const i=qs.indexOf(q),n=qs[i+1],pv=qs[i-1];
-    nx.innerHTML=(pv?`<button type="button" class="btn ghost" data-q="${pv}">→ ${names[pv]}</button>`:'<span></span>')+(n?`<button type="button" class="btn" data-q="${n}">${names[n]} ←</button>`:'');
-    if(jump)T.scrollIntoView({block:'start'});};
-  T.onclick=e=>{const b=e.target.closest('button');if(b)show(b.dataset.q);};
-  nx.onclick=e=>{const b=e.target.closest('button');if(b)show(b.dataset.q,true);};show('1');
 }}
 
 /* ---- practice with auto-check ---- */
