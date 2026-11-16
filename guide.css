@@ -772,3 +772,13 @@ details.tgmiss{margin-top:8px}details.tgmiss>summary{cursor:pointer;font-weight:
 .e3leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.8rem;color:var(--muted,#667);margin-bottom:6px}
 .e3leg span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:5px;background:var(--att)}
 .e3leg .k-risk::before{background:var(--rel)}.e3leg .k-trap::before{background:var(--key)}.e3leg .k-note::before{background:#7a5af5}
+/* lecture emphases */
+.lecgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:14px;margin-top:10px}
+.lec{border:1px solid var(--line,#d9dfeb);border-inline-start:4px solid var(--rel);border-radius:10px;padding:10px 14px;background:var(--surface);min-width:0}
+.lec.exam{border-inline-start-color:var(--key)}.lec.tip{border-inline-start-color:var(--att)}.lec.scope{border-inline-start-color:#8a94a6}
+.lech{font-weight:800;margin-bottom:6px;line-height:1.5}
+.lect{display:inline-block;font-size:.72rem;font-weight:800;border-radius:5px;padding:1px 8px;margin-inline-end:8px;vertical-align:middle;background:var(--rel-bg);color:var(--rel)}
+.lec.exam .lect{background:var(--warn-bg);color:var(--key)}.lec.tip .lect{background:var(--att-bg);color:var(--att)}.lec.scope .lect{background:var(--grid);color:var(--muted)}
+.lec p{margin:.4em 0}.lec pre.sqlcode{font-size:.85rem}.lec .tbl{margin:.5em 0}.lec ul{margin:.3em 0;padding-inline-start:1.2em}
+.lecexam{max-width:900px;margin:0 auto 18px}
+.lec pre.sqlcode{white-space:pre-wrap;overflow-wrap:anywhere}
