@@ -77,6 +77,7 @@ document.querySelectorAll('.sqlex[data-ex]').forEach(el=>{
    <div class="sxres">${res}</div>
    ${e.note?`<p class="sxnote">${capHTML(e.note)}</p>`:''}
    <div class="ldbtns"><button class="btn ghost editBtn" type="button">ערוך והרץ</button></div><div class="sxed" hidden></div>`,sourcesHTML(e.db,e.sql,e.diff?'הטבלאות לפני הפקודה':null));
+  if(!e.res.error)xbtn(el,e.db,e.sql);
   const b=el.querySelector('.editBtn'),ed=el.querySelector('.sxed');let made=false;
   b.onclick=()=>{ed.hidden=!ed.hidden;b.textContent=ed.hidden?'ערוך והרץ':'סגור עורך';
     if(!made){made=true;editor(ed,e.db,e.sql+(e.after?';\n'+e.after:''),r=>resultHTML(r,'התוצאה שלך',e.diff?e.before:null));}};
@@ -131,6 +132,11 @@ document.querySelectorAll('.sqlex[data-ex]').forEach(el=>{
   N.innerHTML=`<div class="rtrow">${relTable(toRel(R.table),null,{label:'t',noprov:1}).replace(/<td class="">null<\/td>/,'<td class="nul">null</td>')}
    <div class="rtwrap"><table class="rt nulltab"><tbody>${items.map(([e,val,why])=>`<tr><td dir="ltr"><code class="xp">${e}</code></td><td class="big">${val}</td><td class="why">${capHTML(why)}</td></tr>`).join('')}</tbody></table></div></div>`;}}
 
+/* ---- interactive breakdown button ---- */
+function xbtn(host,db,sql){const bar=host.querySelector('.ldbtns');if(!bar||!window.SQLX)return;
+  const b=document.createElement('button');b.type='button';b.className='btn xbtn';b.textContent='פירוק אינטראקטיבי';bar.prepend(b);
+  const box=document.createElement('div');box.className='sqlx';box.hidden=true;bar.after(box);let made=false;
+  b.onclick=()=>{box.hidden=!box.hidden;b.textContent=box.hidden?'פירוק אינטראקטיבי':'סגור פירוק';if(!made){made=true;SQLX.mount(box,db,sql);}};}
 /* ---- exercise 3: other ways to write the same query ---- */
 const AK={eq:['שקול','ok'],risk:['אותה תוצאה כאן — לא תמיד','note'],trap:['מלכודת','fix'],note:['שונה בכוונה','alt']};
 const rkey=r=>JSON.stringify(r.rows.map(x=>JSON.stringify(x.map(v=>typeof v==='number'?Math.round(v*1000)/1000:v))).sort());
@@ -152,6 +158,7 @@ function altBox(el,e,AL){
     if(i!==cur)return;
     P.innerHTML=`<div class="e3altk"><span class="vd ${kc}">${kl}</span></div><pre class="sqlcode">${hl(a.sql)}</pre><p class="sxnote">${capHTML(a.why)}</p><div class="sxres">${res}</div>
       ${a.norun?'':'<div class="ldbtns"><button class="btn ghost editBtn" type="button">ערוך והרץ</button></div><div class="sxed" hidden></div>'}`;P.hidden=false;
+    if(!a.norun)xbtn(P,e.db,a.sql);
     const eb=P.querySelector('.editBtn');if(eb){const ed=P.querySelector('.sxed');eb.onclick=()=>{ed.hidden=!ed.hidden;eb.textContent=ed.hidden?'ערוך והרץ':'סגור עורך';if(!ed.innerHTML)editor(ed,e.db,a.sql);};}
   });
 }
@@ -169,6 +176,7 @@ function altBox(el,e,AL){
   L.querySelectorAll('.e3').forEach(el=>{const e=SQLD.EX3.find(x=>x.id===el.id);
     const b=el.querySelector('.editBtn'),ed=el.querySelector('.sxed');let made=false;
     b.onclick=()=>{ed.hidden=!ed.hidden;b.textContent=ed.hidden?'ערוך והרץ':'סגור עורך';if(!made){made=true;editor(ed,e.db,e.sql);}};
+    xbtn(el,e.db,e.sql);
     const AL=(window.EX3ALT||{})[e.id];if(AL)altBox(el,e,AL);
 });
 }}
