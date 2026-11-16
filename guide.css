@@ -757,3 +757,6 @@ details.tgmiss{margin-top:8px}details.tgmiss>summary{cursor:pointer;font-weight:
 .jlout thead th{position:sticky;top:0;z-index:1}
 .jlout .rtwrap{margin:0 auto}
 .jlhead .jlwhy{margin:8px 0 0}
+.e3pick{font-weight:700;font-size:.92rem;margin:10px 0 4px}
+.e3next{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
+#ex3Tabs{scroll-margin-top:70px}

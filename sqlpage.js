@@ -147,8 +147,14 @@ document.querySelectorAll('.sqlex[data-ex]').forEach(el=>{
 });
   const qs=['1','2','3','4','5'],names={1:'1. אנשים ומכוניות',2:'2. שאילתות (כמו תרגיל 2)',3:'3. עדכונים',4:'4. תצפיות',5:'5. הקבצה'};
   T.className='practice-tabs';T.innerHTML=qs.map((q,i)=>`<button type="button" data-q="${q}" aria-pressed="${i===0}">${names[q]}</button>`).join('');
-  const show=q=>{L.querySelectorAll('.e3').forEach(x=>x.hidden=x.dataset.q!==q);T.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.q===q));};
-  T.onclick=e=>{const b=e.target.closest('button');if(b)show(b.dataset.q);};show('1');
+  T.insertAdjacentHTML('beforebegin','<div class="e3pick">בחר שאלה:</div>');
+  const nx=document.createElement('div');nx.className='e3next';L.after(nx);
+  const show=(q,jump)=>{L.querySelectorAll('.e3').forEach(x=>x.hidden=x.dataset.q!==q);T.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.q===q));
+    const i=qs.indexOf(q),n=qs[i+1],pv=qs[i-1];
+    nx.innerHTML=(pv?`<button type="button" class="btn ghost" data-q="${pv}">→ ${names[pv]}</button>`:'<span></span>')+(n?`<button type="button" class="btn" data-q="${n}">${names[n]} ←</button>`:'');
+    if(jump)T.scrollIntoView({block:'start'});};
+  T.onclick=e=>{const b=e.target.closest('button');if(b)show(b.dataset.q);};
+  nx.onclick=e=>{const b=e.target.closest('button');if(b)show(b.dataset.q,true);};show('1');
 }}
 
 /* ---- practice with auto-check ---- */
