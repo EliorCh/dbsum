@@ -877,3 +877,5 @@ details.tgmiss{margin-top:8px}details.tgmiss>summary{cursor:pointer;font-weight:
 .srch-res mark,mark.srch-hit{background:#ffe58a;color:#111;border-radius:3px;padding:0 1px}
 html.srch-open{overflow:hidden}
 @media print{.srch-btn{display:none}}
+/* keep the SQL palette button clear of the shared theme switcher (bottom-left on the GitHub site) */
+body:has(.mta-theme-float) .palfab{bottom:68px}
