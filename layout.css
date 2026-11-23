@@ -214,20 +214,29 @@ html.proto .mta-expand,html.proto .mta-srch-fab{z-index:60!important}
 .xtw td.xcfade,.xtw th.xcfade{opacity:.3}
 html.proto .pmap a:focus-visible{outline:2px solid var(--ent,#2457C5);outline-offset:1px}
 html.proto main section[id]{scroll-margin-top:66px}
-/* data dock on study pages (wide screens) */
+/* data dock on study pages */
 .dock{display:none}
-@media (min-width:1200px){
- html.has-dock .dock{display:flex;flex-direction:column;position:fixed;left:14px;top:62px;bottom:14px;width:min(600px,42vw);z-index:40;background:#fffefa;border:1px solid #e7e5e0;border-radius:14px;box-shadow:0 4px 18px rgba(28,25,23,.08);overflow:hidden}
- html.has-dock main{padding-left:calc(min(600px,42vw) + 30px)!important}
+html.has-dock .dock{display:flex;flex-direction:column;position:fixed;z-index:40;background:#fffefa;border:1px solid #e7e5e0;box-shadow:0 4px 18px rgba(28,25,23,.08);overflow:hidden}
+html.has-dock main .srcside{display:none!important}
+html.has-dock main .sxgrid{display:block!important}
+html.has-dock .sqlex .sqlx .xsrcbox,html.has-dock .sqlp .sqlx .xsrcbox{display:none}
+html.has-dock .dock .xsrcbox{display:block!important;min-height:0!important}
+html.has-dock #playSchema{display:none}
+html.has-dock .docked-on{box-shadow:0 0 0 2px var(--ent,#2457C5)!important;border-radius:12px}
+@media (min-width:760px){
+ html.has-dock .dock{left:12px;top:62px;bottom:12px;width:clamp(300px,40vw,600px);border-radius:14px}
+ html.has-dock main{padding-left:calc(clamp(300px,40vw,600px) + 26px)!important}
  html.has-dock .wrap{max-width:none!important;margin:0!important}
  html.has-dock body .wrap>section:not(.hero){max-width:900px!important;margin-inline:0 auto!important}
- html.has-dock .sqlex .srcside,html.has-dock .ex.sqlstep .srcside{display:none!important}
- html.has-dock .sqlex .sxgrid{display:block!important}
- html.has-dock .sqlex.docked-on,html.has-dock .ex.sqlstep.docked-on{box-shadow:0 0 0 2px var(--ent,#2457C5)!important;border-radius:12px}
- html.has-dock .sqlex .sqlx .xsrcbox{display:none}
- html.has-dock .dock .xsrcbox{display:block!important;min-height:0!important}
+ html.has-dock .dockh{cursor:default;pointer-events:none}
 }
-.dockh{padding:10px 14px;border-bottom:1px solid #e7e5e0;background:var(--ent-bg,#E6EEFC);display:flex;flex-direction:column;gap:2px}
+@media (max-width:759px){
+ html.has-dock .dock{left:0;right:0;bottom:0;max-height:44px;border-radius:14px 14px 0 0;transition:max-height .25s}
+ html.has-dock .dock.open{max-height:62vh}
+ html.has-dock body{padding-bottom:56px!important}
+ .dockq{display:none!important}
+}
+.dockh{all:unset;box-sizing:border-box;width:100%;padding:10px 14px;cursor:pointer;border-bottom:1px solid #e7e5e0;background:var(--ent-bg,#E6EEFC);display:flex;flex-direction:column;gap:2px}
 .dockt{font-size:12px;font-weight:800;color:var(--ent,#2457C5);letter-spacing:.04em}
 .dockq{font-size:14px;font-weight:600;color:#1c1917;line-height:1.45;height:2.9em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .docks{flex:1;overflow:auto;padding:10px 12px}
@@ -265,3 +274,7 @@ html.proto .lec .pbh .lect{background:#fff;font-size:11.5px;padding:1px 9px}
 html.proto .method>li{padding-top:8px!important;padding-bottom:8px!important;padding-inline-start:46px!important}
 html.proto .method>li::before{width:30px!important;height:30px!important;font-size:15px!important;top:10px!important;background:var(--ent,#2457C5)!important;color:#fff!important;font-family:Assistant,sans-serif!important;font-weight:800}
 html.proto .method>li h3{margin:2px 0 4px!important;font-size:19px!important}
+.dockdb{font-style:normal;color:#57534e;font-weight:600}
+.dock .xrow td{background:var(--rel-bg,#FCF0DC)!important}
+.docknote{background:var(--ent-bg,#E6EEFC);border-radius:10px;padding:10px 14px}
+html.has-dock .jlbox .jlsec{display:none!important}

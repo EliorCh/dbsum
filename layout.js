@@ -189,33 +189,49 @@ document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){
 })();
 
 /* ===== study pages: one data dock for the whole page =====
-   Examples on a page share their data, so the tables live once, in a dock beside the text.
-   The example in view drives the dock; an open breakdown marks the dock tables in place. */
+   Examples on a page share their data, so the tables live once, in a dock beside the text
+   (a drawer at the bottom on phones). The example in view drives the dock; an open breakdown
+   marks the dock tables in place. No example repeats the tables. */
 (function(){
 document.addEventListener('DOMContentLoaded',function(){setTimeout(init,1300)});
 function init(){
  if(!document.body.classList.contains('chapter')||document.body.classList.contains('exw'))return;
  if(typeof SQLD==='undefined'||!window.SQLKIT)return;
- var cards=[].slice.call(document.querySelectorAll('.sqlex[data-ex], .ex.sqlstep'));if(cards.length<2)return;
  var EX={};(SQLD.EX||[]).forEach(function(e){EX[e.id]=e});
- function info(c){if(c.classList.contains('sqlstep'))return {db:'bank',sql:'select * from deposit natural join customer',q:(c.querySelector('.q')||{}).textContent||''};
+ var set=new Set();
+ document.querySelectorAll('main .srcside').forEach(function(sd){var c=sd.closest('.sqlex, .sqlp, .ex')||sd.parentElement;set.add(c)});
+ document.querySelectorAll('.sqlex[data-ex], .ex.sqlstep, #playBox, .jlbox').forEach(function(c){set.add(c)});
+ var cards=Array.from(set).filter(function(c){return c&&c.closest('main')});
+ cards.sort(function(a,b){return a.compareDocumentPosition(b)&Node.DOCUMENT_POSITION_FOLLOWING?-1:1});
+ if(cards.length<2)return;
+ function info(c){
+  if(c.id==='playBox'){var sel=document.getElementById('playDb');return {db:sel?sel.value:'bank',sql:'',q:'ארגז חול — המאגר שנבחר',all:true}}
+  if(c.classList.contains('sqlstep'))return {db:'bank',sql:'select * from deposit natural join customer',q:(c.querySelector('.q')||{}).textContent||''};
+  if(c.classList.contains('jlbox')){var q=c.querySelector('pre.sqlcode, pre');return {db:'bank',sql:q?q.textContent:'',q:'מעבדת הצירופים'}}
+  if(c.classList.contains('sqlp'))return {db:'bank',sql:'',q:(c.querySelector('.lq')||{}).textContent||'',all:true};
   var e=EX[c.dataset.ex]||{};return {db:e.db||'bank',sql:e.sql||'',q:((c.querySelector('.sxq')||{}).textContent||e.q||'')}}
  var dock=document.createElement('aside');dock.className='dock';
- dock.innerHTML='<div class="dockh"><span class="dockt">הנתונים של הדוגמה</span><span class="dockq"></span></div><div class="docks"></div>';
+ dock.innerHTML='<button type="button" class="dockh"><span class="dockt">הנתונים של הדוגמה <i class="dockdb"></i></span><span class="dockq"></span></button><div class="docks"></div>';
  document.body.appendChild(dock);document.documentElement.classList.add('has-dock');
- var slot=dock.querySelector('.docks'),qEl=dock.querySelector('.dockq'),cur=null,park=null;
+ dock.querySelector('.dockh').onclick=function(){dock.classList.toggle('open')};
+ var slot=dock.querySelector('.docks'),qEl=dock.querySelector('.dockq'),dbEl=dock.querySelector('.dockdb'),cur=null,park=null;
+ var DBN={bank:'הבנק',work:'עובדים וחברות',cars:'אנשים ומכוניות',fk:'מפתחות זרים'};
  function unpark(){if(park){park[0].parentNode.insertBefore(park[1],park[0]);park[0].remove();park=null}}
- function show(c){cur=c;unpark();var I=info(c);qEl.textContent=I.q.replace(/^(השאילתה)/,'').trim();
+ function markExtra(db){if(db!=='bank'||!SQLD.EXTRA)return;slot.querySelectorAll('.srct').forEach(function(t){var ex=SQLD.EXTRA[t.dataset.t]||[];t.querySelectorAll('tbody tr').forEach(function(tr,i){if(ex.includes(i))tr.classList.add('xrow')})})}
+ function show(c,force){if(c===cur&&!force)return;cur=c;unpark();var I=info(c);qEl.textContent=I.q.replace(/^(השאילתה)/,'').trim();dbEl.textContent=DBN[I.db]?'· '+DBN[I.db]:'';
   var sb=c.querySelector('.sqlx:not([hidden]) .xsrcbox');
   if(sb&&sb.children.length){var m=document.createComment('dock');sb.parentNode.insertBefore(m,sb);park=[m,sb];slot.innerHTML='';slot.appendChild(sb);dock.classList.add('live')}
-  else{dock.classList.remove('live');slot.innerHTML=SQLKIT.sourcesHTML(I.db,I.sql,'',false)||''}
+  else{dock.classList.remove('live');slot.innerHTML=SQLKIT.sourcesHTML(I.db,I.sql,'',!!I.all)||'';markExtra(I.db)}
   cards.forEach(function(x){x.classList.toggle('docked-on',x===c)})}
- function pick(){var y=innerHeight*0.35,best=null,bd=1e9;cards.forEach(function(c){var r=c.getBoundingClientRect();if(r.bottom<80||r.top>innerHeight)return;var d=r.top<=y&&r.bottom>=y?0:Math.min(Math.abs(r.top-y),Math.abs(r.bottom-y));if(d<bd){bd=d;best=c}});
-  if(best&&best!==cur)show(best)}
+ function pick(){var y=innerHeight*0.35,best=null,bd=1e9;cards.forEach(function(c){var r=c.getBoundingClientRect();if(!r.height||r.bottom<80||r.top>innerHeight)return;var d=r.top<=y&&r.bottom>=y?0:Math.min(Math.abs(r.top-y),Math.abs(r.bottom-y));if(d<bd){bd=d;best=c}});
+  if(best)show(best)}
  addEventListener('scroll',function(){if(!pick.t)pick.t=requestAnimationFrame(function(){pick.t=0;pick()})},{passive:true});
- // opening a breakdown hands its tables to the dock
- document.addEventListener('click',function(e){var b=e.target.closest('.xbtn');if(!b)return;var c=b.closest('.sqlex, .ex.sqlstep');if(!c)return;
-  var n=0,iv=setInterval(function(){var sb=c.querySelector('.sqlx:not([hidden]) .xsrcbox');if((sb&&sb.children.length)||++n>50){clearInterval(iv);show(c)}else if(c.querySelector('.sqlx[hidden]')){clearInterval(iv);show(c)}},100)},true);
+ document.querySelectorAll('.jlbox').forEach(function(j){j.addEventListener('click',function(){setTimeout(function(){if(cur===j)show(j,true)},60)})});
+ var ps=document.getElementById('playDb');if(ps)ps.addEventListener('change',function(){if(cur&&cur.id==='playBox')show(cur,true)});
+ document.addEventListener('click',function(e){var b=e.target.closest('.xbtn');if(!b)return;var c=cards.find(function(x){return x.contains(b)});if(!c)return;
+  var n=0,iv=setInterval(function(){var sb=c.querySelector('.sqlx:not([hidden]) .xsrcbox');if((sb&&sb.children.length)||++n>50||c.querySelector('.sqlx[hidden]')){clearInterval(iv);show(c,true)}},100)},true);
+ // the data section itself now lives in the dock
+ var bg=document.getElementById('sqlBank');if(bg){bg.style.display='none';var n=document.createElement('p');n.className='docknote';n.textContent='הטבלאות עצמן מוצגות בחלונית הנתונים, ונשארות שם לאורך כל העמוד. השורות שנוספו מסומנות בה בצבע.';bg.parentNode.insertBefore(n,bg)}
  pick();if(!cur)show(cards[0]);
 }
 })();
