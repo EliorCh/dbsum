@@ -174,7 +174,7 @@ function build(){
  /* one floating toggle, bottom right, same size in both views */
  var fb=document.createElement('button');fb.type='button';fb.className='splfab';document.body.appendChild(fb);
  function fbText(){fb.innerHTML=ov.hidden?'⇆ עבור לתצוגה מפוצלת':'✕ חזור לתצוגה רגילה'}
- function nearest(){var y=innerHeight*0.3,best=0;U.forEach(function(u,k){var e=u.data[0];if(!e||!e.getBoundingClientRect)return;if(e.getBoundingClientRect().top<=y)best=k});return best}
+ function nearest(){var y=innerHeight*0.15,best=0,hit=-1;U.forEach(function(u,k){var e=u.data[0];if(!e||!e.getBoundingClientRect)return;var w=e.closest('.pqw, .e3')||e;var r=w.getBoundingClientRect();if(r.top<=y){best=k;if(r.bottom>=y&&hit<0)hit=k}});return hit>=0?hit:best}
  fb.onclick=function(){if(ov.hidden)open(nearest());else close();fbText()};
  var _o=open,_c=close;open=function(i){_o(i);fbText()};close=function(){_c();fbText()};fbText();
 }
