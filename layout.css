@@ -344,3 +344,4 @@ html.has-dock .jlbox .jlsec{display:none!important}
  .sqlex,.ex{padding-left:10px!important;padding-right:10px!important}
 }
 html.mta-menu-collapsed{overflow-x:clip}
+@media (max-width:759px){.sxgrid{display:grid!important;grid-template-columns:minmax(0,1fr)!important}.sxgrid>*{min-width:0!important;max-width:100%!important}.srcside{overflow-x:auto}}
