@@ -181,3 +181,35 @@ document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){
   pres[0].insertAdjacentElement('afterend',note);
  })},500)});
 })();
+
+/* ===== study pages: one data dock for the whole page =====
+   Examples on a page share their data, so the tables live once, in a dock beside the text.
+   The example in view drives the dock; an open breakdown marks the dock tables in place. */
+(function(){
+document.addEventListener('DOMContentLoaded',function(){setTimeout(init,1300)});
+function init(){
+ if(!document.body.classList.contains('chapter')||document.body.classList.contains('exw'))return;
+ if(typeof SQLD==='undefined'||!window.SQLKIT)return;
+ var cards=[].slice.call(document.querySelectorAll('.sqlex[data-ex], .ex.sqlstep'));if(cards.length<2)return;
+ var EX={};(SQLD.EX||[]).forEach(function(e){EX[e.id]=e});
+ function info(c){if(c.classList.contains('sqlstep'))return {db:'bank',sql:'select * from deposit natural join customer',q:(c.querySelector('.q')||{}).textContent||''};
+  var e=EX[c.dataset.ex]||{};return {db:e.db||'bank',sql:e.sql||'',q:((c.querySelector('.sxq')||{}).textContent||e.q||'')}}
+ var dock=document.createElement('aside');dock.className='dock';
+ dock.innerHTML='<div class="dockh"><span class="dockt">הנתונים של הדוגמה</span><span class="dockq"></span></div><div class="docks"></div>';
+ document.body.appendChild(dock);document.documentElement.classList.add('has-dock');
+ var slot=dock.querySelector('.docks'),qEl=dock.querySelector('.dockq'),cur=null,park=null;
+ function unpark(){if(park){park[0].parentNode.insertBefore(park[1],park[0]);park[0].remove();park=null}}
+ function show(c){cur=c;unpark();var I=info(c);qEl.textContent=I.q.replace(/^(השאילתה)/,'').trim();
+  var sb=c.querySelector('.sqlx:not([hidden]) .xsrcbox');
+  if(sb&&sb.children.length){var m=document.createComment('dock');sb.parentNode.insertBefore(m,sb);park=[m,sb];slot.innerHTML='';slot.appendChild(sb);dock.classList.add('live')}
+  else{dock.classList.remove('live');slot.innerHTML=SQLKIT.sourcesHTML(I.db,I.sql,'',false)||''}
+  cards.forEach(function(x){x.classList.toggle('docked-on',x===c)})}
+ function pick(){var y=innerHeight*0.35,best=null,bd=1e9;cards.forEach(function(c){var r=c.getBoundingClientRect();if(r.bottom<80||r.top>innerHeight)return;var d=r.top<=y&&r.bottom>=y?0:Math.min(Math.abs(r.top-y),Math.abs(r.bottom-y));if(d<bd){bd=d;best=c}});
+  if(best&&best!==cur)show(best)}
+ addEventListener('scroll',function(){if(!pick.t)pick.t=requestAnimationFrame(function(){pick.t=0;pick()})},{passive:true});
+ // opening a breakdown hands its tables to the dock
+ document.addEventListener('click',function(e){var b=e.target.closest('.xbtn');if(!b)return;var c=b.closest('.sqlex, .ex.sqlstep');if(!c)return;
+  var n=0,iv=setInterval(function(){var sb=c.querySelector('.sqlx:not([hidden]) .xsrcbox');if((sb&&sb.children.length)||++n>50){clearInterval(iv);show(c)}else if(c.querySelector('.sqlx[hidden]')){clearInterval(iv);show(c)}},100)},true);
+ pick();if(!cur)show(cards[0]);
+}
+})();

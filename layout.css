@@ -214,3 +214,33 @@ html.proto .mta-expand,html.proto .mta-srch-fab{z-index:60!important}
 .xtw td.xcfade,.xtw th.xcfade{opacity:.3}
 html.proto .pmap a:focus-visible{outline:2px solid var(--ent,#2457C5);outline-offset:1px}
 html.proto main section[id]{scroll-margin-top:66px}
+/* data dock on study pages (wide screens) */
+.dock{display:none}
+@media (min-width:1200px){
+ html.has-dock .dock{display:flex;flex-direction:column;position:fixed;left:14px;top:62px;bottom:14px;width:min(600px,42vw);z-index:40;background:#fffefa;border:1px solid #e7e5e0;border-radius:14px;box-shadow:0 4px 18px rgba(28,25,23,.08);overflow:hidden}
+ html.has-dock main{padding-left:calc(min(600px,42vw) + 30px)!important}
+ html.has-dock .wrap{max-width:none!important;margin:0!important}
+ html.has-dock body .wrap>section:not(.hero){max-width:900px!important;margin-inline:0 auto!important}
+ html.has-dock .sqlex .srcside,html.has-dock .ex.sqlstep .srcside{display:none!important}
+ html.has-dock .sqlex .sxgrid{display:block!important}
+ html.has-dock .sqlex.docked-on,html.has-dock .ex.sqlstep.docked-on{box-shadow:0 0 0 2px var(--ent,#2457C5)!important;border-radius:12px}
+ html.has-dock .sqlex .sqlx .xsrcbox{display:none}
+ html.has-dock .dock .xsrcbox{display:block!important;min-height:0!important}
+}
+.dockh{padding:10px 14px;border-bottom:1px solid #e7e5e0;background:var(--ent-bg,#E6EEFC);display:flex;flex-direction:column;gap:2px}
+.dockt{font-size:12px;font-weight:800;color:var(--ent,#2457C5);letter-spacing:.04em}
+.dockq{font-size:14px;font-weight:600;color:#1c1917;line-height:1.45;height:2.9em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.docks{flex:1;overflow:auto;padding:10px 12px}
+.dock .srcside,.dock .xsrc{display:flex!important;flex-wrap:wrap;gap:10px 12px;justify-content:center;align-items:flex-start;background:none!important;padding:0!important;margin:0!important;max-width:none!important;width:auto!important;position:static!important}
+.dock .srcside>.sxlab{display:none}
+.dock .srct,.dock .xsrct{margin:0!important}
+.dock table th,.dock table td{padding:2px 7px!important;font-size:12.5px!important;line-height:1.35!important;white-space:nowrap}
+.dock table{margin:0!important}
+.dock .srct.unused{opacity:.3;filter:grayscale(1)}
+/* stepper stage: anchored so tables do not slide sideways between steps */
+.ex.sqlstep .algpanel{display:flex;justify-content:flex-start;align-items:flex-start}
+.dock .reltitle,.dock .rtlabel,.dock caption{font-size:13px!important;margin:0 0 2px!important}
+.dock .rtcount{display:none}
+.dock .rtwrap,.spld .rtwrap{margin:0!important}
+.dock .rtcount,.spld .rtcount{display:none!important}
+.dock .xsrcbox,.dock .srcside,.dock .xsrc{margin:0!important;padding:0!important}

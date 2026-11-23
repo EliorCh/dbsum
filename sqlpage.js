@@ -42,7 +42,7 @@ function resultHTML(r,label,before){
 }
 /* tables a query uses, shown beside it */
 function usedTables(db,sql){const T=(SQLD.TABLES||{})[db];if(!T)return [];return Object.keys(T).filter(n=>new RegExp('\\b'+n+'\\b','i').test(sql));}
-function sourcesHTML(db,sql,label,all){const T=(SQLD.TABLES||{})[db];if(!T)return '';const used=all?Object.keys(T):usedTables(db,sql);if(!used.length)return '';const ns=used.concat(Object.keys(T).filter(n=>!used.includes(n)));
+function sourcesHTML(db,sql,label,all){const T=(SQLD.TABLES||{})[db];if(!T)return '';const used=all?Object.keys(T):usedTables(db,sql);if(!used.length)return '';const ns=Object.keys(T);
   const tabs=false;
   const body=ns.map(n=>`<div class="srct${used.includes(n)?' used':' unused'}" data-t="${n}">${relTable(toRel(T[n]),null,{label:n,noprov:1})}</div>`).join('');
   const bar=tabs?`<div class="srctabs" role="tablist"><button type="button" data-t="*" aria-pressed="true">הכל</button>${ns.map(n=>`<button type="button" data-t="${n}" aria-pressed="false">${n}</button>`).join('')}</div>`:'';

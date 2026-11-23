@@ -131,6 +131,9 @@ async function gatherSources(M,items,run){const db=M.db;const S=[];
   const SD=typeof SQLD!=='undefined'?SQLD:(window.SQLD||{});const all=Object.keys((SD.TABLES||{})[db]||{});
   for(const n of all){if(used.has(n.toLowerCase()))continue;const r=await run(`select rowid as __rid, * from ${n}`);if(r.error)continue;
     S.push({key:'u'+n,name:n,alias:n,label:n,cols:r.cols.filter(c=>c!=='__rid'),rcols:r.cols,rows:r.rows,hasRid:true,from:false});}
+  /* the same order as the data tables everywhere else, so nothing moves when a breakdown opens */
+  const ord=t=>{const i=t.name?all.findIndex(n=>n.toLowerCase()===t.name.toLowerCase()):-1;return i<0?999:i;};
+  S.forEach((t,k)=>t._k=k);S.sort((a,b)=>ord(a)-ord(b)||a._k-b._k);
   return S;}
 
 /* render the source tables for one step.  v[key] = {fade, rowCls(rid), colCls(col), colFade} */
