@@ -214,14 +214,18 @@ async function explainSelect(M,P){
     if(G.hv){const ok=G.keys.filter(k=>G.hv[k]).length;
       steps.push({id:'having',title:'having',rk:'having',cap:`<code class="xp">${esc(P.having.body.trim())}</code> נבדק על כל קבוצה: ${ok} מתוך ${G.keys.length} קבוצות נשארות. השאר מחוקות.`,src:vG(true),
         work:tbl(G.q.cols,G.q.rows.slice().sort((a,b)=>G.keys.indexOf(a[G.gi])-G.keys.indexOf(b[G.gi])),{label:'הקבוצות',rowCls:r=>gcls(r)+(G.hv[r[G.gi]]?'':' xfade xstrike'),colCls:wcol(P.having.body,'ph')})});}}
+  // board: the working table keeps its place and size; the result gets its own slot under it
+  const selH=refs(P.selbody||'',W),star=(P.selbody||'').trim()==='*';
+  const wtab=()=>G?'':tbl(W,fc.rows,{label:FS.length>1?'אחרי הצירוף':null,colCls:i=>star||selH.has(i)?'ps':'xcfade',rowCls:r=>keep(r)?'':'xgone'});
+  const board=(res)=>G?res:`<div class="xboard">${wtab()}<div class="xbarr">↓</div>${res}</div>`;
   // 5. select
   const alive=G&&G.hv?G.q.rows.filter(r=>G.hv[r[G.gi]]):kept;const ca=contrib(alive);
   {const v=fadeUnused();FS.forEach(s=>{const h=colHits(P.selbody||'',s);const star=(P.selbody||'').trim()==='*';v[s.key]={on:true,colFade:!star,colCls:x=>star||h.has(x)?'ps':'',rowCls:ca[s.key]?(r=>r==null||ca[s.key].has(r)?'':'xfade'):null};});
     const res=nodist||final;const dupIdx=new Set();if(P.distinct){const seen=new Set();(res.rows||[]).forEach((r,i)=>{const k=JSON.stringify(r);if(seen.has(k))dupIdx.add(i);seen.add(k);});}
     steps.push({id:'select',title:'select',rk:'select',cap:`select בוחר את העמודות לתוצאה (ירוק); שאר העמודות דהויות.${agg&&!gb?' יש פונקציית הקבצה בלי group by — כל השורות הן קבוצה אחת, ויוצאת שורה אחת.':''}${P.distinct?'':' בלי distinct — שורות כפולות נשארות.'}`,src:v,
-      work:res.error?`<div class="sqlerr">${esc(res.error)}</div>`:tbl(res.cols,res.rows,{label:'התוצאה'+(P.distinct?' לפני distinct':''),cls:'xres',rowCls:(r,i)=>dupIdx.has(i)?'xfade xred xstrike':''})});}
-  if(P.distinct)steps.push({id:'distinct',title:'distinct',rk:'distinct',cap:`distinct זורק שורות כפולות: ${(nodist.rows||[]).length} ← ${(final.rows||[]).length} שורות.`,src:steps[steps.length-1].src,work:tbl(final.cols||[],final.rows||[],{label:'התוצאה',cls:'xres'})});
-  if(P['order by'])steps.push({id:'order',title:'order by',rk:'order',cap:'order by ממיין את התוצאה — תמיד בסוף.',src:steps[steps.length-1].src,work:tbl(final.cols||[],final.rows||[],{label:'התוצאה',cls:'xres'})});
+      work:res.error?`<div class="sqlerr">${esc(res.error)}</div>`:board(tbl(res.cols,res.rows,{label:'התוצאה'+(P.distinct?' לפני distinct':''),cls:'xres',rowCls:(r,i)=>dupIdx.has(i)?'xfade xred xstrike':''}))});}
+  if(P.distinct)steps.push({id:'distinct',title:'distinct',rk:'distinct',cap:`distinct זורק שורות כפולות: ${(nodist.rows||[]).length} ← ${(final.rows||[]).length} שורות.`,src:steps[steps.length-1].src,work:board(tbl(final.cols||[],final.rows||[],{label:'התוצאה',cls:'xres'}))});
+  if(P['order by'])steps.push({id:'order',title:'order by',rk:'order',cap:'order by ממיין את התוצאה — תמיד בסוף.',src:steps[steps.length-1].src,work:board(tbl(final.cols||[],final.rows||[],{label:'התוצאה',cls:'xres'}))});
   if(M.view)steps.push({id:'view',title:'התצפית',rk:'select',cap:`התצפית ${M.view} היא השאילתה הזו עם שם — בכל שימוש היא מחושבת מחדש.`,src:steps[steps.length-1].src,work:tbl(final.cols||[],final.rows||[],{label:M.view,cls:'xres'})});
   if(M.insert){const r=await M.R(M.src);const n=(final.rows||[]).length;steps.push({id:'insert',title:'insert',rk:'select',cap:`השורות שהשאילתה מחזירה (${n}) נוספות ל־${M.insert}.`,src:steps[steps.length-1].src,work:r.error?`<div class="sqlerr">${esc(r.error)}</div>`:tbl(r.cols,r.rows,{label:M.insert+' אחרי ההוספה',cls:'xres',rowCls:(x,i)=>i>=r.rows.length-n?'ps':''})});}
   Object.assign(M,{steps,S,subqs:SQ,outerAliases:from.items.map(i=>i.alias),condOfSub:s=>F.findIndex(c=>c.a<=s.a&&s.b<=c.b),fc,F,ci,W});
@@ -305,7 +309,7 @@ async function mount(el,db,sql,extra){
   Q.addEventListener('click',e=>{const x=e.target.closest('.xq');if(!x)return;e.stopPropagation();const k=x.dataset.k;
     if(/^s\d+$/.test(k)&&M.subqs.length)return showSub(k);
     let i=M.steps.findIndex(s=>s.rk===k||s.id===k);if(i<0&&k[0]==='t')i=0;if(i<0&&k[0]==='j')i=M.steps.findIndex(s=>s.id==='from');if(i<0)i=M.steps.length-1;show(i,k);});
-  let mh=0;for(let i=0;i<M.steps.length;i++){show(i);mh=Math.max(mh,pan.offsetHeight);}pan.style.minHeight=Math.min(mh,640)+'px';show(0);}
+  let mh=0,mc=0,ms=0;for(let i=0;i<M.steps.length;i++){show(i);mh=Math.max(mh,pan.offsetHeight);mc=Math.max(mc,cap.offsetHeight);ms=Math.max(ms,sb.offsetHeight);}pan.style.minHeight=Math.min(mh,900)+'px';cap.style.minHeight=mc+'px';sb.style.minHeight=ms+'px';show(0);}
 /* a toggle button placed in a .ldbtns bar; getSql() is read each time it opens, so it follows a textarea */
 function button(bar,db,getSql,label,before,extra){if(!bar)return;const L=label||'פירוק אינטראקטיבי';
   const b=document.createElement('button');b.type='button';b.className='btn xbtn';b.textContent=L;bar.prepend(b);

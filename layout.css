@@ -1,0 +1,216 @@
+/* ===== prototype: shared summary-site look + wide mode + rhythm ===== */
+html.proto{--bg:#fbf9f3;--paper:#fffefa;--ink:#1c1917;--ink-soft:#44403c;--mute:#78716c;--rule:#e7e5e0;--rule-soft:#f1efe9;
+ --ind:#4f46e5;--ind1:#eef2ff;--ind3:#c7d2fe;
+ --th:#1d4ed8;--tbg:#eff6ff;--te:#bfdbfe; --fh:#b45309;--fbg:#fef9e7;--fe:#fcd34d; --eh:#047857;--ebg:#ecfdf5;--ee:#a7f3d0;
+ --wh:#be123c;--wbg:#fff1f2;--we:#fecdd3; --xh:#6d28d9;--xbg:#f5f3ff;--xe:#ddd6fe; --sh:#334155;--sbg:#f1f5f9;--se:#cbd5e1;
+ --serif:'Frank Ruhl Libre',Georgia,serif;--sans:'Assistant',-apple-system,sans-serif}
+html.proto body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.75;
+ background-image:radial-gradient(circle at 20% 0%,rgba(99,102,241,.035),transparent 40%),radial-gradient(circle at 80% 100%,rgba(245,158,11,.035),transparent 40%);background-attachment:fixed}
+html.proto main p,html.proto main li{color:var(--ink-soft)}
+html.proto main p strong,html.proto main p b{color:var(--ink)}
+html.proto h1,html.proto .hero h1,html.proto .chaptitle{font-family:var(--serif)!important;font-weight:700!important;letter-spacing:-.02em;color:var(--ink)}
+html.proto main h2{font-family:var(--serif)!important;font-weight:700!important;font-size:30px;letter-spacing:-.015em;color:var(--ink);
+ position:relative;padding-right:20px;border-bottom:0!important;margin:10px 0 18px}
+html.proto main h2::before{content:'';position:absolute;right:0;top:10px;bottom:10px;width:4px;background:var(--ind);border-radius:2px}
+html.proto main h3{font-family:var(--sans)!important;font-weight:700!important;font-size:21px;color:var(--ink);margin:30px 0 12px}
+html.proto .peb{display:inline-block;font-size:12px;font-weight:700;color:var(--ind);letter-spacing:.06em;background:var(--ind1);padding:4px 12px;border-radius:99px;margin-bottom:8px}
+html.proto body .wrap>section:not(.hero)>*{max-width:none!important}
+html.proto .peb+h2{margin-top:0!important}
+html.proto body .wrap>section:not(.hero){max-width:968px!important}
+html.proto main section:not(.hero){background:var(--paper);border:1px solid var(--rule);border-radius:18px;padding:26px 34px 24px;margin:0 auto 34px;
+ box-shadow:0 1px 2px rgba(28,25,23,.04),0 1px 3px rgba(28,25,23,.06)}
+html.proto main section.hero{border:0;background:none}
+html.proto code.xp{background:#f5f5f4;border:1px solid #e7e5e4;color:var(--ink)}
+html.proto p.mathline code.xp{background:var(--fbg);border-color:var(--fe);color:#78350f}
+/* typed boxes */
+html.proto .box,html.proto .lec{border:1px solid var(--rule)!important;border-radius:14px!important;overflow:hidden;padding:0!important;background:var(--paper)!important;box-shadow:0 1px 2px rgba(28,25,23,.04)}
+html.proto .pbh{display:flex;align-items:center;gap:12px;padding:11px 20px;font-weight:700;font-size:15.5px;border-bottom:1px solid var(--rule-soft)}
+html.proto .pbh h4,html.proto .pbh .lech{margin:0!important;font-size:inherit!important;color:inherit!important;font-family:var(--sans)!important;background:none!important;padding:0!important}
+html.proto .pbh i{font-style:normal;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;flex-shrink:0;font-size:15px;color:#fff}
+html.proto .pbb{padding:16px 24px}
+html.proto .pbb>*:last-child{margin-bottom:0}
+html.proto .box.rule{border-color:var(--te)!important} html.proto .box.rule .pbh{background:var(--tbg);color:var(--th)} html.proto .box.rule .pbh i{background:var(--th)}
+html.proto .box.warn{border-color:var(--we)!important} html.proto .box.warn .pbh{background:var(--wbg);color:var(--wh)} html.proto .box.warn .pbh i{background:var(--wh)}
+html.proto .box.tip{border-color:var(--ee)!important} html.proto .box.tip .pbh{background:var(--ebg);color:var(--eh)} html.proto .box.tip .pbh i{background:var(--eh)}
+html.proto .lec.key{border-color:var(--xe)!important} html.proto .lec.key .pbh{background:var(--xbg);color:var(--xh)} html.proto .lec.key .pbh i{background:var(--xh)}
+html.proto .lec.exam{border-color:var(--fe)!important} html.proto .lec.exam .pbh{background:var(--fbg);color:var(--fh)} html.proto .lec.exam .pbh i{background:var(--fh)}
+html.proto .lect{font-size:11px;background:rgba(255,255,255,.7);border-radius:99px;padding:1px 8px;margin-inline-end:8px}
+/* givens panel: label | formulas, one compact block */
+html.proto .pgivs{border:1px solid var(--fe);background:var(--fbg);border-radius:14px;margin:14px 0 18px;overflow:hidden}
+html.proto .pgivs .pgh{padding:8px 20px;font-weight:700;font-size:14px;color:var(--fh);border-bottom:1px solid rgba(180,83,9,.18)}
+html.proto .pgiv{display:grid;grid-template-columns:minmax(140px,30%) 1fr;gap:6px 18px;align-items:center;padding:8px 20px;border-bottom:1px dashed rgba(180,83,9,.15)}
+html.proto .pgiv:last-child{border-bottom:0}
+html.proto .pgiv>p{margin:0!important;color:#78350f!important}
+html.proto .pgiv .pgf{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-start;direction:ltr}
+html.proto .pgiv .pgf p.mathline{margin:0!important}
+html.proto .pgiv .pgf p.mathline code.xp{background:#fff;font-size:1.05em}
+/* proof as two-column steps: reason | formula */
+html.proto .steps.proof{border:1px solid var(--rule);border-radius:12px;overflow:hidden;padding:0!important;background:#fff}
+html.proto .prow{display:grid;grid-template-columns:1fr minmax(180px,38%);gap:16px;align-items:center;padding:10px 18px;border-bottom:1px solid var(--rule-soft)}
+html.proto .prow:last-child{border-bottom:0;background:var(--ebg)}
+html.proto .prow>*{margin:0!important}
+html.proto .prow p.mathline{text-align:left}
+/* moment of understanding */
+html.proto .pgot{margin:26px 0 0;border-radius:14px;border:1px solid var(--fe);background:linear-gradient(90deg,var(--fbg),#fffdf5);overflow:hidden}
+html.proto .pgot .pk{padding:14px 20px 12px;display:flex;gap:12px;align-items:flex-start}
+html.proto .pgot .pk b.lb{flex-shrink:0;font-size:12px;letter-spacing:.06em;color:var(--fh);background:#fff;border:1px solid var(--fe);border-radius:99px;padding:2px 10px;margin-top:4px}
+html.proto .pgot .pk p{margin:0;color:#57340b}
+html.proto .pgot .pq{border-top:1px solid rgba(180,83,9,.18);padding:12px 20px;background:#fff}
+html.proto .pgot .pq p{margin:0 0 6px}
+html.proto .pgot button{font:inherit;font-weight:700;font-size:14px;border:1px solid var(--xe);background:var(--xbg);color:var(--xh);border-radius:8px;padding:5px 14px;cursor:pointer}
+html.proto .pgot .pa{display:none;margin-top:10px;padding:10px 14px;border-radius:10px;background:var(--ebg);border-right:3px solid var(--eh)}
+html.proto .pgot.open .pa{display:block}
+/* page map: sticky chips */
+html.proto .pmap{position:sticky;top:0;max-width:1120px;z-index:30;display:flex;gap:6px;overflow-x:auto;padding:8px 6px;margin:0 auto 22px;background:rgba(251,249,243,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--rule);scrollbar-width:none}
+html.proto.mta-menu-collapsed .pmap{padding-right:150px}
+html.proto .pmap a{flex-shrink:0;font-size:13.5px;font-weight:600;color:var(--mute);text-decoration:none;padding:4px 12px;border-radius:99px;border:1px solid transparent;white-space:nowrap}
+html.proto .pmap a b{font-family:ui-monospace,monospace;font-size:11px;margin-inline-end:6px;color:var(--ind)}
+html.proto .pmap a.on{background:var(--ind);color:#fff;border-color:var(--ind)} html.proto .pmap a.on b{color:#fde68a}
+html.proto .pmap a.done{color:var(--ink-soft)}
+/* exercises in the shared purple/green language */
+html.proto .taskq{background:#fafaf9!important;border:1px solid var(--xe)!important;border-radius:12px!important;box-shadow:none!important}
+
+html.proto details.sol{border:1px solid var(--ee)!important;border-radius:12px!important;background:#fff!important}
+html.proto details.sol>summary{background:var(--ebg);color:var(--eh);font-weight:700;border-radius:12px}
+/* ===== wide mode: menu collapsed ===== */
+html.proto.mta-menu-collapsed body .wrap>section:not(.hero){max-width:1120px!important}
+html.proto.mta-menu-collapsed .pmap{max-width:none}
+html.proto.mta-menu-collapsed .wrap{max-width:1500px!important}
+/* exercise pages: question pinned on the right, work on the left */
+html.proto.mta-menu-collapsed body.exw .wrap>section:not(.hero){max-width:1420px!important}
+@media (min-width:1100px){
+ html.proto.mta-menu-collapsed body.exw .pqw{display:grid;grid-template-columns:minmax(0,36%) minmax(0,1fr);gap:22px;align-items:start;margin-bottom:26px}
+ html.proto.mta-menu-collapsed body.exw .pqw>.pqa{position:sticky;top:64px;max-height:calc(100vh - 80px);overflow:auto}
+ html.proto.mta-menu-collapsed body.exw .pqw>.pqa h3{margin-top:0}
+ html.proto.mta-menu-collapsed body.exw .pqw>.pqb>*:first-child{margin-top:0}
+ html.proto.mta-menu-collapsed .sxgrid>.srcside{position:sticky;top:64px;align-self:start}
+}
+html.proto .pgiv.stk{grid-template-columns:1fr}
+html.proto .pmap{-webkit-mask-image:linear-gradient(to left,#000 85%,transparent);mask-image:linear-gradient(to left,#000 85%,transparent)}
+html{scroll-behavior:auto}
+@media (max-width:700px){
+ html.proto main section:not(.hero){padding:18px 14px;border-radius:14px}
+ html.proto .pgiv,html.proto .prow{grid-template-columns:1fr!important;padding:8px 12px}
+ html.proto .prow p.mathline{text-align:center}
+ html.proto .pmap{padding-right:170px!important}
+ html.proto main h2{font-size:24px}
+ }
+html.proto .pmap a{direction:rtl;unicode-bidi:isolate;display:inline-flex;align-items:baseline;gap:6px}
+html.proto .pmap a b{margin:0}
+/* split mode */
+.splgo{font:700 13px Assistant,sans-serif;border:1px solid #c7d2fe;background:#eef2ff;color:#4338ca;border-radius:99px;padding:3px 12px;cursor:pointer;margin-inline-start:12px;vertical-align:middle}
+.splgo.big{display:block;margin:14px 0 0;font-size:15px;padding:9px 18px}
+html.spl-on{overflow:hidden}
+.spl{position:fixed;inset:0;z-index:200;background:#fbf9f3;display:flex;flex-direction:column;font-family:Assistant,sans-serif}
+.spl[hidden]{display:none}
+.splh{display:flex;align-items:center;gap:14px;padding:10px 18px;border-bottom:1px solid #e7e5e0;background:#fffefa}
+.splt{font-family:'Frank Ruhl Libre',serif;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34%}
+.spltabs{flex:1;display:flex;gap:4px;overflow-x:auto;scrollbar-width:thin;align-items:center}
+.spltabs button{flex-shrink:0;font:700 13.5px Assistant,sans-serif;border:1px solid #e7e5e0;background:#fff;color:#44403c;border-radius:8px;padding:4px 10px;cursor:pointer}
+.spltabs button.on{background:#4f46e5;color:#fff;border-color:#4f46e5}
+.splsep{width:1px;height:22px;background:#d6d3d1;margin:0 6px;flex-shrink:0}
+.splx{font:700 13.5px Assistant,sans-serif;border:1px solid #e7e5e0;background:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;white-space:nowrap}
+.splb{flex:1;min-height:0;display:grid;grid-template-columns:44% 10px 1fr;direction:rtl}
+.splp{min-height:0;display:flex;flex-direction:column}
+.spllab{font-size:12px;font-weight:700;letter-spacing:.06em;color:#78716c;padding:8px 22px 0}
+.splc{flex:1;min-height:0;overflow:auto;padding:8px 22px 40px}
+.spld{background:#fffefa}
+.splw{background:#fbf9f3}
+.splbar{cursor:col-resize;background:linear-gradient(90deg,transparent 4px,#d6d3d1 4px,#d6d3d1 6px,transparent 6px)}
+.splbar:hover{background:linear-gradient(90deg,transparent 3px,#4f46e5 3px,#4f46e5 7px,transparent 7px)}
+.spl .pqa,.spl .pqb{position:static!important;max-height:none!important;overflow:visible!important}
+.spl .srcside{position:static!important;max-width:none!important;width:auto!important}
+.spl .splgo{display:none}
+
+.spl .sxq{font-size:18px;margin-bottom:10px}
+@media (max-width:900px){.splb{grid-template-columns:1fr!important;grid-template-rows:45% 10px 1fr}.splbar{cursor:row-resize}.splt{display:none}}
+html.proto .sxdiff{margin:6px 0 12px;padding:8px 14px;border-radius:10px;background:#f0fdf4;border:1px solid #bbf7d0;font-size:15px;color:#14532d}
+html.proto .sxdiff ul{margin:4px 0 0;padding-inline-start:20px}
+html.proto .sxdiff li{margin:2px 0}
+html.proto .sxdiff code.xp{background:#fff}
+/* match ossum: course accent, plain header bands, no section cards */
+html.proto{--ind:var(--mta-acc,#1d4ed8);--ind1:var(--mta-acc-soft,#eff6ff)}
+html.proto .pbh i{display:none}
+html.proto .pbh{padding:12px 18px;font-weight:800;font-size:15px}
+html.proto main section:not(.hero){background:none!important;border:0!important;box-shadow:none!important;padding:0!important;margin-bottom:56px!important}
+html.proto main h2{margin-top:4px!important}
+html.proto p.mathline code.xp{background:#fffefa;border:1px solid #e7e5e0;color:#1c1917}
+html.proto .pgivs{background:#fffefa;border-color:#e7e5e0}
+html.proto .pgivs .pgh{color:var(--mta-acc,#1d4ed8);background:var(--mta-acc-soft,#eff6ff);border-bottom-color:#e7e5e0}
+html.proto .pgiv>p{color:#44403c!important}
+html.proto main bdi{white-space:nowrap}
+/* all tables of the question are shown; the ones the query does not use fade */
+.srcside .srct.unused{opacity:.32;filter:grayscale(1);transition:opacity .2s}
+.srcside .srct.unused:hover{opacity:.85;filter:none}
+.srcside .srct.unused .reltitle,.srcside .srct.unused caption{text-decoration:none}
+/* formulas: own line, centred */
+html.proto .pgiv{display:block!important;padding:10px 20px}
+html.proto .pgiv>p{margin:0 0 6px!important}
+html.proto .pgiv .pgf{justify-content:center!important;flex-direction:column;align-items:center;gap:6px}
+html.proto .prow{display:block!important;padding:10px 18px}
+html.proto .prow>p{margin:0 0 6px!important}
+html.proto .prow p.mathline{text-align:center!important;margin:4px 0 0!important}
+html.proto .prow>span:empty{display:none}
+/* pastel, readable highlights everywhere */
+html.proto tr.upd td{background:#fff4d6!important;color:#1c1917!important}
+html.proto .chg del{color:#b4534b!important}
+.splt{display:flex;align-items:baseline;gap:10px}
+.splch{font-family:'Frank Ruhl Libre',serif;font-weight:700}
+.splex{font:700 13px Assistant,sans-serif;background:var(--mta-acc-soft,#eff6ff);color:var(--mta-acc,#1d4ed8);padding:2px 10px;border-radius:99px}
+.splintro{background:#fff;border:1px solid #e7e5e0;border-radius:12px;padding:12px 16px;margin:6px 0 12px}
+.splqh{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:19px;margin-bottom:4px}
+.splintro p{margin:0 0 6px}
+.splschema{font:14px/1.7 "IBM Plex Mono",ui-monospace,monospace;text-align:center}
+.splschema b{color:var(--mta-acc,#1d4ed8)}
+.splsub{font-size:18px;font-weight:700;margin:4px 0 12px;padding:10px 14px;border-radius:10px;background:#eff6ff;border:1px solid #bfdbfe}
+.splsubn{color:#1d4ed8;margin-inline-end:6px}
+.spl .sxq.splhideq{display:none}
+/* data pane: every table of the question visible at once, compact */
+.spld.xlive .srcside{display:none!important}
+.spllab2{width:100%;font-size:12px;font-weight:700;color:#78716c;margin:2px 0 6px}
+.spld .xsrcbox{margin:0}
+.spld .xsrc,.spld .srcside{display:flex!important;flex-wrap:wrap;gap:10px 12px;justify-content:center;align-items:flex-start;background:none!important;padding:0!important}
+.spld .srcside>.sxlab{width:100%}
+.spld .xsrct,.spld .srct{margin:0!important;max-width:none!important}
+.spld table th,.spld table td{padding:2px 7px!important;font-size:12.5px!important;line-height:1.35!important;white-space:nowrap}
+.spld table{margin:0!important}
+.spld .reltitle,.spld .xsrct .tlabel,.spld caption{font-size:13px!important;margin:0 0 2px!important}
+.spld .splintro{padding:8px 14px;margin:2px 0 8px}
+.spld .splschema{font-size:13px;line-height:1.55}
+.spld .splsub{font-size:16px;padding:7px 12px;margin:0 0 8px}
+.splc{padding:6px 16px 30px}
+.splh{padding:6px 14px}
+.spllab{padding:4px 16px 0}
+.spl.xlive .spld .srcside{display:none!important}
+/* no duplicates: the breakdown already shows the running query and its result */
+.spl.xlive .splw .sxmain>pre.sqlcode:not(.course),.spl.xlive .splw .sxmain>.sxlab~.sxlab,.spl.xlive .splw .sxmain>.sxres{display:none!important}
+.spl .splw .xhelp{font-size:14px}
+.spl.xlive .splw .sxmain.merged>pre.course,.spl.xlive .splw .sxmain.merged>.sxlab{display:none!important}
+/* keep the site's own colours (guide.css palette); only the structure is shared */
+html.proto{--ind:var(--ent);--ind1:var(--ent-bg)}
+html.proto .box.rule{border-color:color-mix(in srgb,var(--rel) 35%,#fff)!important} html.proto .box.rule .pbh{background:var(--rel-bg);color:var(--rel)}
+html.proto .box.tip{border-color:color-mix(in srgb,var(--att) 35%,#fff)!important} html.proto .box.tip .pbh{background:var(--att-bg);color:var(--att)}
+html.proto .box.warn{border-color:color-mix(in srgb,var(--key) 35%,#fff)!important} html.proto .box.warn .pbh{background:var(--warn-bg);color:var(--key)}
+html.proto .lec.key{border-color:color-mix(in srgb,var(--fresh) 35%,#fff)!important} html.proto .lec.key .pbh{background:color-mix(in srgb,var(--fresh) 10%,#fff);color:var(--fresh)}
+html.proto .lec.exam{border-color:color-mix(in srgb,var(--key) 35%,#fff)!important} html.proto .lec.exam .pbh{background:var(--warn-bg);color:var(--key)}
+html.proto .pgivs .pgh{color:var(--ent);background:var(--ent-bg)}
+.splex{background:var(--ent-bg,#E6EEFC)!important;color:var(--ent,#2457C5)!important}
+.splschema b,.splsubn{color:var(--ent,#2457C5)!important}
+.splsub{background:var(--ent-bg,#E6EEFC)!important;border-color:color-mix(in srgb,var(--ent,#2457C5) 30%,#fff)!important}
+.spltabs button.on{background:var(--ent,#2457C5)!important;border-color:var(--ent,#2457C5)!important}
+.splintro .splnote{font-size:14px;color:#57534e;margin-top:6px}
+/* chapter bar: at the top of the window from the start */
+html.proto .pmap{position:fixed!important;top:0;left:0;right:0;max-width:none!important;margin:0!important;z-index:55;height:50px;align-items:center;padding:0 160px 0 16px!important;border-bottom:1px solid #e7e5e0;background:rgba(251,249,243,.96)}
+html.proto.has-pmap body{padding-top:58px!important}
+html.proto .pmap a.pmh{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:16px;color:#1c1917;padding:4px 4px 4px 14px;border-left:1px solid #e7e5e0;border-radius:0;margin-left:6px;gap:8px}
+html.proto .pmap a.pmh b{font-family:Assistant,sans-serif;font-size:12.5px;color:var(--ent,#2457C5);background:var(--ent-bg,#E6EEFC);padding:2px 9px;border-radius:99px}
+html.proto .pmap{-webkit-mask-image:none;mask-image:none}
+html.proto .mta-expand,html.proto .mta-srch-fab{z-index:60!important}
+/* board: marks never change a cell's width */
+.xtw td,.xtw th,.srcside td,.wbt td,.wbt td span{font-weight:400!important}
+.xtw th{font-weight:700!important}
+.xboard{display:flex;flex-direction:column;align-items:center;gap:2px}
+.xbarr{color:#a8a29e;font-size:18px;line-height:1}
+.xtw td.xcfade,.xtw th.xcfade{opacity:.3}
+html.proto .pmap a:focus-visible{outline:2px solid var(--ent,#2457C5);outline-offset:1px}
+html.proto main section[id]{scroll-margin-top:66px}

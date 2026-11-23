@@ -42,9 +42,9 @@ function resultHTML(r,label,before){
 }
 /* tables a query uses, shown beside it */
 function usedTables(db,sql){const T=(SQLD.TABLES||{})[db];if(!T)return [];return Object.keys(T).filter(n=>new RegExp('\\b'+n+'\\b','i').test(sql));}
-function sourcesHTML(db,sql,label,all){const T=(SQLD.TABLES||{})[db];if(!T)return '';const ns=all?Object.keys(T):usedTables(db,sql);if(!ns.length)return '';
-  const tabs=ns.length>2;
-  const body=ns.map(n=>`<div class="srct" data-t="${n}">${relTable(toRel(T[n]),null,{label:n,noprov:1})}</div>`).join('');
+function sourcesHTML(db,sql,label,all){const T=(SQLD.TABLES||{})[db];if(!T)return '';const used=all?Object.keys(T):usedTables(db,sql);if(!used.length)return '';const ns=used.concat(Object.keys(T).filter(n=>!used.includes(n)));
+  const tabs=false;
+  const body=ns.map(n=>`<div class="srct${used.includes(n)?' used':' unused'}" data-t="${n}">${relTable(toRel(T[n]),null,{label:n,noprov:1})}</div>`).join('');
   const bar=tabs?`<div class="srctabs" role="tablist"><button type="button" data-t="*" aria-pressed="true">הכל</button>${ns.map(n=>`<button type="button" data-t="${n}" aria-pressed="false">${n}</button>`).join('')}</div>`:'';
   return `<aside class="srcside"><div class="sxlab">${label||'הטבלאות שהשאילתה משתמשת בהן'}</div>${bar}${body}</aside>`;}
 
@@ -169,7 +169,7 @@ function altBox(el,e,AL){
     <div class="sxlab">גרסה שרצה ב־SQLite</div><pre class="sqlcode">${hl(e.sql)}</pre>
     ${e.note?`<p class="sxnote">${capHTML(e.note)}</p>`:''}
     <div class="sxres">${e.diff?resultHTML(e.res,`${e.diff} אחרי הפקודה`,e.before):resultHTML(e.res,'תוצאה על נתוני הדוגמה')}</div>
-    <div class="ldbtns"><button class="btn ghost editBtn" type="button">ערוך והרץ</button></div><div class="sxed" hidden></div>`,sourcesHTML(e.db,e.sql,'נתוני הדוגמה בשאילתה'))}</div>`;
+    <div class="ldbtns"><button class="btn ghost editBtn" type="button">ערוך והרץ</button></div><div class="sxed" hidden></div>`,sourcesHTML(e.db,e.sql,'כל הטבלאות בשאלה'))}</div>`;
   L.querySelectorAll('.ex3grp').forEach(g=>{g.innerHTML=SQLD.EX3.filter(e=>e.id[1]===g.dataset.q).map(card).join('');});
   L.querySelectorAll('.e3').forEach(el=>{const e=SQLD.EX3.find(x=>x.id===el.id);
     const b=el.querySelector('.editBtn'),ed=el.querySelector('.sxed');let made=false;
