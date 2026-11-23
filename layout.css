@@ -309,3 +309,8 @@ html.has-dock .jlbox .jlsec{display:none!important}
 .splintrobox{min-height:var(--ih,0px);margin-bottom:6px}
 .splintrobox .splintro{margin:0;height:100%}
 .spld .splintro{padding:10px 14px}
+/* in the split view the solution opens straight on the breakdown */
+.spl .splsolbox .sxmain{display:flex;flex-direction:column}
+.spl .splsolbox .sxmain>.sqlx{order:-1;margin-top:0}
+.spl .splsolbox .xhelp{display:none}
+.spl .splsolbox .sxmain>.ldbtns .xbtn{display:none}

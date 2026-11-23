@@ -288,10 +288,13 @@ async function mount(el,db,sql,extra){
   el.innerHTML=`<div class="xhelp">לחץ על חלק בשאילתה או על שלב. כל חלק בשאילתה צבוע בצבע פסטל — ובאותו צבע מסומנות השורות והעמודות שהוא משפיע עליהן. מה שלא רלוונטי דהוי.</div>
    <pre class="sqlcode xquery">${renderQuery(sql,M.ranges)}</pre>
    <div class="xsteps">${M.steps.map((s,i)=>`<button type="button" class="chip" data-s="${i}">${i+1}. ${s.title}</button>`).join('')}</div>
+   <div class="xnav"><button type="button" class="btn ghost xprev">→ הקודם</button><span class="xprog"></span><button type="button" class="btn xnext">הבא ←</button></div>
    <div class="xcap"></div><div class="xsrcbox"></div><div class="xpanel"></div>`;
   const Q=el.querySelector('.xquery'),cap=el.querySelector('.xcap'),sb=el.querySelector('.xsrcbox'),pan=el.querySelector('.xpanel');
   const hiQ=k=>Q.querySelectorAll('.xq').forEach(x=>x.classList.toggle('on',!!k&&(x.dataset.k===k||(k==='tbl'&&x.classList.contains('x-tbl')))));
-  function show(i,k){const s=M.steps[i];el.querySelectorAll('.xsteps .chip').forEach((b,j)=>b.setAttribute('aria-pressed',j===i));
+  let at=0;const nv=el.querySelector('.xnav'),xp=nv.querySelector('.xprev'),xn=nv.querySelector('.xnext'),pg=nv.querySelector('.xprog');
+  xp.onclick=()=>{if(at>0)show(at-1)};xn.onclick=()=>{if(at<M.steps.length-1)show(at+1)};
+  function show(i,k){at=i;xp.disabled=i===0;xn.disabled=i===M.steps.length-1;pg.textContent=`שלב ${i+1} מתוך ${M.steps.length} · בסדר שבו SQL מבצע`;const s=M.steps[i];el.querySelectorAll('.xsteps .chip').forEach((b,j)=>b.setAttribute('aria-pressed',j===i));
     hiQ(k||s.rk);cap.innerHTML=s.cap;sb.innerHTML=srcHTML(M.S,s.src||{});pan.innerHTML=s.work||'';
     if(k&&/^t\d+$/.test(k)){const want='i'+k.slice(1);M.S.forEach((x,j)=>{if(x.key===want)sb.querySelectorAll('.xsrct')[j].classList.add('pick');});}}
   async function showSub(k){const s=M.subqs[+k.slice(1)];hiQ(k);el.querySelectorAll('.xsteps .chip').forEach(b=>b.setAttribute('aria-pressed','false'));

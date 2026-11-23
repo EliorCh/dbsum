@@ -141,6 +141,7 @@ function build(){
   if(btn)btn.textContent=on?'הסתר פתרון':'הצג פתרון';
   ov.classList.toggle('solon',on);
   if(on&&sol)liveTables(i);
+  if(on){var tgt=sol||wc.querySelector('details.sol');if(tgt)setTimeout(function(){wc.scrollTo({top:Math.max(0,tgt.offsetTop-wc.offsetTop-8),behavior:'smooth'})},sol?350:0)}
   if(!on){ov.classList.remove('xlive');var k=ph.findIndex(function(p){return p[1].classList&&p[1].classList.contains('xsrcbox')});if(k>=0){var p=ph[k];p[0].parentNode.insertBefore(p[1],p[0]);p[0].remove();ph.splice(k,1)}if(ov._mo){ov._mo.disconnect();ov._mo=null}}}
  var IH=0;function introH(){if(IH){dc.style.setProperty('--ih',IH+'px');return}var m=document.createElement('div');m.style.cssText='visibility:hidden';dc.appendChild(m);
   var seen={};U.forEach(function(u){if(u.intro&&!seen[u.intro]){seen[u.intro]=1;m.innerHTML='<div class="splintrobox">'+u.intro+'</div>';IH=Math.max(IH,m.firstChild.offsetHeight)}});m.remove();dc.style.setProperty('--ih',IH+'px')}

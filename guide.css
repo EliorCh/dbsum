@@ -890,3 +890,6 @@ body:has(.mta-theme-float) .palfab{bottom:68px}
 .sumc2 .scc{text-align:right;display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-start;direction:rtl;margin-bottom:2px}
 .sumc2 .scc code.xp{direction:ltr;unicode-bidi:isolate;font-size:.92em}
 .sumc2 .sce{font-size:.95em;color:var(--muted);line-height:1.6}
+.xnav{display:flex;align-items:center;gap:10px;margin:2px 0 10px}
+.xnav .xprog{color:var(--muted);font-size:.9rem;font-weight:600}
+.xnav button:disabled{opacity:.35;cursor:default}
