@@ -306,3 +306,6 @@ html.has-dock .jlbox .jlsec{display:none!important}
 .splfab:hover{filter:brightness(1.08)}
 .splgo.big{display:none!important}
 .spl .splc{padding-bottom:80px}
+.splintrobox{min-height:var(--ih,0px);margin-bottom:6px}
+.splintrobox .splintro{margin:0;height:100%}
+.spld .splintro{padding:10px 14px}

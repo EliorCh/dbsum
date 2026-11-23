@@ -104,7 +104,7 @@ function units(){var U=[];
    var bd=function(x){return esc(x).replace(/([A-Za-z][A-Za-z0-9_\-.,%' ]*[A-Za-z0-9%'])/g,'<bdi dir="ltr">$1</bdi>')};
    var intro='<div class="splintro"><div class="splqh">'+esc(grp)+'</div>'+(IN?'<p>'+bd(IN.t)+'</p><div class="splschema" dir="ltr">'+IN.s.map(function(x){var m=x.match(/^(\S+)(.*)$/);return '<div><b>'+esc(m[1])+'</b>'+esc(m[2])+'</div>'}).join('')+'</div>'+(IN.a?'<p class="splnote">'+bd(IN.a)+'</p>':''):'')+'</div>';
    var subq=SH.sub[c.id]?bd(SH.sub[c.id]):esc(t.replace(/^(תקין|הערה|תיקון)\s*/,'').replace(/^\d+[א-ת]\.?\s*/,''));
-   U.push({label:lab,group:grp,title:t,sub:sub,pre:intro+'<div class="splsub"><span class="splsubn">'+sub+'</span> '+subq+'</div>',hideQ:true,data:[q,side].filter(Boolean),work:[main,alt].filter(Boolean)})})});
+   U.push({label:lab,group:grp,title:t,sub:sub,intro:intro,pre:'<div class="splsub"><span class="splsubn">'+sub+'</span> '+subq+'</div>',hideQ:true,data:[q,side].filter(Boolean),work:[main,alt].filter(Boolean)})})});
  return U}
 function build(){
  if(!document.body.classList.contains('exw'))return;
@@ -142,9 +142,14 @@ function build(){
   ov.classList.toggle('solon',on);
   if(on&&sol)liveTables(i);
   if(!on){ov.classList.remove('xlive');var k=ph.findIndex(function(p){return p[1].classList&&p[1].classList.contains('xsrcbox')});if(k>=0){var p=ph[k];p[0].parentNode.insertBefore(p[1],p[0]);p[0].remove();ph.splice(k,1)}if(ov._mo){ov._mo.disconnect();ov._mo=null}}}
+ var IH=0;function introH(){if(IH){dc.style.setProperty('--ih',IH+'px');return}var m=document.createElement('div');m.style.cssText='visibility:hidden';dc.appendChild(m);
+  var seen={};U.forEach(function(u){if(u.intro&&!seen[u.intro]){seen[u.intro]=1;m.innerHTML='<div class="splintrobox">'+u.intro+'</div>';IH=Math.max(IH,m.firstChild.offsetHeight)}});m.remove();dc.style.setProperty('--ih',IH+'px')}
+ addEventListener('resize',function(){IH=0;if(!ov.hidden)introH()});
  function show(i){park();cur=i;var u=U[i];dc.innerHTML='';wc.innerHTML='';ov.classList.remove('xlive');
   /* the question text goes with the solution side; the data side keeps only the tables, so their height never changes */
   if(u.pre)wc.insertAdjacentHTML('beforeend',u.pre);
+  /* the question's intro stays with the data, in a box as tall as the tallest intro, so the tables never move */
+  if(u.intro){var ib=document.createElement('div');ib.className='splintrobox';ib.innerHTML=u.intro;dc.appendChild(ib);introH()}
   u.data.forEach(function(e){take(e,dc)});if(u.hideQ&&u.data[0])u.data[0].classList.add('splhideq');
   var slot=document.createElement('div');slot.className='splslot';dc.appendChild(slot);
   var bar=document.createElement('div');bar.className='splsolbar';bar.innerHTML='<button type="button" class="splshow">הצג פתרון</button><span class="splhint">נסה לבד קודם — הטבלאות מימין.</span>';wc.appendChild(bar);
