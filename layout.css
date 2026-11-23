@@ -278,3 +278,31 @@ html.proto .method>li h3{margin:2px 0 4px!important;font-size:19px!important}
 .dock .xrow td{background:var(--rel-bg,#FCF0DC)!important}
 .docknote{background:var(--ent-bg,#E6EEFC);border-radius:10px;padding:10px 14px}
 html.has-dock .jlbox .jlsec{display:none!important}
+/* split v3: question on the solution side, solution on demand, clearer marks */
+.splsolbar{display:flex;align-items:center;gap:12px;margin:4px 0 14px}
+.splshow{font:700 15px Assistant,sans-serif;background:var(--ent,#2457C5);color:#fff;border:0;border-radius:10px;padding:9px 20px;cursor:pointer}
+.spl.solon .splshow{background:#fff;color:var(--ent,#2457C5);border:1px solid var(--ent,#2457C5)}
+.splhint{color:#78716c;font-size:14px}
+.spl.solon .splhint{display:none}
+.splall{display:flex;align-items:center;gap:6px;font:600 13.5px Assistant,sans-serif;color:#44403c;white-space:nowrap;cursor:pointer}
+.splall input{width:16px;height:16px;accent-color:var(--ent,#2457C5)}
+.spl:not(.solon) .spld .srct.unused{opacity:1!important;filter:none!important}
+.splw .splintro{margin-top:0}
+/* marks on the fixed tables: what is left stays crisp, what dropped earlier nearly disappears, what drops now is crossed out in red */
+.spld .xtw tr.xfade td,.dock .xtw tr.xfade td{opacity:.14!important}
+.spld .xtw tr.xred td,.dock .xtw tr.xred td{opacity:.75!important;background:#fecaca!important;text-decoration:line-through;text-decoration-color:#b91c1c;animation:xflash 1s ease-out}
+@keyframes xflash{0%{background:#f87171}100%{background:#fecaca}}
+.spld .xsrct.xoff,.dock .xsrct.xoff{opacity:.18!important}
+.spld .xtw tbody tr:not(.xfade) td,.dock .xtw tbody tr:not(.xfade) td{transition:background .3s}
+.xcnt{display:inline-block;margin-inline-start:8px;font:700 11.5px Assistant,sans-serif;color:#57534e;background:#f5f5f4;border:1px solid #e7e5e0;border-radius:99px;padding:0 8px;vertical-align:2px}
+.xsrct .rtname{white-space:nowrap}
+/* the count badge never changes a table's box: it sits under the table */
+.spld .srcside>.sxlab{display:none!important}
+.spld .xsrct,.spld .srct,.dock .xsrct,.dock .srct{position:relative}
+.xcnt{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin:2px 0 0!important;white-space:nowrap;vertical-align:0}
+.spld .xsrc,.spld .srcside,.dock .xsrc,.dock .srcside{row-gap:26px!important}
+.splfab{position:fixed;right:18px;bottom:18px;z-index:210;width:230px;height:46px;border-radius:99px;border:0;cursor:pointer;
+ font:800 15px Assistant,sans-serif;color:#fff;background:var(--ent,#2457C5);box-shadow:0 6px 20px rgba(36,87,197,.35);display:flex;align-items:center;justify-content:center;gap:6px}
+.splfab:hover{filter:brightness(1.08)}
+.splgo.big{display:none!important}
+.spl .splc{padding-bottom:80px}

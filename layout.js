@@ -110,7 +110,7 @@ function build(){
  if(!document.body.classList.contains('exw'))return;
  var U=units();if(U.length<2)return;
  var ov=document.createElement('div');ov.className='spl';ov.hidden=true;
- ov.innerHTML='<div class="splh"><b class="splt"></b><div class="spltabs"></div><button class="splx" type="button">✕ חזרה לתצוגה הרגילה</button></div>'+
+ ov.innerHTML='<div class="splh"><b class="splt"></b><div class="spltabs"></div><label class="splall"><input type="checkbox"> הצג את כל הפתרונות</label></div>'+
   '<div class="splb"><div class="splp spld"><div class="spllab">השאלה והנתונים</div><div class="splc"></div></div><div class="splbar" title="גרור כדי לשנות רוחב"></div><div class="splp splw"><div class="spllab">הפתרון</div><div class="splc"></div></div></div>';
  document.body.appendChild(ov);
  var tabs=ov.querySelector('.spltabs'),dc=ov.querySelector('.spld .splc'),wc=ov.querySelector('.splw .splc'),cur=-1,ph=[];
@@ -118,23 +118,47 @@ function build(){
   var b=document.createElement('button');b.type='button';b.innerHTML='<bdi>'+u.label+'</bdi>';b.title=u.title;b.onclick=function(){show(i)};tabs.appendChild(b)});
  function chapter(){var cm=(document.querySelector('.chapmid .chapnum, .chapmid small')||{}).textContent||'';var n=((document.querySelector('.chapmid')||{}).textContent||'').match(/פרק\s*(\d+)/);var ct=(document.querySelector('.chaptitle')||{}).textContent||'';var ex=((document.querySelector('nav.seg2 a[aria-current] b')||{}).textContent||'').trim();
   return '<span class="splch">'+(n?'פרק '+n[1]+' · ':'')+esc(ct.trim())+'</span>'+(ex?' <span class="splex">'+esc(ex)+'</span>':'')}
- function park(){ov.classList.remove('xlive');document.querySelectorAll('.splhideq').forEach(function(x){x.classList.remove('splhideq')});ph.forEach(function(p){p[0].parentNode.insertBefore(p[1],p[0]);p[0].remove()});ph=[]}
+ function park(){ov.classList.remove('xlive');if(ov._mo){ov._mo.disconnect();ov._mo=null}document.querySelectorAll('.splhideq').forEach(function(x){x.classList.remove('splhideq')});ph.forEach(function(p){p[0].parentNode.insertBefore(p[1],p[0]);p[0].remove()});ph=[]}
  function take(el,into){var m=document.createComment('spl');el.parentNode.insertBefore(m,el);ph.push([m,el]);into.appendChild(el)}
- function show(i){park();cur=i;var u=U[i];dc.innerHTML='';if(u.pre)dc.insertAdjacentHTML('beforeend',u.pre);u.data.forEach(function(e){take(e,dc)});if(u.hideQ&&u.data[0])u.data[0].classList.add('splhideq');u.work.forEach(function(e){take(e,wc)});
-  ov.querySelector('.splt').innerHTML=chapter();
+ var showAll=false;try{showAll=localStorage.getItem('spl-all')==='1'}catch(e){}
+ var opened={};
+ function liveTables(i){var slot=dc.querySelector('.splslot');var xb=wc.querySelector('.xbtn');if(!xb||!slot)return;
+  var box=xb.closest('.ldbtns').nextElementSibling;if(box&&box.classList.contains('sqlx')&&box.hidden)xb.click();
+  var tries=0,iv=setInterval(function(){if(cur!==i){clearInterval(iv);return}var sb=wc.querySelector('.sqlx .xsrcbox');
+   if(sb&&sb.children.length){clearInterval(iv);var m=document.createComment('xsrc');sb.parentNode.insertBefore(m,sb);ph.push([m,sb]);
+    slot.innerHTML='';slot.appendChild(sb);ov.classList.add('xlive');watch(sb)}
+   else if(++tries>60)clearInterval(iv)},100)}
+ /* after every step: count what is left in each table, and flash the rows that dropped now */
+ function watch(sb){var mo=new MutationObserver(function(){decorate(sb)});mo.observe(sb,{childList:true});decorate(sb);ov._mo&&ov._mo.disconnect();ov._mo=mo}
+ function decorate(sb){sb.querySelectorAll('.xsrct').forEach(function(t){var rows=t.querySelectorAll('tbody tr');if(!rows.length)return;
+   var gone=0,now=0;rows.forEach(function(r){if(r.classList.contains('xfade'))gone++;if(r.classList.contains('xred'))now++});
+   var lab=t.querySelector('.rtname');if(!lab)return;var old=lab.querySelector('.xcnt');old&&old.remove();
+   if(t.classList.contains('xoff'))return;
+   var k=document.createElement('span');k.className='xcnt';k.textContent=(rows.length-gone)+' מתוך '+rows.length+(now?' · '+now+' נופלות עכשיו':'');lab.appendChild(k)})}
+ function reveal(i,on){var u=U[i];var sol=wc.querySelector('.splsolbox');var btn=wc.querySelector('.splshow');
+  if(sol){sol.hidden=!on}
+  wc.querySelectorAll('details.sol').forEach(function(d){d.open=on});
+  if(btn)btn.textContent=on?'הסתר פתרון':'הצג פתרון';
+  ov.classList.toggle('solon',on);
+  if(on&&sol)liveTables(i);
+  if(!on){ov.classList.remove('xlive');var k=ph.findIndex(function(p){return p[1].classList&&p[1].classList.contains('xsrcbox')});if(k>=0){var p=ph[k];p[0].parentNode.insertBefore(p[1],p[0]);p[0].remove();ph.splice(k,1)}if(ov._mo){ov._mo.disconnect();ov._mo=null}}}
+ function show(i){park();cur=i;var u=U[i];dc.innerHTML='';wc.innerHTML='';ov.classList.remove('xlive');
+  /* the question text goes with the solution side; the data side keeps only the tables, so their height never changes */
+  if(u.pre)wc.insertAdjacentHTML('beforeend',u.pre);
+  u.data.forEach(function(e){take(e,dc)});if(u.hideQ&&u.data[0])u.data[0].classList.add('splhideq');
   var slot=document.createElement('div');slot.className='splslot';dc.appendChild(slot);
-  var xb=wc.querySelector('.xbtn');
-  if(xb){var box=xb.closest('.ldbtns').nextElementSibling;if(box&&box.classList.contains('sqlx')&&box.hidden)xb.click();
-   var tries=0,iv=setInterval(function(){if(cur!==i){clearInterval(iv);return}var sb=wc.querySelector('.sqlx .xsrcbox');
-    if(sb&&sb.children.length){clearInterval(iv);var m=document.createComment('xsrc');sb.parentNode.insertBefore(m,sb);ph.push([m,sb]);
-     slot.innerHTML='<div class="spllab2">כל הטבלאות בשאלה — מתעדכנות לפי השלב שבוחרים בצד הפתרון</div>';slot.appendChild(sb);ov.classList.add('xlive')}
-    else if(++tries>60)clearInterval(iv)},100)}
+  var bar=document.createElement('div');bar.className='splsolbar';bar.innerHTML='<button type="button" class="splshow">הצג פתרון</button><span class="splhint">נסה לבד קודם — הטבלאות מימין.</span>';wc.appendChild(bar);
+  var hasDetails=u.work.some(function(e){return e.querySelector&&e.querySelector('details.sol')});
+  if(hasDetails){u.work.forEach(function(e){take(e,wc)})}
+  else{var box=document.createElement('div');box.className='splsolbox';box.hidden=true;wc.appendChild(box);u.work.forEach(function(e){take(e,box)})}
+  bar.querySelector('.splshow').onclick=function(){opened[i]=!(opened[i]||showAll);reveal(i,opened[i])};
+  ov.querySelector('.splt').innerHTML=chapter();
   [].forEach.call(tabs.querySelectorAll('button'),function(b,k){b.classList.toggle('on',k===i)});
   dc.scrollTop=0;wc.scrollTop=0;var a=tabs.querySelectorAll('button')[i];a.scrollIntoView({block:'nearest',inline:'center'});
-  wc.querySelectorAll('details.sol').forEach(function(d){d.open=true})}
+  reveal(i,opened[i]!==undefined?opened[i]:showAll)}
  function open(i){ov.hidden=false;document.documentElement.classList.add('spl-on');show(i||0)}
  function close(){park();ov.hidden=true;document.documentElement.classList.remove('spl-on');if(U[cur]){var e=U[cur].data[0];e&&e.scrollIntoView({block:'start'})}}
- ov.querySelector('.splx').onclick=close;
+ var ab=ov.querySelector('.splall input');ab.checked=showAll;ab.onchange=function(){showAll=ab.checked;opened={};try{localStorage.setItem('spl-all',showAll?'1':'0')}catch(e){};reveal(cur,showAll)};
  addEventListener('keydown',function(e){if(ov.hidden)return;if(e.key==='Escape')close();
   if(e.key==='ArrowLeft'&&cur<U.length-1&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName))show(cur+1);
   if(e.key==='ArrowRight'&&cur>0&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName))show(cur-1)});
@@ -147,7 +171,12 @@ function build(){
   if(host.classList.contains('pqa')){var h=host.querySelector('h3');h.appendChild(b)}else host.appendChild(b)});
  var h=location.hash.slice(1),start=0;if(h){U.forEach(function(u,k){var d=u.data[0];if(d&&(d.id===h||(d.closest&&d.closest('#'+CSS.escape(h)))||(d.querySelector&&d.querySelector('#'+CSS.escape(h)))))start=k})}
  setTimeout(function(){open(start)},50);
- var hero=document.querySelector('.hero');if(hero){var t=document.createElement('button');t.type='button';t.className='splgo big';t.innerHTML='⇆ תצוגה מפוצלת: נתונים מצד אחד, פתרון מצד שני';t.onclick=function(){open(0)};hero.appendChild(t)}
+ /* one floating toggle, bottom right, same size in both views */
+ var fb=document.createElement('button');fb.type='button';fb.className='splfab';document.body.appendChild(fb);
+ function fbText(){fb.innerHTML=ov.hidden?'⇆ עבור לתצוגה מפוצלת':'✕ חזור לתצוגה רגילה'}
+ function nearest(){var y=innerHeight*0.3,best=0;U.forEach(function(u,k){var e=u.data[0];if(!e||!e.getBoundingClientRect)return;if(e.getBoundingClientRect().top<=y)best=k});return best}
+ fb.onclick=function(){if(ov.hidden)open(nearest());else close();fbText()};
+ var _o=open,_c=close;open=function(i){_o(i);fbText()};close=function(){_c();fbText()};fbText();
 }
 })();
 /* ===== ex3: one code block when the official answer and the SQLite version are the same ===== */
