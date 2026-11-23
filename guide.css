@@ -574,7 +574,9 @@ b.yes{color:var(--ok)} b.no{color:var(--key)}
 .calcgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin-top:10px}
 .calcbox{border:1px solid var(--line);border-radius:8px;padding:8px 12px}
 .calcbox h4{margin:2px 0 6px}
-ol.calcsteps{direction:ltr;text-align:left;font-family:"Cambria Math","Times New Roman",serif;margin:0;padding-left:22px}
+ol.calcsteps{direction:ltr;text-align:left;unicode-bidi:isolate;font-family:"Cambria Math","Times New Roman",serif;margin:0;padding-left:22px}
+ol.calcsteps li{direction:ltr;text-align:left}
+ol[dir="ltr"]>li,ul[dir="ltr"]>li{direction:ltr;text-align:left}
 ul.calclog{font-size:.9rem;padding-inline-start:18px;margin:6px 0}
 .fdcheck input{width:150px}
 .fdres{margin-inline-start:6px}
