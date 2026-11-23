@@ -244,3 +244,24 @@ html.proto main section[id]{scroll-margin-top:66px}
 .dock .rtwrap,.spld .rtwrap{margin:0!important}
 .dock .rtcount,.spld .rtcount{display:none!important}
 .dock .xsrcbox,.dock .srcside,.dock .xsrc{margin:0!important;padding:0!important}
+/* chapter bar v2: fixed chapter name, scrolling sections, search on the left */
+html.proto .pmap{display:flex!important;gap:0!important;overflow:visible!important;padding:0 130px 0 10px!important}
+html.proto .pmap .pmh{flex-shrink:0}
+html.proto .pmsc{flex:1;min-width:0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;align-items:center;height:100%;padding:0 6px;
+ -webkit-mask-image:linear-gradient(to left,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%);mask-image:linear-gradient(to left,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%)}
+html.proto .pmsc::-webkit-scrollbar{display:none}
+html.proto .pmsrch{flex-shrink:0;width:36px;height:36px;border-radius:10px;border:1px solid #e7e5e0;background:#fff;color:#44403c;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;margin-right:8px}
+html.proto .pmsrch:hover{border-color:var(--ent,#2457C5);color:var(--ent,#2457C5)}
+html.proto.has-pmap .mta-srch-fab{display:none!important}
+@media (max-width:700px){html.proto .pmap{padding-right:110px!important}html.proto .pmap .pmh bdi{display:none}}
+
+/* readability: comfortable line length and calmer spacing */
+html.proto main section p,html.proto main section li,html.proto main section .intro{max-width:72ch}
+html.proto main section .box p,html.proto main section .lec p,html.proto main section .box li,html.proto main section td p{max-width:none}
+html.proto main section p.mathline{max-width:none}
+html.proto main p,html.proto main li{font-size:17.5px;line-height:1.75}
+html.proto .lec .pbb,html.proto .box .pbb{padding:12px 18px}
+html.proto .lec .pbh .lect{background:#fff;font-size:11.5px;padding:1px 9px}
+html.proto .method>li{padding-top:8px!important;padding-bottom:8px!important;padding-inline-start:46px!important}
+html.proto .method>li::before{width:30px!important;height:30px!important;font-size:15px!important;top:10px!important;background:var(--ent,#2457C5)!important;color:#fff!important;font-family:Assistant,sans-serif!important;font-weight:800}
+html.proto .method>li h3{margin:2px 0 4px!important;font-size:19px!important}

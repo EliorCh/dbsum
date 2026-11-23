@@ -55,15 +55,21 @@ document.addEventListener('DOMContentLoaded',function(){
    d.innerHTML='<div class="pk"><b class="lb">💡 השורה התחתונה</b><p>'+g[0]+'</p></div><div class="pq"><p><b>בדוק את עצמך:</b> '+g[1]+'</p><button type="button">הצג תשובה</button><div class="pa">'+g[2]+'</div></div>';
    d.querySelector('button').onclick=function(){d.classList.toggle('open');this.textContent=d.classList.contains('open')?'הסתר':'הצג תשובה'};s.appendChild(d)}});
 if(secs.length>2&&document.body.classList.contains('chapter')){var ct=((document.querySelector('.chaptitle')||{}).textContent||'').trim();
-  var hd=document.createElement('a');hd.className='pmh';hd.href='#top';hd.innerHTML=(cn?'<b>פרק '+cn+'</b>':'')+'<bdi>'+ct+'</bdi>';map.insertBefore(hd,map.firstChild);
+  var hd=document.createElement('a');hd.className='pmh';hd.href='#top';hd.innerHTML=(cn?'<b>פרק '+cn+'</b>':'')+'<bdi>'+ct+'</bdi>';
+  /* the chapter name stays put; only the section list scrolls */
+  var sc=document.createElement('div');sc.className='pmsc';while(map.firstChild)sc.appendChild(map.firstChild);
+  var sb=document.createElement('button');sb.type='button';sb.className='pmsrch';sb.title='חיפוש באתר (Ctrl+K)';sb.setAttribute('aria-label','חיפוש באתר');
+  sb.innerHTML='<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>';
+  sb.onclick=function(){if(window.MTASearch)MTASearch.open();else{var f=document.querySelector('.mta-srch-fab');f&&f.click()}};
+  map.appendChild(hd);map.appendChild(sc);map.appendChild(sb);
   document.body.insertBefore(map,document.body.firstChild);document.documentElement.classList.add('has-pmap');
-  var links=[].slice.call(map.querySelectorAll('a:not(.pmh)'));
+  var links=[].slice.call(sc.querySelectorAll('a'));
   function upd(){var y=innerHeight*0.3,cur=-1;secs.forEach(function(s,n){if(s.getBoundingClientRect().top<y)cur=n});
    links.forEach(function(a,n){a.classList.toggle('on',n===cur);a.classList.toggle('done',n<cur)});
-   if(cur>=0){var a=links[cur];var L=a.offsetLeft,W=map.clientWidth;if(L<map.scrollLeft||L>map.scrollLeft+W-120)map.scrollLeft=L-W/2}}
+   if(cur>=0){var a=links[cur],ar=a.getBoundingClientRect(),sr=sc.getBoundingClientRect();if(ar.left<sr.left+20||ar.right>sr.right-20)sc.scrollLeft+=(ar.left+ar.width/2)-(sr.left+sr.width/2)}}
   addEventListener('scroll',upd,{passive:true});upd();
   /* arrows inside the chapter bar move between sections (RTL: left = next), not scroll the bar */
-  map.addEventListener('keydown',function(e){if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;e.preventDefault();
+  sc.addEventListener('keydown',function(e){if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;e.preventDefault();
    var on=links.findIndex(function(a){return a===document.activeElement});if(on<0)on=links.findIndex(function(a){return a.classList.contains('on')});
    var n=Math.max(0,Math.min(links.length-1,on+(e.key==='ArrowLeft'?1:-1)));var a=links[n];a.focus({preventScroll:true});
    var t=document.getElementById(a.getAttribute('href').slice(1));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+t.id)});
