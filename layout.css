@@ -328,3 +328,19 @@ html.has-dock .jlbox .jlsec{display:none!important}
 .spl .splw .xboard>*{max-width:100%;overflow-x:auto}
 .splb{grid-template-columns:44% 10px minmax(0,1fr)}
 .splp{min-width:0}
+/* ===== phones: nothing squeezes into letter-wide columns ===== */
+@media (max-width:759px){
+ .ex.sqlstep .algpanel{flex-direction:column!important;align-items:stretch!important;gap:10px}
+ .ex.sqlstep .algpanel>*{width:100%!important;max-width:100%!important;min-width:0}
+ .rtrow,.rtwrap,.xtw,.tbl,.xpanel,.xboard,.sxres,.jlbox,.algpanel .rtrow{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+ .rtwrap table,.xtw table,.rtrow table{width:max-content!important;max-width:none!important}
+ table.rt th,table.rt td,.rtwrap th,.rtwrap td{white-space:nowrap!important;word-break:normal!important;overflow-wrap:normal!important}
+ .tbl td,.tbl th{word-break:normal;overflow-wrap:anywhere}
+ .sxra{display:block;overflow-x:auto}
+ .sxra code.xp{white-space:nowrap!important;display:inline-block;max-width:none!important}
+ pre.sqlcode{font-size:13px!important;white-space:pre!important;overflow-x:auto}
+ html.proto main p,html.proto main li{font-size:16px!important;line-height:1.65}
+ html.proto main section p,html.proto main section li{max-width:none}
+ .sqlex,.ex{padding-left:10px!important;padding-right:10px!important}
+}
+html.mta-menu-collapsed{overflow-x:clip}
