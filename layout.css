@@ -314,3 +314,17 @@ html.has-dock .jlbox .jlsec{display:none!important}
 .spl .splsolbox .sxmain>.sqlx{order:-1;margin-top:0}
 .spl .splsolbox .xhelp{display:none}
 .spl .splsolbox .sxmain>.ldbtns .xbtn{display:none}
+/* wide intermediate tables scroll inside their own box; the solution pane never scrolls sideways */
+.spl .splw .splc{overflow-x:hidden}
+.spl .splw .xpanel,.spl .splw .xboard,.spl .splw .sxres,.spl .splw .rtwrap{max-width:100%;overflow-x:auto}
+.spl .splw .xboard{align-items:stretch}
+.spl .splw .xboard>.xtw,.spl .splw .xboard>.rtwrap{align-self:center}
+.spl .splw .xtw td,.spl .splw .xtw th{padding:3px 8px!important;font-size:13px!important}
+.spl .splw pre.sqlcode{white-space:pre-wrap;overflow-wrap:anywhere}
+.xnav{gap:6px!important}
+.xnav .xprog{margin-inline-start:8px}
+.spl .splw .splsolbox,.spl .splw .sxmain,.spl .splw .sqlx,.spl .splw .xpanel,.spl .splw .xboard,.spl .splw .e3alt,.spl .splw .sxgrid{min-width:0!important;max-width:100%!important;box-sizing:border-box}
+.spl .splw .xpanel{overflow-x:auto}
+.spl .splw .xboard>*{max-width:100%;overflow-x:auto}
+.splb{grid-template-columns:44% 10px minmax(0,1fr)}
+.splp{min-width:0}

@@ -288,7 +288,7 @@ async function mount(el,db,sql,extra){
   el.innerHTML=`<div class="xhelp">לחץ על חלק בשאילתה או על שלב. כל חלק בשאילתה צבוע בצבע פסטל — ובאותו צבע מסומנות השורות והעמודות שהוא משפיע עליהן. מה שלא רלוונטי דהוי.</div>
    <pre class="sqlcode xquery">${renderQuery(sql,M.ranges)}</pre>
    <div class="xsteps">${M.steps.map((s,i)=>`<button type="button" class="chip" data-s="${i}">${i+1}. ${s.title}</button>`).join('')}</div>
-   <div class="xnav"><button type="button" class="btn ghost xprev">→ הקודם</button><span class="xprog"></span><button type="button" class="btn xnext">הבא ←</button></div>
+   <div class="xnav"><button type="button" class="btn ghost xprev">→ הקודם</button><button type="button" class="btn xnext">הבא ←</button><span class="xprog"></span></div>
    <div class="xcap"></div><div class="xsrcbox"></div><div class="xpanel"></div>`;
   const Q=el.querySelector('.xquery'),cap=el.querySelector('.xcap'),sb=el.querySelector('.xsrcbox'),pan=el.querySelector('.xpanel');
   const hiQ=k=>Q.querySelectorAll('.xq').forEach(x=>x.classList.toggle('on',!!k&&(x.dataset.k===k||(k==='tbl'&&x.classList.contains('x-tbl')))));

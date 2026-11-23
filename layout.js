@@ -153,7 +153,7 @@ function build(){
   if(u.intro){var ib=document.createElement('div');ib.className='splintrobox';ib.innerHTML=u.intro;dc.appendChild(ib);introH()}
   u.data.forEach(function(e){take(e,dc)});if(u.hideQ&&u.data[0])u.data[0].classList.add('splhideq');
   var slot=document.createElement('div');slot.className='splslot';dc.appendChild(slot);
-  var bar=document.createElement('div');bar.className='splsolbar';bar.innerHTML='<button type="button" class="splshow">הצג פתרון</button><span class="splhint">נסה לבד קודם — הטבלאות מימין.</span>';wc.appendChild(bar);
+  var bar=document.createElement('div');bar.className='splsolbar';bar.innerHTML='<button type="button" class="splshow">הצג פתרון</button><span class="splhint">נסה לבד קודם — הטבלאות מימין. רווח מציג את הפתרון; ←/→ מעבירים שלב, Shift+←/→ שאלה.</span>';wc.appendChild(bar);
   var hasDetails=u.work.some(function(e){return e.querySelector&&e.querySelector('details.sol')});
   if(hasDetails){u.work.forEach(function(e){take(e,wc)})}
   else{var box=document.createElement('div');box.className='splsolbox';box.hidden=true;wc.appendChild(box);u.work.forEach(function(e){take(e,box)})}
@@ -165,12 +165,19 @@ function build(){
  function open(i){ov.hidden=false;document.documentElement.classList.add('spl-on');show(i||0)}
  function close(){park();ov.hidden=true;document.documentElement.classList.remove('spl-on');if(U[cur]){var e=U[cur].data[0];e&&e.scrollIntoView({block:'start'})}}
  var ab=ov.querySelector('.splall input');ab.checked=showAll;ab.onchange=function(){showAll=ab.checked;opened={};try{localStorage.setItem('spl-all',showAll?'1':'0')}catch(e){};reveal(cur,showAll)};
- addEventListener('keydown',function(e){if(ov.hidden)return;if(e.key==='Escape')close();
-  if(e.key==='ArrowLeft'&&cur<U.length-1&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName))show(cur+1);
-  if(e.key==='ArrowRight'&&cur>0&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName))show(cur-1)});
+ /* keys: ←/→ move between the breakdown steps when a solution is open (Shift+←/→ always switch question);
+    Space shows / hides the solution */
+ addEventListener('keydown',function(e){if(ov.hidden)return;var ae=document.activeElement;if(/INPUT|TEXTAREA|SELECT/.test(ae.tagName)||ae.isContentEditable)return;
+  if(e.key==='Escape'){close();return}
+  if(e.key===' '||e.code==='Space'){e.preventDefault();var b=wc.querySelector('.splshow');b&&b.click();return}
+  if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;
+  var fwd=e.key==='ArrowLeft';var nav=ov.classList.contains('solon')&&!e.shiftKey?wc.querySelector('.sqlx:not([hidden]) .xnav'):null;
+  e.preventDefault();
+  if(nav){var b=nav.querySelector(fwd?'.xnext':'.xprev');if(b&&!b.disabled)b.click();return}
+  if(fwd&&cur<U.length-1)show(cur+1);if(!fwd&&cur>0)show(cur-1)});
  // divider drag
  var bar=ov.querySelector('.splbar'),body=ov.querySelector('.splb');
- bar.addEventListener('pointerdown',function(e){bar.setPointerCapture(e.pointerId);function mv(ev){var r=body.getBoundingClientRect();var x=(r.right-ev.clientX)/r.width*100;x=Math.max(25,Math.min(70,x));body.style.gridTemplateColumns=x+'% 10px 1fr'}
+ bar.addEventListener('pointerdown',function(e){bar.setPointerCapture(e.pointerId);function mv(ev){var r=body.getBoundingClientRect();var x=(r.right-ev.clientX)/r.width*100;x=Math.max(25,Math.min(70,x));body.style.gridTemplateColumns=x+'% 10px minmax(0,1fr)'}
   function up(){bar.removeEventListener('pointermove',mv);bar.removeEventListener('pointerup',up)}bar.addEventListener('pointermove',mv);bar.addEventListener('pointerup',up)});
  // entry points: a button on every question + one at the top of the page
  U.forEach(function(u,i){var host=u.data[0];if(!host)return;var b=document.createElement('button');b.type='button';b.className='splgo';b.innerHTML='⇆ פתח בתצוגה מפוצלת';b.onclick=function(){open(i)};
