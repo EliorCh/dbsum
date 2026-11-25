@@ -274,7 +274,8 @@ function init(){
   colorize(c,I);if(c.classList.contains('sqlstep'))stepMarks(c);fit()}
 
  /* ---- the execution-order example: the source tables in the panel follow the steps ---- */
- function stepMarks(c){var pr=c.querySelector('.prog');var k=pr?(parseInt((pr.textContent.match(/\d+/)||['1'])[0],10)||1):1;
+ function stepMarks(c,kk){if(kk===undefined&&!stepMarks.h){var mx=0;for(var q=1;q<=6;q++){stepMarks(c,q);var e=slot.querySelector('.stepnote');if(e){e.style.minHeight='';mx=Math.max(mx,e.offsetHeight)}}stepMarks.h=mx}
+  var pr=c.querySelector('.prog');var k=kk||(pr?(parseInt((pr.textContent.match(/\d+/)||['1'])[0],10)||1):1);
   var T=SQLD.TABLES.bank,cu=T.customer,de=T.deposit;var ci=function(t,n){return t.cols.indexOf(n)};
   var haifa=cu.rows.filter(function(r){return r[ci(cu,'customer_city')]==='Haifa'}).map(function(r){return r[ci(cu,'customer_name')]});
   var alive=function(r){return haifa.indexOf(r[ci(de,'customer_name')])<0};
@@ -303,7 +304,7 @@ function init(){
    var w=document.createTreeWalker(q,NodeFilter.SHOW_TEXT),ns=[],n;while((n=w.nextNode()))ns.push(n);
    ns.forEach(function(tn){P.forEach(function(pp){var i=tn.textContent.indexOf(pp[0]);if(i<0)return;var a=tn.splitText(i);a.splitText(pp[0].length);var sp=document.createElement('span');sp.className='qmk';sp.dataset.k=pp[1];sp.textContent=pp[0];a.replaceWith(sp);tn=sp.nextSibling||tn})})}
   c.querySelectorAll('.qmk').forEach(function(x){x.classList.toggle('on',+x.dataset.k===k)});
-  var nb=slot.querySelector('.stepnote');if(!nb){nb=document.createElement('div');nb.className='stepnote';slot.insertBefore(nb,slot.firstChild)}nb.innerHTML=note}
+  var nb=slot.querySelector('.stepnote');if(!nb){nb=document.createElement('div');nb.className='stepnote';slot.insertBefore(nb,slot.firstChild)}nb.innerHTML=note;if(stepMarks.h)nb.style.minHeight=stepMarks.h+'px'}
  document.addEventListener('click',function(e){var b=e.target.closest('.ex.sqlstep .stepbar button');if(!b)return;var c=b.closest('.ex.sqlstep');setTimeout(function(){if(cur===c){stepMarks(c);fit()}},30)});
  /* ---- one colour per table: the same colour marks the table in the panel and its name / columns in the example ---- */
  var PAL=['#fde68a','#bfdbfe','#bbf7d0','#fbcfe8','#ddd6fe','#fed7aa'];
@@ -341,7 +342,7 @@ function init(){
   var on=bot>-1e9;dock.classList.toggle('off',!on);document.documentElement.classList.toggle('dock-vis',on);
   if(on){dock.style.top=Math.max(8,top)+'px';dock.style.bottom=Math.max(8,innerHeight-bot)+'px';document.documentElement.classList.toggle('dock-top',top<60)}}
  addEventListener('scroll',function(){if(!place.t)place.t=requestAnimationFrame(function(){place.t=0;place()})},{passive:true});
- addEventListener('resize',function(){place();fit()});
+ addEventListener('resize',function(){stepMarks.h=0;place();fit()});
  function pick(){var y=innerHeight*0.35,best=null,bd=1e9;cards.forEach(function(c){var r=c.getBoundingClientRect();if(!r.height||r.bottom<80||r.top>innerHeight)return;var d=r.top<=y&&r.bottom>=y?0:Math.min(Math.abs(r.top-y),Math.abs(r.bottom-y));if(d<bd){bd=d;best=c}});
   /* still in a section's intro, before its first example: show that section's first example, not the previous section's */
   var sec=secs.find(function(s){var r=s.getBoundingClientRect();return r.top<=y&&r.bottom>=y});
