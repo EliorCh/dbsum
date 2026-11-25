@@ -291,7 +291,7 @@ function init(){
   if(k>=2){rowsOf('customer').forEach(function(tr,i){if(haifa.indexOf(cu.rows[i][ci(cu,'customer_name')])>=0)tr.classList.add(k===2?'snow':'sfade')});
    rowsOf('deposit').forEach(function(tr,i){if(!alive(de.rows[i]))tr.classList.add(k===2?'snow':'sfade')});
    if(k===2){var t=tbl('customer'),j=ci(cu,'customer_city');if(t)t.querySelectorAll('tbody tr').forEach(function(tr,i){if(cu.rows[i][j]==='Haifa')tr.children[j].classList.add('shit')});
-    note='<b>where</b> <code>customer_city &lt;&gt; \'Haifa\'</code> — מהשאלה: ״שלא גרים ב־Haifa״. בטבלה customer הערך Haifa מסומן: '+haifa.join(' ו־')+' גרים שם, ולכן הם נופלים — וגם כל החשבונות שלהם ב־deposit.'}}
+    note='<b>where</b> <bdi dir="ltr"><code>customer_city &lt;&gt; \'Haifa\'</code></bdi> — מהשאלה: ״שלא גרים ב־Haifa״. בטבלה customer הערך Haifa מסומן: '+haifa.join(' ו־')+' גרים שם, ולכן הם נופלים — וגם כל החשבונות שלהם ב־deposit.'}}
   if(k>=3){rowsOf('deposit').forEach(function(tr,i){var r=de.rows[i];if(!alive(r))return;var g=groups.indexOf(r[ci(de,'branch_name')]);
     if(k>=4&&cnt[r[ci(de,'branch_name')]]<2)tr.classList.add(k===4?'snow':'sfade');else tr.classList.add('sg'+(g%4))});
    mark('deposit','branch_name','skey');
