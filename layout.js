@@ -394,3 +394,24 @@ function init(){
  document.addEventListener('click',function(e){if(!dock.contains(e.target))dock.querySelectorAll('.ftp').forEach(function(x){x.hidden=true;x.previousSibling.classList.remove('on')})});
 }
 })();
+/* ===== relational algebra pages: the "source tables" panel becomes the fixed data panel ===== */
+(function(){
+document.addEventListener('DOMContentLoaded',function(){setTimeout(init,1400)});
+function init(){
+ if(document.querySelector('.dock')||typeof SRC==='undefined'||document.body.classList.contains('exw'))return;
+ var exs=[].slice.call(document.querySelectorAll('.ex')).filter(function(e){return e.querySelector('.srcBtn,.srcDataBtn')});
+ if(!exs.length)return;
+ var H=document.documentElement;H.classList.add('has-srcdock');
+ var cur=null,panel=null;
+ function pick(){var y=innerHeight*0.35,best=null,bd=1e9;exs.forEach(function(c){var r=c.getBoundingClientRect();if(!r.height||r.bottom<60||r.top>innerHeight)return;var d=r.top<=y&&r.bottom>=y?0:Math.min(Math.abs(r.top-y),Math.abs(r.bottom-y));if(d<bd){bd=d;best=c}});
+  panel=panel||document.querySelector('.srcpanel');
+  if(!best){if(panel)panel.classList.add('off');H.classList.remove('srcdock-vis');return}
+  if(best!==cur){cur=best;var b=best.querySelector('.srcBtn,.srcDataBtn');if(b&&b.getAttribute('aria-pressed')!=='true')b.click()}
+  panel=document.querySelector('.srcpanel');if(panel){panel.classList.remove('off');panel.hidden=false;H.classList.add('srcdock-vis');fit()}}
+ var Z={};function fit(){var b=panel&&panel.querySelector('.srcbody');if(!b)return;var key=b.querySelectorAll('.srcrel').length+'|'+innerHeight+'|'+[].map.call(b.querySelectorAll('.srcname'),function(x){return x.firstChild&&x.firstChild.textContent}).join();
+  if(!Z[key]){b.style.zoom=1;var avail=panel.clientHeight-(panel.querySelector('.srchead').offsetHeight+panel.querySelector('.srclegend').offsetHeight)-24;Z[key]=Math.max(.5,Math.min(1,avail/b.scrollHeight))}b.style.zoom=Z[key]}
+ addEventListener('scroll',function(){if(!pick.t)pick.t=requestAnimationFrame(function(){pick.t=0;pick()})},{passive:true});
+ addEventListener('resize',function(){Z={};pick()});
+ pick();
+}
+})();

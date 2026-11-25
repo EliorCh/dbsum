@@ -494,3 +494,29 @@ html.dock-vis .ftp{left:auto;right:48px}
  html.has-dock body .wrap>section:not(.hero),html.proto.has-dock.mta-menu-collapsed body .wrap>section:not(.hero),html.proto.has-dock.mta-menu-collapsed body .wrap>section.dsec.dsec{max-width:900px!important;margin-inline:auto!important}
  html.has-dock .wrap{max-width:none!important}
 }
+/* source-tables panel as the fixed data panel (relational algebra) */
+html.has-srcdock .srcBtn,html.has-srcdock .srcDataBtn,html.has-srcdock .srcclose,html.has-srcdock .srcmin{display:none!important}
+@media (min-width:760px){
+ html.has-srcdock main{padding-left:calc(clamp(280px,32vw,480px) + 26px)!important}
+ html.has-srcdock .wrap{max-width:none!important}
+ html.has-srcdock body .wrap>section:not(.hero){max-width:900px!important;margin-inline:auto!important}
+ html.has-srcdock .srcpanel{left:12px!important;right:auto!important;top:8px!important;bottom:8px!important;width:clamp(280px,32vw,480px)!important;max-height:none!important;transform:none!important;border-radius:14px!important;z-index:40;transition:opacity .2s}
+ html.has-srcdock .srcpanel.off{opacity:0;pointer-events:none}
+ html.srcdock-vis .pmap{left:calc(clamp(280px,32vw,480px) + 22px)!important}
+ html.srcdock-vis .ftools{left:auto;right:12px}
+}
+html.has-srcdock .srchead{cursor:default;background:var(--ent-bg,#E6EEFC)}
+html.has-srcdock .srcbody{display:flex!important;flex-wrap:wrap;gap:14px 12px;justify-content:center;align-content:flex-start;overflow:hidden}
+html.has-srcdock .srcrel.c0{order:0}html.has-srcdock .srcrel.c1{order:1}html.has-srcdock .srcrel.c2{order:2}html.has-srcdock .srcrel.c3{order:3}
+/* same marks as everywhere: used columns purple, rows that do not take part almost gone, unused tables grey */
+html.has-srcdock .srcrel th.use,html.has-srcdock .srcrel td.use{background:#ede9fe!important;box-shadow:inset 2px 0 0 #9B4DCA,inset -2px 0 0 #9B4DCA!important;font-weight:400!important;color:inherit}
+html.has-srcdock .srcrel th.use{font-weight:700!important}
+html.has-srcdock .srcrel tr.on td{background:transparent}
+html.has-srcdock .srcrel tr.on td.use{background:#ede9fe!important}
+html.has-srcdock .srcrel tr.off td{opacity:.14}
+html.has-srcdock .srcrel tr.hot td{background:#fde047!important}
+html.has-srcdock .srcrel.quiet{opacity:.3;filter:grayscale(1)}
+html.has-srcdock .srcrel td{font-weight:400!important}
+html.has-srcdock .ex .srcside,html.has-srcdock .srclegend{display:none!important}
+html.has-srcdock .srcrel td.use,html.has-srcdock .srcrel tr.on td.use{background:transparent!important;box-shadow:none!important}
+html.has-srcdock .srcrel th.use{background:#ede9fe!important;box-shadow:inset 0 -3px 0 #9B4DCA!important}
