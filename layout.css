@@ -224,8 +224,8 @@ html.has-dock .dock .xsrcbox{display:block!important;min-height:0!important}
 html.has-dock #playSchema{display:none}
 html.has-dock .docked-on{box-shadow:0 0 0 2px var(--ent,#2457C5)!important;border-radius:12px}
 @media (min-width:760px){
- html.has-dock .dock{left:12px;top:62px;bottom:12px;width:clamp(300px,40vw,600px);border-radius:14px}
- html.has-dock main{padding-left:calc(clamp(300px,40vw,600px) + 26px)!important}
+ html.has-dock .dock{left:12px;top:62px;bottom:12px;width:clamp(280px,32vw,480px);border-radius:14px}
+ html.has-dock main{padding-left:calc(clamp(280px,32vw,480px) + 26px)!important}
  html.has-dock .wrap{max-width:none!important;margin:0!important}
  html.has-dock body .wrap>section:not(.hero){max-width:900px!important;margin-inline:0 auto!important}
  html.has-dock .dockh{cursor:default;pointer-events:none}
@@ -345,3 +345,27 @@ html.has-dock .jlbox .jlsec{display:none!important}
 }
 html.mta-menu-collapsed{overflow-x:clip}
 @media (max-width:759px){.sxgrid{display:grid!important;grid-template-columns:minmax(0,1fr)!important}.sxgrid>*{min-width:0!important;max-width:100%!important}.srcside{overflow-x:auto}}
+/* the execution-order stepper: code always above the table, never side by side (fixes letter-per-line code) */
+.ex.sqlstep .algpanel{flex-direction:column!important;align-items:stretch!important;gap:10px}
+.ex.sqlstep .algpanel>*{width:auto!important;max-width:100%!important;min-width:0;flex:none!important}
+.ex.sqlstep pre.stepcode{white-space:pre!important;overflow-x:auto;word-break:normal!important;overflow-wrap:normal!important}
+.ex.sqlstep .algpanel .rtrow{overflow-x:auto;justify-content:center}
+/* nothing anywhere wraps code or table cells letter by letter */
+pre.sqlcode{word-break:normal!important;overflow-wrap:normal!important}
+.rtwrap td,.rtwrap th,.xtw td,.xtw th{word-break:normal!important;overflow-wrap:normal!important}
+.rtwrap,.xtw{overflow-x:auto;max-width:100%}
+
+/* ===== components adapt to the width they actually get (not the screen width) ===== */
+main .wrap>section,.spl .splc,.dock .docks,.box,.pbb{container-type:inline-size}
+@container (max-width:860px){
+ .exgrid{grid-template-columns:minmax(0,1fr)!important;grid-template-areas:none!important}
+ .exgrid>*{grid-area:auto!important}
+ .oprow{grid-template-columns:minmax(0,1fr)!important}
+ .sxgrid{grid-template-columns:minmax(0,1fr)!important}
+ .pqw{display:block!important}
+}
+@container (max-width:640px){
+ .e3grid{grid-template-columns:minmax(0,1fr)!important}
+ .anrow{grid-template-columns:minmax(0,1fr)!important}
+ .anrow>span:nth-child(2){display:none}
+}

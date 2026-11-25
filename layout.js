@@ -245,13 +245,14 @@ function init(){
  document.querySelectorAll('.sqlex[data-ex], .ex.sqlstep, #playBox, .jlbox').forEach(function(c){set.add(c)});
  var cards=Array.from(set).filter(function(c){return c&&c.closest('main')});
  cards.sort(function(a,b){return a.compareDocumentPosition(b)&Node.DOCUMENT_POSITION_FOLLOWING?-1:1});
- if(cards.length<2)return;
  function info(c){
   if(c.id==='playBox'){var sel=document.getElementById('playDb');return {db:sel?sel.value:'bank',sql:'',q:'ארגז חול — המאגר שנבחר',all:true}}
   if(c.classList.contains('sqlstep'))return {db:'bank',sql:'select * from deposit natural join customer',q:(c.querySelector('.q')||{}).textContent||''};
   if(c.classList.contains('jlbox')){var q=c.querySelector('pre.sqlcode, pre');return {db:'bank',sql:q?q.textContent:'',q:'מעבדת הצירופים'}}
   if(c.classList.contains('sqlp'))return {db:'bank',sql:'',q:(c.querySelector('.lq')||{}).textContent||'',all:true};
   var e=EX[c.dataset.ex]||{};return {db:e.db||'bank',sql:e.sql||'',q:((c.querySelector('.sxq')||{}).textContent||e.q||'')}}
+ cards=cards.filter(function(c){var I=info(c);return !!SQLKIT.sourcesHTML(I.db,I.sql,'',!!I.all)});
+ if(cards.length<2)return;
  var dock=document.createElement('aside');dock.className='dock';
  dock.innerHTML='<button type="button" class="dockh"><span class="dockt">הנתונים של הדוגמה <i class="dockdb"></i></span><span class="dockq"></span></button><div class="docks"></div>';
  document.body.appendChild(dock);document.documentElement.classList.add('has-dock');
