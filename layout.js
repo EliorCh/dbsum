@@ -261,11 +261,14 @@ function init(){
  dock.querySelector('.dockh').onclick=function(){dock.classList.toggle('open')};
  var slot=dock.querySelector('.docks'),qEl=dock.querySelector('.dockq'),dbEl=dock.querySelector('.dockdb'),cur=null,park=null;
  var DBN={bank:'הבנק',work:'עובדים וחברות',cars:'אנשים ומכוניות',fk:'מפתחות זרים'};
- function unpark(){if(park){park[0].parentNode.insertBefore(park[1],park[0]);park[0].remove();park=null}}
+ function unpark(){if(park){var extra=park.slice(2);park[0].parentNode.insertBefore(park[1],park[0]);park[0].remove();extra.forEach(function(p){p[1].classList.remove('stepnote');p[1].style.minHeight='';p[0].parentNode.insertBefore(p[1],p[0]);p[0].remove()});park=null}}
+ function lockCap(c,cap){var chips=[].slice.call(c.querySelectorAll('.sqlx:not([hidden]) .xsteps .chip'));if(!chips.length)return;var at=chips.findIndex(function(b){return b.getAttribute('aria-pressed')==='true'});var mx=0;chips.forEach(function(b){b.click();mx=Math.max(mx,cap.offsetHeight)});(chips[at]||chips[0]).click();cap.style.minHeight=mx+'px';fit()}
  function markExtra(db){if(db!=='bank'||!SQLD.EXTRA)return;slot.querySelectorAll('.srct').forEach(function(t){var ex=SQLD.EXTRA[t.dataset.t]||[];t.querySelectorAll('tbody tr').forEach(function(tr,i){if(ex.includes(i))tr.classList.add('xrow')})})}
  function show(c,force){if(c===cur&&!force)return;cur=c;unpark();var I=info(c);qEl.textContent=I.q.replace(/^(השאילתה)/,'').trim();dbEl.textContent=DBN[I.db]?'· '+DBN[I.db]:'';
   var sb=c.querySelector('.sqlx:not([hidden]) .xsrcbox');
-  if(sb&&sb.children.length){var m=document.createComment('dock');sb.parentNode.insertBefore(m,sb);park=[m,sb];slot.innerHTML='';slot.appendChild(sb);dock.classList.add('live')}
+  if(sb&&sb.children.length){var m=document.createComment('dock');sb.parentNode.insertBefore(m,sb);park=[m,sb];slot.innerHTML='';
+   var cap=c.querySelector('.sqlx:not([hidden]) .xcap');if(cap){var m2=document.createComment('dockcap');cap.parentNode.insertBefore(m2,cap);park.push([m2,cap]);cap.classList.add('stepnote');cap.style.minHeight='';slot.appendChild(cap)}
+   slot.appendChild(sb);dock.classList.add('live');if(cap)lockCap(c,cap)}
   else if(I.run){dock.classList.remove('live');var tid=Symbol();show.tid=tid;
    slot.innerHTML='<div class="dockwrap"><div class="dockrun"><pre class="sqlcode">'+SQLKIT.hl(I.run)+'</pre><div class="dockres"><div class="sqlmsg">מריץ…</div></div></div>'+(SQLKIT.sourcesHTML(I.db,I.sql,'',false)||'')+'</div>';markExtra(I.db);
    SQLKIT.runLive(I.db,I.run).then(function(r){if(show.tid!==tid)return;var box=slot.querySelector('.dockres');if(box)box.innerHTML=SQLKIT.resultHTML(r,r.error?'':'התוצאה');fit()})}
@@ -318,12 +321,12 @@ function init(){
    var cols=(T[key]||{}).cols||[];var q=(I.sql||'').replace(/'[^']*'/g,' ');
    t.querySelectorAll('thead th, tr:first-child th').forEach(function(th){var h=th.textContent.trim();th.classList.toggle('colhit',cols.indexOf(h)>=0&&new RegExp('\\b'+h+'\\b','i').test(q))})});
   // example text and code
-  if(c.dataset.colored===I.sql)return;c.dataset.colored=I.sql;
+  var sig=I.sql+'|'+c.querySelectorAll('pre.sqlcode').length;if(c.dataset.colored===sig)return;c.dataset.colored=sig;
   c.querySelectorAll('.tmk,.cmk').forEach(function(s){s.replaceWith(document.createTextNode(s.textContent))});
   var colMap={};used.forEach(function(n){((T[n]||{}).cols||[]).forEach(function(cn){if(!colMap[cn])colMap[cn]=n})});
   var names=used.concat(Object.keys(colMap)).sort(function(a,b){return b.length-a.length});if(!names.length)return;
   var re=new RegExp('\\b('+names.map(function(x){return x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}).join('|')+')\\b','gi');
-  c.querySelectorAll('pre.sqlcode, code.xp, .sxq').forEach(function(box){if(box.closest('.dock, .sqlx'))return;
+  c.querySelectorAll('pre.sqlcode, code.xp, .sxq').forEach(function(box){if(box.closest('.dock'))return;
    var w=document.createTreeWalker(box,NodeFilter.SHOW_TEXT),nodes=[],n;while((n=w.nextNode()))nodes.push(n);
    nodes.forEach(function(tn){var s=tn.textContent;re.lastIndex=0;if(!re.test(s))return;re.lastIndex=0;var f=document.createDocumentFragment(),last=0,m;
     while((m=re.exec(s))){f.appendChild(document.createTextNode(s.slice(last,m.index)));var word=m[0],tk=used.find(function(u){return u.toLowerCase()===word.toLowerCase()});
@@ -370,7 +373,7 @@ function init(){
    b.onclick=function(e){e.stopPropagation();var o=p.hidden;dock.querySelectorAll('.ftp').forEach(function(x){x.hidden=true});p.hidden=!o;b.classList.toggle('on',o)}}
   dock.appendChild(w);return b}
  if(pf){var b=mk('⌘','מחסן פקודות');b.onclick=function(){pf.click();b.classList.toggle('on',document.body.classList.contains('pal-open'))};pf.classList.add('ft-hidden')}
- if(cf){var pop=cf.querySelector('.mta-coffee-pop'),cb=cf.querySelector('.mta-coffee-btn');if(pop){pop.hidden=false;pop.classList.add('ft-in')}mk('☕','קנו לי קפה',pop||cf);if(cb)cb.style.display='none';cf.classList.add('ft-hidden')}
+ if(cf){var pop=cf.querySelector('.mta-coffee-pop'),cb=cf.querySelector('.mta-coffee-btn');if(pop){pop.hidden=false;pop.classList.add('ft-cf')}mk('☕','קנו לי קפה',pop||cf);if(cb)cb.style.display='none';cf.classList.add('ft-hidden')}
  if(th){var cur=function(){var t=document.documentElement.getAttribute('data-mta-theme')||'light';return {light:'☀',sepia:'📖',dark:'☾'}[t]||'☀'};
   var tb=mk(cur(),'ערכת צבע',th);th.classList.add('ft-in');th.addEventListener('click',function(){setTimeout(function(){tb.innerHTML=cur()},0)})}
  document.addEventListener('click',function(e){if(!dock.contains(e.target))dock.querySelectorAll('.ftp').forEach(function(x){x.hidden=true;x.previousSibling.classList.remove('on')})});

@@ -201,18 +201,18 @@ async function explainSelect(M,P){
     FS.forEach(s=>{const jc=new Set(J.flatMap(c=>[...colHits(c.text,s)]));
       v[s.key]={on:true,colCls:c=>jc.has(c)?'pj':'',rowCls:J.length&&c0[s.key]?(r=>r==null||c0[s.key].has(r)?'':'xfade'):null};});
     const prod=FS.reduce((x,s)=>x*s.rows.length,1);
-    const cap=FS.length>1?(from.joinSyntax?`הצירוף שכתוב ב־from מחבר את ${FS.map(s=>s.label).join(', ')}.`:J.length?`מכפלה של ${FS.map(s=>s.label).join(' × ')} (${prod} זוגות), ומתוכה נשארות רק ${fc.rows.length} שורות שמקיימות את תנאי הצירוף (סגול). שורות במקור שלא מתחברות לשום דבר דהויות.`:`בלי תנאי צירוף — מכפלה קרטזית: כל שורה עם כל שורה, ${prod} שורות.`)
+    const cap=FS.length>1?(from.joinSyntax?`הצירוף שכתוב ב־from מחבר את ${FS.map(s=>s.label).join(', ')}.`:J.length?`מכפלה של ${FS.map(s=>s.label).join(' × ')} (${prod} זוגות), ומתוכה נשארות רק ${fc.rows.length} שורות שמקיימות את תנאי הצירוף (במסגרת סגולה). שורות במקור שלא מתחברות לשום דבר דהויות.`:`בלי תנאי צירוף — מכפלה קרטזית: כל שורה עם כל שורה, ${prod} שורות.`)
       :`from לוקח את הטבלה ${FS.map(s=>s.label).join('')}. שאר הטבלאות לא משתתפות.`;
     steps.push({id:'from',title:'from',rk:'from',cap,src:v,work:FS.length>1?tbl(W,fc.rows,{label:'אחרי הצירוף',colCls:wcol(J.map(c=>c.text).join(' '),'pj')}):''});}
   // 3. each condition
   F.forEach((c,i)=>{const alive=fc.rows.filter(keepTo(i)),pass=alive.filter(r=>truth(r,i));const ca=contrib(alive),cp=contrib(pass);const cls=colorOf('c'+i);
     const v=fadeUnused({sub:c.text});FS.forEach(s=>{const h=colHits(c.text,s);v[s.key]={on:true,colCls:x=>h.has(x)?cls:'',rowCls:ca[s.key]?(r=>r==null?'':cp[s.key].has(r)?cls:ca[s.key].has(r)?'xfade xred':'xfade'):null};});
-    steps.push({id:'c'+i,title:F.length>1?`תנאי ${i+1}`:'where',rk:'c'+i,cap:`<code class="xp">${esc(c.text)}</code> — ${pass.length} מתוך ${alive.length} שורות מקיימות אותו (בצבע). השורות שלא — נזרקות.`,src:v,
+    steps.push({id:'c'+i,title:F.length>1?`תנאי ${i+1}`:'where',rk:'c'+i,cap:`<code class="xp">${esc(c.text)}</code> — ${pass.length} מתוך ${alive.length} שורות מקיימות אותו. השורות שלא — נזרקות.`,src:v,
       work:FS.length>1||true?tbl(W,fc.rows,{label:FS.length>1?'אחרי הצירוף':null,colCls:wcol(c.text,cls),rowCls:r=>!keepTo(i)(r)?'xgone':truth(r,i)?cls:'xfade xred xstrike'}):''});});
   // 4. group / having
   if(G){const gcls=r=>'pg'+(G.keys.indexOf(r[G.gi])%6);const gc={};RI.forEach(([s,ix])=>{gc[s.key]=new Map();G.q.rows.forEach(r=>{const m=gc[s.key];const k=r[ix];const g=G.keys.indexOf(r[G.gi]);m.set(k,m.has(k)&&m.get(k)!==g?-1:g);});});
     const vG=(withH)=>{const v=fadeUnused();FS.forEach(s=>{const h=colHits(G.expr,s);v[s.key]={on:true,colCls:x=>h.has(x)?'pgk':'',rowCls:gc[s.key]?(r=>{if(r==null)return '';const g=gc[s.key].get(r);if(g===undefined)return 'xfade';if(withH&&G.hv&&!G.hv[G.keys[g]])return 'xfade xstrike';return g<0?'':'pg'+(g%6);}):null};});return v;};
-    steps.push({id:'group',title:'group by',rk:'group',cap:`השורות שנשארו מתחלקות ל־${G.keys.length} קבוצות לפי <code class="xp">${esc(G.expr)}</code> — צבע פסטל לכל קבוצה, גם בטבלאות המקור.`,src:vG(false),
+    steps.push({id:'group',title:'group by',rk:'group',cap:`השורות שנשארו מתחלקות ל־${G.keys.length} קבוצות לפי <code class="xp">${esc(G.expr)}</code> — צבע לכל קבוצה, גם בטבלאות המקור.`,src:vG(false),
       work:tbl(G.q.cols,G.q.rows.slice().sort((a,b)=>G.keys.indexOf(a[G.gi])-G.keys.indexOf(b[G.gi])),{label:'הקבוצות',rowCls:gcls,colCls:wcol(G.expr,'pgk')})});
     if(G.hv){const ok=G.keys.filter(k=>G.hv[k]).length;
       steps.push({id:'having',title:'having',rk:'having',cap:`<code class="xp">${esc(P.having.body.trim())}</code> נבדק על כל קבוצה: ${ok} מתוך ${G.keys.length} קבוצות נשארות. השאר מחוקות.`,src:vG(true),
@@ -225,7 +225,7 @@ async function explainSelect(M,P){
   const alive=G&&G.hv?G.q.rows.filter(r=>G.hv[r[G.gi]]):kept;const ca=contrib(alive);
   {const v=fadeUnused();FS.forEach(s=>{const h=colHits(P.selbody||'',s);const star=(P.selbody||'').trim()==='*';v[s.key]={on:true,colFade:!star,colCls:x=>star||h.has(x)?'ps':'',rowCls:ca[s.key]?(r=>r==null||ca[s.key].has(r)?'':'xfade'):null};});
     const res=nodist||final;const dupIdx=new Set();if(P.distinct){const seen=new Set();(res.rows||[]).forEach((r,i)=>{const k=JSON.stringify(r);if(seen.has(k))dupIdx.add(i);seen.add(k);});}
-    steps.push({id:'select',title:'select',rk:'select',cap:`select בוחר את העמודות לתוצאה (ירוק); שאר העמודות דהויות.${agg&&!gb?' יש פונקציית הקבצה בלי group by — כל השורות הן קבוצה אחת, ויוצאת שורה אחת.':''}${P.distinct?'':' בלי distinct — שורות כפולות נשארות.'}`,src:v,
+    steps.push({id:'select',title:'select',rk:'select',cap:`select בוחר את העמודות לתוצאה (במסגרת סגולה); שאר העמודות דהויות.${agg&&!gb?' יש פונקציית הקבצה בלי group by — כל השורות הן קבוצה אחת, ויוצאת שורה אחת.':''}${P.distinct?'':' בלי distinct — שורות כפולות נשארות.'}`,src:v,
       work:res.error?`<div class="sqlerr">${esc(res.error)}</div>`:board(tbl(res.cols,res.rows,{label:'התוצאה'+(P.distinct?' לפני distinct':''),cls:'xres',rowCls:(r,i)=>dupIdx.has(i)?'xfade xred xstrike':''}))});}
   if(P.distinct)steps.push({id:'distinct',title:'distinct',rk:'distinct',cap:`distinct זורק שורות כפולות: ${(nodist.rows||[]).length} ← ${(final.rows||[]).length} שורות.`,src:steps[steps.length-1].src,work:board(tbl(final.cols||[],final.rows||[],{label:'התוצאה',cls:'xres'}))});
   if(P['order by'])steps.push({id:'order',title:'order by',rk:'order',cap:'order by ממיין את התוצאה — תמיד בסוף.',src:steps[steps.length-1].src,work:board(tbl(final.cols||[],final.rows||[],{label:'התוצאה',cls:'xres'}))});
@@ -245,7 +245,7 @@ async function explainDML(M,P){const run=M.run;const it=P.from.items[0];const co
   steps.push({id:'tables',title:'כל הטבלאות',rk:'tbl',cap:`כל הטבלאות בתרגיל. ${P.kind} פועל על טבלה אחת: ${it.name}.`,src:{},work:''});
   conds.forEach((c,i)=>{const cls=colorOf('c'+i);const alive=fc.rows.filter(r=>conds.slice(0,i).every((_,k)=>truth(r,k)));const pass=new Set(alive.filter(r=>truth(r,i)).map(r=>r[0])),al=new Set(alive.map(r=>r[0]));
     const v=fadeUnused(c.text);const h=colHits(c.text,T);v[T.key]={on:true,colCls:x=>h.has(x)?cls:'',rowCls:r=>pass.has(r)?cls:al.has(r)?'xfade xred':'xfade'};
-    steps.push({id:'c'+i,title:conds.length>1?`תנאי ${i+1}`:'where',rk:'c'+i,cap:`<code class="xp">${esc(c.text)}</code> — ${pass.size} שורות מקיימות אותו (בצבע).`,src:v,work:''});});
+    steps.push({id:'c'+i,title:conds.length>1?`תנאי ${i+1}`:'where',rk:'c'+i,cap:`<code class="xp">${esc(c.text)}</code> — ${pass.size} שורות מקיימות אותו.`,src:v,work:''});});
   const hs=new Set(fc.rows.filter(hit).map(r=>r[0]));
   if(P.kind==='delete'){const v=fadeUnused();v[T.key]={on:true,rowCls:r=>hs.has(r)?'xfade xred xstrike':''};
     steps.push({id:'res',title:'אחרי המחיקה',rk:'tbl',cap:conds.length?`${hs.size} שורות נמחקות (מחוקות למעלה). כך נראית הטבלה אחרי:`:'בלי where — כל השורות נמחקות.',src:v,work:after.error?`<div class="sqlerr">${esc(after.error)}</div>`:tbl(after.cols,after.rows,{label:it.name+' אחרי',cls:'xres'})});}

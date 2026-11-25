@@ -436,3 +436,32 @@ html.dock-vis .ftp{left:auto;right:48px}
 @media (max-width:759px){html.dock-vis .ftp{right:auto;left:48px}}
 .ftp .ft-in{position:static!important;box-shadow:none!important;display:flex!important;margin:0!important}
 .ftp .mta-coffee-pop{position:static!important;width:240px;white-space:normal;box-shadow:none;border:0}
+
+.ftp .mta-coffee-pop.ft-cf{position:static!important;display:block!important;width:250px;white-space:normal;box-shadow:none;border:0;padding:4px}
+.ftp:has(.ft-cf){white-space:normal}
+
+/* ===== one visual language for every step-by-step example ===== */
+/* the query: the part being executed is boxed in purple, the rest is dimmed — same as the execution-order example */
+.xquery .xq,.xquery .xq[class*=" qp"]{background:transparent!important;box-shadow:none!important;color:inherit}
+.xquery:has(.xq.on) .xq:not(.on){opacity:.4}
+.xquery .xq.on{opacity:1!important;background:rgba(155,77,202,.16)!important;box-shadow:0 0 0 2px var(--fresh,#9B4DCA)!important;border-radius:3px}
+.xquery .xq.on .xq{opacity:1!important;background:transparent!important;box-shadow:none!important}
+.xsrct.pick .rt,.xsrcbox .xsrct.pick .rt{outline:none!important}
+.xhelp{display:none}
+/* columns a step uses: purple frame + light purple (join, conditions, group key, selected) */
+.xtw td.pj,.xtw td.pc0,.xtw td.pc1,.xtw td.pc2,.xtw td.pc3,.xtw td.pc4,.xtw td.ps,.xtw td.ph,.xtw td.pq,.xtw td.pgk,
+.xtw th.pj,.xtw th.pc0,.xtw th.pc1,.xtw th.pc2,.xtw th.pc3,.xtw th.pc4,.xtw th.ps,.xtw th.ph,.xtw th.pq,.xtw th.pgk,
+.dock td.sjoin,.dock th.sjoin,.dock td.scol,.dock th.scol,.dock td.skey,.dock th.skey,.stepnote .sjoin,.stepnote .skey{background:#ede9fe!important;box-shadow:inset 2px 0 0 #9B4DCA,inset -2px 0 0 #9B4DCA!important;font-weight:400!important}
+/* rows that pass a condition stay plain */
+.xtw tr.pj td,.xtw tr.pc0 td,.xtw tr.pc1 td,.xtw tr.pc2 td,.xtw tr.pc3 td,.xtw tr.pc4 td,.xtw tr.ps td,.xtw tr.pq td{background:transparent}
+/* rows dropped in this step: red, crossed out; dropped earlier: almost gone */
+.xtw tr.xred td,.dock tr.snow td{background:#fecaca!important;color:#7f1d1d!important;text-decoration:line-through;opacity:.85!important}
+.xtw tr.xfade:not(.xred) td,.xtw tr.xgone td,.dock tr.sfade td{opacity:.14!important;background:transparent!important;text-decoration:none}
+/* groups: the same four pastel colours */
+.xtw tr.pg0 td,.dock tr.sg0 td{background:#dbeafe!important}.xtw tr.pg1 td,.dock tr.sg1 td{background:#dcfce7!important}
+.xtw tr.pg2 td,.dock tr.sg2 td{background:#fef3c7!important}.xtw tr.pg3 td,.dock tr.sg3 td{background:#fce7f3!important}
+.xtw tr.pg4 td{background:#e0e7ff!important}.xtw tr.pg5 td{background:#ccfbf1!important}
+/* columns not used by select */
+.xtw .xcfade,.dock .sdim{opacity:.2!important}
+/* the explanation box: same look in both */
+.dock .xcap.stepnote{background:#fff;border:1px solid #e7e5e0;border-radius:10px;padding:8px 12px;margin:0 0 10px;font-size:14px;line-height:1.55}
