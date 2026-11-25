@@ -265,7 +265,45 @@ function init(){
   var sb=c.querySelector('.sqlx:not([hidden]) .xsrcbox');
   if(sb&&sb.children.length){var m=document.createComment('dock');sb.parentNode.insertBefore(m,sb);park=[m,sb];slot.innerHTML='';slot.appendChild(sb);dock.classList.add('live')}
   else{dock.classList.remove('live');slot.innerHTML=SQLKIT.sourcesHTML(I.db,I.sql,'',!!I.all)||'';markExtra(I.db)}
-  cards.forEach(function(x){x.classList.toggle('docked-on',x===c)})}
+  cards.forEach(function(x){x.classList.toggle('docked-on',x===c)});
+  colorize(c,I);fit()}
+ /* ---- one colour per table: the same colour marks the table in the panel and its name / columns in the example ---- */
+ var PAL=['#fde68a','#bfdbfe','#bbf7d0','#fbcfe8','#ddd6fe','#fed7aa'];
+ function tablesOf(db){return Object.keys((SQLD.TABLES||{})[db]||{})}
+ function usedIn(sql,db){var q=(sql||'').replace(/'[^']*'/g,' ');return tablesOf(db).filter(function(n){return new RegExp('\\b'+n+'\\b','i').test(q)})}
+ function colorize(c,I){var used=usedIn(I.sql,I.db),T=(SQLD.TABLES||{})[I.db]||{};var col={};used.forEach(function(n,k){col[n]=PAL[k%PAL.length]});
+  // panel
+  slot.querySelectorAll('.srct, .xsrct').forEach(function(t){var nm=(t.dataset.t||((t.querySelector('.rtname')||{}).textContent||'').trim().split(/\s+/)[0]||'').toLowerCase();
+   var key=Object.keys(col).find(function(n){return n.toLowerCase()===nm});var nmEl=t.querySelector('.rtname');
+   t.style.removeProperty('--tc');t.classList.remove('tcol');if(!key)return;t.style.setProperty('--tc',col[key]);t.classList.add('tcol');
+   var cols=(T[key]||{}).cols||[];var q=(I.sql||'').replace(/'[^']*'/g,' ');
+   t.querySelectorAll('thead th, tr:first-child th').forEach(function(th){var h=th.textContent.trim();th.classList.toggle('colhit',cols.indexOf(h)>=0&&new RegExp('\\b'+h+'\\b','i').test(q))})});
+  // example text and code
+  if(c.dataset.colored===I.sql)return;c.dataset.colored=I.sql;
+  c.querySelectorAll('.tmk,.cmk').forEach(function(s){s.replaceWith(document.createTextNode(s.textContent))});
+  var colMap={};used.forEach(function(n){((T[n]||{}).cols||[]).forEach(function(cn){if(!colMap[cn])colMap[cn]=n})});
+  var names=used.concat(Object.keys(colMap)).sort(function(a,b){return b.length-a.length});if(!names.length)return;
+  var re=new RegExp('\\b('+names.map(function(x){return x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}).join('|')+')\\b','gi');
+  c.querySelectorAll('pre.sqlcode, code.xp, .sxq').forEach(function(box){if(box.closest('.dock, .sqlx'))return;
+   var w=document.createTreeWalker(box,NodeFilter.SHOW_TEXT),nodes=[],n;while((n=w.nextNode()))nodes.push(n);
+   nodes.forEach(function(tn){var s=tn.textContent;re.lastIndex=0;if(!re.test(s))return;re.lastIndex=0;var f=document.createDocumentFragment(),last=0,m;
+    while((m=re.exec(s))){f.appendChild(document.createTextNode(s.slice(last,m.index)));var word=m[0],tk=used.find(function(u){return u.toLowerCase()===word.toLowerCase()});
+     var sp=document.createElement('span');if(tk){sp.className='tmk';sp.style.setProperty('--tc',col[tk])}else{var owner=colMap[Object.keys(colMap).find(function(k){return k.toLowerCase()===word.toLowerCase()})];sp.className='cmk';sp.style.setProperty('--tc',col[owner])}
+     sp.textContent=word;f.appendChild(sp);last=m.index+word.length}
+    f.appendChild(document.createTextNode(s.slice(last)));tn.replaceWith(f)})})}
+ /* ---- the panel shows every table without scrolling: shrink to fit the screen height ---- */
+ function fit(){var inner=slot.firstElementChild;if(!inner)return;inner.style.zoom=1;var avail=Math.max(200,(innerHeight-16)-dock.querySelector('.dockh').offsetHeight-28);var h=inner.getBoundingClientRect().height;inner.style.zoom=Math.max(.5,Math.min(1,avail/h))}
+ new MutationObserver(function(){if(fit.t)return;fit.t=requestAnimationFrame(function(){fit.t=0;fit();if(cur)colorize(cur,info(cur))})}).observe(slot,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+ /* ---- the panel appears only beside the sections that use it, from the top of the screen ---- */
+ var secs=[];cards.forEach(function(c){var s=c.closest('section');if(s&&secs.indexOf(s)<0)secs.push(s)});secs.forEach(function(s){s.classList.add('dsec')});
+ function place(){if(innerWidth<760){dock.classList.remove('off');return}
+  var dr=dock.getBoundingClientRect().right;document.documentElement.style.setProperty('--dockr',(dr+10)+'px');
+  var wr=(document.querySelector('main .wrap')||document.body).getBoundingClientRect();secs.forEach(function(s){s.style.setProperty('--dsw',Math.max(320,wr.right-(dr+28))+'px')});
+  var top=1e9,bot=-1e9;secs.forEach(function(s){var r=s.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;top=Math.min(top,r.top);bot=Math.max(bot,r.bottom)});
+  var on=bot>-1e9;dock.classList.toggle('off',!on);document.documentElement.classList.toggle('dock-vis',on);
+  if(on){dock.style.top=Math.max(8,top)+'px';dock.style.bottom=Math.max(8,innerHeight-bot)+'px';document.documentElement.classList.toggle('dock-top',top<60)}}
+ addEventListener('scroll',function(){if(!place.t)place.t=requestAnimationFrame(function(){place.t=0;place()})},{passive:true});
+ addEventListener('resize',function(){place();fit()});
  function pick(){var y=innerHeight*0.35,best=null,bd=1e9;cards.forEach(function(c){var r=c.getBoundingClientRect();if(!r.height||r.bottom<80||r.top>innerHeight)return;var d=r.top<=y&&r.bottom>=y?0:Math.min(Math.abs(r.top-y),Math.abs(r.bottom-y));if(d<bd){bd=d;best=c}});
   if(best)show(best)}
  addEventListener('scroll',function(){if(!pick.t)pick.t=requestAnimationFrame(function(){pick.t=0;pick()})},{passive:true});
@@ -275,6 +313,6 @@ function init(){
   var n=0,iv=setInterval(function(){var sb=c.querySelector('.sqlx:not([hidden]) .xsrcbox');if((sb&&sb.children.length)||++n>50||c.querySelector('.sqlx[hidden]')){clearInterval(iv);show(c,true)}},100)},true);
  // the data section itself now lives in the dock
  var bg=document.getElementById('sqlBank');if(bg){bg.style.display='none';var n=document.createElement('p');n.className='docknote';n.textContent='הטבלאות עצמן מוצגות בחלונית הנתונים, ונשארות שם לאורך כל העמוד. השורות שנוספו מסומנות בה בצבע.';bg.parentNode.insertBefore(n,bg)}
- pick();if(!cur)show(cards[0]);
+ pick();if(!cur)show(cards[0]);place();setTimeout(place,300);
 }
 })();
