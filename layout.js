@@ -271,7 +271,35 @@ function init(){
    SQLKIT.runLive(I.db,I.run).then(function(r){if(show.tid!==tid)return;var box=slot.querySelector('.dockres');if(box)box.innerHTML=SQLKIT.resultHTML(r,r.error?'':'התוצאה');fit()})}
   else{dock.classList.remove('live');slot.innerHTML=SQLKIT.sourcesHTML(I.db,I.sql,'',!!I.all)||'';markExtra(I.db)}
   cards.forEach(function(x){x.classList.toggle('docked-on',x===c)});
-  colorize(c,I);fit()}
+  colorize(c,I);if(c.classList.contains('sqlstep'))stepMarks(c);fit()}
+
+ /* ---- the execution-order example: the source tables in the panel follow the steps ---- */
+ function stepMarks(c){var pr=c.querySelector('.prog');var k=pr?(parseInt((pr.textContent.match(/\d+/)||['1'])[0],10)||1):1;
+  var T=SQLD.TABLES.bank,cu=T.customer,de=T.deposit;var ci=function(t,n){return t.cols.indexOf(n)};
+  var haifa=cu.rows.filter(function(r){return r[ci(cu,'customer_city')]==='Haifa'}).map(function(r){return r[ci(cu,'customer_name')]});
+  var alive=function(r){return haifa.indexOf(r[ci(de,'customer_name')])<0};
+  var groups=[];de.rows.forEach(function(r){if(alive(r)){var g=r[ci(de,'branch_name')];if(groups.indexOf(g)<0)groups.push(g)}});
+  var cnt={};de.rows.forEach(function(r){if(alive(r)){var g=r[ci(de,'branch_name')];cnt[g]=(cnt[g]||0)+1}});
+  var tbl=function(n){var t=slot.querySelector('.srct[data-t="'+n+'"]');return t?t.querySelector('table'):null};
+  slot.querySelectorAll('tr').forEach(function(tr){tr.classList.remove('sfade','snow','sg0','sg1','sg2','sg3')});
+  slot.querySelectorAll('th,td').forEach(function(x){x.classList.remove('sjoin','skey','scol','sdim')});
+  var mark=function(n,col,cls){var t=tbl(n);if(!t)return;var j=T[n].cols.indexOf(col);t.querySelectorAll('tr').forEach(function(tr){var c=tr.children[j];c&&c.classList.add(cls)})};
+  var rowsOf=function(n){var t=tbl(n);return t?[].slice.call(t.querySelectorAll('tbody tr')):[]};
+  // 1. from: the shared column is what natural join matches on
+  mark('customer','customer_name','sjoin');mark('deposit','customer_name','sjoin');
+  var note='<b>from:</b> natural join מחבר את deposit ו־customer לפי <span class="sjoin">customer_name</span> — העמודה היחידה שיש בשתיהן. כל חשבון מקבל את הרחוב והעיר של בעליו.';
+  if(k>=2){rowsOf('customer').forEach(function(tr,i){if(haifa.indexOf(cu.rows[i][ci(cu,'customer_name')])>=0)tr.classList.add(k===2?'snow':'sfade')});
+   rowsOf('deposit').forEach(function(tr,i){if(!alive(de.rows[i]))tr.classList.add(k===2?'snow':'sfade')});
+   if(k===2){mark('customer','customer_city','scol');note='<b>where:</b> הלקוחות מ־Haifa ('+haifa.join(', ')+') נופלים — וגם כל החשבונות שלהם.'}}
+  if(k>=3){rowsOf('deposit').forEach(function(tr,i){var r=de.rows[i];if(!alive(r))return;var g=groups.indexOf(r[ci(de,'branch_name')]);
+    if(k>=4&&cnt[r[ci(de,'branch_name')]]<2)tr.classList.add(k===4?'snow':'sfade');else tr.classList.add('sg'+(g%4))});
+   mark('deposit','branch_name','skey');
+   if(k===3)note='<b>group by:</b> החשבונות שנשארו מתחלקים לפי <span class="skey">branch_name</span> — צבע לכל סניף.';
+   if(k===4)note='<b>having:</b> קבוצה עם פחות מ־2 חשבונות נופלת: '+groups.filter(function(g){return cnt[g]<2}).join(', ')+'.'}
+  if(k>=5){['customer','deposit'].forEach(function(n){var keep=n==='deposit'?['branch_name','balance']:[];T[n].cols.forEach(function(cn){if(keep.indexOf(cn)<0)mark(n,cn,'sdim')})});
+   note=k===5?'<b>select:</b> מכל קבוצה נשארים רק branch_name, מספר החשבונות והממוצע של balance.':'<b>order by:</b> השורות של התוצאה ממוינות לפי היתרה הממוצעת, מהגבוהה לנמוכה.'}
+  var nb=slot.querySelector('.stepnote');if(!nb){nb=document.createElement('div');nb.className='stepnote';slot.insertBefore(nb,slot.firstChild)}nb.innerHTML=note}
+ document.addEventListener('click',function(e){var b=e.target.closest('.ex.sqlstep .stepbar button');if(!b)return;var c=b.closest('.ex.sqlstep');setTimeout(function(){if(cur===c){stepMarks(c);fit()}},30)});
  /* ---- one colour per table: the same colour marks the table in the panel and its name / columns in the example ---- */
  var PAL=['#fde68a','#bfdbfe','#bbf7d0','#fbcfe8','#ddd6fe','#fed7aa'];
  function tablesOf(db){return Object.keys((SQLD.TABLES||{})[db]||{})}
@@ -297,7 +325,7 @@ function init(){
      sp.textContent=word;f.appendChild(sp);last=m.index+word.length}
     f.appendChild(document.createTextNode(s.slice(last)));tn.replaceWith(f)})})}
  /* ---- the panel shows every table without scrolling: shrink to fit the screen height ---- */
- function fit(){var inner=slot.firstElementChild;if(!inner)return;inner.style.zoom=1;var avail=Math.max(200,(innerHeight-16)-dock.querySelector('.dockh').offsetHeight-28);var h=inner.getBoundingClientRect().height;inner.style.zoom=Math.max(.5,Math.min(1,avail/h))}
+ function fit(){var kids=[].slice.call(slot.children);if(!kids.length)return;kids.forEach(function(k){k.style.zoom=1});var avail=Math.max(200,(innerHeight-16)-dock.querySelector('.dockh').offsetHeight-28);var h=0;kids.forEach(function(k){var cs=getComputedStyle(k);h+=k.getBoundingClientRect().height+parseFloat(cs.marginTop)+parseFloat(cs.marginBottom)});var z=Math.max(.5,Math.min(1,avail/h));kids.forEach(function(k){k.style.zoom=z})}
  new MutationObserver(function(){if(fit.t)return;fit.t=requestAnimationFrame(function(){fit.t=0;fit();if(cur)colorize(cur,info(cur))})}).observe(slot,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
  /* ---- the panel appears only beside the sections that use it, from the top of the screen ---- */
  secs.length=0;cards.forEach(function(c){var s=c.closest('section');if(s&&secs.indexOf(s)<0)secs.push(s)});secs.forEach(function(s){s.classList.add('dsec')});
