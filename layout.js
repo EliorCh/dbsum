@@ -242,17 +242,19 @@ function init(){
  var EX={};(SQLD.EX||[]).forEach(function(e){EX[e.id]=e});
  var set=new Set();
  document.querySelectorAll('main .srcside').forEach(function(sd){var c=sd.closest('.sqlex, .sqlp, .ex')||sd.parentElement;set.add(c)});
- document.querySelectorAll('.sqlex[data-ex], .ex.sqlstep, #playBox, .jlbox').forEach(function(c){set.add(c)});
+ document.querySelectorAll('.sqlex[data-ex], .ex.sqlstep, #playBox, .jlbox, .sci[data-sql]').forEach(function(c){set.add(c)});
  var cards=Array.from(set).filter(function(c){return c&&c.closest('main')});
  cards.sort(function(a,b){return a.compareDocumentPosition(b)&Node.DOCUMENT_POSITION_FOLLOWING?-1:1});
  function info(c){
+  if(c.dataset&&c.dataset.sql){var t=c.querySelector('.scc');var q=c.dataset.sql;return {db:c.dataset.db||'bank',sql:q,q:(t?t.textContent.trim()+' — ':'')+((c.querySelector('.sce')||{}).textContent||''),run:q}}
   if(c.id==='playBox'){var sel=document.getElementById('playDb');return {db:sel?sel.value:'bank',sql:'',q:'ארגז חול — המאגר שנבחר',all:true}}
   if(c.classList.contains('sqlstep'))return {db:'bank',sql:'select * from deposit natural join customer',q:(c.querySelector('.q')||{}).textContent||''};
   if(c.classList.contains('jlbox')){var q=c.querySelector('pre.sqlcode, pre');return {db:'bank',sql:q?q.textContent:'',q:'מעבדת הצירופים'}}
   if(c.classList.contains('sqlp'))return {db:'bank',sql:'',q:(c.querySelector('.lq')||{}).textContent||'',all:true};
   var e=EX[c.dataset.ex]||{};return {db:e.db||'bank',sql:e.sql||'',q:((c.querySelector('.sxq')||{}).textContent||e.q||'')}}
- cards=cards.filter(function(c){var I=info(c);return !!SQLKIT.sourcesHTML(I.db,I.sql,'',!!I.all)});
+ cards=cards.filter(function(c){var I=info(c);return !!I.run||!!SQLKIT.sourcesHTML(I.db,I.sql,'',!!I.all)});
  if(cards.length<2)return;
+ var secs=[];
  var dock=document.createElement('aside');dock.className='dock';
  dock.innerHTML='<button type="button" class="dockh"><span class="dockt">הנתונים של הדוגמה <i class="dockdb"></i></span><span class="dockq"></span></button><div class="docks"></div>';
  document.body.appendChild(dock);document.documentElement.classList.add('has-dock');
@@ -264,6 +266,9 @@ function init(){
  function show(c,force){if(c===cur&&!force)return;cur=c;unpark();var I=info(c);qEl.textContent=I.q.replace(/^(השאילתה)/,'').trim();dbEl.textContent=DBN[I.db]?'· '+DBN[I.db]:'';
   var sb=c.querySelector('.sqlx:not([hidden]) .xsrcbox');
   if(sb&&sb.children.length){var m=document.createComment('dock');sb.parentNode.insertBefore(m,sb);park=[m,sb];slot.innerHTML='';slot.appendChild(sb);dock.classList.add('live')}
+  else if(I.run){dock.classList.remove('live');var tid=Symbol();show.tid=tid;
+   slot.innerHTML='<div class="dockwrap"><div class="dockrun"><pre class="sqlcode">'+SQLKIT.hl(I.run)+'</pre><div class="dockres"><div class="sqlmsg">מריץ…</div></div></div>'+(SQLKIT.sourcesHTML(I.db,I.sql,'',false)||'')+'</div>';markExtra(I.db);
+   SQLKIT.runLive(I.db,I.run).then(function(r){if(show.tid!==tid)return;var box=slot.querySelector('.dockres');if(box)box.innerHTML=SQLKIT.resultHTML(r,r.error?'':'התוצאה');fit()})}
   else{dock.classList.remove('live');slot.innerHTML=SQLKIT.sourcesHTML(I.db,I.sql,'',!!I.all)||'';markExtra(I.db)}
   cards.forEach(function(x){x.classList.toggle('docked-on',x===c)});
   colorize(c,I);fit()}
@@ -295,7 +300,7 @@ function init(){
  function fit(){var inner=slot.firstElementChild;if(!inner)return;inner.style.zoom=1;var avail=Math.max(200,(innerHeight-16)-dock.querySelector('.dockh').offsetHeight-28);var h=inner.getBoundingClientRect().height;inner.style.zoom=Math.max(.5,Math.min(1,avail/h))}
  new MutationObserver(function(){if(fit.t)return;fit.t=requestAnimationFrame(function(){fit.t=0;fit();if(cur)colorize(cur,info(cur))})}).observe(slot,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
  /* ---- the panel appears only beside the sections that use it, from the top of the screen ---- */
- var secs=[];cards.forEach(function(c){var s=c.closest('section');if(s&&secs.indexOf(s)<0)secs.push(s)});secs.forEach(function(s){s.classList.add('dsec')});
+ secs.length=0;cards.forEach(function(c){var s=c.closest('section');if(s&&secs.indexOf(s)<0)secs.push(s)});secs.forEach(function(s){s.classList.add('dsec')});
  function place(){if(innerWidth<760){dock.classList.remove('off');return}
   var dr=dock.getBoundingClientRect().right;document.documentElement.style.setProperty('--dockr',(dr+10)+'px');
   var wr=(document.querySelector('main .wrap')||document.body).getBoundingClientRect();secs.forEach(function(s){s.style.setProperty('--dsw',Math.max(320,wr.right-(dr+28))+'px')});
@@ -305,6 +310,9 @@ function init(){
  addEventListener('scroll',function(){if(!place.t)place.t=requestAnimationFrame(function(){place.t=0;place()})},{passive:true});
  addEventListener('resize',function(){place();fit()});
  function pick(){var y=innerHeight*0.35,best=null,bd=1e9;cards.forEach(function(c){var r=c.getBoundingClientRect();if(!r.height||r.bottom<80||r.top>innerHeight)return;var d=r.top<=y&&r.bottom>=y?0:Math.min(Math.abs(r.top-y),Math.abs(r.bottom-y));if(d<bd){bd=d;best=c}});
+  /* still in a section's intro, before its first example: show that section's first example, not the previous section's */
+  var sec=secs.find(function(s){var r=s.getBoundingClientRect();return r.top<=y&&r.bottom>=y});
+  if(sec&&(!best||best.closest('section')!==sec)){var f=cards.find(function(c){return c.closest('section')===sec});if(f)best=f}
   if(best)show(best)}
  addEventListener('scroll',function(){if(!pick.t)pick.t=requestAnimationFrame(function(){pick.t=0;pick()})},{passive:true});
  document.querySelectorAll('.jlbox').forEach(function(j){j.addEventListener('click',function(){setTimeout(function(){if(cur===j)show(j,true)},60)})});
