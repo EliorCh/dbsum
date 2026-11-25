@@ -395,8 +395,7 @@ main .wrap>section,.spl .splc,.dock .docks,.box,.pbb{container-type:inline-size}
  html.proto.has-dock.mta-menu-collapsed body .wrap>section:not(.hero):not(.dsec){max-width:900px!important;margin-inline:auto!important}
 }
 @media (min-width:760px){
- html.dock-vis .palfab{inset-inline-end:auto!important;inset-inline-start:18px!important;bottom:18px!important}
- html.dock-vis .mta-theme-float{left:auto!important;right:160px!important}
+
 }
 
 /* execution-order marks in the panel */
@@ -409,3 +408,18 @@ main .wrap>section,.spl .splc,.dock .docks,.box,.pbb{container-type:inline-size}
 .dock tr.sfade td{opacity:.15}
 .dock tr.sg0 td{background:#dbeafe!important}.dock tr.sg1 td{background:#dcfce7!important}.dock tr.sg2 td{background:#fef3c7!important}.dock tr.sg3 td{background:#fce7f3!important}
 .dock td.sdim,.dock th.sdim{opacity:.2}
+
+/* floating buttons: one tidy stack (theme, coffee, commands), never on top of each other or of the data panel */
+.mta-theme-float{left:14px!important;right:auto!important;bottom:14px!important}
+.mta-coffee{left:14px!important;right:auto!important;bottom:60px!important}
+.palfab{left:14px!important;right:auto!important;inset-inline-end:auto!important;inset-inline-start:auto!important;bottom:106px!important;z-index:90!important}
+body:has(.mta-theme-float) .palfab{bottom:106px!important}
+@media (min-width:760px){
+ html.dock-vis .mta-theme-float,html.dock-vis .mta-coffee,html.dock-vis .palfab{left:auto!important;right:14px!important}
+ html.dock-vis .mta-coffee-pop{left:auto;right:0}
+}
+@media (max-width:759px){html.has-dock .mta-theme-float{bottom:56px!important}html.has-dock .mta-coffee{bottom:102px!important}html.has-dock .palfab{bottom:148px!important}}
+/* stepper: the condition's data is marked in the panel */
+.dock td.shit{background:#fde047!important;color:#1c1917!important;text-decoration:none!important;font-weight:700;box-shadow:inset 0 0 0 2px #ca8a04}
+.qmk{border-radius:3px;transition:background .2s}
+.qmk.on{background:#fde047;box-shadow:0 0 0 2px #ca8a04}

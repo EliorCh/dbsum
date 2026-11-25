@@ -290,14 +290,19 @@ function init(){
   var note='<b>from:</b> natural join מחבר את deposit ו־customer לפי <span class="sjoin">customer_name</span> — העמודה היחידה שיש בשתיהן. כל חשבון מקבל את הרחוב והעיר של בעליו.';
   if(k>=2){rowsOf('customer').forEach(function(tr,i){if(haifa.indexOf(cu.rows[i][ci(cu,'customer_name')])>=0)tr.classList.add(k===2?'snow':'sfade')});
    rowsOf('deposit').forEach(function(tr,i){if(!alive(de.rows[i]))tr.classList.add(k===2?'snow':'sfade')});
-   if(k===2){mark('customer','customer_city','scol');note='<b>where:</b> הלקוחות מ־Haifa ('+haifa.join(', ')+') נופלים — וגם כל החשבונות שלהם.'}}
+   if(k===2){var t=tbl('customer'),j=ci(cu,'customer_city');if(t)t.querySelectorAll('tbody tr').forEach(function(tr,i){if(cu.rows[i][j]==='Haifa')tr.children[j].classList.add('shit')});
+    note='<b>where</b> <code>customer_city &lt;&gt; \'Haifa\'</code> — מהשאלה: ״שלא גרים ב־Haifa״. בטבלה customer הערך Haifa מסומן: '+haifa.join(' ו־')+' גרים שם, ולכן הם נופלים — וגם כל החשבונות שלהם ב־deposit.'}}
   if(k>=3){rowsOf('deposit').forEach(function(tr,i){var r=de.rows[i];if(!alive(r))return;var g=groups.indexOf(r[ci(de,'branch_name')]);
     if(k>=4&&cnt[r[ci(de,'branch_name')]]<2)tr.classList.add(k===4?'snow':'sfade');else tr.classList.add('sg'+(g%4))});
    mark('deposit','branch_name','skey');
    if(k===3)note='<b>group by:</b> החשבונות שנשארו מתחלקים לפי <span class="skey">branch_name</span> — צבע לכל סניף.';
-   if(k===4)note='<b>having:</b> קבוצה עם פחות מ־2 חשבונות נופלת: '+groups.filter(function(g){return cnt[g]<2}).join(', ')+'.'}
+   if(k===4)note='<b>having</b> <bdi dir="ltr"><code>count(*) &gt;= 2</code></bdi> — מהשאלה: ״שיש בו לפחות 2 חשבונות״. סופרים את השורות בכל צבע: '+groups.map(function(g){return g+' — '+cnt[g]}).join(', ')+'. '+groups.filter(function(g){return cnt[g]<2}).join(', ')+' נופל.'}
   if(k>=5){['customer','deposit'].forEach(function(n){var keep=n==='deposit'?['branch_name','balance']:[];T[n].cols.forEach(function(cn){if(keep.indexOf(cn)<0)mark(n,cn,'sdim')})});
    note=k===5?'<b>select:</b> מכל קבוצה נשארים רק branch_name, מספר החשבונות והממוצע של balance.':'<b>order by:</b> השורות של התוצאה ממוינות לפי היתרה הממוצעת, מהגבוהה לנמוכה.'}
+  var q=c.querySelector('.q');if(q&&!q.dataset.mk){q.dataset.mk=1;var P=[['שלא גרים ב־Haifa',2],['לפחות 2 חשבונות',4],['לכל סניף',3],['מספר החשבונות והיתרה הממוצעת',5],['מהגבוהה לנמוכה',6]];
+   var w=document.createTreeWalker(q,NodeFilter.SHOW_TEXT),ns=[],n;while((n=w.nextNode()))ns.push(n);
+   ns.forEach(function(tn){P.forEach(function(pp){var i=tn.textContent.indexOf(pp[0]);if(i<0)return;var a=tn.splitText(i);a.splitText(pp[0].length);var sp=document.createElement('span');sp.className='qmk';sp.dataset.k=pp[1];sp.textContent=pp[0];a.replaceWith(sp);tn=sp.nextSibling||tn})})}
+  c.querySelectorAll('.qmk').forEach(function(x){x.classList.toggle('on',+x.dataset.k===k)});
   var nb=slot.querySelector('.stepnote');if(!nb){nb=document.createElement('div');nb.className='stepnote';slot.insertBefore(nb,slot.firstChild)}nb.innerHTML=note}
  document.addEventListener('click',function(e){var b=e.target.closest('.ex.sqlstep .stepbar button');if(!b)return;var c=b.closest('.ex.sqlstep');setTimeout(function(){if(cur===c){stepMarks(c);fit()}},30)});
  /* ---- one colour per table: the same colour marks the table in the panel and its name / columns in the example ---- */
