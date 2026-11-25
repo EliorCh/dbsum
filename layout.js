@@ -262,22 +262,26 @@ function init(){
  var slot=dock.querySelector('.docks'),qEl=dock.querySelector('.dockq'),dbEl=dock.querySelector('.dockdb'),cur=null,park=null;
  var DBN={bank:'הבנק',work:'עובדים וחברות',cars:'אנשים ומכוניות',fk:'מפתחות זרים'};
  function unpark(){if(park){var extra=park.slice(2);park[0].parentNode.insertBefore(park[1],park[0]);park[0].remove();extra.forEach(function(p){p[1].classList.remove('stepnote');p[1].style.minHeight='';p[0].parentNode.insertBefore(p[1],p[0]);p[0].remove()});park=null}}
- function lockCap(c,cap){var chips=[].slice.call(c.querySelectorAll('.sqlx:not([hidden]) .xsteps .chip'));if(!chips.length)return;var at=chips.findIndex(function(b){return b.getAttribute('aria-pressed')==='true'});var mx=0;chips.forEach(function(b){b.click();mx=Math.max(mx,cap.offsetHeight)});(chips[at]||chips[0]).click();cap.style.minHeight=mx+'px';fit()}
+ function lockCap(c,cap){return;var chips=[].slice.call(c.querySelectorAll('.sqlx:not([hidden]) .xsteps .chip'));if(!chips.length)return;var at=chips.findIndex(function(b){return b.getAttribute('aria-pressed')==='true'});var mx=0;chips.forEach(function(b){b.click();mx=Math.max(mx,cap.offsetHeight)});(chips[at]||chips[0]).click();fit()}
  function markExtra(db){if(db!=='bank'||!SQLD.EXTRA)return;slot.querySelectorAll('.srct').forEach(function(t){var ex=SQLD.EXTRA[t.dataset.t]||[];t.querySelectorAll('tbody tr').forEach(function(tr,i){if(ex.includes(i))tr.classList.add('xrow')})})}
+ var hasRun=cards.some(function(c){return c.dataset&&c.dataset.sql});
+ function frame(){if(!slot.querySelector('.dtabs'))slot.innerHTML='<div class="dnote"></div><div class="dtabs"></div><div class="dextra"></div>';return {n:slot.querySelector('.dnote'),t:slot.querySelector('.dtabs'),x:slot.querySelector('.dextra')}}
  function show(c,force){if(c===cur&&!force)return;cur=c;unpark();var I=info(c);qEl.textContent=I.q.replace(/^(השאילתה)/,'').trim();dbEl.textContent=DBN[I.db]?'· '+DBN[I.db]:'';
+  var F=frame();F.n.innerHTML='';F.x.innerHTML='';F.t.dataset.db=I.db;
   var sb=c.querySelector('.sqlx:not([hidden]) .xsrcbox');
-  if(sb&&sb.children.length){var m=document.createComment('dock');sb.parentNode.insertBefore(m,sb);park=[m,sb];slot.innerHTML='';
-   var cap=c.querySelector('.sqlx:not([hidden]) .xcap');if(cap){var m2=document.createComment('dockcap');cap.parentNode.insertBefore(m2,cap);park.push([m2,cap]);cap.classList.add('stepnote');cap.style.minHeight='';slot.appendChild(cap)}
-   slot.appendChild(sb);dock.classList.add('live');if(cap)lockCap(c,cap)}
-  else if(I.run){dock.classList.remove('live');var tid=Symbol();show.tid=tid;
-   slot.innerHTML='<div class="dockwrap"><div class="dockrun"><pre class="sqlcode">'+SQLKIT.hl(I.run)+'</pre><div class="dockres"><div class="sqlmsg">מריץ…</div></div></div>'+(SQLKIT.sourcesHTML(I.db,I.sql,'',false)||'')+'</div>';markExtra(I.db);
-   SQLKIT.runLive(I.db,I.run).then(function(r){if(show.tid!==tid)return;var box=slot.querySelector('.dockres');if(box)box.innerHTML=SQLKIT.resultHTML(r,r.error?'':'התוצאה');fit()})}
-  else{dock.classList.remove('live');slot.innerHTML=SQLKIT.sourcesHTML(I.db,I.sql,'',!!I.all)||'';markExtra(I.db)}
+  if(sb&&sb.children.length){var m=document.createComment('dock');sb.parentNode.insertBefore(m,sb);park=[m,sb];F.t.innerHTML='';
+   var cap=c.querySelector('.sqlx:not([hidden]) .xcap');if(cap){var m2=document.createComment('dockcap');cap.parentNode.insertBefore(m2,cap);park.push([m2,cap]);cap.classList.add('stepnote');cap.style.minHeight='';F.n.appendChild(cap)}
+   F.t.appendChild(sb);dock.classList.add('live');
+   /* the same table used twice (aliases) keeps one copy, so the panel never changes shape */
+   var seen={};sb.querySelectorAll('.xsrct').forEach(function(t){var nm=((t.querySelector('.rtname')||{}).textContent||'').trim().split(/\s+/)[0].toLowerCase();if(seen[nm])t.style.display='none';seen[nm]=1})}
+  else{dock.classList.remove('live');F.t.innerHTML=SQLKIT.sourcesHTML(I.db,I.sql,'',!!I.all)||'';markExtra(I.db);
+   if(I.run&&!c.querySelector('.scirun')){var rb=document.createElement('div');rb.className='scirun';rb.innerHTML='<pre class="sqlcode">'+SQLKIT.hl(I.run)+'</pre><div class="dockres"><div class="sqlmsg">מריץ…</div></div>';c.appendChild(rb);
+    SQLKIT.runLive(I.db,I.run).then(function(r){rb.querySelector('.dockres').innerHTML=SQLKIT.resultHTML(r,r.error?'':'התוצאה');colorize(c,I)})}}
   cards.forEach(function(x){x.classList.toggle('docked-on',x===c)});
   colorize(c,I);if(c.classList.contains('sqlstep'))stepMarks(c);fit()}
 
  /* ---- the execution-order example: the source tables in the panel follow the steps ---- */
- function stepMarks(c,kk){if(kk===undefined&&!stepMarks.h){var mx=0;for(var q=1;q<=6;q++){stepMarks(c,q);var e=slot.querySelector('.stepnote');if(e){e.style.minHeight='';mx=Math.max(mx,e.offsetHeight)}}stepMarks.h=mx}
+ function stepMarks(c,kk){
   var pr=c.querySelector('.prog');var k=kk||(pr?(parseInt((pr.textContent.match(/\d+/)||['1'])[0],10)||1):1);
   var T=SQLD.TABLES.bank,cu=T.customer,de=T.deposit;var ci=function(t,n){return t.cols.indexOf(n)};
   var haifa=cu.rows.filter(function(r){return r[ci(cu,'customer_city')]==='Haifa'}).map(function(r){return r[ci(cu,'customer_name')]});
@@ -307,7 +311,7 @@ function init(){
    var w=document.createTreeWalker(q,NodeFilter.SHOW_TEXT),ns=[],n;while((n=w.nextNode()))ns.push(n);
    ns.forEach(function(tn){P.forEach(function(pp){var i=tn.textContent.indexOf(pp[0]);if(i<0)return;var a=tn.splitText(i);a.splitText(pp[0].length);var sp=document.createElement('span');sp.className='qmk';sp.dataset.k=pp[1];sp.textContent=pp[0];a.replaceWith(sp);tn=sp.nextSibling||tn})})}
   c.querySelectorAll('.qmk').forEach(function(x){x.classList.toggle('on',+x.dataset.k===k)});
-  var nb=slot.querySelector('.stepnote');if(!nb){nb=document.createElement('div');nb.className='stepnote';slot.insertBefore(nb,slot.firstChild)}nb.innerHTML=note;if(stepMarks.h)nb.style.minHeight=stepMarks.h+'px'}
+  var dn=frame().n;var nb=dn.querySelector('.stepnote');if(!nb){nb=document.createElement('div');nb.className='stepnote';dn.appendChild(nb)}nb.innerHTML=note}
  document.addEventListener('click',function(e){var b=e.target.closest('.ex.sqlstep .stepbar button');if(!b)return;var c=b.closest('.ex.sqlstep');setTimeout(function(){if(cur===c){stepMarks(c);fit()}},30)});
  /* ---- one colour per table: the same colour marks the table in the panel and its name / columns in the example ---- */
  var PAL=['#fde68a','#bfdbfe','#bbf7d0','#fbcfe8','#ddd6fe','#fed7aa'];
@@ -334,7 +338,17 @@ function init(){
      sp.textContent=word;f.appendChild(sp);last=m.index+word.length}
     f.appendChild(document.createTextNode(s.slice(last)));tn.replaceWith(f)})})}
  /* ---- the panel shows every table without scrolling: shrink to fit the screen height ---- */
- function fit(){var kids=[].slice.call(slot.children);if(!kids.length)return;kids.forEach(function(k){k.style.zoom=1});var avail=Math.max(200,(innerHeight-16)-dock.querySelector('.dockh').offsetHeight-28);var h=0;kids.forEach(function(k){var cs=getComputedStyle(k);h+=k.getBoundingClientRect().height+parseFloat(cs.marginTop)+parseFloat(cs.marginBottom)});var z=Math.max(.5,Math.min(1,avail/h));kids.forEach(function(k){k.style.zoom=z})}
+ /* the tables keep one size for the whole page: one zoom per data set, from the full set of tables */
+ var ZC={};function fit(){var F=frame(),db=F.t.dataset.db||'bank';var avail=innerHeight-16-dock.querySelector('.dockh').offsetHeight-20-102-16;
+  if(!ZC[db]||ZC[db].a!==avail){var probe=document.createElement('div');probe.style.cssText='visibility:hidden;position:absolute;width:'+F.t.clientWidth+'px';probe.innerHTML=SQLKIT.sourcesHTML(db,'','',true)||'';slot.appendChild(probe);
+   var h=probe.getBoundingClientRect().height;probe.remove();ZC[db]={a:avail,z:Math.max(.45,Math.min(1,avail/Math.max(1,h)))}}
+  F.t.style.zoom=ZC[db].z;lock(F.t,db)}
+ /* every table keeps the column widths of its plain version, whatever marks a step adds */
+ var REF={};function tname(t){var w=t.closest('.srct,.xsrct');if(w&&w.dataset.t)return w.dataset.t.toLowerCase();var l=w&&w.querySelector('.rtname');return l?l.textContent.trim().split(/\s+/)[0].toLowerCase():''}
+ function lock(box,db){if(!REF[db]){var probe=document.createElement('div');probe.className='dtabs';probe.style.cssText='visibility:hidden;position:absolute;left:0;top:0';probe.innerHTML=SQLKIT.sourcesHTML(db,'','',true)||'';slot.appendChild(probe);
+   REF[db]={};probe.querySelectorAll('table').forEach(function(t){var cw=[].map.call(t.querySelectorAll('thead th, tr:first-child th'),function(th){return th.getBoundingClientRect().width});REF[db][tname(t)]={w:t.getBoundingClientRect().width,c:cw}});probe.remove()}
+  var seen={};box.querySelectorAll('.xsrct').forEach(function(w){var n=tname(w.querySelector('table')||w);if(seen[n])w.style.display='none';seen[n]=1});
+  box.querySelectorAll('table').forEach(function(t){var r=REF[db][tname(t)];if(!r)return;t.style.tableLayout='fixed';t.style.width=r.w+'px';var ths=t.querySelectorAll('thead th, tr:first-child th');if(ths.length!==r.c.length)return;ths.forEach(function(th,i){th.style.width=r.c[i]+'px'})})}
  new MutationObserver(function(){if(fit.t)return;fit.t=requestAnimationFrame(function(){fit.t=0;fit();if(cur)colorize(cur,info(cur))})}).observe(slot,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
  /* ---- the panel appears only beside the sections that use it, from the top of the screen ---- */
  secs.length=0;cards.forEach(function(c){var s=c.closest('section');if(s&&secs.indexOf(s)<0)secs.push(s)});secs.forEach(function(s){s.classList.add('dsec')});
@@ -343,9 +357,9 @@ function init(){
   var wr=(document.querySelector('main .wrap')||document.body).getBoundingClientRect();secs.forEach(function(s){s.style.setProperty('--dsw',Math.max(320,wr.right-(dr+28))+'px')});
   var top=1e9,bot=-1e9;secs.forEach(function(s){var r=s.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;top=Math.min(top,r.top);bot=Math.max(bot,r.bottom)});
   var on=bot>-1e9;dock.classList.toggle('off',!on);document.documentElement.classList.toggle('dock-vis',on);
-  if(on){dock.style.top=Math.max(8,top)+'px';dock.style.bottom=Math.max(8,innerHeight-bot)+'px';document.documentElement.classList.toggle('dock-top',top<60)}}
+  if(on){dock.style.top='8px';dock.style.bottom='8px';document.documentElement.classList.add('dock-top')}}
  addEventListener('scroll',function(){if(!place.t)place.t=requestAnimationFrame(function(){place.t=0;place()})},{passive:true});
- addEventListener('resize',function(){stepMarks.h=0;place();fit()});
+ addEventListener('resize',function(){ZC={};REF={};place();fit()});
  function pick(){var y=innerHeight*0.35,best=null,bd=1e9;cards.forEach(function(c){var r=c.getBoundingClientRect();if(!r.height||r.bottom<80||r.top>innerHeight)return;var d=r.top<=y&&r.bottom>=y?0:Math.min(Math.abs(r.top-y),Math.abs(r.bottom-y));if(d<bd){bd=d;best=c}});
   /* still in a section's intro, before its first example: show that section's first example, not the previous section's */
   var sec=secs.find(function(s){var r=s.getBoundingClientRect();return r.top<=y&&r.bottom>=y});
@@ -358,6 +372,7 @@ function init(){
   var n=0,iv=setInterval(function(){var sb=c.querySelector('.sqlx:not([hidden]) .xsrcbox');if((sb&&sb.children.length)||++n>50||c.querySelector('.sqlx[hidden]')){clearInterval(iv);show(c,true)}},100)},true);
  // the data section itself now lives in the dock
  var bg=document.getElementById('sqlBank');if(bg){bg.style.display='none';var n=document.createElement('p');n.className='docknote';n.textContent='הטבלאות עצמן מוצגות בחלונית הנתונים, ונשארות שם לאורך כל העמוד. השורות שנוספו מסומנות בה בצבע.';bg.parentNode.insertBefore(n,bg)}
+ cards.forEach(function(c){if(c.dataset&&c.dataset.sql&&!c.querySelector('.scirun')){var I=info(c);var rb=document.createElement('div');rb.className='scirun';rb.innerHTML='<pre class="sqlcode">'+SQLKIT.hl(I.run)+'</pre><div class="dockres"></div>';c.appendChild(rb);SQLKIT.runLive(I.db,I.run).then(function(r){rb.querySelector('.dockres').innerHTML=SQLKIT.resultHTML(r,r.error?'':'התוצאה')})}});
  pick();if(!cur)show(cards[0]);place();setTimeout(place,300);
 }
 })();
