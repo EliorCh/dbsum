@@ -357,3 +357,21 @@ function init(){
  pick();if(!cur)show(cards[0]);place();setTimeout(place,300);
 }
 })();
+/* ===== floating tools: small icons that open on click (theme, coffee, commands) ===== */
+(function(){
+document.addEventListener('DOMContentLoaded',function(){setTimeout(init,1500)});
+function init(){
+ var th=document.querySelector('.mta-theme-float'),cf=document.querySelector('.mta-coffee'),pf=document.querySelector('.palfab');
+ if(!th&&!cf&&!pf)return;
+ var dock=document.createElement('div');dock.className='ftools';document.body.appendChild(dock);
+ function mk(icon,title,panel){var w=document.createElement('div');w.className='ft';var b=document.createElement('button');b.type='button';b.className='fti';b.title=title;b.setAttribute('aria-label',title);b.innerHTML=icon;w.appendChild(b);
+  if(panel){var p=document.createElement('div');p.className='ftp';p.hidden=true;p.appendChild(panel);w.appendChild(p);
+   b.onclick=function(e){e.stopPropagation();var o=p.hidden;dock.querySelectorAll('.ftp').forEach(function(x){x.hidden=true});p.hidden=!o;b.classList.toggle('on',o)}}
+  dock.appendChild(w);return b}
+ if(pf){var b=mk('⌘','מחסן פקודות');b.onclick=function(){pf.click();b.classList.toggle('on',document.body.classList.contains('pal-open'))};pf.classList.add('ft-hidden')}
+ if(cf){var pop=cf.querySelector('.mta-coffee-pop'),cb=cf.querySelector('.mta-coffee-btn');if(pop){pop.hidden=false;pop.classList.add('ft-in')}mk('☕','קנו לי קפה',pop||cf);if(cb)cb.style.display='none';cf.classList.add('ft-hidden')}
+ if(th){var cur=function(){var t=document.documentElement.getAttribute('data-mta-theme')||'light';return {light:'☀',sepia:'📖',dark:'☾'}[t]||'☀'};
+  var tb=mk(cur(),'ערכת צבע',th);th.classList.add('ft-in');th.addEventListener('click',function(){setTimeout(function(){tb.innerHTML=cur()},0)})}
+ document.addEventListener('click',function(e){if(!dock.contains(e.target))dock.querySelectorAll('.ftp').forEach(function(x){x.hidden=true;x.previousSibling.classList.remove('on')})});
+}
+})();

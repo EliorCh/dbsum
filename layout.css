@@ -423,3 +423,16 @@ body:has(.mta-theme-float) .palfab{bottom:106px!important}
 .dock td.shit{background:#fde047!important;color:#1c1917!important;text-decoration:none!important;font-weight:700;box-shadow:inset 0 0 0 2px #ca8a04}
 .qmk{border-radius:3px;transition:background .2s}
 .qmk.on{background:#fde047;box-shadow:0 0 0 2px #ca8a04}
+/* floating tools as icons */
+.ft-hidden{display:none!important}
+.ftools{position:fixed;left:12px;bottom:12px;z-index:220;display:flex;flex-direction:column-reverse;gap:8px}
+@media (min-width:760px){html.dock-vis .ftools{left:auto;right:12px}}
+@media (max-width:759px){html.has-dock .ftools{bottom:56px}}
+.ft{position:relative}
+.fti{width:40px;height:40px;border-radius:50%;border:1px solid #e7e5e0;background:#fffefa;box-shadow:0 2px 10px rgba(0,0,0,.14);cursor:pointer;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;color:#1c1917;opacity:.85}
+.fti:hover,.fti.on{opacity:1;border-color:var(--ent,#2457C5)}
+.ftp{position:absolute;bottom:0;left:48px;background:#fff;border:1px solid #e7e5e0;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.16);padding:8px;white-space:nowrap}
+html.dock-vis .ftp{left:auto;right:48px}
+@media (max-width:759px){html.dock-vis .ftp{right:auto;left:48px}}
+.ftp .ft-in{position:static!important;box-shadow:none!important;display:flex!important;margin:0!important}
+.ftp .mta-coffee-pop{position:static!important;width:240px;white-space:normal;box-shadow:none;border:0}
