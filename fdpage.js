@@ -26,6 +26,15 @@ function keyFig(R,cur,A,ok){return `<div class="keyfig">${[...R].map(c=>`<span c
 function trace(X,G,note){const cl=FD.closure(X,G);
   return `<div class="ctrace">${note?`<p class="ctn">${note}</p>`:''}<div class="ctf" dir="ltr">F = { ${G.map(f=>`${f.l}→${f.r}`).join(', ')} }</div>
   <ol class="calcsteps" dir="ltr"><li>result = ${FD.S(X)||'∅'}</li>${cl.steps.map(s=>`<li>${s.fd.l}→${s.fd.r} &nbsp;⇒&nbsp; + ${s.add} &nbsp;= ${s.res}</li>`).join('')}${cl.steps.length?'':'<li>no FD adds anything</li>'}</ol>${m(`${FD.S(X)||'∅'}⁺ = ${cl.res||'∅'}`)}</div>`;}
+/* candidate keys, explained */
+function keysHow(R,F){R=FD.S(R);const ks=FD.keys(R,F);const rhs=FD.S(F.map(f=>f.r).join(''));const core=FD.minus(R,rhs);
+  let h=`<p>תכונה שלא מופיעה באף אגף ימין אף תלות לא קובעת — ולכן היא חייבת להיות בכל מפתח: ${x(core||'∅')}.${core?'':' אין כזו, אז בודקים קבוצות מהקטנה לגדולה, ומדלגים על כל קבוצה שמכילה מפתח שכבר נמצא.'}</p>`;
+  const singles=[...R].filter(a=>!ks.includes(a));if(singles.length&&!core)h+=`<p>תכונות בודדות שאינן מפתח (הסגור שלהן אינו R):</p><ul class="ksub" dir="ltr">${singles.map(a=>`<li>${a}⁺ = ${FD.clo(a,F)}</li>`).join('')}</ul>`;
+  ks.forEach(k=>{const subs=[...k].length>1?[...k].map(a=>FD.minus(k,a)):[];
+    h+=`<p>בודקים את ${x(k)}:</p>${trace(k,F)}<p>הסגור הוא כל R — ${x(k)} מפתח־על.${subs.length?` מינימלי? מורידים כל תכונה בתורה:`:' יש בו תכונה אחת, ולכן הוא מינימלי.'}</p>`+
+     (subs.length?`<ul class="ksub" dir="ltr">${subs.map(t=>`<li>${t}⁺ = ${FD.clo(t,F)} ≠ R</li>`).join('')}</ul><p>אף תת־קבוצה אינה מפתח־על — ${x(k)} מפתח קביל.</p>`:'');});
+  return {ks,html:h};}
+window.FDX={trace,keysHow};
 /* canonical cover stepper */
 function canonSteps(F){const {Fc,log}=FD.canon(F);const out=[];let cur=log[0].F;
   out.push({h:'התחלה: איחוד אגפי שמאל זהים',p:`<p>תלויות עם אותו אגף שמאל מאוחדות לאחת (כלל האיחוד). זה לא משנה את הסגור.</p>`,cap:`${cur.length} תלויות`,fig:(c=>()=>fdList(c))(cur)});
@@ -59,9 +68,9 @@ GEN['f-canon6']=()=>({steps:canonSteps(FD.parse('E->NS, NL->EMD, EN->LCD, C->S, 
   const ks=FD.keys(R,F),{Fc,log}=FD.canon(F),cl=X?FD.closure(X,F):null,bv=FD.bcnfViolation(R,F),tv=FD.is3NF(R,F);
   out.innerHTML=`<div class="calcgrid">
    ${cl?`<div class="calcbox"><h4>${x(X+'⁺')}</h4><ol class="calcsteps" dir="ltr"><li>result = ${X}</li>${cl.steps.map(s=>`<li>${s.fd.l}→${s.fd.r} &nbsp;⇒&nbsp; + ${s.add} &nbsp;= ${s.res}</li>`).join('')}</ol>${m(`${X}⁺ = ${cl.res}`)}<p>${FD.sub(R,cl.res)?`${x(X)} מפתח־על של R.`:`${x(X)} אינו מפתח־על.`}</p></div>`:''}
-   <div class="calcbox"><h4>מפתחות קבילים</h4>${m(ks.join(',  '))}<p class="muted">תכונות ראשוניות: ${x(FD.S(ks.join(''))||'—')}</p></div>
-   <div class="calcbox"><h4>כיסוי קנוני</h4>${fdList(Fc)}<ul class="calclog">${log.slice(1).map(L=>`<li>${L.A} עודפת ב${L.kind==='lhs'?'אגף שמאל':'אגף ימין'} של ${x(L.fd.l+'→'+L.fd.r)}: ${x(L.why)}</li>`).join('')||'<li>אין תכונות עודפות</li>'}</ul></div>
-   <div class="calcbox"><h4>צורה נורמלית של R</h4><p>${bv?`<b class="no">לא ב־BCNF</b>: ${x(bv.l+'→'+bv.r)} ו־${x(bv.l)} אינו מפתח־על.`:'<b class="yes">ב־BCNF</b>'}</p><p>${bv?(tv?`<b class="no">לא ב־3NF</b>: ${x(tv.l+'→'+tv.r)}, ו־${x(tv.r)} לא כולה ראשונית.`:'<b class="yes">ב־3NF</b> — כל הפרה של BCNF היא לתכונות ראשוניות.'):''}</p></div></div>`;};
+   <div class="calcbox"><h4>מפתחות קבילים</h4>${m(ks.join(',  '))}<p class="muted">תכונות ראשוניות: ${x(FD.S(ks.join(''))||'—')}</p><details class="how"><summary>איך מצאנו</summary>${keysHow(R,F).html}</details></div>
+   <div class="calcbox"><h4>כיסוי קנוני</h4>${fdList(Fc)}<ul class="calclog">${log.slice(1).map(L=>`<li>${L.A} עודפת ב${L.kind==='lhs'?'אגף שמאל':'אגף ימין'} של ${x(L.fd.l+'→'+L.fd.r)}:<details class="how"><summary>${x(L.why)}</summary>${trace(L.X,L.G)}</details></li>`).join('')||'<li>אין תכונות עודפות</li>'}</ul></div>
+   <div class="calcbox"><h4>צורה נורמלית של R</h4><p>${bv?`<b class="no">לא ב־BCNF</b>: ${x(bv.l+'→'+bv.r)} ו־${x(bv.l)} אינו מפתח־על:</p>${trace(bv.l,F)}<p>`:'<b class="yes">ב־BCNF</b>'}</p><p>${bv?(tv?`<b class="no">לא ב־3NF</b>: ${x(tv.l+'→'+tv.r)}, ו־${x(tv.r)} לא כולה ראשונית.`:'<b class="yes">ב־3NF</b> — כל הפרה של BCNF היא לתכונות ראשוניות.'):''}</p></div></div>`;};
   C.querySelector('.calcBtn').onclick=go;C.querySelectorAll('input').forEach(i=>i.addEventListener('keydown',e=>{if(e.key==='Enter')go();}));
   C.querySelectorAll('[data-ex]').forEach(b=>b.onclick=()=>{const [R,F,X]=b.dataset.ex.split('|');C.querySelector('[name=R]').value=R;C.querySelector('[name=F]').value=F;C.querySelector('[name=X]').value=X;go();});go();}}
 

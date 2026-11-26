@@ -1,5 +1,5 @@
 /* ============ page 6: design & normalization ============ */
-(function(){const {x,m,esc}=H;
+(function(){const {x,m,esc}=H;const T=(X,G,n)=>window.FDX?FDX.trace(X,G,n):m(`${X}⁺ = ${FD.clo(X,G)}`);const KH=(R,F)=>window.FDX?FDX.keysHow(R,F).html:'';const det=(t,h)=>`<details class="how"><summary>${t}</summary>${h}</details>`;
 const F6=FD.parse('A->BC, CD->E, B->D, E->A');
 /* decomposition "tree" figure: rows of schemas */
 const schBox=(s,F,fresh,cls)=>{const v=cls==='3nf'?null:FD.bcnfViolation(s,F);return `<div class="sch ${v?'bad':'ok'}${fresh&&fresh.includes(s)?' fresh':''}">(${[...s].join(',')})<small>${v?`מפר: ${v.l}→${v.r}`:'BCNF ✓'}</small></div>`;};
@@ -7,22 +7,28 @@ function bcnfSteps(R,F){const {res,log}=FD.bcnf(R,F);const out=[];const hist=[[F
   log.forEach(L=>{cur=cur.flatMap(s=>s===L.from?L.into:[s]);hist.push([...cur]);});
   const fig=(k,fresh)=>`<div class="dtree">${hist.slice(0,k+1).map((lv,i)=>`<div class="lvl">${lv.map(s=>schBox(s,F,i===k?fresh:null)).join('')}</div>${i<k?`<div class="arrow">↓ ${log[i].fd.l}→${log[i].fd.r}</div>`:''}`).join('')}</div>`;
   const ks=FD.keys(R,F);
-  out.push({h:'התחלה: result = {R}',p:`<p>המפתחות של R: ${x(ks.join(', '))}. תלות מפרה BCNF אם היא לא טריוויאלית ואגף השמאל שלה אינו מפתח־על.</p>`,cap:`R = (${[...R].join(',')})`,fig:()=>fig(0,[FD.S(R)])});
+  out.push({h:'התחלה: result = {R}',p:`<p>המפתחות של R: ${x(ks.join(', '))}. תלות מפרה BCNF אם היא לא טריוויאלית ואגף השמאל שלה אינו מפתח־על.</p>${det('איך מצאנו את המפתחות',KH(R,F))}`,cap:`R = (${[...R].join(',')})`,fig:()=>fig(0,[FD.S(R)])});
   log.forEach((L,i)=>{const [a,b]=L.into;out.push({h:`מפרקים את (${[...L.from].join(',')}) לפי ${x(L.fd.l+'→'+L.fd.r)}`,
-    p:`<p>${x(L.fd.l+'⁺')} בתוך ${x(L.from)} הוא ${x(FD.inter(FD.clo(L.fd.l,F),L.from))} — לא כל התבנית, אז ${x(L.fd.l)} אינו מפתח־על שלה.</p><p>לפי האלגוריתם: <code class="xp">(Ri − β)</code> ו־<code class="xp">(α, β)</code>:</p>${m(`(${[...a].join(',')})   ,   (${[...b].join(',')})`)}<p>הפירוק משמר מידע: החיתוך ${x(L.fd.l)} קובע את כל ${x('('+[...b].join(',')+')')}.</p>`,
+    p:`<p>האם ${x(L.fd.l)} מפתח־על של ${x('('+[...L.from].join(',')+')')}? מחשבים את הסגור שלו:</p>${T(L.fd.l,F)}<p>מצמצמים לתכונות של התבנית: ${x(FD.inter(FD.clo(L.fd.l,F),L.from))} — לא כל התבנית, אז ${x(L.fd.l)} אינו מפתח־על שלה, ו־${x(L.fd.l+'→'+L.fd.r)} מפרה BCNF.</p><p>לפי האלגוריתם: <code class="xp">(Ri − β)</code> ו־<code class="xp">(α, β)</code>:</p>${m(`(${[...a].join(',')})   ,   (${[...b].join(',')})`)}<p>הפירוק משמר מידע: החיתוך ${x(L.fd.l)} קובע את כל ${x('('+[...b].join(',')+')')}.</p>`,
     cap:`${hist[i+1].length} תבניות`,fig:()=>fig(i+1,L.into)});});
   out.push({h:'סוף: כל התבניות ב־BCNF',p:`${m('{ '+res.map(s=>'('+[...s].join(',')+')').join(',  ')+' }')}${presNote(F,res)}`,cap:'כל התבניות ב־BCNF',fig:()=>fig(hist.length-1,[])});
   return out;}
-function presNote(F,parts){const P=FD.preserves(F,parts),lost=P.filter(p=>!p.ok);return lost.length?`<p>הפירוק <strong>לא משמר תלויות</strong>: ${lost.map(p=>x(p.fd.l+'→'+p.fd.r)).join(', ')} ${lost.length>1?'אובדות':'אובדת'} — אי אפשר לבדוק ${lost.length>1?'אותן':'אותה'} בלי צירוף.</p>`:'<p>הפירוק גם משמר תלויות.</p>';}
+function presNote(F,parts){const P=FD.preserves(F,parts),lost=P.filter(p=>!p.ok);const G=[].concat(...parts.map(p=>FD.restrict(F,p)));
+  const how=det('איך בודקים שימור תלויות',`<p>לכל תלות α→β ב־F מחשבים את ${x('α⁺')} רק לפי התלויות שאפשר לבדוק בתוך התבניות (ההטלות F<sub>i</sub>), ובודקים אם β בפנים.</p>`+P.map(p=>`<p>${x(p.fd.l+'→'+p.fd.r)}:</p>${T(p.fd.l,G)}<p>${p.ok?`${x(p.fd.r)} בפנים — נשמרת ✓`:`${x(p.fd.r)} לא בפנים — אובדת ✗`}</p>`).join(''));
+  return (lost.length?`<p>הפירוק <strong>לא משמר תלויות</strong>: ${lost.map(p=>x(p.fd.l+'→'+p.fd.r)).join(', ')} ${lost.length>1?'אובדות':'אובדת'} — אי אפשר לבדוק ${lost.length>1?'אותן':'אותה'} בלי צירוף.</p>`:'<p>הפירוק גם משמר תלויות.</p>')+how;}
 GEN['n-bcnf6']=()=>({steps:bcnfSteps('ABCDE',F6)});
 GEN['n-bcnfP']=()=>({steps:bcnfSteps('ABC',FD.parse('AB->C, C->B'))});
 /* 3NF synthesis */
+function canonHow(F){const {log}=FD.canon(F);let h=`<p>מאחדים אגפי שמאל זהים:</p>${m('{ '+FD.fds(log[0].F)+' }')}`;
+  log.slice(1).forEach(L=>{h+=L.kind==='lhs'?`<p>${x(L.A)} עודפת באגף שמאל של ${x(L.fd.l+'→'+L.fd.r)}? מחשבים את ${x(L.X+'⁺')}:</p>${T(L.X,L.G)}<p>${x(L.fd.r)} בפנים — מורידים את ${x(L.A)}.</p>`
+    :`<p>${x(L.A)} עודפת באגף ימין של ${x(L.fd.l+'→'+L.fd.r)}? מורידים אותה ומחשבים את ${x(L.X+'⁺')}:</p>${T(L.X,L.G)}<p>${x(L.A)} עדיין בסגור — מורידים אותה.</p>`});
+  return h+`<p>אין עוד תכונות עודפות.</p>`;}
 function synthSteps(R,F){const s=FD.synth3NF(R,F);const out=[];let built=[];
   const fig=(list,fresh)=>`<div class="dtree"><div class="lvl">${list.length?list.map(x0=>`<div class="sch ok${fresh&&fresh.includes(x0)?' fresh':''}">(${[...x0].join(',')})</div>`).join(''):'<span class="muted">result = ∅</span>'}</div></div>`;
-  out.push({h:`שלב 1: כיסוי קנוני`,p:`<p>מחשבים את ${x('F<sub>c</sub>')} (ראה <a href="fd.html#canon">כיסוי קנוני</a>):</p>${m('F<sub>c</sub> = { '+FD.fds(s.Fc)+' }')}<p>ממיינים את התלויות לפי גודל (מספר התכונות בתלות), מהגדולה לקטנה.</p>`,cap:'result = ∅',fig:()=>fig([],[])});
+  out.push({h:`שלב 1: כיסוי קנוני`,p:`<p>מחשבים את ${x('F<sub>c</sub>')} (ראה <a href="fd.html#canon">כיסוי קנוני</a>):</p>${m('F<sub>c</sub> = { '+FD.fds(s.Fc)+' }')}${det('איך חישבנו את F<sub>c</sub>',canonHow(F))}<p>ממיינים את התלויות לפי גודל (מספר התכונות בתלות), מהגדולה לקטנה.</p>`,cap:'result = ∅',fig:()=>fig([],[])});
   s.log.forEach(L=>{if(!L.skip)built=built.concat(L.sch);const snap=[...built];
     out.push({h:`${x(L.fd.l+'→'+L.fd.r)}`,p:L.skip?`<p>התבנית ${x('('+[...L.sch].join(',')+')')} כבר מוכלת ב־${x('('+[...L.skip].join(',')+')')} — לא מוסיפים.</p>`:`<p>אף תבנית ב־result לא מכילה את ${x(L.sch)}, אז מוסיפים את ${x('('+[...L.sch].join(',')+')')}.</p>`,cap:`${snap.length} תבניות`,fig:()=>fig(snap,L.skip?[]:[L.sch])});});
-  out.push({h:'בדיקת מפתח',p:`<p>מפתחות קבילים של R: ${x(s.ks.join(', '))}. ${s.hasKey?`התבנית ${x('('+[...s.hasKey].join(',')+')')} כבר מכילה מפתח — אין צורך להוסיף.`:`אף תבנית לא מכילה מפתח, מוסיפים ${x('('+[...s.added].join(',')+')')}.`}</p>${m('{ '+s.res.map(t=>'('+[...t].join(',')+')').join(',  ')+' }')}<p>הפירוק משמר מידע (יש תבנית עם מפתח) ומשמר תלויות (כל תלות ב־${x('F<sub>c</sub>')} נמצאת בשלמותה בתבנית אחת).</p>`,cap:'פירוק ל־3NF',fig:()=>fig(s.res,s.added?[s.added]:[])});
+  out.push({h:'בדיקת מפתח',p:`<p>מפתחות קבילים של R: ${x(s.ks.join(', '))}.</p>${det('איך מצאנו את המפתחות',KH(R,F))}<p> ${s.hasKey?`התבנית ${x('('+[...s.hasKey].join(',')+')')} כבר מכילה מפתח — אין צורך להוסיף.`:`אף תבנית לא מכילה מפתח, מוסיפים ${x('('+[...s.added].join(',')+')')}.`}</p>${m('{ '+s.res.map(t=>'('+[...t].join(',')+')').join(',  ')+' }')}<p>הפירוק משמר מידע (יש תבנית עם מפתח) ומשמר תלויות (כל תלות ב־${x('F<sub>c</sub>')} נמצאת בשלמותה בתבנית אחת).</p>`,cap:'פירוק ל־3NF',fig:()=>fig(s.res,s.added?[s.added]:[])});
   return out;}
 GEN['n-3nf6']=()=>({steps:synthSteps('ABCDE',F6)});
 /* chase tableau */
@@ -46,7 +52,7 @@ function joinFig(host,cols,rows,p1,p2,names){const a=proj(rows,cols,p1),b=proj(r
 {const h=document.getElementById('q2Join');if(h)joinFig(h,['A','B','C','D','E'],[['a1','b1','c1','d1','e1'],['a2','b2','c1','d2','e2']],['A','B','C'],['C','D','E'],['r','r1 = π_ABC(r)','r2 = π_CDE(r)','r1 ⋈ r2']);}
 /* dependency preservation table (ex6 Q3) */
 {const h=document.getElementById('presQ3');if(h){const P=FD.preserves(F6,['ABC','ADE']);
-  h.innerHTML=H.tbl(['תלות ב־F','סגור אגף שמאל לפי F1 ∪ F2','נשמרת?'],P.map(p=>({c:[`${p.fd.l}→${p.fd.r}`,`${p.fd.l}⁺ = ${p.c}`,p.ok?'✓':'✗'],cls:p.ok?'':'gone'})));}}
+  h.innerHTML=H.tbl(['תלות ב־F','סגור אגף שמאל לפי F1 ∪ F2','נשמרת?'],P.map(p=>({c:[`${p.fd.l}→${p.fd.r}`,`${p.fd.l}⁺ = ${p.c}`,p.ok?'✓':'✗'],cls:p.ok?'':'gone'})));const G=[].concat(...['ABC','ADE'].map(p=>FD.restrict(F6,p)));h.insertAdjacentHTML('beforeend',det('החישוב המלא של כל סגור',`<p>ההטלות של F על התבניות:</p>${m('F1 ∪ F2 = { '+FD.fds(G)+' }')}`+P.map(p=>`<p>${x(p.fd.l+'→'+p.fd.r)}:</p>${T(p.fd.l,G)}`).join('')));}}
 
 /* decomposition tool */
 {const C=document.getElementById('nCalc');if(C){const go=()=>{const R=FD.S(C.querySelector('[name=R]').value.replace(/[^A-Za-z]/g,'').toUpperCase()),F=FD.parse(C.querySelector('[name=F]').value.toUpperCase());

@@ -897,3 +897,7 @@ body:has(.mta-theme-float) .palfab{bottom:68px}
 .ctrace .ctf{font-family:"Cambria Math","Times New Roman",serif;text-align:center;color:var(--muted);margin-bottom:4px}
 .ctrace .calcsteps{margin:4px 0}
 .ctrace .mathline{margin:4px 0 0}
+details.how{margin:8px 0;border:1px solid var(--line);border-radius:10px;padding:4px 12px;background:var(--surface)}
+details.how>summary{cursor:pointer;font-weight:700;color:var(--ent);padding:4px 0}
+details.how[open]>summary{margin-bottom:4px}
+ul.ksub{font-family:"Cambria Math","Times New Roman",serif;text-align:left;list-style:none;padding:0;margin:4px 0}
