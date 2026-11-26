@@ -893,3 +893,7 @@ body:has(.mta-theme-float) .palfab{bottom:68px}
 .xnav{display:flex;align-items:center;gap:10px;margin:2px 0 10px}
 .xnav .xprog{color:var(--muted);font-size:.9rem;font-weight:600}
 .xnav button:disabled{opacity:.35;cursor:default}
+.ctrace{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:6px 0}
+.ctrace .ctf{font-family:"Cambria Math","Times New Roman",serif;text-align:center;color:var(--muted);margin-bottom:4px}
+.ctrace .calcsteps{margin:4px 0}
+.ctrace .mathline{margin:4px 0 0}

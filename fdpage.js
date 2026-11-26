@@ -18,18 +18,22 @@ GEN['f-closB']=()=>({steps:closureSteps('B',F5)});
 /* candidate key: course algorithm */
 GEN['f-key']=()=>{const R='ABCDE',{key,steps}=FD.oneKey(R,F5);let cur=R;const out=[{h:`התחלה: ${x('result = R = ABCDE')}`,p:'<p>R כולה היא תמיד מפתח־על. מנסים להוריד ממנה תכונה אחת בכל פעם.</p>',cap:'result = ABCDE',fig:()=>keyFig(R,R,'')}];
   steps.forEach(s=>{const before=cur;if(s.ok)cur=s.try;const now=cur;
-    out.push({h:`מנסים להוריד את ${s.A}`,p:`${m(`(${s.try||'∅'})⁺ = ${s.c||'∅'}`)}<p>${s.ok?`הסגור הוא כל R — ${s.A} מיותרת ויוצאת.`:`הסגור אינו כל R — ${s.A} נחוצה ונשארת.`}</p>`,cap:`result = ${now}`,fig:()=>keyFig(R,now,s.A,s.ok)});});
+    out.push({h:`מנסים להוריד את ${s.A}`,p:`${trace(s.try,F5)}<p>${s.ok?`הסגור הוא כל R — ${s.A} מיותרת ויוצאת.`:`הסגור אינו כל R — ${s.A} נחוצה ונשארת.`}</p>`,cap:`result = ${now}`,fig:()=>keyFig(R,now,s.A,s.ok)});});
   out.push({h:'התוצאה',p:`<p>המפתח שהתקבל: ${x(key)}. אבל הסדר משנה: אם היינו מנסים להוריד קודם את E, היינו מקבלים מפתח אחר.</p><p>כל המפתחות הקבילים (בדיקה של כל תת־הקבוצות): ${x(FD.keys(R,F5).join(', '))}</p>`,cap:`מפתח קביל: ${key}`,fig:()=>keyFig(R,key,'')});
   return {steps:out};};
 function keyFig(R,cur,A,ok){return `<div class="keyfig">${[...R].map(c=>`<span class="kc ${cur.includes(c)?'in':'out'}${c===A?(ok?' drop':' keep'):''}">${c}</span>`).join('')}</div>`;}
+/* full closure trace: the F used, then every step of the algorithm */
+function trace(X,G,note){const cl=FD.closure(X,G);
+  return `<div class="ctrace">${note?`<p class="ctn">${note}</p>`:''}<div class="ctf" dir="ltr">F = { ${G.map(f=>`${f.l}→${f.r}`).join(', ')} }</div>
+  <ol class="calcsteps" dir="ltr"><li>result = ${FD.S(X)||'∅'}</li>${cl.steps.map(s=>`<li>${s.fd.l}→${s.fd.r} &nbsp;⇒&nbsp; + ${s.add} &nbsp;= ${s.res}</li>`).join('')}${cl.steps.length?'':'<li>no FD adds anything</li>'}</ol>${m(`${FD.S(X)||'∅'}⁺ = ${cl.res||'∅'}`)}</div>`;}
 /* canonical cover stepper */
 function canonSteps(F){const {Fc,log}=FD.canon(F);const out=[];let cur=log[0].F;
   out.push({h:'התחלה: איחוד אגפי שמאל זהים',p:`<p>תלויות עם אותו אגף שמאל מאוחדות לאחת (כלל האיחוד). זה לא משנה את הסגור.</p>`,cap:`${cur.length} תלויות`,fig:(c=>()=>fdList(c))(cur)});
   log.slice(1).forEach(L=>{const before=cur,i=before.findIndex(f=>f.l===L.fd.l&&f.r===L.fd.r);cur=L.F;
     const lhs=L.kind==='lhs';
     out.push({h:`${L.A} עודפת ב${lhs?'אגף שמאל':'אגף ימין'} של ${x(L.fd.l+'→'+L.fd.r)}`,
-      p:lhs?`<p>האם ${x(FD.minus(L.fd.l,L.A))} לבד קובעת את ${x(L.fd.r)}? מחשבים את הסגור שלה <strong>לפי F הנוכחית</strong>:</p>${m(L.why)}<p>${x(L.fd.r)} בפנים — ${L.A} מיותרת.</p>`
-        :`<p>מורידים את ${L.A} מאגף ימין, ובודקים אם עדיין אפשר להסיק אותה. מחשבים את ${x(L.fd.l+'⁺')} <strong>בלי</strong> ${L.A} בתלות הזאת:</p>${m(L.why)}<p>${L.A} עדיין בסגור — היא עודפת.</p>`,
+      p:lhs?`<p>האם ${x(FD.minus(L.fd.l,L.A))} לבד קובעת את ${x(L.fd.r)}? מחשבים את הסגור שלה <strong>לפי F הנוכחית</strong>, צעד אחרי צעד:</p>${trace(L.X,L.G)}<p>${x(L.fd.r)} בפנים — ${L.A} מיותרת.</p>`
+        :`<p>מורידים את ${L.A} מאגף ימין של התלות, ובודקים אם עדיין אפשר להסיק אותה. מחשבים את ${x(L.fd.l+'⁺')} לפי F שבה התלות היא ${x(L.fd.l+'→'+(FD.minus(L.fd.r,L.A)||'∅'))}:</p>${trace(L.X,L.G)}<p>${L.A} עדיין בסגור — היא עודפת.</p>`,
       cap:`${L.merged?'אחרי איחוד: ':''}${cur.length} תלויות`,fig:((b,c,i,L)=>()=>`<div class="cvfig"><div><div class="rtname">לפני</div>${fdList(b,{strike:b.map((_,k)=>k===i?{side:L.kind==='lhs'?'l':'r',A:L.A}:null),cls:b.map((_,k)=>k===i?'on':'')})}</div><div class="cvarr">←</div><div><div class="rtname">אחרי</div>${fdList(c)}</div></div>`)(before,cur,i,L)});});
   out.push({h:'סוף: אין תכונות עודפות',p:`<p>בדקנו כל תכונה בכל תלות — אין עוד עודפות, ולכל אגף שמאל תלות אחת.</p>${m('F<sub>c</sub> = { '+FD.fds(Fc)+' }')}<p class="sxnote">הכיסוי הקנוני אינו יחיד: סדר הבדיקה יכול לתת תוצאה אחרת, שקולה לוגית. כאן הבדיקה היא לפי סדר התלויות, ובכל תלות קודם אגף שמאל.</p>`,cap:`F_c — ${Fc.length} תלויות`,fig:()=>fdList(Fc)});
   return out;}

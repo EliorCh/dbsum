@@ -18,9 +18,9 @@ function unionLHS(F){const m=new Map();F.forEach(f=>m.set(f.l,uni(m.get(f.l)||''
 function canon(F0){let F=unionLHS(F0.map(f=>({...f})));const log=[{kind:'union',F:F.map(f=>({...f}))}];let changed=true;
   while(changed){changed=false;
     for(let i=0;i<F.length&&!changed;i++){const {l,r}=F[i];
-      if(l.length>1)for(const A of l){const c=clo(minus(l,A),F);if(sub(r,c)){log.push({kind:'lhs',A,fd:{l,r},why:`(${minus(l,A)})⁺ = ${c}`});F[i]={l:minus(l,A),r};changed=true;break;}}
+      if(l.length>1)for(const A of l){const c=clo(minus(l,A),F);if(sub(r,c)){log.push({kind:'lhs',A,fd:{l,r},X:minus(l,A),G:F.map(f=>({...f})),why:`(${minus(l,A)})⁺ = ${c}`});F[i]={l:minus(l,A),r};changed=true;break;}}
       if(changed)break;
-      for(const A of r){const G=F.map((f,j)=>j===i?{l,r:minus(r,A)}:f).filter(f=>f.r);const c=clo(l,G);if(c.includes(A)){log.push({kind:'rhs',A,fd:{l,r},why:`${l}⁺ = ${c}`});F[i]={l,r:minus(r,A)};changed=true;break;}}
+      for(const A of r){const G=F.map((f,j)=>j===i?{l,r:minus(r,A)}:f).filter(f=>f.r);const c=clo(l,G);if(c.includes(A)){log.push({kind:'rhs',A,fd:{l,r},X:l,G:G.map(f=>({...f})),why:`${l}⁺ = ${c}`});F[i]={l,r:minus(r,A)};changed=true;break;}}
     }
     if(changed){F=F.filter(f=>f.r);const before=F.length;F=unionLHS(F);log[log.length-1].F=F.map(f=>({...f}));if(F.length<before)log[log.length-1].merged=true;}
   }
